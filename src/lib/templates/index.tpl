@@ -1,0 +1,56 @@
+/**
+ * ######################################################################
+ * #                                                                    #
+ * #                       Do not change the file!                      #
+ * #                                                                    #
+ * # All changes are deleted the next time the collection data is read. #
+ * #                                                                    #
+ * ######################################################################
+ */
+
+import { Connection } from 'mongoose';
+
+/**
+ * Import the Models
+ */
+{{#collections}}
+import {{collectionNameUpper}}, { create{{collectionNameUpper}}Model } from './models/{{collectionNameLower}}';
+{{/collections}}
+
+/**
+ * TypeScript Namespace
+ */
+{{#collections}}
+export { {{collectionNameUpper}} as {{collectionNameUpper}}Namespace } from './interfaces/{{collectionNameLower}}';
+{{/collections}}
+
+/**
+ * Create a object with models and these has a custom connection handler
+ *
+ * @param handler
+ */
+export const getModels = (handler: Connection) => {
+  return {
+{{#collections}}
+    {{collectionNameLower}}: create{{collectionNameUpper}}Model(handler),
+{{/collections}}
+  };
+};
+
+/**
+ * Models with default connection handler
+ */
+{{#collections}}
+export const {{collectionNameUpper}}Model = {{collectionNameUpper}};
+{{/collections}}
+
+/**
+ * Object with all models
+ */
+export const models = {
+{{#collections}}
+  {{collectionNameUpper}},
+{{/collections}}
+};
+
+export default models;
