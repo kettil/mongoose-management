@@ -1,0 +1,15 @@
+
+# node.js
+package.json
+package-lock.json
+node_modules
+
+# jest/typedoc
+coverage
+docs
+
+# gitlab
+.gitlab-ci.yml
+
+# application
+build

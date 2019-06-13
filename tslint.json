@@ -1,0 +1,13 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "tslint-immutable", "tslint-config-prettier"],
+  "rules": {
+    "ban-comma-operator": true,
+    "cyclomatic-complexity": [true, 15],
+    "interface-over-type-literal": false,
+    "interface-name": [true, "never-prefix"],
+    "linebreak-style": [true, "LF"],
+    "object-literal-sort-keys": false,
+    "quotemark": [true, "single", "jsx-double"],
+    "member-access": [true, "no-public"]
+  }
+}

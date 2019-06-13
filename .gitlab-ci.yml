@@ -1,0 +1,162 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  policy: pull
+  paths:
+    - build/
+    - node_modules/
+
+.limiter:
+  before_script:
+    - "[ -e ./node_modules ] && echo 'node_modules from the cache' || npm ci"
+  only:
+    - /^master-v\d+(\.\d+)?$/
+    - master
+    - merge_requests
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^Release of version v/i
+      #- $CI_MERGE_REQUEST_TITLE =~ /^WIP:*/i
+
+build:
+  extends: .limiter
+  stage: build
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    policy: push
+    paths:
+      - build/
+      - node_modules/
+  script:
+    - npm run build
+
+audit:
+  extends: .limiter
+  stage: test
+  allow_failure: true
+  script:
+    - npm audit
+  only:
+    - merge_requests
+
+prettier:
+  extends: .limiter
+  stage: test
+  script:
+    - npm run prettier:ci
+  only:
+    - merge_requests
+
+lint:
+  extends: .limiter
+  stage: test
+  script:
+    - npm run lint:ci
+  only:
+    - merge_requests
+
+test-unit:
+  extends: .limiter
+  stage: test
+  script:
+    - npm run test:ci
+  coverage: '/Statements\s*:\s*(\d+(?:\.\d+)?)%/'
+
+test-integration:
+  extends: .limiter
+  stage: test
+  script:
+    - npm run test:integration:ci
+
+test-functional:
+  extends: .limiter
+  stage: test
+  variables:
+    AMQP_HOST: rabbitmq
+  services:
+    - name: rabbitmq:3
+      alias: rabbitmq
+  script:
+    - npm run test:functional:ci
+
+#
+# GitLab NPM Registry
+#
+# !! The package must have the same name as the project !!
+#
+# ToDo's
+# - Generate a SSH-key (without passphrase)
+#
+# ## Project settings
+#
+# Settings -> Repository -> Protected Branches
+# - master    (merge: only Maintainers | push: no one)
+# - master-v* (merge: only Maintainers | push: no one)
+#
+# Settings -> Repository -> Protected Tags
+# - v* (create: only Maintainers)
+#
+# Settings -> Repository -> Deploy Keys
+# - Create an entry with the public SSH-key (with write access)
+#
+# Settings -> CI / CD -> Environment variables
+# - DEPLOY_NPM_USER     (Protected: yes) - Gitlab username
+# - DEPLOY_NPM_PASSWORD (Protected: yes) - Gitlab user password
+# - DEPLOY_SSH_KEY      (Protected: yes) - Private SSH-key
+#
+# With the Gitlab user will be generate a oauth token.
+# This token is required for the npm publish. (Gitlab v11.9)
+#
+# ## Links
+#
+# https://docs.gitlab.com/ee/user/project/packages/npm_registry.html
+# https://docs.gitlab.com/ee/ci/yaml/README.html
+# https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+#
+deploy:
+  extends: .limiter
+  stage: deploy
+  variables:
+    GIT_DEPTH: 2
+    GIT_STRATEGY: clone
+    GIT_SSH_COMMAND: 'ssh -i ~/.ssh/rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=error'
+
+    DEPLOY_AUTH_ARGS: 'grant_type=password&username=${DEPLOY_NPM_USER}&password=${DEPLOY_NPM_PASSWORD}'
+    DEPLOY_NPM_PUBLISH: '\"publishConfig\": { \"registry\":\"${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/\" },'
+  script:
+    - 'DEPLOY_HOST="$(echo "${CI_API_V4_URL}" | cut -d "/" -f3)"'
+    - 'DEPLOY_REMOTE="git@${DEPLOY_HOST}:${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}"'
+    - 'DEPLOY_AUTH_JSON="$(curl -s -d "${DEPLOY_AUTH_ARGS}" -X POST "https://${DEPLOY_HOST}/oauth/token")"'
+    - 'DEPLOY_AUTH_TOKEN="$(echo "${DEPLOY_AUTH_JSON}" | sed -e "s|^.*access_token\":\"\([a-z0-9]*\)\".*$|\1|")"'
+
+    - 'mkdir -p ~/.ssh'
+    - 'echo "$DEPLOY_SSH_KEY" | tr -d "\r" > ~/.ssh/rsa'
+    - 'chmod 700 ~/.ssh'
+    - 'chmod 600 ~/.ssh/rsa'
+
+    - 'git config --global user.name "${GITLAB_USER_NAME}"'
+    - 'git config --global user.email "${GITLAB_USER_EMAIL}"'
+    - 'git remote set-url origin "${DEPLOY_REMOTE}"'
+
+    - "[ -e ./build ] && echo 'build from the cache' || npm run build"
+
+    - 'npm version patch -m "Release of version v%s"'
+    - 'git push -u origin "HEAD:${CI_COMMIT_REF_NAME}"'
+    - 'git push -u origin --tags'
+
+    - 'cat package.json | sed -e "s|\(\"name\": \"\)[a-zA-Z0-9_-]*\(\",\)|\1@${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}\2|" > p.json && mv p.json package.json'
+    - 'cat package.json | sed -e "s|\"private\": true,|${DEPLOY_NPM_PUBLISH}|" > p.json && mv p.json package.json'
+    - 'echo "${CI_API_V4_URL#*:}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${DEPLOY_AUTH_TOKEN}" > .npmrc'
+
+    - 'npm publish'
+  only:
+    - /^master-v\d+(\.\d+)?$/
+    - master

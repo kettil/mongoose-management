@@ -1,0 +1,23 @@
+# folder
+bin
+coverage
+docs
+src
+tests
+
+# files
+.editorconfig
+.gitignore
+.gitlab-ci.yml
+.huskyrc
+.prettierignore
+.prettierrc
+docker-compose.yml
+jest.ci.js
+jest.fu.js
+jest.in.js
+jest.json
+tsconfig.build.json
+tsconfig.json
+tslint.json
+typedoc.json

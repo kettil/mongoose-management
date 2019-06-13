@@ -1,0 +1,6 @@
+{
+  "out": "./docs",
+  "tsconfig": "./tsconfig.json",
+  "exclude": "**/*.test.ts",
+  "mode": "modules"
+}
