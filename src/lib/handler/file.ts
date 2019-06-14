@@ -4,15 +4,15 @@ import { copy, exists, mkdir, readFile, writable, writeFile } from '../helper';
 
 import { templateTypesType } from '../types';
 
+/**
+ *
+ */
 export default class File {
   protected readonly encoding = 'utf8';
 
   protected readonly fileAccess = 0o755;
   protected readonly folderAccess = 0o755;
 
-  /**
-   *
-   */
   protected readonly types: { [k in templateTypesType]: { path: string; template: string } } = {
     index: { path: '', template: 'index' },
     documents: { path: 'documents', template: 'document' },
@@ -21,9 +21,6 @@ export default class File {
     repositories: { path: 'repositories', template: 'repository' },
   };
 
-  /**
-   *
-   */
   protected readonly staticFiles = ['helper.ts', 'types.ts'];
 
   /**

@@ -18,6 +18,9 @@ const opt: Options = {
   parser: 'typescript',
 };
 
+/**
+ *
+ */
 export default class Template {
   protected readonly overwrite: templateTypesType[] = ['documents', 'interfaces', 'models'];
   protected readonly uniquely: templateTypesType[] = ['repositories'];
