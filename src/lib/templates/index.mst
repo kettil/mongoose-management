@@ -21,7 +21,7 @@ import {{collectionNameUpper}}, { create{{collectionNameUpper}}Model } from './m
  * TypeScript Namespace
  */
 {{#collections}}
-export { {{collectionNameUpper}} as {{collectionNameUpper}}Namespace } from './interfaces/{{collectionNameLower}}';
+export * from './interfaces/{{collectionNameLower}}';
 {{/collections}}
 
 /**
@@ -32,7 +32,7 @@ export { {{collectionNameUpper}} as {{collectionNameUpper}}Namespace } from './i
 export const getModels = (handler: Connection) => {
   return {
 {{#collections}}
-    {{collectionNameLower}}: create{{collectionNameUpper}}Model(handler),
+    {{collectionNameUpper}}: create{{collectionNameUpper}}Model(handler),
 {{/collections}}
   };
 };

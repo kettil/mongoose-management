@@ -11,22 +11,15 @@
 import mongoose, { Connection, Schema } from 'mongoose';
 
 import { {{collectionNameLower}}SchemaDefinition } from '../documents/{{collectionNameLower}}';
-import {{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
+import { I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
 import { methods, options, query, statics, virtual } from '../repositories/{{collectionNameLower}}';
 
-import { addVirtualProperties, extractKeys, getDuplicates } from '../helper';
+import { addVirtualProperties, checkDuplicateKeys } from '../helper';
 
-const duplicatesKeys = getDuplicates(
-  extractKeys([Schema.prototype, {{collectionNameLower}}SchemaDefinition, methods, statics, query, virtual]),
-);
+// If a key was found several times, then an error is thrown.
+checkDuplicateKeys('{{collectionNameLower}}', [Schema.prototype, {{collectionNameLower}}SchemaDefinition, methods, statics, query, virtual])
 
-if (duplicatesKeys.length > 0) {
-  throw new Error('Double keys were assigned in the scheme: ' + duplicatesKeys.join(', '));
-}
-
-/**
- * create model schema
- */
+// Create model schema
 export const {{collectionNameLower}}Schema = new Schema({{collectionNameLower}}SchemaDefinition, options);
 
 {{collectionNameLower}}Schema.methods = { ...methods, ...{{collectionNameLower}}Schema.methods };
@@ -41,13 +34,16 @@ addVirtualProperties({{collectionNameLower}}Schema, virtual);
  * @param collection
  */
 export const create{{collectionNameUpper}}Model = (handler: Connection) => {
-  return handler.model<{{collectionNameUpper}}.IDocument, {{collectionNameUpper}}.IModel>('{{collectionNameLower}}', {{collectionNameLower}}Schema);
+  return handler.model<I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model>(
+    '{{collectionNameUpper}}',
+    {{collectionNameLower}}Schema
+  );
 };
 
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<{{collectionNameUpper}}.IDocument, {{collectionNameUpper}}.IModel>(
+const Model = mongoose.model<I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model>(
   '{{collectionNameUpper}}',
   {{collectionNameLower}}Schema,
 );

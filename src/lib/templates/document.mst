@@ -10,12 +10,19 @@
 
 import { Types } from 'mongoose';
 
-/**
- *
- */
-export type {{collectionNameLower}}Type = { {{schemaType}} };
+import { indexType } from '../types';
 
 /**
  *
  */
-export const {{collectionNameLower}}SchemaDefinition = { {{schemaDefinition}} };
+export type {{collectionNameLower}}Type =  {{& schemaType}} ;
+
+/**
+ *
+ */
+export const {{collectionNameLower}}SchemaDefinition =  {{& schemaDefinition}} ;
+
+/**
+ *
+ */
+export const indexes: indexType[] = {{& collectionIndexes}};

@@ -15,13 +15,34 @@ import { Schema } from 'mongoose';
  * @param schema
  * @param virtual
  */
-export const addVirtualProperties = (schema: Schema, virtual: { [k: string]: { get?: Function; set?: Function } }) => {
+export const addVirtualProperties = (
+  schema: Schema,
+  virtual: { [k: string]: { get?: () => void; set?: () => void } },
+) => {
   Object.entries(virtual).forEach(([name, { get, set }]) => {
     const space = schema.virtual(name);
 
-    get && space.get(get);
-    set && space.set(set);
+    if (typeof get === 'function') {
+      space.get(get);
+    }
+    if (typeof set === 'function') {
+      space.set(set);
+    }
   });
+};
+
+/**
+ *
+ * @param name
+ * @param items
+ */
+export const checkDuplicateKeys = (name: string, items: Array<{}>) => {
+  const keys = extractKeys(items);
+  const duplicates = getDuplicates(keys);
+
+  if (duplicates.length > 0) {
+    throw new Error(`Double keys were assigned in the scheme "${name}": ` + duplicates.join(', '));
+  }
 };
 
 /**
@@ -53,6 +74,6 @@ export const getDuplicates = (items: string[]) => {
  *
  * @param items
  */
-export const extractKeys = (items: {}[]) => {
+export const extractKeys = (items: Array<{}>) => {
   return items.map((o) => Object.keys(o)).reduce((keys, oKeys) => keys.concat(oKeys), []);
 };

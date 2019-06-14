@@ -8,9 +8,12 @@
  * ######################################################################
  */
 
-import { SchemaOptions, SchemaDefinition } from 'mongoose';
+import { SchemaOptions } from 'mongoose';
 
-import {{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
+import { {{collectionNameLower}}Type } from '../documents/{{collectionNameLower}}';
+//import * as ns{{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
+
+import { schemaExtendType } from '../types';
 
 /**
  * Extends the schema definition to include settings that cannot be read from the database
@@ -20,7 +23,7 @@ import {{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
  * @see https://mongoosejs.com/docs/guide.html
  * @see https://mongoosejs.com/docs/schematypes.html
  */
-export const extendSchemaDefinition: SchemaDefinition = { {{schemaExtend}} };
+export const extendSchemaDefinition: schemaExtendType<{{collectionNameLower}}Type> = {{& schemaExtend}} ;
 
 /**
  * Schema Optionen
@@ -54,7 +57,7 @@ export const options: SchemaOptions = {
  */
 export const methods = {
   /*
-  getStringId: function(this: {{collectionNameUpper}}.IMethods): string {
+  getStringId: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Methods): string {
     return this._id.toHexString();
   },
   */
@@ -67,7 +70,7 @@ export const methods = {
  */
 export const statics = {
   /*
-  findByX: async function(this: {{collectionNameUpper}}.IStatics, x: string) {
+  findByX: async function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Statics, x: string) {
     return this.find({ x }).exec();
   },
   */
@@ -80,7 +83,7 @@ export const statics = {
  */
 export const query = {
   /*
-  byName: function(this: {{collectionNameUpper}}.IQuery, name: string) {
+  byName: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Query, name: string) {
     return this.find({ name });
   },
   */
@@ -96,12 +99,12 @@ export const query = {
 export const virtual = {
   /*
   name: {
-    get: function(this: {{collectionNameUpper}}.IVirtual): string {
+    get: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual): string {
       return this.firstname + ' ' + this.lastname;
     },
-    set: function(this: {{collectionNameUpper}}.IVirtual, name: string) {
-      this.firstname = v.substr(0, v.indexOf(' '));
-      this.lastname = v.substr(v.indexOf(' ') + 1);
+    set: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual, name: string) {
+      this.firstname = name.substr(0, name.indexOf(' '));
+      this.lastname = name.substr(name.indexOf(' ') + 1);
     },
   },
   */

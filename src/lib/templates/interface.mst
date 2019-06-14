@@ -10,7 +10,7 @@
 
 import { Document, Model, DocumentQuery } from 'mongoose';
 
-import { extendIdType, extendTimestampType, virtualType as virtualTypeReader } from '../types';
+import { extendIdType, extendTimestampType, virtualType as virtualTypeConvert } from '../types';
 
 import { {{collectionNameLower}}Type } from '../documents/{{collectionNameLower}}';
 
@@ -19,22 +19,39 @@ import { methods, query, statics, virtual } from '../repositories/{{collectionNa
 type methodsType = typeof methods;
 type staticsType = typeof statics;
 type queryType = typeof query;
-type virtualType = virtualTypeReader<typeof virtual>;
+type virtualType = virtualTypeConvert<typeof virtual>;
 
-export namespace {{collectionNameUpper}} {
-  export interface IDocument extends {{collectionNameLower}}Type, extendTimestampType, virtualType, methodsType, Document {}
+/**
+ * Document
+ */
+export interface I{{collectionNameUpper}}Document extends {{collectionNameLower}}Type, extendTimestampType, virtualType, methodsType, Document {}
 
-  export interface IModel extends staticsType, Model<IDocument, queryType> {}
+/**
+ * DocumentQuery
+ */
+export interface I{{collectionNameUpper}}DocumentQuery extends DocumentQuery<I{{collectionNameUpper}}Document | I{{collectionNameUpper}}Document[], I{{collectionNameUpper}}Document> {}
 
-  export interface IDocumentQuery extends DocumentQuery<IDocument | IDocument[], IDocument> {}
+/**
+ * Model
+ */
+export interface I{{collectionNameUpper}}Model extends staticsType, Model<I{{collectionNameUpper}}Document, queryType> {}
 
-  export interface IMethods extends IDocument {}
+/**
+ * Methods
+ */
+export interface I{{collectionNameUpper}}Methods extends I{{collectionNameUpper}}Document {}
 
-  export interface IStatics extends IDocumentQuery {}
+/**
+ * Statics
+ */
+export interface I{{collectionNameUpper}}Statics extends I{{collectionNameUpper}}DocumentQuery {}
 
-  export interface IQuery extends IDocumentQuery {}
+/**
+ * Query
+ */
+export interface I{{collectionNameUpper}}Query extends I{{collectionNameUpper}}DocumentQuery {}
 
-  export interface IVirtual extends {{collectionNameLower}}Type, extendTimestampType, extendIdType {}
-}
-
-export default {{collectionNameUpper}};
+/**
+ * Virtual
+ */
+export interface I{{collectionNameUpper}}Virtual extends {{collectionNameLower}}Type, extendTimestampType, extendIdType {}
