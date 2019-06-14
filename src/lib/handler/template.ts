@@ -5,19 +5,6 @@ import File from './file';
 
 import { collectionType, templateTypesType } from '../types';
 
-const opt: Options = {
-  printWidth: 120,
-  tabWidth: 2,
-  useTabs: false,
-  semi: true,
-  singleQuote: true,
-  trailingComma: 'all',
-  bracketSpacing: true,
-  jsxBracketSameLine: false,
-  arrowParens: 'always',
-  parser: 'typescript',
-};
-
 /**
  *
  */
@@ -25,15 +12,11 @@ export default class Template {
   protected readonly overwrite: templateTypesType[] = ['documents', 'interfaces', 'models'];
   protected readonly uniquely: templateTypesType[] = ['repositories'];
 
-  protected readonly prettier: Options;
-
   /**
    *
    * @param fileHandler
    */
-  constructor(protected fileHandler: File, prettier: Options = {}) {
-    this.prettier = { ...prettier, ...opt };
-  }
+  constructor(protected fileHandler: File, protected prettier: Options = {}) {}
 
   /**
    *
