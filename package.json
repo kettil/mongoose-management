@@ -52,7 +52,24 @@
     "posttest:functional:watch": "npm run docker:stop",
     "postcoverage:generate:functional": "npm run docker:stop"
   },
-  "keywords": [],
+  "keywords": [
+    "reverse-engineering",
+    "reverse",
+    "engineering",
+    "mongodb",
+    "mongoose",
+    "document",
+    "model",
+    "schema",
+    "database",
+    "odm",
+    "data",
+    "datastore",
+    "query",
+    "nosql",
+    "orm",
+    "db"
+  ],
   "author": "Kjell Dießel <development@kettil.de>",
   "contributors": [
     "Jörg Müller",
@@ -60,7 +77,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^24.0.13",
+    "@types/jest": "^24.0.14",
     "@types/node": "^12.0.2",
     "husky": "^2.3.0",
     "jest": "^24.8.0",
@@ -68,10 +85,10 @@
     "ts-node": "^8.2.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.15.0",
-    "tslint-immutable": "^5.5.2",
+    "tslint-immutable": "^6.0.0",
     "tslint-react": "^4.0.0",
     "typedoc": "^0.14.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "@types/mongodb": "^3.1.28",
