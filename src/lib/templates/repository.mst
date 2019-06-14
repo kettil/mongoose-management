@@ -32,6 +32,7 @@ export const extendSchemaDefinition: schemaExtendType<{{collectionNameLower}}Typ
  */
 export const options: SchemaOptions = {
   collection: '{{collectionNameRaw}}',
+
   toObject: {
     getters: true,
     virtuals: true,
@@ -40,72 +41,88 @@ export const options: SchemaOptions = {
       return ret;
     },
   },
+
   toJSON: {
     getters: true,
     virtuals: true,
   },
 
-  useNestedStrict: false,
   strict: 'throw',
   timestamps: true,
+  useNestedStrict: false,
 };
 
 /**
  * Add you own custom functions to the document instance
  *
+ * Example:
+ * ```typescript
+ * export const methods = {
+ *   getStringId: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Methods): string {
+ *     return this._id.toHexString();
+ *   },
+ * };
+ * ```
+ *
  * @see https://mongoosejs.com/docs/guide.html#methods
  */
-export const methods = {
-  /*
-  getStringId: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Methods): string {
-    return this._id.toHexString();
-  },
-  */
-};
+export const methods = {};
 
 /**
  * Add you own custom static functions to the model
  *
+ * Example:
+ * ```typescript
+ * export const statics = {
+ *   findByX: async function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Statics, x: string) {
+ *     return this.find({ x }).exec();
+ *   },
+ * };
+ * ```
+ *
  * @see https://mongoosejs.com/docs/guide.html#statics
  */
-export const statics = {
-  /*
-  findByX: async function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Statics, x: string) {
-    return this.find({ x }).exec();
-  },
-  */
-};
+export const statics = {};
 
 /**
  * Add you own custom query helper functions to the model
  *
+ * Example:
+ * ```typescript
+ * export const query = {
+ *   byName: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Query, name: string) {
+ *     return this.find({ name });
+ *   },
+ * };
+ * ```
+ *
  * @see https://mongoosejs.com/docs/guide.html#query-helpers
  */
-export const query = {
-  /*
-  byName: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Query, name: string) {
-    return this.find({ name });
-  },
-  */
-};
+export const query = {};
 
 /**
  * Add you own custom virtual properties to the document instance
  *
  * The parameters "get" and "set" are optional.
  *
+ * The return value of "get" and the value of "set"
+ * must be of the same variable type if both are used.
+ *
+ * Example:
+ * ```typescript
+ * export const virtual = {
+ *   name: {
+ *     get: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual): string {
+ *       return this.firstname + ' ' + this.lastname;
+ *     },
+ *     set: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual, value: string) {
+ *       this.firstname = value.substr(0, value.indexOf(' '));
+ *       this.lastname = value.substr(value.indexOf(' ') + 1);
+ *     },
+ *   },
+ * };
+ * ```
+ *
  * @see https://mongoosejs.com/docs/guide.html#virtuals
  */
-export const virtual = {
-  /*
-  name: {
-    get: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual): string {
-      return this.firstname + ' ' + this.lastname;
-    },
-    set: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual, name: string) {
-      this.firstname = name.substr(0, name.indexOf(' '));
-      this.lastname = name.substr(name.indexOf(' ') + 1);
-    },
-  },
-  */
-};
+export const virtual = {};
