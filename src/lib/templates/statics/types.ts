@@ -77,6 +77,6 @@ export type indexType = { fields: { [k: string]: number }; options?: IndexOption
 /**
  *
  */
-export type schemaExtendType<T extends Record<string, any>> = {
-  [K in keyof T]?: T[K] extends Array<schemaExtendType<T>> ? [schemaExtendType<T[K][0]>] : SchemaTypeOpts<any>;
+export type schemaExtensionType<T extends Record<string, any>> = {
+  [K in keyof T]?: T[K] extends Array<schemaExtensionType<T>> ? [schemaExtensionType<T[K][0]>] : SchemaTypeOpts<any>;
 };

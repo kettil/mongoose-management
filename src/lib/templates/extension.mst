@@ -10,7 +10,7 @@
 
 import { {{collectionNameLower}}Type } from '../{{collectionNameLower}}';
 
-import { schemaExtendType } from '../../types';
+import { schemaExtensionType } from '../../types';
 
 /**
  * Extends the schema definition to include settings that cannot be read from the database
@@ -20,4 +20,4 @@ import { schemaExtendType } from '../../types';
  * @see https://mongoosejs.com/docs/guide.html
  * @see https://mongoosejs.com/docs/schematypes.html
  */
-export const extendSchemaDefinition: schemaExtendType<{{collectionNameLower}}Type> = {{& schemaExtend}} ;
+export const extendSchemaDefinition: schemaExtensionType<{{collectionNameLower}}Type> = {{& schemaExtension}} ;

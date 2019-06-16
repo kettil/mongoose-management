@@ -16,7 +16,7 @@ export type collectionType = {
 
   schemaType: string;
   schemaDefinition: string;
-  schemaExtend: string;
+  schemaExtension: string;
 
   collectionIndexes: string;
 
