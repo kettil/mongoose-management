@@ -72,7 +72,15 @@ export type extendIdType = {
 /**
  *
  */
-export type indexType = { fields: { [k: string]: number }; options?: IndexOptions };
+type indexOptionsExclude = 'dropDups' | 'min' | 'max' | 'v' | 'session' | 'w' | 'j' | 'wtimeout';
+
+/**
+ *
+ */
+export type indexType = {
+  fields: { [k: string]: 1 | -1 | 'text' | '2dsphere' | '2d' | 'hashed' | string };
+  options?: Pick<IndexOptions, Exclude<keyof IndexOptions, indexOptionsExclude>> & Record<string, any>;
+};
 
 /**
  *
