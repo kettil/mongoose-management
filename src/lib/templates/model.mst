@@ -11,7 +11,7 @@
 import mongoose, { Connection, Schema } from 'mongoose';
 
 import { {{collectionNameLower}}SchemaDefinition } from '../documents/{{collectionNameLower}}';
-import { I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
+import { {{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
 import { methods, options, query, statics, virtual } from '../repositories/{{collectionNameLower}}';
 
 import { addVirtualProperties, checkDuplicateKeys } from '../helper';
@@ -34,7 +34,7 @@ addVirtualProperties({{collectionNameLower}}Schema, virtual);
  * @param collection
  */
 export const create{{collectionNameUpper}}Model = (handler: Connection) => {
-  return handler.model<I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model>(
+  return handler.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
     '{{collectionNameUpper}}',
     {{collectionNameLower}}Schema
   );
@@ -43,7 +43,7 @@ export const create{{collectionNameUpper}}Model = (handler: Connection) => {
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<I{{collectionNameUpper}}Document, I{{collectionNameUpper}}Model>(
+const Model = mongoose.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
   '{{collectionNameUpper}}',
   {{collectionNameLower}}Schema,
 );

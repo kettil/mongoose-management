@@ -19,6 +19,7 @@ export default class File {
     interfaces: { path: 'interfaces', template: 'interface' },
     models: { path: 'models', template: 'model' },
     repositories: { path: 'repositories', template: 'repository' },
+    extensions: { path: 'documents/extensions', template: 'extension' },
   };
 
   protected readonly staticFiles = ['helper.ts', 'types.ts'];

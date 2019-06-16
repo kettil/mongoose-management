@@ -1,12 +1,19 @@
 /**
  *
  */
-export type templateTypesType = 'index' | 'documents' | 'interfaces' | 'models' | 'repositories';
+export type objType<K extends string | number | symbol = string, T = any> = Record<K, T>;
+
+/**
+ *
+ */
+export type templateTypesType = 'index' | 'documents' | 'interfaces' | 'models' | 'repositories' | 'extensions';
 
 /**
  *
  */
 export type collectionType = {
+  interfaceName: string;
+
   schemaType: string;
   schemaDefinition: string;
   schemaExtend: string;

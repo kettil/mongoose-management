@@ -10,20 +10,7 @@
 
 import { SchemaOptions } from 'mongoose';
 
-import { {{collectionNameLower}}Type } from '../documents/{{collectionNameLower}}';
-//import * as ns{{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
-
-import { schemaExtendType } from '../types';
-
-/**
- * Extends the schema definition to include settings that cannot be read from the database
- *
- * The key "type" is ignored.
- *
- * @see https://mongoosejs.com/docs/guide.html
- * @see https://mongoosejs.com/docs/schematypes.html
- */
-export const extendSchemaDefinition: schemaExtendType<{{collectionNameLower}}Type> = {{& schemaExtend}} ;
+// import * as ns{{collectionNameUpper}} from '../interfaces/{{collectionNameLower}}';
 
 /**
  * Schema Optionen
@@ -58,7 +45,7 @@ export const options: SchemaOptions = {
  * Example:
  * ```typescript
  * export const methods = {
- *   getStringId: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Methods): string {
+ *   getStringId: function(this: ns{{collectionNameUpper}}.{{interfaceName}}{{collectionNameUpper}}Document): string {
  *     return this._id.toHexString();
  *   },
  * };
@@ -74,7 +61,7 @@ export const methods = {};
  * Example:
  * ```typescript
  * export const statics = {
- *   findByX: async function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Statics, x: string) {
+ *   findByX: async function(this: ns{{collectionNameUpper}}.{{interfaceName}}{{collectionNameUpper}}DocumentQuery, x: string) {
  *     return this.find({ x }).exec();
  *   },
  * };
@@ -90,7 +77,7 @@ export const statics = {};
  * Example:
  * ```typescript
  * export const query = {
- *   byName: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Query, name: string) {
+ *   byName: function(this: ns{{collectionNameUpper}}.{{interfaceName}}{{collectionNameUpper}}DocumentQuery, name: string) {
  *     return this.find({ name });
  *   },
  * };
@@ -112,10 +99,10 @@ export const query = {};
  * ```typescript
  * export const virtual = {
  *   name: {
- *     get: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual): string {
+ *     get: function(this: ns{{collectionNameUpper}}.{{interfaceName}}{{collectionNameUpper}}Virtual): string {
  *       return this.firstname + ' ' + this.lastname;
  *     },
- *     set: function(this: ns{{collectionNameUpper}}.I{{collectionNameUpper}}Virtual, value: string) {
+ *     set: function(this: ns{{collectionNameUpper}}.{{interfaceName}}{{collectionNameUpper}}Virtual, value: string) {
  *       this.firstname = value.substr(0, value.indexOf(' '));
  *       this.lastname = value.substr(value.indexOf(' ') + 1);
  *     },

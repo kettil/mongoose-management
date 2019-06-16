@@ -1,0 +1,23 @@
+/**
+ * ######################################################################
+ * #                                                                    #
+ * #                      This file can be edited.                      #
+ * #                                                                    #
+ * #              The file is only created if none exists.              #
+ * #                                                                    #
+ * ######################################################################
+ */
+
+import { {{collectionNameLower}}Type } from '../{{collectionNameLower}}';
+
+import { schemaExtendType } from '../../types';
+
+/**
+ * Extends the schema definition to include settings that cannot be read from the database
+ *
+ * The key "type" is ignored.
+ *
+ * @see https://mongoosejs.com/docs/guide.html
+ * @see https://mongoosejs.com/docs/schematypes.html
+ */
+export const extendSchemaDefinition: schemaExtendType<{{collectionNameLower}}Type> = {{& schemaExtend}} ;
