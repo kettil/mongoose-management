@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { promisify } from 'util';
 
-import { objType } from './types';
+import { objType } from '../types';
 
 const access = promisify(fs.access);
 
@@ -13,15 +13,6 @@ export const mkdir = promisify(fs.mkdir);
 
 export const exists = (path: string) => access(path, fs.constants.F_OK);
 export const writable = (path: string) => access(path, fs.constants.W_OK);
-
-/**
- * Convert a JSON string to valid object-string type definition.
- *
- * @param s
- */
-export const convertToTypeString = (obj: objType) => {
-  return JSON.stringify(obj).replace(/:"([A-Z][a-z]+)"/g, ':$1');
-};
 
 /**
  *

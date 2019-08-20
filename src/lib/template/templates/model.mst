@@ -10,22 +10,23 @@
 
 import mongoose, { Connection, Schema } from 'mongoose';
 
-import { {{collectionNameLower}}SchemaDefinition } from '../documents/{{collectionNameLower}}';
+import { {{collectionNameLower}}Definitions, {{collectionNameLower}}Indexes } from '../documents/{{collectionNameLower}}';
 import { {{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
-import { methods, options, query, statics, virtual } from '../repositories/{{collectionNameLower}}';
+import { methods, options, queries, statics, virtuals } from '../repositories/{{collectionNameLower}}';
 
-import { addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
 
 // If a key was found several times, then an error is thrown.
-checkDuplicateKeys('{{collectionNameLower}}', [Schema.prototype, {{collectionNameLower}}SchemaDefinition, methods, statics, query, virtual])
+checkDuplicateKeys('{{collectionNameLower}}', [Schema.prototype, {{collectionNameLower}}Definitions, methods, statics, queries, virtuals])
 
 // Create model schema
-export const {{collectionNameLower}}Schema = new Schema({{collectionNameLower}}SchemaDefinition, options);
+export const {{collectionNameLower}}Schema = new Schema({{collectionNameLower}}Definitions, options);
 
 {{collectionNameLower}}Schema.methods = { ...methods, ...{{collectionNameLower}}Schema.methods };
 {{collectionNameLower}}Schema.statics = { ...statics, ...{{collectionNameLower}}Schema.statics };
-{{collectionNameLower}}Schema.query = { ...query, ...{{collectionNameLower}}Schema.query };
-addVirtualProperties({{collectionNameLower}}Schema, virtual);
+{{collectionNameLower}}Schema.query = { ...queries, ...{{collectionNameLower}}Schema.query };
+addVirtualProperties({{collectionNameLower}}Schema, virtuals);
+addIndexes({{collectionNameLower}}Schema, {{collectionNameLower}}Indexes);
 
 /**
  * For multiple database connections

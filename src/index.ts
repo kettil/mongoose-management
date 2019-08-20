@@ -1,11 +1,11 @@
-import { optionsType } from './lib/types';
+#!/usr/bin/env node
+import app from './lib/app';
 
-export * from './lib/types';
-
-/**
- *
- * @param param0
- */
-export default function main({  }: optionsType = {}) {
-  return 'hello world';
-}
+(async () => {
+  try {
+    await app();
+  } catch (err) {
+    // tslint:disable-next-line
+    console.error(err);
+  }
+})();

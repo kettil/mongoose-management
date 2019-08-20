@@ -8,21 +8,21 @@
  * ######################################################################
  */
 
-import { Types } from 'mongoose';
+import { Schema } from 'mongoose';
 
 import { indexType } from '../types';
 
 /**
  *
  */
-export type {{collectionNameLower}}Type =  {{& schemaType}} ;
+export type {{collectionNameLower}}Types = {{& schemaTypes}};
 
 /**
  *
  */
-export const {{collectionNameLower}}SchemaDefinition =  {{& schemaDefinition}} ;
+export const {{collectionNameLower}}Definitions = {{& schemaDefinitions}};
 
 /**
  *
  */
-export const indexes: indexType[] = {{& collectionIndexes}};
+export const {{collectionNameLower}}Indexes: indexType[] = {{& SchemaIndexes}};

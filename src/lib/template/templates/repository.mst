@@ -85,7 +85,7 @@ export const statics = {};
  *
  * @see https://mongoosejs.com/docs/guide.html#query-helpers
  */
-export const query = {};
+export const queries = {};
 
 /**
  * Add you own custom virtual properties to the document instance
@@ -112,4 +112,4 @@ export const query = {};
  *
  * @see https://mongoosejs.com/docs/guide.html#virtuals
  */
-export const virtual = {};
+export const virtuals = {};

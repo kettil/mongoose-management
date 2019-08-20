@@ -1,0 +1,96 @@
+import { schemaTypes } from '../../mongo';
+import AbstractConverter from './abstract';
+
+import { dataColumnType } from '../../types';
+
+/**
+ *
+ */
+export default class ConverterCommon extends AbstractConverter<dataColumnType> {
+  /**
+   *
+   * @param column
+   */
+  columnToTypes(column: dataColumnType) {
+    return `${schemaTypes[column.type].type}`;
+  }
+
+  /**
+   *
+   * @param column
+   */
+  columnToDefinitions(column: dataColumnType) {
+    const items = [
+      `type: ${schemaTypes[column.type].definition}`,
+
+      this.getTypeString(column, 'required'),
+      this.getTypeString(column, 'default'),
+      this.getTypeString(column, 'lowercase'),
+      this.getTypeString(column, 'uppercase'),
+      this.getTypeString(column, 'trim'),
+      this.getTypeString(column, 'match'),
+      this.getTypeString(column, 'enum'),
+      this.getTypeString(column, 'minlength'),
+      this.getTypeString(column, 'maxlength'),
+      this.getTypeString(column, 'min'),
+      this.getTypeString(column, 'max'),
+    ];
+
+    return `{ ${items.filter((s) => s.trim() !== '').join(', ')} }`;
+  }
+
+  /**
+   *
+   */
+  columnToVirtuals() {
+    return '';
+  }
+
+  /**
+   *
+   * @param column
+   * @param type
+   */
+  getTypeString(column: dataColumnType, type: keyof dataColumnType) {
+    const value = column[type];
+
+    switch (true) {
+      case ['enum'].indexOf(type) >= 0:
+        if (typeof value === 'string' && value !== '') {
+          const values = value
+            .split(';')
+            .map((s) => `'${s.trim()}'`)
+            .join(',');
+
+          return `${type}: [ ${values} ]`;
+        }
+        break;
+
+      case ['match'].indexOf(type) >= 0:
+        if (typeof value === 'string' && value !== '') {
+          return `${type}: new RegExp('${value}')`;
+        }
+        break;
+
+      case ['required', 'lowercase', 'uppercase', 'trim'].indexOf(type) >= 0:
+        if (typeof value === 'boolean') {
+          return `${type}: ${value ? 'true' : 'false'}`;
+        }
+        break;
+
+      case ['default', 'minlength', 'maxlength', 'min', 'max'].indexOf(type) >= 0:
+        if (typeof value === 'number' || typeof value === 'string') {
+          return `${type}: ${value}`;
+        }
+        break;
+
+      default:
+        if (typeof value === 'string') {
+          return `${type}: '${value}'`;
+        }
+        break;
+    }
+
+    return '';
+  }
+}

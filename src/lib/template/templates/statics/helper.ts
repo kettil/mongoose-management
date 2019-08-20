@@ -10,6 +10,19 @@
 
 import { Schema } from 'mongoose';
 
+import { indexType } from './types';
+
+/**
+ *
+ * @param schema
+ * @param indexes
+ */
+export const addIndexes = (schema: Schema, indexes: indexType[]) => {
+  indexes.forEach(({ fields, options }) => {
+    schema.index(fields, options);
+  });
+};
+
 /**
  *
  * @param schema

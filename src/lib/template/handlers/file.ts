@@ -2,7 +2,7 @@ import { resolve } from 'path';
 
 import { copy, exists, mkdir, readFile, writable, writeFile } from '../helper';
 
-import { templateTypesType } from '../types';
+import { templateTypesType } from '../../types';
 
 /**
  *
@@ -19,7 +19,6 @@ export default class File {
     interfaces: { path: 'interfaces', template: 'interface' },
     models: { path: 'models', template: 'model' },
     repositories: { path: 'repositories', template: 'repository' },
-    extensions: { path: 'documents/extensions', template: 'extension' },
   };
 
   protected readonly staticFiles = ['helper.ts', 'types.ts'];

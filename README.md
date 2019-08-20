@@ -1,4 +1,4 @@
-# Mongoose Reverse Engineering
+# Mongoose Management Tool [BETA]
 
 ## Table of Contents
 
@@ -8,7 +8,6 @@
 - [Building](#building)
 - [Tests](#tests)
 - [Prettier and Lint](#prettier-and-lint)
-- [Docs](#docs)
 
 ## Installation
 
@@ -31,13 +30,13 @@ npm install <package-name> -D
 
 ## Building
 
-Compile the library from TypeScript to JavaScript.
+Compile the application from TypeScript to JavaScript.
 
-**The following command is available:**
+The following command is available:
 
 - `npm run build`
 
-  Builds the library
+  Builds the application
 
 ## Tests
 
@@ -82,7 +81,7 @@ There are three types of tests:
 
 Ensures that the code is formatted uniformly and that the coding standards are adhered to.
 
-**The following commands are available:**
+The following commands are available:
 
 - `npm run prettier`
 
@@ -91,13 +90,3 @@ Ensures that the code is formatted uniformly and that the coding standards are a
 - `npm run lint`
 
   Checks if the lint rules are followed. It calls the prettier command first.
-
-## Docs
-
-Creates documentation from the comments in the source code.
-
-**The following command is available:**
-
-- `npm run docs`
-
-  Creates documentation from the source code

@@ -12,19 +12,19 @@ import { Document, DocumentQuery, Model } from 'mongoose';
 
 import { extendIdType, extendTimestampType, virtualType as virtualTypeConvert } from '../types';
 
-import { {{collectionNameLower}}Type } from '../documents/{{collectionNameLower}}';
+import { {{collectionNameLower}}Types } from '../documents/{{collectionNameLower}}';
 
-import { methods, query, statics, virtual } from '../repositories/{{collectionNameLower}}';
+import { methods, queries, statics, virtuals } from '../repositories/{{collectionNameLower}}';
 
 type methodsType = typeof methods;
 type staticsType = typeof statics;
-type queryType = typeof query;
-type virtualType = virtualTypeConvert<typeof virtual>;
+type queriesType = typeof queries;
+type virtualsType = virtualTypeConvert<typeof virtuals>;
 
 /**
  * Document | Methods
  */
-export interface {{interfaceName}}{{collectionNameUpper}}Document extends {{collectionNameLower}}Type, extendTimestampType, virtualType, methodsType, Document {}
+export interface {{interfaceName}}{{collectionNameUpper}}Document extends {{collectionNameLower}}Types, extendTimestampType, virtualsType, methodsType, Document {}
 
 /**
  * DocumentQuery | Statics | Query
@@ -34,9 +34,9 @@ export interface {{interfaceName}}{{collectionNameUpper}}DocumentQuery extends D
 /**
  * Model
  */
-export interface {{interfaceName}}{{collectionNameUpper}}Model extends staticsType, Model<{{interfaceName}}{{collectionNameUpper}}Document, queryType> {}
+export interface {{interfaceName}}{{collectionNameUpper}}Model extends staticsType, Model<{{interfaceName}}{{collectionNameUpper}}Document, queriesType> {}
 
 /**
  * Virtual
  */
-export interface {{interfaceName}}{{collectionNameUpper}}Virtual extends {{collectionNameLower}}Type, extendTimestampType, extendIdType {}
+export interface {{interfaceName}}{{collectionNameUpper}}Virtual extends {{collectionNameLower}}Types, extendTimestampType, extendIdType {}
