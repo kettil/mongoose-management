@@ -3,3 +3,7 @@ export * from './columnIndex';
 export * from './columnMain';
 export * from './columnOptions';
 export * from './columnSubType';
+export * from './groupMain';
+export * from './indexColumns';
+export * from './indexMain';
+export * from './indexOptions';

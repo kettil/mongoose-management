@@ -1,5 +1,3 @@
-import { regexpName, regexpNameMessage } from '../../prompts';
-
 import * as questions from '../questions';
 import AbstractAction from './abstract';
 
@@ -47,36 +45,6 @@ export default class CollectionAction extends AbstractAction<dataCollectionType>
     }
 
     questions.collectionMainEvaluation(collection, answersMain);
-  }
-
-  /**
-   *
-   * @param items
-   * @param defaultValue
-   */
-  questions(items: string[], defaultValue?: string): ReadonlyArray<any> {
-    return [
-      {
-        type: 'input',
-        name: 'name',
-        default: defaultValue,
-        message: 'Collection name:',
-
-        validate: (value: string) => {
-          const item = value.trim();
-
-          if (!regexpName.test(item)) {
-            return regexpNameMessage;
-          }
-
-          if (items.indexOf(item.toLowerCase()) >= 0) {
-            return `A collection with the name already exists!`;
-          }
-
-          return true;
-        },
-      },
-    ];
   }
 
   /**

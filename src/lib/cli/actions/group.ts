@@ -1,6 +1,4 @@
-import { join } from 'path';
-
-import { regexpName, regexpNameMessage } from '../../prompts';
+import * as questions from '../questions';
 import AbstractAction from './abstract';
 
 import { choicesType, dataGroupType } from '../../types';
@@ -22,15 +20,13 @@ export default class GroupAction extends AbstractAction<dataGroupType> {
    * @param items
    */
   async create(groups: dataGroupType[]): Promise<dataGroupType | false> {
-    const { name, path } = await this.prompts.call<{ name: string; path: string }>(
-      this.questions(groups.map((d) => d.path.toLowerCase())),
-    );
+    const answersMain = await this.prompts.call<questions.groupMainAnswersType>(questions.groupMainQuestions(groups));
 
-    if (name === '') {
+    if (answersMain.name === '') {
       return false;
     }
 
-    return { path: join(path, name), collections: [] };
+    return questions.groupMainEvaluation(undefined, answersMain);
   }
 
   /**
@@ -40,46 +36,6 @@ export default class GroupAction extends AbstractAction<dataGroupType> {
    */
   async edit(): Promise<void> {
     // empty
-  }
-
-  /**
-   *
-   * @param items
-   */
-  questions(items: string[]): ReadonlyArray<any> {
-    return [
-      {
-        type: 'fuzzypath',
-        name: 'path',
-        message: 'Target path for the group:',
-
-        excludePath: (path: string) => /node_modules|\/\.|\\\.|^\../.test(path),
-        itemType: 'directory',
-        rootPath: '.',
-        suggestOnly: false,
-      },
-      {
-        type: 'input',
-        name: 'name',
-        default: 'odm',
-        message: 'Collection group name:',
-
-        validate: (value: string, { path }: { path: string }) => {
-          const name = value.trim();
-          const mergedPath = join(path, name);
-
-          if (!regexpName.test(name)) {
-            return regexpNameMessage;
-          }
-
-          if (items.indexOf(mergedPath.toLowerCase()) >= 0) {
-            return `The path and the name already exist as a group [group: ${mergedPath}]!`;
-          }
-
-          return true;
-        },
-      },
-    ];
   }
 
   /**
