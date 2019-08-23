@@ -76,17 +76,6 @@ test-integration:
   script:
     - npm run test:integration:ci
 
-test-functional:
-  extends: .limiter
-  stage: test
-  variables:
-    AMQP_HOST: rabbitmq
-  services:
-    - name: rabbitmq:3
-      alias: rabbitmq
-  script:
-    - npm run test:functional:ci
-
 #
 # GitLab NPM Registry
 #

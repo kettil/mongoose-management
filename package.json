@@ -6,9 +6,6 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "private": true,
-  "engines": {
-    "node": ">=10"
-  },
   "scripts": {
     "build": "npm run build:clean && npm run build:generate && npm run build:template",
     "build:clean": "rm -rf ./build",
@@ -20,38 +17,22 @@
     "test:integration": "jest --config=jest.test.js --coverage 'tests/integration'",
     "test:integration:watch": "jest --config=jest.test.js --watch 'tests/integration'",
     "test:integration:ci": "jest --config=jest.test.js --ci --verbose 'tests/integration'",
-    "test:functional": "jest --config=jest.test.js --runInBand --coverage 'tests/functional'; echo ''",
-    "test:functional:watch": "jest --config=jest.test.js --runInBand --watch 'tests/functional'; echo ''",
-    "test:functional:ci": "jest --config=jest.test.js --ci --runInBand --verbose 'tests/functional'",
-    "test:all": "npm run test && npm run test:integration && npm run test:functional",
+    "test:all": "npm run test && npm run test:integration",
     "coverage": "npm run coverage:clean && npm run coverage:generate:unit",
     "coverage:integration": "npm run coverage:clean && npm run coverage:generate:integration",
-    "coverage:functional": "npm run coverage:clean && npm run coverage:generate:functional",
     "coverage:clean": "rm -rf ./coverage",
     "coverage:generate:unit": "jest --config=jest.coverage.js --coverage 'src'",
     "coverage:generate:integration": "jest --config=jest.coverage.js --coverage 'tests/integration'",
-    "coverage:generate:functional": "jest --config=jest.coverage.js --coverage --runInBand 'tests/functional'; echo ''",
     "lint": "npm run prettier && npm run lint:check",
     "lint:check": "tslint --project ./tsconfig.json --config ./tslint.json --format codeFrame",
     "lint:ci": "tslint --project ./tsconfig.json --config ./tslint.json --format codeFrame",
     "prettier": "prettier --config './.prettierrc' --write '.huskyrc' '.prettierrc' './**/*.{ts,tsx,js,jsx,json,md,scss,yml,html}'",
     "prettier:ci": "prettier --config './.prettierrc' --list-different '.huskyrc' '.prettierrc' './**/*.{ts,tsx,js,jsx,json,md,scss,yml,html}'",
-    "docker:image:build": "docker image build -t $(basename $(pwd)):tmp .",
-    "docker:image:clear": "docker image rm $(basename $(pwd)):tmp",
-    "docker:compose:start": "docker-compose up -d",
-    "docker:compose:stop": "docker-compose down -v",
-    "prestart:docker": "npm run build && npm run docker:image:build && npm run docker:compose:start",
-    "prestart:locale": "npm run build && npm run docker:compose:start",
-    "predocker:compose:start": "cp -n .env.example .env || echo 'The file .env already exists'",
-    "pretest:functional": "npm run docker:compose:start",
-    "pretest:functional:watch": "npm run docker:compose:start",
-    "precoverage:generate:functional": "npm run docker:compose:start",
-    "poststart:docker": "npm run docker:image:clear && npm run docker:compose:stop",
-    "poststart:locale": "npm run docker:compose:stop",
-    "postdocker:compose:start": "echo 'Wait until all services have initialized...' && sleep 30",
-    "posttest:functional": "npm run docker:compose:stop",
-    "posttest:functional:watch": "npm run docker:compose:stop",
-    "postcoverage:generate:functional": "npm run docker:compose:stop"
+    "deploy:major": "npm run deploy:pre && npm version major -m 'Release of version v%s' && npm run deploy:post",
+    "deploy:minor": "npm run deploy:pre && npm version minor -m 'Release of version v%s' && npm run deploy:post",
+    "deploy:patch": "npm run deploy:pre && npm version patch -m 'Release of version v%s' && npm run deploy:post",
+    "deploy:pre": "npm run lint && npm run test:all && npm run build",
+    "deploy:post": "git push && git push --tags && npm publish"
   },
   "keywords": [
     "mongodb",
@@ -77,6 +58,9 @@
     "Kjell Dießel <development@kettil.de>"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.2",
