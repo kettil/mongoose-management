@@ -26,7 +26,7 @@ import { cliOptionsType } from './types';
  *
  */
 export const app = async () => {
-  const { p, d }: { p?: string; d?: string } = yargs
+  const { p, d } = yargs
     .usage('$0 [-p path/to/project] [-d schemas.json]', 'Mongoose schemas management tool')
     .group(['p', 'd'], 'Config:')
     .options({
