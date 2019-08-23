@@ -77,7 +77,6 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
 
       default:
         return this.converter.converterCommon[funcs](column);
-        break;
     }
   }
 }

@@ -30,8 +30,8 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
       this.getTypeString(column, 'trim'),
       this.getTypeString(column, 'match'),
       this.getTypeString(column, 'enum'),
-      this.getTypeString(column, 'minlength'),
-      this.getTypeString(column, 'maxlength'),
+      this.getTypeString(column, 'minLength'),
+      this.getTypeString(column, 'maxLength'),
       this.getTypeString(column, 'min'),
       this.getTypeString(column, 'max'),
     ];
@@ -78,7 +78,7 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
         }
         break;
 
-      case ['default', 'minlength', 'maxlength', 'min', 'max'].indexOf(type) >= 0:
+      case ['default', 'minLength', 'maxLength', 'min', 'max'].indexOf(type) >= 0:
         if (typeof value === 'number' || typeof value === 'string') {
           return `${type}: ${value}`;
         }
@@ -88,7 +88,6 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
         if (typeof value === 'string') {
           return `${type}: '${value}'`;
         }
-        break;
     }
 
     return '';

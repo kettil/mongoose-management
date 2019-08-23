@@ -37,7 +37,7 @@ export const indexColumnsEvaluation = (
   for (const value of indexes) {
     if (value !== index && equalIndexColumns(answers, value.columns)) {
       // tslint:disable-next-line
-      throw `An index with the column configuration already exists! (duplicate index: "${value.name}")`;
+      throw new Error(`An index with the column configuration already exists! (duplicate index: "${value.name}")`);
     }
   }
 

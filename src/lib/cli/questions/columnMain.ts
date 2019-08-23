@@ -14,8 +14,8 @@ export type columnMainAnswersType = { name: string; type: schemaType };
  */
 export const columnMainQuestions = (
   column?: dataColumnType,
-  names: string[] = [],
-  blacklist: string[] = [],
+  names: readonly string[] = [],
+  blacklist: readonly string[] = [],
 ): ReadonlyArray<any> => {
   const reservedColumns = blacklist.map((v) => v.toLowerCase());
 
@@ -36,12 +36,12 @@ export const columnMainQuestions = (
       validate: (value: string) => {
         const name = value.trim();
 
-        if (!regexpName.test(name)) {
-          return regexpNameMessage;
-        }
-
         if (reservedColumns.indexOf(name.toLowerCase()) >= 0) {
           return 'This column is created automatically!';
+        }
+
+        if (!regexpName.test(name)) {
+          return regexpNameMessage;
         }
 
         if (names.indexOf(name.toLowerCase()) >= 0) {
@@ -73,7 +73,7 @@ export const columnMainEvaluation = (
   answers: columnMainAnswersType,
 ): dataColumnType => {
   if (!column) {
-    return { name: answers.name, type: answers.type, required: false };
+    return { name: answers.name, type: answers.type };
   }
 
   column.name = answers.name;

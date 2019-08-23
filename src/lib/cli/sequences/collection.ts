@@ -131,7 +131,6 @@ export default class CollectionsHandler extends AbstractHandler<dataCollectionTy
 
           await handler.exec();
         }
-        break;
     }
   }
 }

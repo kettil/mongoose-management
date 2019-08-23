@@ -8,6 +8,7 @@
     "linebreak-style": [true, "LF"],
     "object-literal-sort-keys": false,
     "quotemark": [true, "single", "jsx-double"],
-    "member-access": [true, "no-public"]
+    "member-access": [true, "no-public"],
+    "switch-final-break": true
   }
 }

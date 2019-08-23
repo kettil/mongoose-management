@@ -97,7 +97,7 @@ export type dataColumnType = {
   name: string;
   type: schemaType;
 
-  required: boolean;
+  required?: boolean;
   default?: string;
 
   // string
@@ -106,8 +106,8 @@ export type dataColumnType = {
   trim?: boolean;
   match?: string;
   enum?: string;
-  minlength?: number;
-  maxlength?: number;
+  minLength?: number;
+  maxLength?: number;
 
   // number
   min?: number;

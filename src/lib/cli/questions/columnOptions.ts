@@ -4,53 +4,28 @@ import { dataColumnType } from '../../types';
 
 const onlyBoolean = ['required', 'lowercase', 'uppercase', 'trim'] as const;
 const onlyString = ['match', 'enum', 'default'] as const;
-const onlyNumber = ['minlength', 'maxlength', 'min', 'max'] as const;
+const onlyNumber = ['minLength', 'maxLength', 'min', 'max'] as const;
 
 /**
  *
  */
-export type columnOptionsAnswersType = dataColumnType & { options: string[] };
+export type columnOptionsAnswersType = Pick<dataColumnType, Exclude<keyof dataColumnType, 'name' | 'type'>> & {
+  options: string[];
+};
 
 /**
  *
  * @param column
  */
 export const columnOptionsQuestions = (column: dataColumnType): ReadonlyArray<any> => {
-  const choices = [];
+  const choices = [
+    ...getColumnOptionsTypeSpecial(column),
+    ...getColumnOptionsTypeString(column),
+    ...getColumnOptionsTypeNumber(column),
+  ];
 
-  const withRequired = column.required === true;
-  const withDefault = (column.default && column.default !== '') || typeof column.default === 'number';
-  const withTrim = column.trim === true;
-  const withLowerCase = column.lowercase === true;
-  const withUpperCase = column.uppercase === true;
-  const withMatch = column.match && column.match !== '';
-  const withEnum = column.enum && column.enum !== '';
-  const withMinLength = column.minlength && Number.isInteger(column.minlength);
-  const withMaxLength = column.maxlength && Number.isInteger(column.maxlength);
-  const withNumberMin = (column.min && Number.isInteger(column.min)) || column.min === 0;
-  const withNumberax = (column.max && Number.isInteger(column.max)) || column.max === 0;
-
-  if (Object.keys(schemaTypesSpecial).indexOf(column.type) === -1) {
-    choices.push({ name: 'required', short: 'required', value: 'required', checked: withRequired });
-    choices.push({ name: 'default', short: 'default', value: 'default', checked: withDefault });
-  }
-
-  if (column.type === 'string') {
-    choices.push({ name: 'enum', short: 'enum', value: 'enum', checked: withEnum });
-    choices.push({ name: 'match (regexp)', short: 'match', value: 'match', checked: withMatch });
-    choices.push({ name: 'trim', short: 'trim', value: 'trim', checked: withTrim });
-    choices.push({ name: 'lowercase', short: 'lowercase', value: 'lowercase', checked: withLowerCase });
-    choices.push({ name: 'uppercase', short: 'uppercase', value: 'uppercase', checked: withUpperCase });
-    choices.push({ name: 'minlength', short: 'minlength', value: 'minlength', checked: withMinLength });
-    choices.push({ name: 'maxlength', short: 'maxlength', value: 'maxlength', checked: withMaxLength });
-  }
-
-  if (column.type === 'number') {
-    choices.push({ name: 'min', short: 'min', value: 'minNumber', checked: withNumberMin });
-    choices.push({ name: 'max', short: 'max', value: 'maxNumber', checked: withNumberax });
-  }
-
-  return [
+  // create questions
+  const questions: any[] = [
     {
       type: 'checkbox',
       name: 'options',
@@ -64,80 +39,91 @@ export const columnOptionsQuestions = (column: dataColumnType): ReadonlyArray<an
         return true;
       },
     },
-    {
+  ];
+
+  if (Object.keys(schemaTypesSpecial).indexOf(column.type) === -1) {
+    questions.push({
       type: 'input',
       name: 'default',
       message: `Default value for the column (e.g. Date.now or 'Hello World'):`,
       default: column.default,
       when: ({ options }: { options: string[] }) => options.indexOf('default') >= 0,
-    },
+    });
+  }
 
-    // string
-    {
-      type: 'input',
-      name: 'enum',
-      message: `Allowed enum strings (semicolon [;] as separator):`,
-      default: column.enum,
-      when: ({ options }: { options: string[] }) => options.indexOf('enum') >= 0,
-      filter: (value: string) =>
-        value
-          .split(';')
-          .map((s) => s.trim())
-          .filter((s) => s !== '')
-          .join('; '),
-    },
-    {
-      type: 'input',
-      name: 'match',
-      message: `RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):`,
-      default: column.match,
-      when: ({ options }: { options: string[] }) => options.indexOf('match') >= 0,
-    },
-    {
-      type: 'number',
-      name: 'minlength',
-      message: `Minimum number of characters:`,
-      default: column.minlength,
-      when: ({ options }: { options: string[] }) => options.indexOf('minlength') >= 0,
-    },
-    {
-      type: 'number',
-      name: 'maxlength',
-      message: `Maximum number of characters:`,
-      default: column.maxlength,
-      when: ({ options }: { options: string[] }) => options.indexOf('maxlength') >= 0,
-      validate: (v: string, { minlength }: { minlength?: number }) => {
-        if (minlength && minlength > parseInt(v, 10)) {
-          return `Length must be greater or equal than to minimum length (>= ${minlength})!`;
-        }
-
-        return true;
+  if (column.type === 'string') {
+    questions.push(
+      {
+        type: 'input',
+        name: 'enum',
+        message: `Allowed enum strings (semicolon [;] as separator):`,
+        default: column.enum,
+        when: ({ options }: { options: string[] }) => options.indexOf('enum') >= 0,
+        filter: (value: string) =>
+          value
+            .split(';')
+            .map((s) => s.trim())
+            .filter((s) => s !== '')
+            .join('; '),
       },
-    },
-
-    // number
-    {
-      type: 'number',
-      name: 'min',
-      message: `Value must greater than or equal:`,
-      default: column.min,
-      when: ({ options }: { options: string[] }) => options.indexOf('minNumber') >= 0,
-    },
-    {
-      type: 'number',
-      name: 'max',
-      message: `Value must less than or equal:`,
-      default: column.max,
-      when: ({ options }: { options: string[] }) => options.indexOf('maxNumber') >= 0,
-      validate: (v: string, { max }: { max?: number }) => {
-        if (max && max > parseInt(v, 10)) {
-          return `Value must be greater or equal than to minimum value (>= ${max})!`;
-        }
-
-        return true;
+      {
+        type: 'input',
+        name: 'match',
+        message: `RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):`,
+        default: column.match,
+        when: ({ options }: { options: string[] }) => options.indexOf('match') >= 0,
       },
-    },
-  ];
+      {
+        type: 'number',
+        name: 'minLength',
+        message: `Minimum number of characters:`,
+        default: column.minLength,
+        when: ({ options }: { options: string[] }) => options.indexOf('minLength') >= 0,
+      },
+      {
+        type: 'number',
+        name: 'maxLength',
+        message: `Maximum number of characters:`,
+        default: column.maxLength,
+        when: ({ options }: { options: string[] }) => options.indexOf('maxLength') >= 0,
+        validate: (v: string, { minLength }: { minLength?: number }) => {
+          if (minLength && minLength > parseInt(v, 10)) {
+            return `Length must be greater or equal than to minimum length (>= ${minLength})!`;
+          }
+
+          return true;
+        },
+      },
+    );
+  }
+
+  if (column.type === 'number') {
+    questions.push(
+      {
+        type: 'number',
+        name: 'min',
+        message: `Value must greater than or equal:`,
+        default: column.min,
+        when: ({ options }: { options: string[] }) => options.indexOf('min') >= 0,
+      },
+      {
+        type: 'number',
+        name: 'max',
+        message: `Value must less than or equal:`,
+        default: column.max,
+        when: ({ options }: { options: string[] }) => options.indexOf('max') >= 0,
+        validate: (v: string, { min }: { min?: number }) => {
+          if (min && min > parseInt(v, 10)) {
+            return `Value must be greater or equal than to minimum value (>= ${min})!`;
+          }
+
+          return true;
+        },
+      },
+    );
+  }
+
+  return questions;
 };
 
 /**
@@ -169,4 +155,68 @@ export const columnOptionsEvaluation = (column: dataColumnType, answers: columnO
       delete answers[v];
     }
   });
+};
+
+/**
+ *
+ * @param column
+ */
+export const getColumnOptionsTypeSpecial = (column: dataColumnType) => {
+  if (Object.keys(schemaTypesSpecial).indexOf(column.type) >= 0) {
+    return [];
+  }
+
+  const withRequired = column.required === true;
+  const withDefault = (column.default && column.default !== '') || typeof column.default === 'number';
+
+  return [
+    { name: 'required', short: 'required', value: 'required', checked: withRequired },
+    { name: 'default', short: 'default', value: 'default', checked: withDefault },
+  ];
+};
+
+/**
+ *
+ * @param column
+ */
+export const getColumnOptionsTypeString = (column: dataColumnType) => {
+  if (column.type !== 'string') {
+    return [];
+  }
+
+  const withTrim = column.trim === true;
+  const withLowerCase = column.lowercase === true;
+  const withUpperCase = column.uppercase === true;
+  const withMatch = column.match && column.match !== '' ? true : false;
+  const withEnum = column.enum && column.enum !== '' ? true : false;
+  const withMinLength = column.minLength && Number.isInteger(column.minLength) ? true : false;
+  const withMaxLength = column.maxLength && Number.isInteger(column.maxLength) ? true : false;
+
+  return [
+    { name: 'enum', short: 'enum', value: 'enum', checked: withEnum },
+    { name: 'match (regexp)', short: 'match', value: 'match', checked: withMatch },
+    { name: 'trim', short: 'trim', value: 'trim', checked: withTrim },
+    { name: 'lowercase', short: 'lowercase', value: 'lowercase', checked: withLowerCase },
+    { name: 'uppercase', short: 'uppercase', value: 'uppercase', checked: withUpperCase },
+    { name: 'minLength', short: 'minLength', value: 'minLength', checked: withMinLength },
+    { name: 'maxLength', short: 'maxLength', value: 'maxLength', checked: withMaxLength },
+  ];
+};
+
+/**
+ *
+ * @param column
+ */
+export const getColumnOptionsTypeNumber = (column: dataColumnType) => {
+  if (column.type !== 'number') {
+    return [];
+  }
+
+  const withNumberMin = (column.min && Number.isInteger(column.min)) || column.min === 0;
+  const withNumberax = (column.max && Number.isInteger(column.max)) || column.max === 0;
+
+  return [
+    { name: 'min', short: 'min', value: 'min', checked: withNumberMin },
+    { name: 'max', short: 'max', value: 'max', checked: withNumberax },
+  ];
 };

@@ -29,7 +29,7 @@ export const indexMainQuestions = (
   const columnNames = index ? Object.keys(index.columns) : [];
 
   const columnValues = columns
-    .concat(extendColumns.map<dataColumnType>((c) => ({ name: c[0], type: c[1], required: false })))
+    .concat(extendColumns.map<dataColumnType>((c) => ({ name: c[0], type: c[1] })))
     .map((d) => ({
       name: d.name,
       value: d.name,

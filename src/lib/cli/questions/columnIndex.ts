@@ -76,6 +76,7 @@ export const columnIndexEvaluation = (
       index.name = getIndexName(column.name, answers.mode, prefixName);
       index.columns = columnIndex;
       index.properties = getIndexProperties(answers.mode);
+      index.readonly = true;
       index.mode = answers.mode;
       index.type = answers.type;
     } else {
@@ -110,10 +111,10 @@ export const getIndexProperties = (mode: schemaIndexType): dataIndexType['proper
   switch (mode) {
     case 'sparse':
       return { sparse: true };
-      break;
+
     case 'unique':
       return { unique: true };
-      break;
+
     default:
       return {};
   }
