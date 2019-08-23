@@ -9,7 +9,7 @@
 
   "preset": "ts-jest",
   "testMatch": ["**/*.test.{js,jsx,ts,tsx}"],
-  "roots": ["<rootDir>/src/", "<rootDir>/tests/integration/"],
+  "roots": ["<rootDir>/src/", "<rootDir>/tests/"],
 
   "clearMocks": true,
 
