@@ -1,6 +1,7 @@
 import { join, resolve } from 'path';
 
 import { Options } from 'prettier';
+import yargs from 'yargs';
 
 import Prompts from './prompts';
 import Storage from './storage';
@@ -24,7 +25,27 @@ import { cliOptionsType } from './types';
 /**
  *
  */
-export const app = async ({ p, d }: { p?: string; d?: string }) => {
+export const app = async () => {
+  const { p, d }: { p?: string; d?: string } = yargs
+    .usage('$0 [-p path/to/project] [-d schemas.json]', 'Mongoose schemas management tool')
+    .group(['p', 'd'], 'Config:')
+    .options({
+      p: {
+        type: 'string',
+        alias: 'path',
+        description: 'Path to the project folder',
+        hidden: false,
+      },
+      d: {
+        type: 'string',
+        alias: 'data',
+        description: 'File name where the schema data is stored\n(file is saved in project folder)',
+      },
+    })
+    .help(true)
+    .version(true)
+    .parse();
+
   const prettierOptions: Options = {
     printWidth: 120,
     tabWidth: 2,
