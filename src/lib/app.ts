@@ -1,6 +1,6 @@
 import { join, resolve } from 'path';
 
-import { Options } from 'prettier';
+import { Options, resolveConfig } from 'prettier';
 import yargs from 'yargs';
 
 import Prompts from './prompts';
@@ -46,6 +46,12 @@ export const app = async () => {
     .version(true)
     .parse();
 
+  const pathProject = resolve(process.cwd(), p || './');
+
+  // Checks whether the project folder exists.
+  await exists(pathProject);
+
+  const prettierOptionsFile = await resolveConfig(pathProject);
   const prettierOptions: Options = {
     printWidth: 120,
     tabWidth: 2,
@@ -56,12 +62,8 @@ export const app = async () => {
     bracketSpacing: true,
     jsxBracketSameLine: false,
     arrowParens: 'always',
+    ...prettierOptionsFile,
   };
-
-  const pathProject = resolve(process.cwd(), p || './');
-
-  // Checks whether the project folder exists.
-  await exists(pathProject);
 
   const prompts = new Prompts();
   const storage = new Storage(pathProject, d, prompts, prettierOptions);
