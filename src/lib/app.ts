@@ -1,9 +1,10 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 import { Options } from 'prettier';
 
 import Prompts from './prompts';
 import Storage from './storage';
+import { exists } from './template/helper';
 
 import Collection from './cli/sequences/collection';
 import Collections from './cli/sequences/collections';
@@ -23,7 +24,7 @@ import { cliOptionsType } from './types';
 /**
  *
  */
-export const app = async () => {
+export const app = async ({ p, d }: { p?: string; d?: string }) => {
   const prettierOptions: Options = {
     printWidth: 120,
     tabWidth: 2,
@@ -36,8 +37,13 @@ export const app = async () => {
     arrowParens: 'always',
   };
 
+  const pathProject = resolve(process.cwd(), p || './');
+
+  // Checks whether the project folder exists.
+  await exists(pathProject);
+
   const prompts = new Prompts();
-  const storage = new Storage(prompts, prettierOptions);
+  const storage = new Storage(pathProject, d, prompts, prettierOptions);
   const data = await storage.load();
 
   const actionGroup = new GroupAction(prompts);
@@ -45,7 +51,7 @@ export const app = async () => {
   const actionIndex = new IndexAction(prompts);
   const actionColumn = new ColumnAction(prompts, actionIndex);
 
-  const createTemplate = new Create(prompts, join(__dirname, 'template/templates'), prettierOptions);
+  const createTemplate = new Create(prompts, pathProject, join(__dirname, 'template/templates'), prettierOptions);
 
   const opts: cliOptionsType = {
     prompts,

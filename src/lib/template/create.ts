@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { dirname, join } from 'path';
 
 import { Options } from 'prettier';
 
@@ -6,6 +6,7 @@ import Prompts from '../prompts';
 import Converter from './converter';
 import File from './handlers/file';
 import Template from './handlers/template';
+import { exists } from './helper';
 
 import { dataCollectionType, templateCollectionNamesType, templateCollectionType } from '../types';
 
@@ -18,12 +19,14 @@ export default class Create {
   /**
    *
    * @param prompts
+   * @param pathProject
    * @param pathTemplates
    * @param prettier
    * @param converter
    */
   constructor(
     protected prompts: Prompts,
+    protected pathProject: string,
     protected pathTemplates: string,
     protected prettier: Options,
     protected converter = new Converter(),
@@ -36,9 +39,12 @@ export default class Create {
    */
   async exec(destination: string, collections: dataCollectionType[]) {
     const spinner = this.prompts.getSpinner();
-    const path = join('.', destination.replace(/(^\/|\/$|^\\|\\$)/g, ''));
+    const path = join(this.pathProject, destination.replace(/(^\/|\/$|^\\|\\$)/g, ''));
     const file = new File(this.pathTemplates, path);
     const template = new Template(file, this.prettier);
+
+    // Checks whether the collection group folder exists (without group name).
+    await exists(dirname(path));
 
     const data = collections
       .filter((collection) => collection.columns.length > 0)

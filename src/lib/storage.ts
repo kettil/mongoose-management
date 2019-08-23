@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { join } from 'path';
 import { promisify } from 'util';
 
 import { format, Options } from 'prettier';
@@ -14,7 +15,7 @@ const readFile = promisify(fs.readFile);
  *
  */
 export default class Storage {
-  protected path = './mongodb-schema.json';
+  protected path = './schemas-mongodb.json';
 
   protected data: dataType = {
     groups: [],
@@ -22,9 +23,19 @@ export default class Storage {
 
   /**
    *
+   * @param pathProject
+   * @param pathData
    * @param prompts
+   * @param prettier
    */
-  constructor(protected prompts: Prompts, protected prettier: Options) {}
+  constructor(
+    pathProject: string,
+    pathData: string | undefined,
+    protected prompts: Prompts,
+    protected prettier: Options,
+  ) {
+    this.path = join(pathData || join(pathProject, this.path));
+  }
 
   /**
    *
