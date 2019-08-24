@@ -1,11 +1,13 @@
 # folder
 bin
 coverage
+examples
 docs
 src
 tests
 
 # files
+.DS_Store
 .editorconfig
 .gitignore
 .gitlab-ci.yml
@@ -13,10 +15,9 @@ tests
 .prettierignore
 .prettierrc
 docker-compose.yml
-jest.ci.js
-jest.fu.js
-jest.in.js
+jest.coverage.js
 jest.json
+jest.test.js
 tsconfig.build.json
 tsconfig.json
 tslint.json
