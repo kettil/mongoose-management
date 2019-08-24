@@ -1,16 +1,23 @@
-import main from './index';
+jest.mock('./lib/app');
+
+import app from './lib/app';
 
 /**
  *
  */
-describe('Check the function pagination()', () => {
+describe('Check the index file', () => {
   /**
    *
    */
-  test('call the main function', () => {
-    const returnValue = main();
+  test('it should be call the app() when index file is loaded', (done) => {
+    expect.assertions(1);
 
-    expect(typeof returnValue).toBe('string');
-    expect(returnValue).toBe('hello world');
+    require('./index');
+
+    setTimeout(() => {
+      expect(app).toHaveBeenCalledTimes(1);
+
+      done();
+    }, 250);
   });
 });
