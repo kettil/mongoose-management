@@ -26,9 +26,9 @@ import { cliOptionsType } from './types';
  *
  */
 export const app = async () => {
-  const { p, d } = yargs
+  const { p: path, d: dataFilename, c: notClear } = yargs
     .usage('$0 [-p path/to/project] [-d schemas.json]', 'Mongoose schemas management tool')
-    .group(['p', 'd'], 'Config:')
+    .group(['p', 'd', 'c'], 'Config:')
     .options({
       p: {
         type: 'string',
@@ -41,12 +41,17 @@ export const app = async () => {
         alias: 'data',
         description: 'File name where the schema data is stored\n(file is saved in project folder)',
       },
+      c: {
+        type: 'boolean',
+        alias: 'not-clear',
+        description: 'Clear not the terminal screen',
+      },
     })
     .help(true)
     .version(true)
     .parse();
 
-  const pathProject = resolve(process.cwd(), p || './');
+  const pathProject = resolve(process.cwd(), path || './');
 
   // Checks whether the project folder exists.
   await exists(pathProject);
@@ -65,8 +70,8 @@ export const app = async () => {
     ...prettierOptionsFile,
   };
 
-  const prompts = new Prompts();
-  const storage = new Storage(pathProject, d, prompts, prettierOptions);
+  const prompts = new Prompts(!notClear);
+  const storage = new Storage(pathProject, dataFilename, prompts, prettierOptions);
   const data = await storage.load();
 
   const actionGroup = new GroupAction(prompts);

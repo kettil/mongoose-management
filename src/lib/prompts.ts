@@ -35,6 +35,12 @@ export default class Prompts {
 
   /**
    *
+   * @param clearScreen
+   */
+  constructor(protected clearScreen: boolean = true) {}
+
+  /**
+   *
    */
   async exit() {
     const { confirm } = await this.call<{ confirm: boolean }>([
@@ -59,14 +65,11 @@ export default class Prompts {
    *
    */
   clear() {
-    //*
-    console.log('-- clear --');
-    return;
-    // */
-
-    // https://github.com/bahamas10/node-clear
-    process.stdout.write('\x1b[2J');
-    process.stdout.write('\x1b[0f');
+    if (this.clearScreen) {
+      // https://github.com/bahamas10/node-clear
+      process.stdout.write('\x1b[2J');
+      process.stdout.write('\x1b[0f');
+    }
   }
 
   /**
