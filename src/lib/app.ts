@@ -48,7 +48,7 @@ export const app = async () => {
       },
     })
     .help(true)
-    .version(true)
+    .version()
     .parse();
 
   const pathProject = resolve(process.cwd(), path || './');
