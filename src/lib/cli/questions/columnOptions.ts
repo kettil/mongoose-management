@@ -1,5 +1,3 @@
-import { schemaTypesSpecial } from '../../mongo';
-
 import { dataColumnType } from '../../types';
 
 const onlyBoolean = ['required', 'lowercase', 'uppercase', 'trim'] as const;
@@ -19,7 +17,7 @@ export type columnOptionsAnswersType = Pick<dataColumnType, Exclude<keyof dataCo
  */
 export const columnOptionsQuestions = (column: dataColumnType): ReadonlyArray<any> => {
   const choices = [
-    ...getColumnOptionsTypeSpecial(column),
+    ...getColumnOptionsTypeAny(column),
     ...getColumnOptionsTypeString(column),
     ...getColumnOptionsTypeNumber(column),
   ];
@@ -39,17 +37,14 @@ export const columnOptionsQuestions = (column: dataColumnType): ReadonlyArray<an
         return true;
       },
     },
-  ];
-
-  if (Object.keys(schemaTypesSpecial).indexOf(column.type) === -1) {
-    questions.push({
+    {
       type: 'input',
       name: 'default',
       message: `Default value for the column (e.g. Date.now or 'Hello World'):`,
       default: column.default,
       when: ({ options }: { options: string[] }) => options.indexOf('default') >= 0,
-    });
-  }
+    },
+  ];
 
   if (column.type === 'string') {
     questions.push(
@@ -161,11 +156,7 @@ export const columnOptionsEvaluation = (column: dataColumnType, answers: columnO
  *
  * @param column
  */
-export const getColumnOptionsTypeSpecial = (column: dataColumnType) => {
-  if (Object.keys(schemaTypesSpecial).indexOf(column.type) >= 0) {
-    return [];
-  }
-
+export const getColumnOptionsTypeAny = (column: dataColumnType) => {
   const withRequired = column.required === true;
   const withDefault = (column.default && column.default !== '') || typeof column.default === 'number';
 

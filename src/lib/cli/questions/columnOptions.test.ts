@@ -1,8 +1,8 @@
 import {
   columnOptionsEvaluation,
   columnOptionsQuestions,
+  getColumnOptionsTypeAny,
   getColumnOptionsTypeNumber,
-  getColumnOptionsTypeSpecial,
   getColumnOptionsTypeString,
 } from './columnOptions';
 
@@ -253,27 +253,13 @@ describe('Check the columnOptions functions', () => {
     /**
      *
      */
-    test('it should be return choices when the getColumnOptionsTypeSpecial() is called with type "arrayType"', () => {
-      const column: dataColumnType = {
-        name: 'columnName',
-        type: 'arrayType',
-      };
-
-      const choices = getColumnOptionsTypeSpecial(column);
-
-      expect(choices).toEqual([]);
-    });
-
-    /**
-     *
-     */
-    test('it should be return choices when the getColumnOptionsTypeSpecial() is called with type "arrayType" and without options', () => {
+    test('it should be return choices when the getColumnOptionsTypeAny() is called with type "arrayType" and without options', () => {
       const column: dataColumnType = {
         name: 'columnName',
         type: 'string',
       };
 
-      const choices = getColumnOptionsTypeSpecial(column);
+      const choices = getColumnOptionsTypeAny(column);
 
       expect(choices).toEqual([
         { checked: false, name: 'required', short: 'required', value: 'required' },
@@ -284,7 +270,7 @@ describe('Check the columnOptions functions', () => {
     /**
      *
      */
-    test('it should be return choices when the getColumnOptionsTypeSpecial() is called with type "arrayType" and with options', () => {
+    test('it should be return choices when the getColumnOptionsTypeAny() is called with type "arrayType" and with options', () => {
       const column: dataColumnType = {
         name: 'columnName',
         type: 'string',
@@ -292,7 +278,7 @@ describe('Check the columnOptions functions', () => {
         default: 'example',
       };
 
-      const choices = getColumnOptionsTypeSpecial(column);
+      const choices = getColumnOptionsTypeAny(column);
 
       expect(choices).toEqual([
         { checked: true, name: 'required', short: 'required', value: 'required' },

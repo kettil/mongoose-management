@@ -3,11 +3,31 @@
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with maximum on settings (type "2dsphere") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": "defaultText",
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -15,11 +35,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with maximum on settings (type "array") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": "defaultText",
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -27,11 +67,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with maximum on settings (type "arrayType") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": "defaultText",
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -167,11 +227,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with maximum on settings (type "map") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": "defaultText",
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -270,11 +350,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with maximum on settings (type "object") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": "defaultText",
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -418,11 +518,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with minimum on settings (type "2dsphere") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -430,11 +550,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with minimum on settings (type "array") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -442,11 +582,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with minimum on settings (type "arrayType") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -582,11 +742,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with minimum on settings (type "map") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
@@ -685,11 +865,31 @@ Array [
 exports[`Check the columnOptions functions Check the columnOptionsQuestions() it should be return choices when the function is called with minimum on settings (type "object") 1`] = `
 Array [
   Object {
-    "choices": Array [],
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+    ],
     "message": "Choose the scheme options:",
     "name": "options",
     "type": "checkbox",
     "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or 'Hello World'):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
   },
 ]
 `;
