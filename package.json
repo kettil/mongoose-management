@@ -1,6 +1,6 @@
 {
   "name": "mongoose-management",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Mongoose schemas management tool",
   "bin": "build/index.js",
   "main": "build/index.js",
