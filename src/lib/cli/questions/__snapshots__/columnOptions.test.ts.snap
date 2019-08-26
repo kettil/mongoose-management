@@ -447,13 +447,13 @@ Array [
       },
       Object {
         "checked": true,
-        "name": "lowercase",
+        "name": "lowerCase",
         "short": "lowercase",
         "value": "lowercase",
       },
       Object {
         "checked": true,
-        "name": "uppercase",
+        "name": "upperCase",
         "short": "uppercase",
         "value": "uppercase",
       },
@@ -962,13 +962,13 @@ Array [
       },
       Object {
         "checked": false,
-        "name": "lowercase",
+        "name": "lowerCase",
         "short": "lowercase",
         "value": "lowercase",
       },
       Object {
         "checked": false,
-        "name": "uppercase",
+        "name": "upperCase",
         "short": "uppercase",
         "value": "uppercase",
       },

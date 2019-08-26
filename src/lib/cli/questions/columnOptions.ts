@@ -187,8 +187,8 @@ export const getColumnOptionsTypeString = (column: dataColumnType) => {
     { name: 'enum', short: 'enum', value: 'enum', checked: withEnum },
     { name: 'match (regexp)', short: 'match', value: 'match', checked: withMatch },
     { name: 'trim', short: 'trim', value: 'trim', checked: withTrim },
-    { name: 'lowercase', short: 'lowercase', value: 'lowercase', checked: withLowerCase },
-    { name: 'uppercase', short: 'uppercase', value: 'uppercase', checked: withUpperCase },
+    { name: 'lowerCase', short: 'lowercase', value: 'lowercase', checked: withLowerCase },
+    { name: 'upperCase', short: 'uppercase', value: 'uppercase', checked: withUpperCase },
     { name: 'minLength', short: 'minLength', value: 'minLength', checked: withMinLength },
     { name: 'maxLength', short: 'maxLength', value: 'maxLength', checked: withMaxLength },
   ];
