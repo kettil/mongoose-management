@@ -1,4 +1,4 @@
-# Mongoose Management Tool [BETA]
+# Mongoose Management Tool
 
 ## Table of Contents
 
