@@ -49,44 +49,25 @@ export default class CollectionAction extends AbstractAction<dataCollectionType>
 
   /**
    *
-   * @param items
+   * @param collections
    */
-  async remove(items: dataCollectionType[]): Promise<string[] | false> {
-    if (items.length === 0) {
+  async remove(collections: dataCollectionType[]): Promise<string[] | false> {
+    if (collections.length === 0) {
       return false;
     }
 
-    const choices: ReadonlyArray<any> = [
-      {
-        type: 'checkbox',
-        name: 'collections',
-        message: 'Which collections should be deleted?',
-        choices: items.map((c) => c.name),
-        // Show only if at least two collections have been passed.
-        when: items.length > 1,
-      },
-      {
-        type: 'confirm',
-        name: 'isConfirm',
-        message: 'Are the collection(s) really to be deleted?',
-        default: false,
+    const { collections: names, isConfirm } = await this.prompts.call<questions.collectionRemoveAnswersType>(
+      questions.collectionRemoveQuestions(collections),
+    );
 
-        // Show only if at least one collection is selected or only one collection is passed.
-        when: ({ collections: c }: { collections: string[] }) =>
-          (Array.isArray(c) && c.length > 0) || items.length === 1,
-      },
-    ];
-
-    const { collections, isConfirm } = await this.prompts.call<{ collections: string[]; isConfirm: boolean }>(choices);
-
-    if (items.length === 1 && isConfirm) {
+    if (isConfirm && collections.length === 1) {
       // single collection
-      return items.map((v) => v.name);
+      return collections.map((v) => v.name);
     }
 
-    if (Array.isArray(collections) && collections.length > 0 && isConfirm === true) {
+    if (isConfirm && Array.isArray(names) && names.length > 0) {
       // multiple collections
-      return collections;
+      return names;
     }
 
     return false;

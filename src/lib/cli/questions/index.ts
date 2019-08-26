@@ -1,4 +1,5 @@
 export * from './collectionMain';
+export * from './collectionRemove';
 export * from './columnIndex';
 export * from './columnMain';
 export * from './columnOptions';
