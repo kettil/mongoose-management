@@ -315,8 +315,8 @@ describe('Check the columnOptions functions', () => {
         { checked: false, name: 'enum', short: 'enum', value: 'enum' },
         { checked: false, name: 'match (regexp)', short: 'match', value: 'match' },
         { checked: false, name: 'trim', short: 'trim', value: 'trim' },
-        { checked: false, name: 'lowercase', short: 'lowercase', value: 'lowercase' },
-        { checked: false, name: 'uppercase', short: 'uppercase', value: 'uppercase' },
+        { checked: false, name: 'lowerCase', short: 'lowercase', value: 'lowercase' },
+        { checked: false, name: 'upperCase', short: 'uppercase', value: 'uppercase' },
         { checked: false, name: 'minLength', short: 'minLength', value: 'minLength' },
         { checked: false, name: 'maxLength', short: 'maxLength', value: 'maxLength' },
       ]);
@@ -344,8 +344,8 @@ describe('Check the columnOptions functions', () => {
         { checked: true, name: 'enum', short: 'enum', value: 'enum' },
         { checked: true, name: 'match (regexp)', short: 'match', value: 'match' },
         { checked: true, name: 'trim', short: 'trim', value: 'trim' },
-        { checked: true, name: 'lowercase', short: 'lowercase', value: 'lowercase' },
-        { checked: true, name: 'uppercase', short: 'uppercase', value: 'uppercase' },
+        { checked: true, name: 'lowerCase', short: 'lowercase', value: 'lowercase' },
+        { checked: true, name: 'upperCase', short: 'uppercase', value: 'uppercase' },
         { checked: true, name: 'minLength', short: 'minLength', value: 'minLength' },
         { checked: true, name: 'maxLength', short: 'maxLength', value: 'maxLength' },
       ]);
