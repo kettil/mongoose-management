@@ -6,6 +6,8 @@
 
 ### Fixes
 
+- Shows the columns note only on the main level of the column
+
 ### Chore & Maintenance
 
 - Add test cases

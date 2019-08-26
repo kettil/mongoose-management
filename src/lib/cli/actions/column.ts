@@ -83,8 +83,11 @@ export default class ColumnAction extends AbstractAction<dataColumnType, choiceV
     }
 
     extendChoices.push(new Separator(' '));
-    extendChoices.push(new Separator('Note: Columns "_id", "createdAt" and "updatedAt" are created automatically'));
-    extendChoices.push(new Separator(' '));
+
+    if (prefixName === '') {
+      extendChoices.push(new Separator('Note: Columns "_id", "createdAt" and "updatedAt" are created automatically'));
+      extendChoices.push(new Separator(' '));
+    }
 
     return extendChoices;
   }
