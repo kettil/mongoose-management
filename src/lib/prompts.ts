@@ -7,8 +7,6 @@ import { getBorderCharacters, TableUserConfig } from 'table';
 
 import { choiceValueType } from './types';
 
-registerPrompt('fuzzypath', inquirerFuzzyPath);
-
 export const regexpName = /^[a-z](?:[a-zA-Z0-9_-]*[a-zA-Z0-9])?$|^$/;
 export const regexpNameMessage = `Only letters, numbers and hyphens are allowed and the first character must be a small letter! (RegExp: ${regexpName.source})`;
 
@@ -37,7 +35,9 @@ export default class Prompts {
    *
    * @param clearScreen
    */
-  constructor(protected clearScreen: boolean = true) {}
+  constructor(protected clearScreen: boolean = true) {
+    registerPrompt('fuzzypath', inquirerFuzzyPath);
+  }
 
   /**
    *
