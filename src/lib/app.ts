@@ -5,22 +5,11 @@ import { Options, resolveConfig } from 'prettier';
 import args from './args';
 import Prompts from './prompts';
 import Storage from './storage';
-import { exists } from './template/helper';
-
-import Collection from './cli/sequences/collection';
-import Collections from './cli/sequences/collections';
-import Column from './cli/sequences/column';
-import Groups from './cli/sequences/groups';
-import Index from './cli/sequences/index';
-
-import CollectionAction from './cli/actions/collection';
-import ColumnAction from './cli/actions/column';
-import GroupAction from './cli/actions/group';
-import IndexAction from './cli/actions/index';
 
 import Create from './template/create';
+import { exists } from './template/helper';
 
-import { cliOptionsType } from './types';
+import GroupsLevel from './cli/level/groups';
 
 /**
  *
@@ -49,36 +38,12 @@ export const app = async () => {
 
   const prompts = new Prompts(!notClear);
   const storage = new Storage(pathProject, dataFilename, prompts, prettierOptions);
-  const data = await storage.load();
+  const groups = await storage.load();
 
-  const actionGroup = new GroupAction(prompts);
-  const actionCollection = new CollectionAction(prompts);
-  const actionIndex = new IndexAction(prompts);
-  const actionColumn = new ColumnAction(prompts, actionIndex);
+  const creater = new Create(prompts, pathProject, join(__dirname, 'template/templates'), prettierOptions);
 
-  const createTemplate = new Create(prompts, pathProject, join(__dirname, 'template/templates'), prettierOptions);
-
-  const opts: cliOptionsType = {
-    prompts,
-    storage,
-    Collections,
-    Collection,
-    Column,
-    Index,
-
-    actionGroup,
-    actionCollection,
-    actionColumn,
-    actionIndex,
-
-    createTemplate,
-
-    data,
-  };
-
-  const groups = new Groups(data.groups, data, opts);
-
-  await groups.exec();
+  const handler = new GroupsLevel(groups, { prompts, storage, creater });
+  await handler.exec();
 };
 
 /**

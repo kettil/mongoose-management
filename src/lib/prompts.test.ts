@@ -4,6 +4,7 @@ jest.spyOn(process, 'exit').mockImplementation();
 jest.spyOn(process.stdout, 'write').mockImplementation();
 
 jest.mock('inquirer');
+jest.mock('inquirer-fuzzy-path');
 jest.mock('ora');
 
 import chalk from 'chalk';
@@ -272,7 +273,7 @@ describe('Check the Prompts class', () => {
       async (expected, value) => {
         ((prompt as any) as jest.Mock).mockResolvedValueOnce({ remove: value });
 
-        const result = await prompts.remove();
+        const result = await prompts.remove('dataset name');
 
         expect(result).toBe(expected);
 
@@ -281,7 +282,7 @@ describe('Check the Prompts class', () => {
           {
             default: false,
             filter: expect.any(Function),
-            message: expect.any(String),
+            message: 'Really delete "dataset name"?',
             name: 'remove',
             pageSize: expect.any(Number),
             prefix: expect.any(String),
@@ -332,8 +333,9 @@ describe('Check the Prompts class', () => {
         },
       ]);
 
-      expect(console.log).toHaveBeenCalledTimes(1);
+      expect(console.log).toHaveBeenCalledTimes(2);
       expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.green('>>')} test message`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.green('>>')}`);
     });
 
     /**
@@ -356,9 +358,10 @@ describe('Check the Prompts class', () => {
         },
       ]);
 
-      expect(console.log).toHaveBeenCalledTimes(2);
+      expect(console.log).toHaveBeenCalledTimes(3);
       expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.green('>>')} test message 1`);
       expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.green('>>')} test message 2`);
+      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.green('>>')}`);
     });
 
     /**
@@ -381,10 +384,11 @@ describe('Check the Prompts class', () => {
         },
       ]);
 
-      expect(console.log).toHaveBeenCalledTimes(3);
+      expect(console.log).toHaveBeenCalledTimes(4);
       expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error!`);
       expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} test message 1`);
       expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} test message 2`);
+      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')}`);
     });
 
     /**
@@ -427,9 +431,9 @@ describe('Check the Prompts class', () => {
     test('it should be return the result when menu() is called', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({ value: 'p2' });
 
-      const result = await prompts.menu('questions', [
-        { name: 'point 1', short: 'point 1', value: 'p1' },
-        { name: 'point 2', short: 'point 2', value: 'p2' },
+      const result = await prompts.menu<string>('questions', [
+        { name: 'point 1', short: 'point 1', value: { action: 'create' } },
+        { name: 'point 2', short: 'point 2', value: { data: 'p2' } },
       ]);
 
       expect(result).toEqual('p2');
@@ -437,24 +441,16 @@ describe('Check the Prompts class', () => {
       expect(prompt).toHaveBeenCalledTimes(1);
       expect(prompt).toHaveBeenCalledWith([
         {
+          choices: [
+            { name: 'point 1', short: 'point 1', value: { action: 'create' } },
+            { name: 'point 2', short: 'point 2', value: { data: 'p2' } },
+          ],
           filter: expect.any(Function),
           message: 'questions',
           name: 'value',
-          pageSize: expect.any(Number),
-          prefix: expect.any(String),
+          pageSize: 75,
+          prefix: '🎃',
           type: 'list',
-          choices: [
-            {
-              name: 'point 1',
-              short: 'point 1',
-              value: 'p1',
-            },
-            {
-              name: 'point 2',
-              short: 'point 2',
-              value: 'p2',
-            },
-          ],
         },
       ]);
     });

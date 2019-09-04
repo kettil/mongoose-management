@@ -3,16 +3,6 @@ import { Separator } from 'inquirer';
 import Prompts from './prompts';
 import Storage from './storage';
 
-import Collection from './cli/sequences/collection';
-import Collections from './cli/sequences/collections';
-import Column from './cli/sequences/column';
-import Index from './cli/sequences/index';
-
-import CollectionAction from './cli/actions/collection';
-import ColumnAction from './cli/actions/column';
-import GroupAction from './cli/actions/group';
-import IndexAction from './cli/actions/index';
-
 import Create from './template/create';
 
 import * as mongoTypes from './mongo';
@@ -25,25 +15,10 @@ export type objType<K extends string | number | symbol = string, T = any> = Reco
 /**
  *
  */
-export type cliOptionsType = {
+export type levelOptionsType = {
   prompts: Prompts;
   storage: Storage;
-
-  // sequences
-  Collections: typeof Collections;
-  Collection: typeof Collection;
-  Column: typeof Column;
-  Index: typeof Index;
-
-  // actions
-  actionGroup: GroupAction;
-  actionCollection: CollectionAction;
-  actionColumn: ColumnAction;
-  actionIndex: IndexAction;
-
-  createTemplate: Create;
-
-  data: dataType;
+  creater: Create;
 };
 
 /**
@@ -93,12 +68,21 @@ export type dataCollectionType = {
 /**
  *
  */
+export type dataColumnInternalValuesType = {
+  subTypes?: schemaNormalType[];
+  subColumns?: dataColumnType[];
+  readonly?: boolean;
+};
+
+/**
+ *
+ */
 export type dataColumnType = {
   name: string;
   type: schemaType;
 
   required?: boolean;
-  default?: string;
+  default?: string | number;
 
   // string
   lowercase?: boolean;
@@ -112,20 +96,13 @@ export type dataColumnType = {
   // number
   min?: number;
   max?: number;
-
-  // internal values
-  subType?: dataColumnArrayType;
-  subColumns?: dataColumnType[];
-  showType?: string;
-  readonly?: boolean;
-};
+} & dataColumnInternalValuesType;
 
 /**
  *
  */
-export type dataColumnArrayType = {
-  type: schemaNormalType;
-  subType?: dataColumnArrayType;
+export type dataIndexInternalValuesType = {
+  readonly?: boolean;
 };
 
 /**
@@ -137,20 +114,8 @@ export type dataIndexType = {
   properties: {
     unique?: boolean;
     sparse?: boolean;
-    /*
-    expires?: number;
-    artialFilterExpression?: any;
-    collation?: {
-      locale: string;
-      strength: number;
-    };
-    */
   };
-  // internal values
-  readonly?: boolean;
-  mode?: schemaIndexType;
-  type?: dataIndexColumnValueType;
-};
+} & dataIndexInternalValuesType;
 
 /**
  *
@@ -168,12 +133,12 @@ export type dataIndexColumnValueType = 1 | -1 | 'text' | 'hashed' | '2dsphere';
 /**
  *
  */
-export type choicesType<R> = choiceType<R> | InstanceType<typeof Separator>;
+export type choicesType<T> = choiceType<T> | InstanceType<typeof Separator>;
 
 /**
  *
  */
-export type choiceType<R> = choiceListType<choiceValueType<R>>;
+export type choiceType<T> = choiceListType<choiceValueType<T>>;
 
 /**
  *
@@ -187,23 +152,10 @@ export type choiceListType<T> = {
 /**
  *
  */
-export type choiceValueType<R> = {
-  type?: 'create' | 'back' | 'exit' | 'save' | 'edit' | 'remove' | 'write';
-  value?: R;
+export type choiceValueType<T> = {
+  action?: 'create' | 'createColumn' | 'createIndex' | 'back' | 'exit' | 'save' | 'edit' | 'remove' | 'write';
+  data?: T;
 };
-
-/**
- *
- */
-export type choiceValueSubType =
-  | {
-      type: 'column';
-      data?: dataColumnType;
-    }
-  | {
-      type: 'index';
-      data?: dataIndexType;
-    };
 
 /**
  *

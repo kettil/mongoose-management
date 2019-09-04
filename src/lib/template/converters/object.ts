@@ -36,11 +36,15 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
    * @param funcs
    */
   switchers(columns: dataColumnType[], funcs: keyof AbstractConverter<any>) {
-    const items = columns.map<[string, string]>((column) => [column.name, this.switcher(column, funcs).trim()]);
+    const items = columns.map<[string, string, string]>((column) => [
+      column.name,
+      this.switcher(column, funcs).trim(),
+      funcs === 'columnToTypes' && !column.required ? '?' : '',
+    ]);
 
     return `{ ${items
       .filter((v) => v[1] !== '')
-      .map(([k, v]) => `'${k}': ${v}`)
+      .map(([k, v, r]) => `'${k}'${r}: ${v}`)
       .join(', ')} }`;
   }
 
@@ -53,19 +57,16 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
     switch (column.type) {
       case '2dsphere':
         return this.converter.converter2dSphere[funcs]();
-        break;
 
       case 'arrayType':
-        if (!column.subType) {
+        if (!column.subTypes) {
           throw new Error('SubType is not defined!');
         }
 
-        return this.converter.converterArrayType[funcs]({ type: column.type, subType: column.subType });
-        break;
+        return this.converter.converterArrayType[funcs](column.subTypes);
 
       case 'array':
         return this.converter.converterArray[funcs](column);
-        break;
 
       case 'object':
         if (!column.subColumns) {
@@ -73,7 +74,6 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
         }
 
         return this.converter.converterObject[funcs](column.subColumns);
-        break;
 
       default:
         return this.converter.converterCommon[funcs](column);

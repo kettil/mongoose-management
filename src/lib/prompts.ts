@@ -1,11 +1,11 @@
 /* tslint:disable:no-console */
 import chalk from 'chalk';
-import { DistinctQuestion, prompt, registerPrompt, Separator } from 'inquirer';
+import { DistinctQuestion, prompt, registerPrompt } from 'inquirer';
 import inquirerFuzzyPath from 'inquirer-fuzzy-path';
 import ora from 'ora';
 import { getBorderCharacters, TableUserConfig } from 'table';
 
-import { choiceValueType } from './types';
+import { choicesType, choiceValueType } from './types';
 
 export const regexpName = /^[a-z](?:[a-zA-Z0-9_-]*[a-zA-Z0-9])?$|^$/;
 export const regexpNameMessage = `Only letters, numbers and hyphens are allowed and the first character must be a small letter! (RegExp: ${regexpName.source})`;
@@ -97,12 +97,12 @@ export default class Prompts {
   /**
    *
    */
-  async remove(): Promise<boolean> {
+  async remove(name: string): Promise<boolean> {
     const { remove } = await this.call<{ remove: boolean }>([
       {
         type: 'confirm',
         name: 'remove',
-        message: 'Really delete it?',
+        message: `Really delete "${name}"?`,
         default: false,
       },
     ]);
@@ -121,11 +121,14 @@ export default class Prompts {
       if (isError) {
         console.log(`${prefix} Error!`);
       }
+
       if (Array.isArray(messages)) {
         messages.forEach((message) => console.log(`${prefix} ${message}`));
       } else {
         console.log(`${prefix} ${messages}`);
       }
+
+      console.log(prefix);
     }
 
     await this.call([
@@ -152,7 +155,7 @@ export default class Prompts {
    * @param message
    * @param choices
    */
-  async menu<T, R>(message: string, choices: Array<T | InstanceType<typeof Separator>>): Promise<choiceValueType<R>> {
+  async menu<T>(message: string, choices: Array<choicesType<T>>): Promise<choiceValueType<T>> {
     const { value } = await prompt([
       {
         ...this.options,

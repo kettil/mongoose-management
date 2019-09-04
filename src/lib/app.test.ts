@@ -2,22 +2,15 @@ jest.mock('path');
 
 jest.mock('prettier');
 
-jest.mock('./args', () => ({ __esModule: true, default: jest.fn() }));
-jest.mock('./storage');
+jest.mock('./args', () => jest.fn());
 jest.mock('./prompts');
-
-jest.mock('./cli/sequences/collection');
-jest.mock('./cli/sequences/collections');
-jest.mock('./cli/sequences/column');
-jest.mock('./cli/sequences/groups');
-jest.mock('./cli/sequences/index');
-jest.mock('./cli/actions/collection');
-jest.mock('./cli/actions/column');
-jest.mock('./cli/actions/group');
-jest.mock('./cli/actions/index');
+jest.mock('./storage');
 
 jest.mock('./template/create');
 jest.mock('./template/helper');
+
+jest.mock('./cli/dataset/groups');
+jest.mock('./cli/level/groups');
 
 import { join, resolve } from 'path';
 
@@ -27,19 +20,11 @@ import args from './args';
 import Prompts from './prompts';
 import Storage from './storage';
 
-import Collection from './cli/sequences/collection';
-import Collections from './cli/sequences/collections';
-import Column from './cli/sequences/column';
-import Groups from './cli/sequences/groups';
-import Index from './cli/sequences/index';
-
-import CollectionAction from './cli/actions/collection';
-import ColumnAction from './cli/actions/column';
-import GroupAction from './cli/actions/group';
-import IndexAction from './cli/actions/index';
-
-import Create from './template/create';
+import Creater from './template/create';
 import { exists } from './template/helper';
+
+import GroupsDataset from './cli/dataset/groups';
+import GroupsLevel from './cli/level/groups';
 
 import app from './app';
 
@@ -51,7 +36,7 @@ describe('Check the app() function', () => {
    *
    */
   test('it should be faultless when app() is called with default vaules', async () => {
-    const data = { groups: [{ path: 'path/to/group', collections: [] }] };
+    const groupsDataset = new (GroupsDataset as any)();
     const prettier = {
       arrowParens: 'always',
       bracketSpacing: true,
@@ -71,7 +56,7 @@ describe('Check the app() function', () => {
     (resolve as jest.Mock).mockReturnValue('/path/to/root');
     ((resolveConfig as any) as jest.Mock).mockResolvedValue({ parser: 'cli' });
 
-    (Storage.prototype.load as jest.Mock).mockReturnValue(data);
+    (Storage.prototype.load as jest.Mock).mockResolvedValue(groupsDataset);
 
     await app();
 
@@ -90,48 +75,28 @@ describe('Check the app() function', () => {
     expect(Storage).toHaveBeenCalledTimes(1);
     expect(Storage).toHaveBeenCalledWith('/path/to/root', undefined, expect.any(Prompts), prettier);
     expect(Storage.prototype.load).toHaveBeenCalledTimes(1);
-    expect(GroupAction).toHaveBeenCalledTimes(1);
-    expect(GroupAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(CollectionAction).toHaveBeenCalledTimes(1);
-    expect(CollectionAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(IndexAction).toHaveBeenCalledTimes(1);
-    expect(IndexAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(ColumnAction).toHaveBeenCalledTimes(1);
-    expect(ColumnAction).toHaveBeenCalledWith(expect.any(Prompts), expect.any(IndexAction));
-    expect(Create).toHaveBeenCalledTimes(1);
-    expect(Create).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
+    expect(Creater).toHaveBeenCalledTimes(1);
+    expect(Creater).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
 
-    expect(Groups).toHaveBeenCalledTimes(1);
-    expect(Groups).toHaveBeenCalledWith(data.groups, data, {
-      prompts: expect.any(Prompts),
-      storage: expect.any(Storage),
-      Collections,
-      Collection,
-      Column,
-      Index,
-
-      actionGroup: expect.any(GroupAction),
-      actionCollection: expect.any(CollectionAction),
-      actionColumn: expect.any(ColumnAction),
-      actionIndex: expect.any(IndexAction),
-
-      createTemplate: expect.any(Create),
-
-      data,
+    expect(GroupsLevel).toHaveBeenCalledTimes(1);
+    expect(GroupsLevel).toHaveBeenCalledWith(groupsDataset, {
+      prompts: (Prompts as jest.Mock).mock.instances[0],
+      storage: (Storage as jest.Mock).mock.instances[0],
+      creater: (Creater as jest.Mock).mock.instances[0],
     });
-    expect(Groups.prototype.exec).toHaveBeenCalledTimes(1);
+    expect(GroupsLevel.prototype.exec).toHaveBeenCalledTimes(1);
   });
 
   /**
    *
    */
   test('it should be faultless when app() is called', async () => {
-    const data = { groups: [{ path: 'path/to/group', collections: [] }] };
+    const groupsDataset = new (GroupsDataset as any)();
     const prettier = {
       arrowParens: 'always',
       bracketSpacing: true,
       jsxBracketSameLine: false,
-      parser: 'cli2',
+      parser: 'cli',
       printWidth: 120,
       semi: true,
       singleQuote: true,
@@ -144,9 +109,9 @@ describe('Check the app() function', () => {
 
     (join as jest.Mock).mockReturnValue('/path/to/templates');
     (resolve as jest.Mock).mockReturnValue('/path/to/root');
-    ((resolveConfig as any) as jest.Mock).mockResolvedValue({ parser: 'cli2' });
+    ((resolveConfig as any) as jest.Mock).mockResolvedValue({ parser: 'cli' });
 
-    (Storage.prototype.load as jest.Mock).mockReturnValue(data);
+    (Storage.prototype.load as jest.Mock).mockReturnValue(groupsDataset);
 
     await app();
 
@@ -165,35 +130,15 @@ describe('Check the app() function', () => {
     expect(Storage).toHaveBeenCalledTimes(1);
     expect(Storage).toHaveBeenCalledWith('/path/to/root', './schema.json', expect.any(Prompts), prettier);
     expect(Storage.prototype.load).toHaveBeenCalledTimes(1);
-    expect(GroupAction).toHaveBeenCalledTimes(1);
-    expect(GroupAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(CollectionAction).toHaveBeenCalledTimes(1);
-    expect(CollectionAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(IndexAction).toHaveBeenCalledTimes(1);
-    expect(IndexAction).toHaveBeenCalledWith(expect.any(Prompts));
-    expect(ColumnAction).toHaveBeenCalledTimes(1);
-    expect(ColumnAction).toHaveBeenCalledWith(expect.any(Prompts), expect.any(IndexAction));
-    expect(Create).toHaveBeenCalledTimes(1);
-    expect(Create).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
+    expect(Creater).toHaveBeenCalledTimes(1);
+    expect(Creater).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
 
-    expect(Groups).toHaveBeenCalledTimes(1);
-    expect(Groups).toHaveBeenCalledWith(data.groups, data, {
-      prompts: expect.any(Prompts),
-      storage: expect.any(Storage),
-      Collections,
-      Collection,
-      Column,
-      Index,
-
-      actionGroup: expect.any(GroupAction),
-      actionCollection: expect.any(CollectionAction),
-      actionColumn: expect.any(ColumnAction),
-      actionIndex: expect.any(IndexAction),
-
-      createTemplate: expect.any(Create),
-
-      data,
+    expect(GroupsLevel).toHaveBeenCalledTimes(1);
+    expect(GroupsLevel).toHaveBeenCalledWith(groupsDataset, {
+      prompts: (Prompts as jest.Mock).mock.instances[0],
+      storage: (Storage as jest.Mock).mock.instances[0],
+      creater: (Creater as jest.Mock).mock.instances[0],
     });
-    expect(Groups.prototype.exec).toHaveBeenCalledTimes(1);
+    expect(GroupsLevel.prototype.exec).toHaveBeenCalledTimes(1);
   });
 });

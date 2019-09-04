@@ -57,7 +57,9 @@ export default class Converter {
    */
   convertIndex(index: dataIndexType): string {
     const fields = Object.entries(index.columns).map(this.convertIndexField);
-    const options = Object.entries(index.properties).map(this.convertIndexOption);
+    const options = Object.entries(index.properties)
+      .map(this.convertIndexOption)
+      .filter(Boolean);
 
     return `{ fields: { ${fields.join(', ')} }, options: { name: '${index.name}', ${options.join(', ')} } }`;
   }
@@ -78,10 +80,10 @@ export default class Converter {
    *
    * @param param0
    */
-  convertIndexOption([key, value]: [string, any]): string {
+  convertIndexOption([key, value]: [string, any]): string | undefined {
     switch (true) {
       case typeof value === 'undefined' || typeof value === 'boolean':
-        return `'${key}': ${value === true ? 'true' : 'false'}`;
+        return value === true ? `'${key}': true` : undefined;
         break;
 
       default:

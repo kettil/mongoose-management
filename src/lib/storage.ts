@@ -1,12 +1,13 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 
 import { format, Options } from 'prettier';
 
-import Prompts from './prompts';
+import GroupsDataset from './cli/dataset/groups';
+import converter from './converter';
 
-import { dataType } from './types';
+import Prompts from './prompts';
 
 const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
@@ -17,9 +18,7 @@ const readFile = promisify(fs.readFile);
 export default class Storage {
   protected path = './schemas-mongodb.json';
 
-  protected data: dataType = {
-    groups: [],
-  };
+  protected data: GroupsDataset;
 
   /**
    *
@@ -29,31 +28,38 @@ export default class Storage {
    * @param prettier
    */
   constructor(
-    pathProject: string,
+    protected pathProject: string,
     pathData: string | undefined,
     protected prompts: Prompts,
     protected prettier: Options,
   ) {
     this.path = join(pathData || join(pathProject, this.path));
+
+    this.data = new GroupsDataset({ groups: [] }, pathProject);
   }
 
   /**
    *
    */
-  async load(): Promise<dataType> {
+  async load(): Promise<GroupsDataset> {
     const spinner = this.prompts.getSpinner();
 
     spinner.start('Database schemata are loaded!');
-    try {
-      const data = await readFile(this.path, { encoding: 'utf8' });
 
-      this.data = JSON.parse(data);
+    try {
+      const json = await readFile(this.path, { encoding: 'utf8' });
+      const data = JSON.parse(json);
+
+      converter(data);
+
+      this.data = new GroupsDataset(data, this.pathProject);
     } catch (err) {
       if (err.code !== 'ENOENT') {
         spinner.fail();
         throw err;
       }
     }
+
     spinner.succeed();
 
     return this.data;
@@ -67,9 +73,10 @@ export default class Storage {
 
     spinner.start('Database schemata are saved!');
     try {
-      const json = JSON.stringify(this.data);
+      const json = JSON.stringify(this.data.getObject());
+      const pretty = format(json, { ...this.prettier, parser: 'json' });
 
-      await writeFile(this.path, format(json, { ...this.prettier, parser: 'json' }), { encoding: 'utf8' });
+      await writeFile(this.path, pretty, { encoding: 'utf8' });
     } catch (err) {
       spinner.fail();
       throw err;
