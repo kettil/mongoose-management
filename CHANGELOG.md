@@ -1,20 +1,25 @@
 # Changelog
 
-## master
+## [master]
 
 ### Features
 
+- Columns that are not required are marked as optional in the typing.
+
 ### Fixes
 
-- Shows the columns note only on the main level of the column
+- Shows the columns note only on the main level of the column.
+- For projects with custom paths, the custom path was not used when creating a new group.
 
 ### Chore & Maintenance
 
-- Add test cases
+- Name schema of column indexes changed (e.g. `columnName-unique_` to `columnName_`).
+- Internal structure of array of one type (e.g. `[Date]`) changed, from `{ type: 'arrayType', subType: { type: 'date' } }` to `['arrayType', 'date']`.
+- Add test cases.
 
 ### Performance
 
-## 0.1.2
+## [0.1.2] - 2019-08-25
 
 ### Fixes
 

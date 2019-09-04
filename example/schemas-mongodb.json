@@ -1,0 +1,70 @@
+{
+  "groups": [
+    {
+      "path": "src/odm",
+      "collections": [
+        {
+          "name": "logs",
+          "columns": [
+            { "name": "message", "type": "string", "required": true },
+            { "name": "tags", "type": "arrayType", "subTypes": ["string"] },
+            { "name": "user", "type": "objectId", "required": true }
+          ],
+          "indexes": []
+        },
+        {
+          "name": "pages",
+          "columns": [
+            {
+              "name": "content",
+              "type": "array",
+              "subColumns": [
+                { "name": "createdAt", "type": "date", "required": true },
+                { "name": "deletedAt", "type": "date" },
+                { "name": "locale", "type": "string", "required": true },
+                { "name": "message", "type": "string", "required": true },
+                { "name": "subject", "type": "string", "required": true },
+                {
+                  "name": "updatedAt",
+                  "type": "array",
+                  "subColumns": [
+                    { "name": "date", "type": "date", "required": true },
+                    { "name": "user", "type": "objectId", "required": true }
+                  ]
+                }
+              ]
+            },
+            { "name": "tags", "type": "arrayType", "subTypes": ["string"] },
+            { "name": "user", "type": "objectId", "required": true }
+          ],
+          "indexes": []
+        },
+        {
+          "name": "users",
+          "columns": [
+            { "name": "email", "type": "string", "required": true },
+            { "name": "password", "type": "string", "required": true }
+          ],
+          "indexes": [
+            { "name": "email_", "columns": { "email": 1 }, "properties": { "unique": true }, "readonly": true }
+          ]
+        },
+        {
+          "name": "users_settings",
+          "columns": [
+            { "name": "key", "type": "string", "required": true },
+            { "name": "user", "type": "objectId", "required": true },
+            { "name": "value", "type": "mixed", "required": true }
+          ],
+          "indexes": [
+            {
+              "name": "unique",
+              "columns": { "key": 1, "user": 1, "value": 1 },
+              "properties": { "unique": true, "sparse": true }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
