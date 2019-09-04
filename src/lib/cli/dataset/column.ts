@@ -1,7 +1,14 @@
 import AbstractColumnsDataset from './abstractColumn';
 import CollectionDataset from './collection';
+import IndexDataset from './index';
 
-import { dataColumnInternalValuesType, dataColumnType, schemaNormalType } from '../../types';
+import {
+  dataColumnInternalValuesType,
+  dataColumnType,
+  dataIndexColumnValueType,
+  dataIndexType,
+  schemaNormalType,
+} from '../../types';
 
 /**
  *
@@ -15,6 +22,8 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   protected data: dataColumnType;
   protected columns: ColumnDataset[];
   protected subTypes: schemaNormalType[];
+
+  protected index?: IndexDataset;
 
   /**
    *
@@ -31,6 +40,8 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     this.data = column;
     this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, collection)) : [];
     this.subTypes = column.subTypes ? column.subTypes : [];
+
+    this.setIndex(collection.getIndex(this.getIndexName()));
   }
 
   /**
@@ -44,8 +55,17 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
    *
    */
   setName(name: string) {
+    const oldName = this.getFullname(false, false);
+
     this.data.name = name;
     this.getParent().sortColumns();
+    this.refreshIndex();
+
+    // update all indexes
+    this.collection
+      .getIndexes()
+      .filter((i) => !i.isReadonly()) // ignore column indexes
+      .forEach((i) => i.updateColumnName(oldName, this.getFullname(false, false)));
   }
 
   /**
@@ -160,9 +180,54 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
    *
    */
   getIndex() {
-    const index = this.collection.getIndex(this.getIndexName());
+    return this.index;
+  }
 
-    return index && index.isReadonly() ? index : undefined;
+  /**
+   *
+   * @param index
+   */
+  setIndex(index?: IndexDataset) {
+    if (index === undefined) {
+      // remove the index
+      this.index = undefined;
+    } else {
+      // set the index
+      const cName = this.getIndexName();
+      const iName = index.getName();
+
+      if (cName !== iName) {
+        throw new Error(`The index is not named like the column (${cName} !== ${iName})`);
+      }
+
+      this.index = index;
+    }
+  }
+
+  /**
+   *
+   */
+  getIndexColumn(value: dataIndexColumnValueType): dataIndexType['columns'] {
+    return { [this.getFullname(false, false)]: value };
+  }
+
+  /**
+   *
+   */
+  refreshIndex() {
+    if (this.index) {
+      const value = this.index.getColumnValue();
+
+      if (!value) {
+        throw new Error('The column has a index but the index value is not defined');
+      }
+
+      this.index.setName(this.getIndexName());
+      this.index.setColumns(this.getIndexColumn(value));
+    }
+
+    // Updates the subcolumns
+    this.getColumns().forEach((c) => c.refreshIndex());
   }
 
   /**

@@ -33,7 +33,7 @@ export const call = async (
     }
   });
 
-  return answersColumns;
+  return normalizeAnwsers(answersColumns);
 };
 
 /**
@@ -66,6 +66,29 @@ export const evaluation = (answers: answersType) => {
 
     return index;
   };
+};
+
+/**
+ *
+ * @param answers
+ * @param names
+ */
+export const normalizeAnwsers = (
+  answers: answersType | { [K: string]: answersType },
+  names: string[] = [],
+): answersType => {
+  let data: answersType = {};
+
+  Object.keys(answers).forEach((key) => {
+    const value = answers[key];
+    if (typeof value === 'object') {
+      data = { ...data, ...normalizeAnwsers(value, [...names, key]) };
+    } else {
+      data[[...names, key].join('.')] = value;
+    }
+  });
+
+  return data;
 };
 
 /**

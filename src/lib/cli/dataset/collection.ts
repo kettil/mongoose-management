@@ -16,8 +16,8 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   constructor(collection: dataCollectionType, parent: GroupDataset) {
     super(parent);
 
-    this.columns = collection.columns.map((c) => new ColumnDataset(c, this, this));
     this.indexes = collection.indexes.map((i) => new IndexDataset(i, this));
+    this.columns = collection.columns.map((c) => new ColumnDataset(c, this, this));
     this.name = collection.name;
   }
 

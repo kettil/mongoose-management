@@ -7,7 +7,7 @@ import IndexDataset from '../dataset/index';
 
 import * as main from './columnMain';
 
-import { choiceListType, dataIndexColumnValueType, dataIndexType, schemaIndexType } from '../../types';
+import { choiceListType, dataIndexColumnValueType, schemaIndexType } from '../../types';
 
 const specialTypeKeys = Object.keys(schemaTypesSpecial);
 
@@ -90,20 +90,24 @@ export const evaluation = (answers: answersType, collection: CollectionDataset) 
 
     if (answers.type === 'no' || typeof answers.value === 'undefined') {
       if (index) {
+        column.setIndex();
         index.remove();
       }
 
       return column;
     }
 
-    const name = column.getIndexName();
-    const columns: dataIndexType['columns'] = { [column.getFullname(false, false)]: answers.value };
-
     if (!index) {
-      index = collection.addIndex(new IndexDataset({ name, columns, properties: {}, readonly: true }, collection));
-    } else {
-      index.setName(name);
-      index.setColumns(columns);
+      const data = {
+        name: column.getIndexName(),
+        columns: column.getIndexColumn(answers.value),
+        properties: {},
+        readonly: true,
+      };
+
+      index = collection.addIndex(new IndexDataset(data, collection));
+
+      column.setIndex(index);
     }
 
     index.setProperty('unique', answers.type === 'unique');

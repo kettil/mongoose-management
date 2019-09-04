@@ -61,6 +61,21 @@ export default class IndexDataset extends AbstractDataset<CollectionDataset> {
 
   /**
    *
+   * @param oldName
+   * @param newName
+   */
+  updateColumnName(oldName: string, newName: string) {
+    Object.keys(this.columns).forEach((name) => {
+      if (name.indexOf(oldName) === 0) {
+        this.columns[newName + name.substr(oldName.length)] = this.columns[name];
+
+        delete this.columns[name];
+      }
+    });
+  }
+
+  /**
+   *
    * @param key
    */
   getProperty<K extends keyof dataIndexType['properties']>(key: K): dataIndexType['properties'][K] {

@@ -10,6 +10,8 @@
 
 - Shows the columns note only on the main level of the column.
 - For projects with custom paths, the custom path was not used when creating a new group.
+- When column names are changed, the indexes column data are now updated.
+- When creating an index with subcolumns, these were added incorrectly to the schema structure.
 
 ### Chore & Maintenance
 
