@@ -16,8 +16,6 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   protected columns: ColumnDataset[];
   protected subTypes: schemaNormalType[];
 
-  protected readonly: boolean;
-
   /**
    *
    * @param column
@@ -31,9 +29,40 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     super(parent);
 
     this.data = column;
-    this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, this.collection)) : [];
-    this.readonly = column.readonly === true;
+    this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, collection)) : [];
     this.subTypes = column.subTypes ? column.subTypes : [];
+  }
+
+  /**
+   *
+   */
+  getName(withBrackets = false) {
+    return withBrackets && this.get('type') === 'array' ? `${this.data.name}[]` : this.data.name;
+  }
+
+  /**
+   *
+   */
+  setName(name: string) {
+    this.data.name = name;
+    this.getParent().sortColumns();
+  }
+
+  /**
+   *
+   * @param withArrayBrackets
+   * @param withoutBrackets
+   */
+  getFullname(withBracketsForThisColumn = false, withBrackets = true) {
+    const name: string[] = [];
+
+    if (this.parent instanceof ColumnDataset) {
+      name.push(this.parent.getFullname(true, withBrackets));
+    }
+
+    name.push(this.getName(withBracketsForThisColumn && withBrackets));
+
+    return name.join('.');
   }
 
   /**
@@ -68,43 +97,11 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
         return true;
 
       case 'string':
-        return value === '' ? withEmptyString : false;
+        return value === '' ? withEmptyString : true;
 
       default:
         return false;
     }
-  }
-
-  /**
-   *
-   */
-  getName(withBrackets = false) {
-    return withBrackets && this.get('type') === 'array' ? `${this.data.name}[]` : this.data.name;
-  }
-
-  /**
-   *
-   */
-  setName(name: string) {
-    this.data.name = name;
-    this.getParent().sortColumns();
-  }
-
-  /**
-   *
-   * @param withArrayBrackets
-   * @param withoutBrackets
-   */
-  getFullname(withBracketsForThisColumn = false, withBrackets = true) {
-    const name: string[] = [];
-
-    if (this.parent instanceof ColumnDataset) {
-      name.push(this.parent.getFullname(true, withBrackets));
-    }
-
-    name.push(this.getName(withBracketsForThisColumn && withBrackets));
-
-    return name.join('.');
   }
 
   /**
@@ -155,17 +152,17 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   /**
    *
    */
-  getIndex() {
-    const index = this.collection.getIndex(this.getIndexName());
-
-    return index && index.isReadonly() ? index : undefined;
+  getIndexName() {
+    return this.getFullname(false, false) + '_';
   }
 
   /**
    *
    */
-  getIndexName() {
-    return this.getFullname(false, false) + '_';
+  getIndex() {
+    const index = this.collection.getIndex(this.getIndexName());
+
+    return index && index.isReadonly() ? index : undefined;
   }
 
   /**
@@ -185,24 +182,13 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   /**
    *
    */
-  isReadonly(): boolean {
-    return this.readonly;
-  }
-
-  /**
-   *
-   */
   remove() {
     const index = this.getIndex();
     if (index) {
       index.remove();
     }
 
-    if (this.parent) {
-      this.parent.removeColumn(this);
-    } else {
-      this.collection.removeColumn(this);
-    }
+    this.parent.removeColumn(this);
   }
 
   /**

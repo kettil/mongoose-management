@@ -90,7 +90,6 @@ export type dataColumnType = {
 export type dataColumnInternalValuesType = {
   subTypes?: schemaNormalType[];
   subColumns?: dataColumnType[];
-  readonly?: boolean;
 };
 
 /**
