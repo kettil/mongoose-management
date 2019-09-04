@@ -34,11 +34,6 @@ export type schemaNormalType = keyof typeof mongoTypes.schemaTypesNormal;
 /**
  *
  */
-export type schemaSpecialType = keyof typeof mongoTypes.schemaTypesSpecial;
-
-/**
- *
- */
 export type schemaIndexType = keyof typeof mongoTypes.schemaIndexTypes;
 
 /**
@@ -68,15 +63,6 @@ export type dataCollectionType = {
 /**
  *
  */
-export type dataColumnInternalValuesType = {
-  subTypes?: schemaNormalType[];
-  subColumns?: dataColumnType[];
-  readonly?: boolean;
-};
-
-/**
- *
- */
 export type dataColumnType = {
   name: string;
   type: schemaType;
@@ -101,7 +87,9 @@ export type dataColumnType = {
 /**
  *
  */
-export type dataIndexInternalValuesType = {
+export type dataColumnInternalValuesType = {
+  subTypes?: schemaNormalType[];
+  subColumns?: dataColumnType[];
   readonly?: boolean;
 };
 
@@ -120,9 +108,8 @@ export type dataIndexType = {
 /**
  *
  */
-export type dataColumnGroupType = {
-  parent?: dataColumnGroupType;
-  column: dataColumnType;
+export type dataIndexInternalValuesType = {
+  readonly?: boolean;
 };
 
 /**
