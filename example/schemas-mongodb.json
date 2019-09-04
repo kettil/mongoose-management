@@ -37,7 +37,9 @@
             { "name": "tags", "type": "arrayType", "subTypes": ["string"] },
             { "name": "user", "type": "objectId", "required": true }
           ],
-          "indexes": []
+          "indexes": [
+            { "name": "content.locale_", "columns": { "content.locale": 1 }, "properties": {}, "readonly": true }
+          ]
         },
         {
           "name": "users",

@@ -51,4 +51,4 @@ export const pagesDefinitions = {
 /**
  *
  */
-export const pagesIndexes: indexType[] = [];
+export const pagesIndexes: indexType[] = [{ fields: { 'content.locale': 1 }, options: { name: 'content.locale_' } }];
