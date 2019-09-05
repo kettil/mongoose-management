@@ -1,8 +1,8 @@
+import AbstractDataset from './abstract';
 import CollectionDataset from './collection';
 import GroupsDataset from './groups';
 
 import { dataGroupType } from '../../types';
-import AbstractDataset from './abstract';
 
 /**
  *
