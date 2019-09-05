@@ -186,8 +186,8 @@ describe('Check the GroupDataset class', () => {
   test('it should be remove this group when remove() is called', () => {
     dataset.remove();
 
-    expect(parent.removeCollection).toHaveBeenCalledTimes(1);
-    expect(parent.removeCollection).toHaveBeenCalledWith(dataset);
+    expect(parent.removeGroup).toHaveBeenCalledTimes(1);
+    expect(parent.removeGroup).toHaveBeenCalledWith(dataset);
   });
 
   /**

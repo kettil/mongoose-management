@@ -1,7 +1,7 @@
+import AbstractDataset from './abstract';
 import GroupDataset from './group';
 
 import { dataType } from '../../types';
-import AbstractDataset from './abstract';
 
 /**
  *
@@ -52,7 +52,7 @@ export default class GroupsDataset extends AbstractDataset<undefined> {
    *
    * @param group
    */
-  removeCollection(group: GroupDataset) {
+  removeGroup(group: GroupDataset) {
     this.groups = this.groups.filter((g) => g !== group);
   }
 
@@ -90,7 +90,14 @@ export default class GroupsDataset extends AbstractDataset<undefined> {
    *
    */
   remove() {
-    throw new Error('Groups can not be removed!');
+    throw new Error('Groups can not be removed');
+  }
+
+  /**
+   *
+   */
+  getPathProject() {
+    return this.pathProject;
   }
 
   /**
@@ -100,12 +107,5 @@ export default class GroupsDataset extends AbstractDataset<undefined> {
     return {
       groups: this.groups.map((g) => g.getObject()),
     };
-  }
-
-  /**
-   *
-   */
-  getPathProject() {
-    return this.pathProject;
   }
 }

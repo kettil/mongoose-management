@@ -109,7 +109,7 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
    *
    */
   remove() {
-    this.parent.removeCollection(this);
+    this.parent.removeGroup(this);
   }
 
   /**
