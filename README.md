@@ -30,7 +30,7 @@ In your project folder you start the application and follow the menu items.
 mongoose-management
 ```
 
-The [example folder](./exmaple) contains an example project. With the following command the `mongoose-management` can be started in the context of the example project.
+The [example folder](./example) contains an example project. With the following command the `mongoose-management` can be started in the context of the example project.
 
 ```bash
 mongoose-management -p path/to/example/folder
