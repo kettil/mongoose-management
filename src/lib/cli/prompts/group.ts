@@ -9,9 +9,8 @@ import * as main from './groupMain';
  *
  * @param prompts
  * @param groups
- * @param group
  */
-export const execute = async (prompts: Prompts, groups: GroupsDataset, group?: GroupDataset) => {
+export const execute = async (prompts: Prompts, groups: GroupsDataset) => {
   const answersMain = await main.call(prompts, groups);
 
   return mergeEvaluation<GroupDataset>(main.evaluation(answersMain, groups));
