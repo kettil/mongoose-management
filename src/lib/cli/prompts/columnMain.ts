@@ -15,15 +15,15 @@ export type answersType = { name: string; type: schemaType };
 /**
  *
  * @param prompts
- * @param columns
+ * @param parent
  * @param column
  */
 export const call = async (
   prompts: Prompts,
-  collection: CollectionDataset | ColumnDataset,
+  parent: CollectionDataset | ColumnDataset,
   column?: ColumnDataset,
 ): Promise<answersType> => {
-  const questions = getQuestions(collection, column);
+  const questions = getQuestions(parent, column);
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '') {
@@ -35,15 +35,12 @@ export const call = async (
 
 /**
  *
- * @param collection
+ * @param parent
  * @param column
  */
-export const getQuestions = (
-  collection: CollectionDataset | ColumnDataset,
-  column?: ColumnDataset,
-): ReadonlyArray<any> => {
-  const reservedColumnNames = collection instanceof CollectionDataset ? blacklist.map((v) => v.toLowerCase()) : [];
-  const existedColumnName = collection.getColumns().map((d) => d.getName().toLowerCase());
+export const getQuestions = (parent: CollectionDataset | ColumnDataset, column?: ColumnDataset): ReadonlyArray<any> => {
+  const reservedColumnNames = parent instanceof CollectionDataset ? blacklist.map((v) => v.toLowerCase()) : [];
+  const existedColumnName = parent.getColumns().map((d) => d.getName().toLowerCase());
 
   const nameValue = column ? column.getName() : undefined;
 
@@ -61,24 +58,7 @@ export const getQuestions = (
       message: 'Column name:',
       default: nameValue,
 
-      validate: (value: string) => {
-        const name = value.trim();
-        const lower = name.toLowerCase();
-
-        if (reservedColumnNames.indexOf(lower) >= 0) {
-          return 'This column is created automatically!';
-        }
-
-        if (existedColumnName.indexOf(lower) >= 0 && name !== nameValue) {
-          return `A column with the name already exists!`;
-        }
-
-        if (!regexpName.test(name)) {
-          return regexpNameMessage;
-        }
-
-        return true;
-      },
+      validate: validateName(reservedColumnNames, existedColumnName, nameValue),
     },
     {
       type: 'list',
@@ -87,7 +67,7 @@ export const getQuestions = (
       choices: typeValues,
       default: typeValue,
 
-      when: ({ name }: { name: string }) => name.trim() !== '',
+      when: whenType(),
     },
   ];
 };
@@ -113,3 +93,35 @@ export const evaluation = (
     return column;
   };
 };
+
+/**
+ *
+ * @param reservedColumnNames
+ * @param existedColumnName
+ * @param nameValue
+ */
+export const validateName = (reservedColumnNames: string[], existedColumnName: string[], nameValue?: string) => (
+  value: string,
+) => {
+  const name = value.trim();
+  const lower = name.toLowerCase();
+
+  if (reservedColumnNames.indexOf(lower) >= 0) {
+    return 'This column is created automatically!';
+  }
+
+  if (existedColumnName.indexOf(lower) >= 0 && name !== nameValue) {
+    return `A column with the name already exists!`;
+  }
+
+  if (!regexpName.test(name)) {
+    return regexpNameMessage;
+  }
+
+  return true;
+};
+
+/**
+ *
+ */
+export const whenType = () => ({ name }: { name: string }) => name.trim() !== '';

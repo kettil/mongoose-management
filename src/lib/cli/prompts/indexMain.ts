@@ -50,9 +50,7 @@ export const getQuestions = (collection: CollectionDataset, index?: IndexDataset
   const indexes = collection.getIndexes();
 
   const nameValue = index && index.getName();
-  const nameValues = indexes
-    .filter((d) => !index || d.getName() !== index.getName())
-    .map((d) => d.getName().toLowerCase());
+  const nameValues = indexes.filter((d) => d !== index).map((d) => d.getName().toLowerCase());
 
   const columnNames = index ? Object.keys(index.getColumns()) : [];
 
@@ -68,19 +66,7 @@ export const getQuestions = (collection: CollectionDataset, index?: IndexDataset
       message: 'Index name:',
       default: nameValue,
 
-      validate: (value: string) => {
-        const name = value.trim();
-
-        if (!regexpName.test(name)) {
-          return regexpNameMessage;
-        }
-
-        if (nameValues.indexOf(name.toLowerCase()) >= 0) {
-          return `A index with the name already exists!`;
-        }
-
-        return true;
-      },
+      validate: validateName(nameValues),
     },
     {
       type: 'checkbox',
@@ -88,7 +74,7 @@ export const getQuestions = (collection: CollectionDataset, index?: IndexDataset
       message: 'Choose a columns:',
       choices: columnValues,
 
-      when: ({ name }: { name: string }) => name.trim() !== '',
+      when: whenColumns(),
     },
   ];
 };
@@ -134,3 +120,26 @@ export const getChoiceItem = (
     disabled,
   };
 };
+
+/**
+ *
+ * @param nameValues
+ */
+export const validateName = (nameValues: string[]) => (value: string) => {
+  const name = value.trim();
+
+  if (!regexpName.test(name)) {
+    return regexpNameMessage;
+  }
+
+  if (nameValues.indexOf(name.toLowerCase()) >= 0) {
+    return `A index with the name already exists!`;
+  }
+
+  return true;
+};
+
+/**
+ *
+ */
+export const whenColumns = () => ({ name }: { name: string }) => name.trim() !== '';

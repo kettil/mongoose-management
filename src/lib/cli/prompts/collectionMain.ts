@@ -38,7 +38,7 @@ export const getQuestions = (group: GroupDataset, collection?: CollectionDataset
   const nameValue = collection ? collection.getName() : undefined;
   const nameValues = group
     .getCollections()
-    .filter((d) => !collection || d.getName() !== collection.getName())
+    .filter((d) => d !== collection)
     .map((d) => d.getName().toLowerCase());
 
   return [
@@ -47,20 +47,7 @@ export const getQuestions = (group: GroupDataset, collection?: CollectionDataset
       name: 'name',
       default: nameValue,
       message: 'Collection name:',
-
-      validate: (value: string) => {
-        const item = value.trim();
-
-        if (!regexpName.test(item)) {
-          return regexpNameMessage;
-        }
-
-        if (nameValues.indexOf(item.toLowerCase()) >= 0) {
-          return `A collection with the name already exists!`;
-        }
-
-        return true;
-      },
+      validate: validateName(nameValues),
     },
   ];
 };
@@ -80,4 +67,22 @@ export const evaluation = (answers: answersType, group: GroupDataset) => {
 
     return collection;
   };
+};
+
+/**
+ *
+ * @param nameValues
+ */
+export const validateName = (nameValues: string[]) => (value: string) => {
+  const item = value.trim();
+
+  if (!regexpName.test(item)) {
+    return regexpNameMessage;
+  }
+
+  if (nameValues.indexOf(item.toLowerCase()) >= 0) {
+    return `A collection with the name already exists!`;
+  }
+
+  return true;
 };

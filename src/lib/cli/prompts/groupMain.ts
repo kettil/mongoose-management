@@ -13,10 +13,10 @@ export type answersType = { name: string; path: string };
 /**
  *
  * @param prompts
- * @param data
+ * @param groups
  */
-export const call = async (prompts: Prompts, data: GroupsDataset): Promise<answersType> => {
-  const questions = getQuestions(data);
+export const call = async (prompts: Prompts, groups: GroupsDataset): Promise<answersType> => {
+  const questions = getQuestions(groups);
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '') {
@@ -28,10 +28,10 @@ export const call = async (prompts: Prompts, data: GroupsDataset): Promise<answe
 
 /**
  *
- * @param data
+ * @param groups
  */
-export const getQuestions = (data: GroupsDataset): ReadonlyArray<any> => {
-  const nameValues = data.getGroups().map((d) => d.getPath().toLowerCase());
+export const getQuestions = (groups: GroupsDataset): ReadonlyArray<any> => {
+  const nameValues = groups.getGroups().map((d) => d.getPath().toLowerCase());
 
   return [
     {
@@ -39,10 +39,10 @@ export const getQuestions = (data: GroupsDataset): ReadonlyArray<any> => {
       name: 'path',
       message: 'Target path for the group:',
 
-      excludePath: (path: string) => /node_modules|\/\.|\\\.|^\../.test(path),
+      excludePath,
       itemType: 'directory',
       suggestOnly: false,
-      rootPath: data.getPathProject(),
+      rootPath: groups.getPathProject(),
     },
     {
       type: 'input',
@@ -50,20 +50,7 @@ export const getQuestions = (data: GroupsDataset): ReadonlyArray<any> => {
       default: 'odm',
       message: 'Collection group name:',
 
-      validate: (value: string, { path }: { path: string }) => {
-        const name = value.trim();
-        const mergedPath = join(path, name);
-
-        if (!regexpName.test(name)) {
-          return regexpNameMessage;
-        }
-
-        if (nameValues.indexOf(mergedPath.toLowerCase()) >= 0) {
-          return `The path and the name already exist as a group [group: ${mergedPath}]!`;
-        }
-
-        return true;
-      },
+      validate: validateName(nameValues, groups.getPathProject()),
     },
   ];
 };
@@ -71,14 +58,14 @@ export const getQuestions = (data: GroupsDataset): ReadonlyArray<any> => {
 /**
  *
  * @param answers
- * @param data
+ * @param groups
  */
-export const evaluation = (answers: answersType, data: GroupsDataset) => {
+export const evaluation = (answers: answersType, groups: GroupsDataset) => {
   return (group?: GroupDataset) => {
-    const path = join(answers.path.replace(data.getPathProject() + '/', ''), answers.name);
+    const path = join(answers.path.replace(groups.getPathProject() + '/', ''), answers.name);
 
     if (!group) {
-      return data.addGroup(new GroupDataset({ path, collections: [] }, data));
+      return groups.addGroup(new GroupDataset({ path, collections: [] }, groups));
     }
 
     group.setPath(path);
@@ -86,3 +73,31 @@ export const evaluation = (answers: answersType, data: GroupsDataset) => {
     return group;
   };
 };
+
+/**
+ *
+ * @param nameValues
+ */
+export const validateName = (nameValues: string[], pathProject: string) => (
+  value: string,
+  { path }: { path: string },
+) => {
+  const name = value.trim();
+  const mergedPath = join(path.replace(pathProject + '/', ''), name);
+
+  if (!regexpName.test(name)) {
+    return regexpNameMessage;
+  }
+
+  if (nameValues.indexOf(mergedPath.toLowerCase()) >= 0) {
+    return `The path and the name already exist as a group [group: ${mergedPath}]!`;
+  }
+
+  return true;
+};
+
+/**
+ *
+ * @param path
+ */
+export const excludePath = (path: string) => /node_modules|\/\.|\\\.|^\../.test(path);
