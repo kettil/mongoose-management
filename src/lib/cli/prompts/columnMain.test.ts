@@ -333,7 +333,7 @@ describe('Check the prompts columnMain functions', () => {
   /**
    *
    */
-  test.each<[string, string, string | boolean, boolean, string, number]>([
+  test.each<[string, string, string | boolean, boolean, string|undefined, number]>([
     ['true', 'name9  ', true, true, 'name9', 1],
     ['string', 'name9  ', regexpNameMessage, false, 'name9', 1],
     ['string', '_id', 'This column is created automatically!', true, undefined, 0],
