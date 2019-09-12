@@ -4,6 +4,16 @@
 
 ### Features
 
+### Fixes
+
+### Chore & Maintenance
+
+### Performance
+
+## [0.1.3] - 2019-09-09
+
+### Features
+
 - Columns that are not required are marked as optional in the typing.
 
 ### Fixes
@@ -18,8 +28,6 @@
 - Name schema of column indexes changed (e.g. `columnName-unique_` to `columnName_`).
 - Internal structure of array of one type (e.g. `[Date]`) changed, from `{ type: 'arrayType', subType: { type: 'date' } }` to `['arrayType', 'date']`.
 - Add test cases.
-
-### Performance
 
 ## [0.1.2] - 2019-08-25
 
