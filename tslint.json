@@ -9,6 +9,11 @@
     "object-literal-sort-keys": false,
     "quotemark": [true, "single", "jsx-double"],
     "member-access": [true, "no-public"],
-    "switch-final-break": true
+    "switch-final-break": true,
+    "class-name": true,
+    "file-name-casing": [true, "camel-case"],
+    "variable-name": {
+      "options": ["ban-keywords", "check-format"]
+    }
   }
 }
