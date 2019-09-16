@@ -47,7 +47,7 @@ describe('Check the CollectionDataset class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(dataset).toBeInstanceOf(CollectionDataset);
 
     expect(dataset.parent).toBe(parent);

@@ -64,7 +64,7 @@ describe('Check the AbstractLevel class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(abstract).toBeInstanceOf(AbstractLevel);
 
     expect(abstract.dataset).toBe(mockDataset);

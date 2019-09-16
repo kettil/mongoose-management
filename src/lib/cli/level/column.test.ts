@@ -48,7 +48,7 @@ describe('Check the ColumnLevel class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(level).toBeInstanceOf(ColumnLevel);
 
     expect(level.dataset).toBe(dataset);

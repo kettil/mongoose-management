@@ -15,7 +15,7 @@ export default abstract class AbstractMenu<T, S> {
    *
    * @param groups
    */
-  abstract async exec(item: T): Promise<choiceValueType<S>>;
+  abstract exec(item: T): Promise<choiceValueType<S>>;
 
   /**
    *

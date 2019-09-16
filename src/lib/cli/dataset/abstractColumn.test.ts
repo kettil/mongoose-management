@@ -29,7 +29,7 @@ describe('Check the AbstractColumnDataset class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(dataset).toBeInstanceOf(AbstractColumnDataset);
 
     expect(dataset.parent).toBe(parent);

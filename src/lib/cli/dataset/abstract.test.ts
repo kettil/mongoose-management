@@ -7,7 +7,7 @@ describe('Check the AbstractDataset class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     const mock = jest.fn();
 
     const dataset = new (AbstractDataset as any)(mock);

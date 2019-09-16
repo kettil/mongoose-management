@@ -84,7 +84,7 @@ export default abstract class AbstractLevel<
    *
    * @param dataset
    */
-  async show(dataset: S): Promise<void> {
+  show(dataset: S): Promise<void> {
     throw new Error('Next menu level is not defined');
   }
 

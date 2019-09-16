@@ -7,7 +7,7 @@ describe('Check the evaluation function', () => {
   /**
    *
    */
-  test('it should be return expected value when mergeEvaluation() is called without subcalls', async () => {
+  test('it should be return expected value when mergeEvaluation() is called without subcalls', () => {
     const mockMain = jest.fn().mockReturnValue('test-data-main');
 
     const result = mergeEvaluation<string>(mockMain);
@@ -21,7 +21,7 @@ describe('Check the evaluation function', () => {
   /**
    *
    */
-  test('it should be return expected value when mergeEvaluation() is called', async () => {
+  test('it should be return expected value when mergeEvaluation() is called', () => {
     const mockMain = jest.fn().mockReturnValue('test-data-main');
     const mockSub1 = jest.fn().mockReturnValue('test-data-sub1');
     const mockSub2 = jest.fn().mockReturnValue('test-data-sub2');

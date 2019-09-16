@@ -458,7 +458,7 @@ describe('Check the Prompts class', () => {
     /**
      *
      */
-    test('it should be return a ora instance when getSpinner() is called', async () => {
+    test('it should be return a ora instance when getSpinner() is called', () => {
       const d = { ora: 'instance' };
 
       ((ora as any) as jest.Mock).mockReturnValue(d);

@@ -52,7 +52,7 @@ describe('Check the GroupLevel class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(level).toBeInstanceOf(GroupLevel);
 
     expect(level.dataset).toBe(dataset);

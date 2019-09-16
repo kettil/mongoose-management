@@ -45,7 +45,7 @@ describe('Check the IndexLevel class', () => {
   /**
    *
    */
-  test('initialize the class', async () => {
+  test('initialize the class', () => {
     expect(level).toBeInstanceOf(IndexLevel);
 
     expect(level.dataset).toBe(dataset);

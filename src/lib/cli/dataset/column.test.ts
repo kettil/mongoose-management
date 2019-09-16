@@ -53,7 +53,7 @@ describe('Check the CollectionDataset class', () => {
   /**
    *
    */
-  test('initialize the class [1]', async () => {
+  test('initialize the class [1]', () => {
     dataset = new ColumnDataset(data, parent, parent);
 
     expect(dataset).toBeInstanceOf(ColumnDataset);
@@ -84,7 +84,7 @@ describe('Check the CollectionDataset class', () => {
   /**
    *
    */
-  test('initialize the class [2]', async () => {
+  test('initialize the class [2]', () => {
     parent.getIndex.mockClear();
     parent.getIndex.mockReturnValue(undefined);
 
@@ -105,7 +105,7 @@ describe('Check the CollectionDataset class', () => {
   /**
    *
    */
-  test('initialize the class [3]', async () => {
+  test('initialize the class [3]', () => {
     parent.getIndex.mockClear();
     parent.getIndex.mockReturnValue(undefined);
 
