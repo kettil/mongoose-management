@@ -16,7 +16,7 @@
     "class-name": true,
     "file-name-casing": [true, "camel-case"],
     "variable-name": {
-      "options": ["ban-keywords", "check-format"]
+      "options": ["ban-keywords", "check-format", "allow-pascal-case"]
     }
   }
 }
