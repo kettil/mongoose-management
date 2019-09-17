@@ -14,7 +14,7 @@
     "member-access": [true, "no-public"],
     "switch-final-break": true,
     "class-name": true,
-    "file-name-casing": [true, "camel-case"],
+    "file-name-casing": [true, { ".tsx": "pascal-case", ".*": "camel-case" }],
     "variable-name": {
       "options": ["ban-keywords", "check-format", "allow-pascal-case"]
     }
