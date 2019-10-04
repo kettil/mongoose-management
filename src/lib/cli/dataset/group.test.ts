@@ -127,48 +127,12 @@ describe('Check the GroupDataset class', () => {
    *
    */
   test('it should be collections will be re-sorted when sortCollections() is called', () => {
-    dataset.sort = jest.fn();
-    dataset.sort.mockReturnValue(-1);
+    c1.getName.mockReturnValue('c2');
+    c2.getName.mockReturnValue('c1');
 
     dataset.sortCollections();
 
     expect(dataset.collections).toEqual([c2, c1]);
-  });
-
-  /**
-   *
-   */
-  test('it should be return -1 when sort() is called with c1 and c2', () => {
-    c1.getName.mockReturnValue('c1');
-    c2.getName.mockReturnValue('c2');
-
-    const result = dataset.sort(c1, c2);
-
-    expect(result).toEqual(-1);
-  });
-
-  /**
-   *
-   */
-  test('it should be return 1 when sort() is called with c2 and c1', () => {
-    c1.getName.mockReturnValue('c2');
-    c2.getName.mockReturnValue('c1');
-
-    const result = dataset.sort(c1, c2);
-
-    expect(result).toEqual(1);
-  });
-
-  /**
-   *
-   */
-  test('it should be return 0 when sort() is called with c2 and c2', () => {
-    c1.getName.mockReturnValue('c2');
-    c2.getName.mockReturnValue('c2');
-
-    const result = dataset.sort(c1, c2);
-
-    expect(result).toEqual(0);
   });
 
   /**

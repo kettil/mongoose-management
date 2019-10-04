@@ -1,6 +1,8 @@
 import AbstractDataset from './abstract';
 import GroupDataset from './group';
 
+import { sortByPath } from '../helper/sort';
+
 import { dataType } from '../../types';
 
 /**
@@ -60,23 +62,7 @@ export default class GroupsDataset extends AbstractDataset<undefined> {
    *
    */
   sortGroups() {
-    this.groups.sort(this.sort);
-  }
-
-  /**
-   *
-   * @param a
-   * @param b
-   */
-  sort<T extends GroupDataset>(a: T, b: T) {
-    const pathA = a.getPath().toLowerCase();
-    const pathB = b.getPath().toLowerCase();
-
-    if (pathA === pathB) {
-      return 0;
-    }
-
-    return pathA < pathB ? -1 : 1;
+    this.groups.sort(sortByPath);
   }
 
   /**

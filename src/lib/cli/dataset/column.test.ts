@@ -26,8 +26,8 @@ describe('Check the CollectionDataset class', () => {
       type: 'object',
       required: true,
       subColumns: [
-        { name: 'cSubName1', type: 'string', required: true },
-        { name: 'cSubName2', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
+        { name: 'cSubName2', type: 'string', required: true },
+        { name: 'cSubName1', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
         {
           name: 'cSubName3',
           type: 'array',
@@ -64,8 +64,8 @@ describe('Check the CollectionDataset class', () => {
       type: 'object',
       required: true,
       subColumns: [
-        { name: 'cSubName1', type: 'string', required: true },
-        { name: 'cSubName2', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
+        { name: 'cSubName2', type: 'string', required: true },
+        { name: 'cSubName1', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
         { name: 'cSubName3', type: 'array', subColumns: [{ name: 'cSubSubName1', type: 'number', required: true }] },
       ],
     });
@@ -74,8 +74,8 @@ describe('Check the CollectionDataset class', () => {
 
     expect(index.getName).toHaveBeenCalledTimes(1);
     expect(parent.getIndex).toHaveBeenCalledTimes(5);
-    expect(parent.getIndex).toHaveBeenNthCalledWith(1, 'cName.cSubName1_');
-    expect(parent.getIndex).toHaveBeenNthCalledWith(2, 'cName.cSubName2_');
+    expect(parent.getIndex).toHaveBeenNthCalledWith(1, 'cName.cSubName2_');
+    expect(parent.getIndex).toHaveBeenNthCalledWith(2, 'cName.cSubName1_');
     expect(parent.getIndex).toHaveBeenNthCalledWith(3, 'cName.cSubName3.cSubSubName1_');
     expect(parent.getIndex).toHaveBeenNthCalledWith(4, 'cName.cSubName3_');
     expect(parent.getIndex).toHaveBeenNthCalledWith(5, 'cName_');
@@ -395,10 +395,7 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test(`it should be return the type when getTableType() is called with type is an array`, () => {
-      const name = dataset
-        .getColumn('cSubName3')
-
-        .getTableType();
+      const name = dataset.getColumn('cSubName3').getTableType();
 
       expect(name).toBe('[object]');
     });
@@ -407,7 +404,7 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test(`it should be return the type when getTableType() is called with type is an string`, () => {
-      const name = dataset.getColumn('cSubName1').getTableType();
+      const name = dataset.getColumn('cSubName2').getTableType();
 
       expect(name).toBe('string');
     });
@@ -416,7 +413,7 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test(`it should be return the type when getTableType() is called with type is an multiple boolean array`, () => {
-      const name = dataset.getColumn('cSubName2').getTableType();
+      const name = dataset.getColumn('cSubName1').getTableType();
 
       expect(name).toBe('[[boolean]]');
     });
@@ -446,7 +443,7 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test(`it should be a empty array when getSubTypes() is called with sub types`, () => {
-      const name = dataset.getColumn('cSubName2').getSubTypes();
+      const name = dataset.getColumn('cSubName1').getSubTypes();
 
       expect(name).toEqual(['arrayType', 'boolean']);
     });
@@ -658,21 +655,13 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test(`it should be sorted the sub columns when sortColumns() is called`, () => {
-      parent.sort.mockReturnValue(1);
-      parent.sort.mockReturnValueOnce(-1);
-
       const c1 = dataset.getColumn('cSubName1');
       const c2 = dataset.getColumn('cSubName2');
       const c3 = dataset.getColumn('cSubName3');
 
       dataset.sortColumns();
 
-      expect(parent.sort).toHaveBeenCalledTimes(3);
-      expect(parent.sort).toHaveBeenNthCalledWith(1, c2, c1);
-      expect(parent.sort).toHaveBeenNthCalledWith(2, c3, c2);
-      expect(parent.sort).toHaveBeenNthCalledWith(3, c3, c1);
-
-      expect(dataset.columns).toEqual([c2, c1, c3]);
+      expect(dataset.columns).toEqual([c1, c2, c3]);
     });
 
     /**
@@ -709,14 +698,14 @@ describe('Check the CollectionDataset class', () => {
         required: true,
         subColumns: [
           {
-            name: 'cSubName1',
+            name: 'cSubName2',
             required: true,
             subColumns: undefined,
             subTypes: undefined,
             type: 'string',
           },
           {
-            name: 'cSubName2',
+            name: 'cSubName1',
             subColumns: undefined,
             subTypes: ['arrayType', 'boolean'],
             type: 'arrayType',

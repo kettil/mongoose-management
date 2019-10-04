@@ -163,12 +163,13 @@ describe('Check the CollectionDataset class', () => {
    *
    */
   test('it should be sorts the columns when sortColumns() is called', () => {
-    dataset.sort = jest.fn().mockReturnValue(-1);
+    column1.getName.mockReturnValue('c2');
+    column2.getName.mockReturnValue('c1');
 
     dataset.sortColumns();
 
-    expect(dataset.sort).toHaveBeenCalledTimes(1);
-    expect(dataset.sort).toHaveBeenCalledWith(column2, column1);
+    expect(column1.getName).toHaveBeenCalledTimes(1);
+    expect(column2.getName).toHaveBeenCalledTimes(1);
 
     expect(dataset.columns).toEqual([column2, column1]);
   });
@@ -177,58 +178,15 @@ describe('Check the CollectionDataset class', () => {
    *
    */
   test('it should be sorts the indexes when sortIndexes() is called', () => {
-    dataset.sort = jest.fn().mockReturnValue(-1);
+    index1.getName.mockReturnValue('c2');
+    index2.getName.mockReturnValue('c1');
 
     dataset.sortIndexes();
 
-    expect(dataset.sort).toHaveBeenCalledTimes(1);
-    expect(dataset.sort).toHaveBeenCalledWith(index2, index1);
+    expect(index1.getName).toHaveBeenCalledTimes(1);
+    expect(index2.getName).toHaveBeenCalledTimes(1);
 
     expect(dataset.indexes).toEqual([index2, index1]);
-  });
-
-  /**
-   *
-   */
-  test('it should be return -1 when sort() is called with "column1" and "column2"', () => {
-    column1.getName.mockReturnValue('column1');
-    column2.getName.mockReturnValue('column2');
-
-    const result = dataset.sort(column1, column2);
-
-    expect(result).toBe(-1);
-
-    expect(column1.getName).toHaveBeenCalledTimes(1);
-    expect(column2.getName).toHaveBeenCalledTimes(1);
-  });
-
-  /**
-   *
-   */
-  test('it should be return 1 when sort() is called with "column2" and "column1"', () => {
-    column1.getName.mockReturnValue('column1');
-    column2.getName.mockReturnValue('column2');
-
-    const result = dataset.sort(column2, column1);
-
-    expect(result).toBe(1);
-
-    expect(column1.getName).toHaveBeenCalledTimes(1);
-    expect(column2.getName).toHaveBeenCalledTimes(1);
-  });
-
-  /**
-   *
-   */
-  test('it should be return 0 when sort() is called with same column', () => {
-    column1.getName.mockReturnValue('column1');
-    column2.getName.mockReturnValue('column2');
-
-    const result = dataset.sort(column1, column1);
-
-    expect(result).toBe(0);
-
-    expect(column1.getName).toHaveBeenCalledTimes(2);
   });
 
   /**

@@ -2,6 +2,8 @@ import AbstractColumnsDataset from './abstractColumn';
 import CollectionDataset from './collection';
 import IndexDataset from './index';
 
+import { sortByName } from '../helper/sort';
+
 import {
   dataColumnInternalValuesType,
   dataColumnType,
@@ -241,7 +243,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
    *
    */
   sortColumns() {
-    this.columns.sort(this.collection.sort);
+    this.columns.sort(sortByName);
   }
 
   /**

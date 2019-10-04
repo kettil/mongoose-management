@@ -3,6 +3,8 @@ import ColumnDataset from './column';
 import GroupDataset from './group';
 import IndexDataset from './index';
 
+import { sortByName } from '../helper/sort';
+
 import { dataCollectionType } from '../../types';
 
 /**
@@ -84,30 +86,14 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
    *
    */
   sortColumns() {
-    this.columns.sort(this.sort);
+    this.columns.sort(sortByName);
   }
 
   /**
    *
    */
   sortIndexes() {
-    this.indexes.sort(this.sort);
-  }
-
-  /**
-   *
-   * @param a
-   * @param b
-   */
-  sort<T extends ColumnDataset | IndexDataset>(a: T, b: T) {
-    const pathA = a.getName().toLowerCase();
-    const pathB = b.getName().toLowerCase();
-
-    if (pathA === pathB) {
-      return 0;
-    }
-
-    return pathA < pathB ? -1 : 1;
+    this.indexes.sort(sortByName);
   }
 
   /**
