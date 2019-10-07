@@ -14,8 +14,7 @@
   "clearMocks": true,
 
   "collectCoverageFrom": ["src/**/*.{ts,tsx,js,jsx}"],
-  "coveragePathIgnorePatterns": ["<rootDir>/src/crawlers"],
-  "coverageReporters": ["text-summary"],
+  "coverageReporters": ["text-summary", "lcov"],
   "coverageDirectory": "coverage",
   "coverageThreshold": {
     "global": {

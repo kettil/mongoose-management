@@ -1,6 +1,6 @@
 {
   "hooks": {
     "pre-commit": "npm run prettier:ci && npm run lint:ci",
-    "pre-push": "npm run prettier:ci && npm run lint:ci && npm run build && npm run test && npm run test:integration"
+    "pre-push": "npm run prettier:ci && npm run lint:ci && npm run build && npm run test"
   }
 }

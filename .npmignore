@@ -16,10 +16,8 @@ tests
 .prettierignore
 .prettierrc
 docker-compose.yml
-jest.coverage.js
 jest.json
-jest.test.js
+jest.ci.js
 tsconfig.build.json
 tsconfig.json
 tslint.json
-typedoc.json
