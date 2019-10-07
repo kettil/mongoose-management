@@ -1,22 +1,32 @@
 {
   "extends": ["tslint:latest", "tslint-react", "tslint-immutable", "tslint-config-prettier"],
   "rules": {
+    "arrow-return-shorthand": true,
     "ban-comma-operator": true,
-    "cyclomatic-complexity": [true, 15],
-    "interface-over-type-literal": false,
-    "interface-name": [true, "never-prefix"],
-    "no-floating-promises": true,
-    "no-async-without-await": true,
-    "no-return-await": true,
-    "linebreak-style": [true, "LF"],
-    "object-literal-sort-keys": false,
-    "quotemark": [true, "single", "jsx-double"],
-    "member-access": [true, "no-public"],
-    "switch-final-break": true,
+    "ban-ts-ignore": true,
     "class-name": true,
-    "file-name-casing": [true, { ".tsx": "pascal-case", ".*": "camel-case" }],
-    "variable-name": {
-      "options": ["ban-keywords", "check-format", "allow-pascal-case"]
-    }
+    "cyclomatic-complexity": [true, 15],
+    "eofline": true,
+    "file-name-casing": [true, "camel-case"],
+    "interface-name": [true, "never-prefix"],
+    "interface-over-type-literal": false,
+    "jsdoc-format": [true, "check-multiline-start"],
+    "linebreak-style": [true, "LF"],
+    "member-access": [true, "no-public"],
+    "newline-before-return": true,
+    "no-async-without-await": true,
+    "no-floating-promises": true,
+    "no-irregular-whitespace": true,
+    "no-null-keyword": true,
+    "no-promise-as-boolean": true,
+    "no-return-await": true,
+    "no-switch-case-fall-through": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": true,
+    "prefer-const": true,
+    "prefer-template": [true, "allow-single-concat"],
+    "quotemark": [true, "single", "avoid-escape", "avoid-template", "jsx-double"],
+    "switch-final-break": true,
+    "variable-name": { "options": ["ban-keywords", "check-format", "allow-pascal-case"] }
   }
 }
