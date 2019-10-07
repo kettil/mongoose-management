@@ -86,7 +86,7 @@ export const validateName = (nameValues: string[]) => (value: string) => {
   }
 
   if (nameValues.indexOf(name.toLowerCase()) >= 0) {
-    return `A index with the name already exists!`;
+    return 'A index with the name already exists!';
   }
 
   return true;

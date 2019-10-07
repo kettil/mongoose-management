@@ -37,10 +37,10 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     const result = await this.prompt.menu<ColumnDataset | IndexDataset>('Choose a column/index or a command:', [
       new Separator(`Collection: ${chalk.bold(collection.getName())}`),
       new Separator(' '),
-      new Separator(chalk.underline(`Columns list`)),
+      new Separator(chalk.underline('Columns list')),
       new Separator(' '),
       ...choicesColumns,
-      new Separator(chalk.underline(`Indexes list`)),
+      new Separator(chalk.underline('Indexes list')),
       new Separator(' '),
       ...choicesIndexes,
       new Separator(),
@@ -75,7 +75,7 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     });
 
     if (indexChoices.length === 0) {
-      choices.push(new Separator(`- No indexes defined -`));
+      choices.push(new Separator('- No indexes defined -'));
     } else {
       choices.push(new Separator(rows[0]));
       choices.push(...indexChoices);

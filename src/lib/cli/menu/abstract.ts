@@ -61,9 +61,9 @@ export default abstract class AbstractMenu<T, S> {
    */
   getMenuChoiceSave(): choiceType<S> {
     return {
-      name: `Save`,
+      name: 'Save',
       value: { action: 'save' },
-      short: chalk.red(`Command - Save`),
+      short: chalk.red('Command - Save'),
     };
   }
 
@@ -72,9 +72,9 @@ export default abstract class AbstractMenu<T, S> {
    */
   getMenuChoiceWrite(): choiceType<S> {
     return {
-      name: `Save and Write`,
+      name: 'Save and Write',
       value: { action: 'write' },
-      short: chalk.red(`Command - Write`),
+      short: chalk.red('Command - Write'),
     };
   }
 
@@ -83,9 +83,9 @@ export default abstract class AbstractMenu<T, S> {
    */
   getMenuChoiceBack(): choiceType<S> {
     return {
-      name: `Back`,
+      name: 'Back',
       value: { action: 'back' },
-      short: chalk.red(`Command - Back`),
+      short: chalk.red('Command - Back'),
     };
   }
 
@@ -94,9 +94,9 @@ export default abstract class AbstractMenu<T, S> {
    */
   getMenuChoiceExit(): choiceType<S> {
     return {
-      name: `Exit`,
+      name: 'Exit',
       value: { action: 'exit' },
-      short: chalk.red(`Command - Exit`),
+      short: chalk.red('Command - Exit'),
     };
   }
 }

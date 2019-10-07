@@ -16,7 +16,7 @@ export default class GroupsMenu extends AbstractMenu<GroupsDataset, GroupDataset
     const choices = this.getChoiceList(groups.getGroups());
 
     if (choices.length === 0) {
-      choices.push(new Separator(`- No groups defined -`));
+      choices.push(new Separator('- No groups defined -'));
     }
 
     const result = await this.prompt.menu<GroupDataset>('Choose a group or a command:', [

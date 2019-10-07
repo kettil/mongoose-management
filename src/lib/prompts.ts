@@ -13,7 +13,7 @@ export const regexpNameMessage = `Only letters, numbers and hyphens are allowed 
 export const promptTableOptions: TableUserConfig = {
   drawHorizontalLine: () => false,
   border: {
-    ...getBorderCharacters(`norc`),
+    ...getBorderCharacters('norc'),
     bodyLeft: chalk.dim('|'),
     bodyRight: chalk.dim('|'),
     bodyJoin: chalk.dim('|'),

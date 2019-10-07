@@ -63,7 +63,7 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
     {
       type: 'input',
       name: 'default',
-      message: `Default value for the column (e.g. Date.now or 'Hello World'):`,
+      message: 'Default value for the column (e.g. Date.now or "Hello World"):',
       default: column && column.get('default'),
       when: ({ options }: { options: string[] }) => options.indexOf('default') >= 0,
     },
@@ -74,7 +74,7 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
       {
         type: 'input',
         name: 'enum',
-        message: `Allowed enum strings (semicolon [;] as separator):`,
+        message: 'Allowed enum strings (semicolon [;] as separator):',
         default: column.get('enum'),
         when: ({ options }: { options: string[] }) => options.indexOf('enum') >= 0,
         filter: (value: string) =>
@@ -87,21 +87,21 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
       {
         type: 'input',
         name: 'match',
-        message: `RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):`,
+        message: 'RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):',
         default: column.get('match'),
         when: ({ options }: { options: string[] }) => options.indexOf('match') >= 0,
       },
       {
         type: 'number',
         name: 'minLength',
-        message: `Minimum number of characters:`,
+        message: 'Minimum number of characters:',
         default: column.get('minLength'),
         when: ({ options }: { options: string[] }) => options.indexOf('minLength') >= 0,
       },
       {
         type: 'number',
         name: 'maxLength',
-        message: `Maximum number of characters:`,
+        message: 'Maximum number of characters:',
         default: column.get('maxLength'),
         when: ({ options }: { options: string[] }) => options.indexOf('maxLength') >= 0,
         validate: (v: string, { minLength }: { minLength?: number }) => {
@@ -120,14 +120,14 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
       {
         type: 'number',
         name: 'min',
-        message: `Value must greater than or equal:`,
+        message: 'Value must greater than or equal:',
         default: column.get('min'),
         when: ({ options }: { options: string[] }) => options.indexOf('min') >= 0,
       },
       {
         type: 'number',
         name: 'max',
-        message: `Value must less than or equal:`,
+        message: 'Value must less than or equal:',
         default: column.get('max'),
         when: ({ options }: { options: string[] }) => options.indexOf('max') >= 0,
         validate: (v: string, { min }: { min?: number }) => {

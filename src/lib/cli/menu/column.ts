@@ -18,20 +18,20 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
       result = await this.prompt.menu<ColumnDataset>(
         `Choose a subcolumn or a command for the column "${column.getFullname(true)}":`,
         [
-          new Separator(chalk.underline(`Columns list`)),
+          new Separator(chalk.underline('Columns list')),
           new Separator(' '),
           ...choices,
-          this.getMenuChoiceCreate(`subcolumn`),
-          this.getMenuChoiceEdit(`column`),
-          this.getMenuChoiceRemove(`column`),
+          this.getMenuChoiceCreate('subcolumn'),
+          this.getMenuChoiceEdit('column'),
+          this.getMenuChoiceRemove('column'),
           this.getMenuChoiceBack(),
           new Separator(' '),
         ],
       );
     } else {
       result = await this.prompt.menu<ColumnDataset>(`Choose a command for the column "${column.getFullname(true)}":`, [
-        this.getMenuChoiceEdit(`column`),
-        this.getMenuChoiceRemove(`column`),
+        this.getMenuChoiceEdit('column'),
+        this.getMenuChoiceRemove('column'),
         this.getMenuChoiceBack(),
         new Separator(' '),
       ]);
@@ -58,7 +58,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     });
 
     if (columnChoices.length === 0) {
-      choices.push(new Separator(`- No columns defined -`));
+      choices.push(new Separator('- No columns defined -'));
     } else {
       choices.push(new Separator(rows[0]));
       choices.push(...columnChoices);

@@ -111,7 +111,7 @@ export const validateName = (reservedColumnNames: string[], existedColumnName: s
   }
 
   if (existedColumnName.indexOf(lower) >= 0 && name !== nameValue) {
-    return `A column with the name already exists!`;
+    return 'A column with the name already exists!';
   }
 
   if (!regexpName.test(name)) {

@@ -81,7 +81,7 @@ export const validateName = (nameValues: string[]) => (value: string) => {
   }
 
   if (nameValues.indexOf(item.toLowerCase()) >= 0) {
-    return `A collection with the name already exists!`;
+    return 'A collection with the name already exists!';
   }
 
   return true;

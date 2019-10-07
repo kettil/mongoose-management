@@ -296,7 +296,7 @@ describe('Check the CollectionDataset class', () => {
      *
      */
     test.each(dataIsset)(
-      `it should be return %p when isset(%p) is called with init value "%p" and the value exists`,
+      'it should be return %p when isset(%p) is called with init value "%p" and the value exists',
       (expected, opts, message) => {
         dataset.data[opts] = message;
 
@@ -343,7 +343,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the table name when getTableName() is called`, () => {
+    test('it should be return the table name when getTableName() is called', () => {
       const name = dataset.getTableName();
 
       expect(name).toBe('cName');
@@ -352,7 +352,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the table name when getTableName() is called from subcolumn`, () => {
+    test('it should be return the table name when getTableName() is called from subcolumn', () => {
       const name = dataset.getColumn('cSubName1').getTableName();
 
       expect(name).toBe('cName.cSubName1');
@@ -361,7 +361,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the table name when getTableName() is called from subsubcolumn`, () => {
+    test('it should be return the table name when getTableName() is called from subsubcolumn', () => {
       const name = dataset
         .getColumn('cSubName3')
         .getColumn('cSubSubName1')
@@ -373,7 +373,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the table name when getTableName() is called from subsubcolumn with selectedColumn`, () => {
+    test('it should be return the table name when getTableName() is called from subsubcolumn with selectedColumn', () => {
       const name = dataset
         .getColumn('cSubName3')
         .getColumn('cSubSubName1')
@@ -385,7 +385,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the type when getTableType() is called with type is an object`, () => {
+    test('it should be return the type when getTableType() is called with type is an object', () => {
       const name = dataset.getTableType();
 
       expect(name).toBe('object');
@@ -394,7 +394,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the type when getTableType() is called with type is an array`, () => {
+    test('it should be return the type when getTableType() is called with type is an array', () => {
       const name = dataset.getColumn('cSubName3').getTableType();
 
       expect(name).toBe('[object]');
@@ -403,7 +403,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the type when getTableType() is called with type is an string`, () => {
+    test('it should be return the type when getTableType() is called with type is an string', () => {
       const name = dataset.getColumn('cSubName2').getTableType();
 
       expect(name).toBe('string');
@@ -412,7 +412,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the type when getTableType() is called with type is an multiple boolean array`, () => {
+    test('it should be return the type when getTableType() is called with type is an multiple boolean array', () => {
       const name = dataset.getColumn('cSubName1').getTableType();
 
       expect(name).toBe('[[boolean]]');
@@ -433,7 +433,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be a empty array when getSubTypes() is called without sub types`, () => {
+    test('it should be a empty array when getSubTypes() is called without sub types', () => {
       const name = dataset.getSubTypes();
 
       expect(name).toEqual([]);
@@ -442,7 +442,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be a empty array when getSubTypes() is called with sub types`, () => {
+    test('it should be a empty array when getSubTypes() is called with sub types', () => {
       const name = dataset.getColumn('cSubName1').getSubTypes();
 
       expect(name).toEqual(['arrayType', 'boolean']);
@@ -451,7 +451,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be set sub types when setSubTypes() is called`, () => {
+    test('it should be set sub types when setSubTypes() is called', () => {
       const subColumn = dataset.getColumn('cSubName2');
 
       subColumn.setSubTypes(['number']);
@@ -474,7 +474,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the index name when getIndexName() is called`, () => {
+    test('it should be return the index name when getIndexName() is called', () => {
       const name = dataset.getIndexName();
 
       expect(name).toEqual('cName_');
@@ -483,7 +483,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return index when getIndex() is called`, () => {
+    test('it should be return index when getIndex() is called', () => {
       const result = dataset.getIndex();
 
       expect(result).toBe(index);
@@ -492,7 +492,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be remove the index when setIndex() is called without index`, () => {
+    test('it should be remove the index when setIndex() is called without index', () => {
       dataset.setIndex();
 
       expect(dataset.index).toBe(undefined);
@@ -501,7 +501,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be set the index when setIndex() is called with index`, () => {
+    test('it should be set the index when setIndex() is called with index', () => {
       const mockIndex = new (IndexDataset as any)();
 
       mockIndex.getName.mockReturnValue('cName_');
@@ -516,7 +516,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be throw an error when setIndex() is called with index but the name is different`, () => {
+    test('it should be throw an error when setIndex() is called with index but the name is different', () => {
       const mockIndex = new (IndexDataset as any)();
 
       mockIndex.getName.mockReturnValue('cOther_');
@@ -538,7 +538,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the index column structure when getIndexColumn() is called`, () => {
+    test('it should be return the index column structure when getIndexColumn() is called', () => {
       const result = dataset.getIndexColumn('text');
 
       expect(result).toEqual({ cName: 'text' });
@@ -547,7 +547,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be updated the index and also the index of the subcolumns when refreshIndex() is called and the index is defined`, () => {
+    test('it should be updated the index and also the index of the subcolumns when refreshIndex() is called and the index is defined', () => {
       index.getColumnValue.mockReturnValue('hashed');
 
       expect(dataset.columns.length).toBe(3);
@@ -572,7 +572,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be throw an error when refreshIndex() is called and the index is defined but value is wrong`, () => {
+    test('it should be throw an error when refreshIndex() is called and the index is defined but value is wrong', () => {
       expect.assertions(9);
 
       index.getColumnValue.mockReturnValue(undefined);
@@ -602,7 +602,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be updated the indexes of the subcolumns when refreshIndex() is called and the index is not defined`, () => {
+    test('it should be updated the indexes of the subcolumns when refreshIndex() is called and the index is not defined', () => {
       dataset.index = undefined;
 
       expect(dataset.columns.length).toBe(3);
@@ -633,7 +633,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the collection instance when getCollection() is called`, () => {
+    test('it should be return the collection instance when getCollection() is called', () => {
       const result = dataset.getCollection();
 
       expect(result).toBe(parent);
@@ -642,7 +642,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return the collection instance when getCollection() is called from a sub sub column`, () => {
+    test('it should be return the collection instance when getCollection() is called from a sub sub column', () => {
       const result = dataset
         .getColumn('cSubName3')
         .getColumn('cSubSubName1')
@@ -654,7 +654,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be sorted the sub columns when sortColumns() is called`, () => {
+    test('it should be sorted the sub columns when sortColumns() is called', () => {
       const c1 = dataset.getColumn('cSubName1');
       const c2 = dataset.getColumn('cSubName2');
       const c3 = dataset.getColumn('cSubName3');
@@ -667,7 +667,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be remove this column and the column index when remove() is called`, () => {
+    test('it should be remove this column and the column index when remove() is called', () => {
       dataset.remove();
 
       expect(parent.removeColumn).toHaveBeenCalledTimes(1);
@@ -678,7 +678,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be remove this column when remove() is called`, () => {
+    test('it should be remove this column when remove() is called', () => {
       dataset.index = undefined;
 
       dataset.remove();
@@ -690,7 +690,7 @@ describe('Check the CollectionDataset class', () => {
     /**
      *
      */
-    test(`it should be return a data object when getObject() is called`, () => {
+    test('it should be return a data object when getObject() is called', () => {
       const result = dataset.getObject();
 
       expect(result).toEqual({

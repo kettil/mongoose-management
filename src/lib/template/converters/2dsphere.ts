@@ -9,7 +9,7 @@ export default class Converter2dSphere extends AbstractConverter<undefined> {
    *
    */
   columnToTypes() {
-    return `{ type: string, coordinates: [number | undefined , number | undefined] }`;
+    return '{ type: string, coordinates: [number | undefined , number | undefined] }';
   }
 
   /**
