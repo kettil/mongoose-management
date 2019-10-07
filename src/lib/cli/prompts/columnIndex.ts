@@ -1,9 +1,7 @@
 import { indexColumnValues, schemaIndexTypes, schemaTypesSpecial } from '../../mongo';
 import Prompts from '../../prompts';
 
-import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
-import IndexDataset from '../dataset/index';
 
 import * as main from './columnMain';
 
@@ -11,17 +9,8 @@ import { choiceListType, dataIndexColumnValueType, schemaIndexType } from '../..
 
 const specialTypeKeys = Object.keys(schemaTypesSpecial);
 
-/**
- *
- */
 export type answersType = { type: keyof typeof schemaIndexTypes; value?: dataIndexColumnValueType };
 
-/**
- *
- * @param prompts
- * @param answersMain
- * @param column
- */
 export const call = async (
   prompts: Prompts,
   answersMain: main.answersType,
@@ -41,14 +30,9 @@ export const call = async (
   return answersSubType;
 };
 
-/**
- *
- * @param column
- */
 export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
-  const index = column && column.getIndex();
-  const value = index && index.getColumnValue();
-  const cType = index && index.getColumnType();
+  const value = column && column.getIndexValue();
+  const cType = column && column.getIndexType();
 
   const typeValue = cType ? Object.keys(schemaIndexTypes).indexOf(cType) : undefined;
   const typeValues = Object.entries(schemaIndexTypes).map<choiceListType<string>>(([k, v]) => ({
@@ -79,39 +63,13 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
   ];
 };
 
-/**
- *
- * @param answers
- * @param collection
- */
-export const evaluation = (answers: answersType, collection: CollectionDataset) => {
+export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
-    let index = column.getIndex();
-
     if (answers.type === 'no' || typeof answers.value === 'undefined') {
-      if (index) {
-        column.setIndex();
-        index.remove();
-      }
-
-      return column;
+      column.removeIndex();
+    } else {
+      column.setIndex(answers.value, answers.type);
     }
-
-    if (!index) {
-      const data = {
-        name: column.getIndexName(),
-        columns: column.getIndexColumn(answers.value),
-        properties: {},
-        readonly: true,
-      };
-
-      index = collection.addIndex(new IndexDataset(data, collection));
-
-      column.setIndex(index);
-    }
-
-    index.setProperty('unique', answers.type === 'unique');
-    index.setProperty('sparse', answers.type === 'sparse');
 
     return column;
   };

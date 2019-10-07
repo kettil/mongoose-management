@@ -7,10 +7,6 @@ import AbstractMenu from '../menu/abstract';
 
 import { choiceValueType, levelOptionsType } from '../../types';
 
-/**
- *
- *
- */
 export default abstract class AbstractLevel<
   T extends AbstractDataset<P>,
   S extends AbstractDataset<any>,
@@ -22,38 +18,22 @@ export default abstract class AbstractLevel<
 
   protected prompts: Prompts;
 
-  /**
-   *
-   * @param dataset
-   * @param prompts
-   */
   constructor(protected dataset: T, protected menu: M, protected options: levelOptionsType) {
     this.prompts = options.prompts;
   }
 
-  /**
-   *
-   */
   async showMenu(): Promise<choiceValueType<S>> {
     const result = await this.menu.exec(this.dataset);
 
     return result;
   }
 
-  /**
-   *
-   * @param action
-   */
   async create(action: choiceValueType<S>['action']): Promise<S | undefined> {
     const dataset = await this.promptCreate(this.prompts, this.dataset);
 
     return dataset;
   }
 
-  /**
-   *
-   * @param dataset
-   */
   async edit(dataset: T): Promise<boolean> {
     const parent = dataset.getParent();
 
@@ -66,10 +46,6 @@ export default abstract class AbstractLevel<
     return false;
   }
 
-  /**
-   *
-   * @param dataset
-   */
   async remove(dataset: T): Promise<boolean> {
     const confirm = await this.prompts.remove(dataset.getName());
 
@@ -80,17 +56,10 @@ export default abstract class AbstractLevel<
     return !confirm;
   }
 
-  /**
-   *
-   * @param dataset
-   */
   show(dataset: S): Promise<void> {
     throw new Error('Next menu level is not defined');
   }
 
-  /**
-   *
-   */
   async exec() {
     let status: boolean;
 
@@ -100,9 +69,6 @@ export default abstract class AbstractLevel<
     } while (status);
   }
 
-  /**
-   *
-   */
   async run(): Promise<boolean> {
     const result = await this.showMenu();
     let status = true;
@@ -164,7 +130,7 @@ export default abstract class AbstractLevel<
       }
 
       if (err.message !== 'cancel') {
-        await this.prompts.pressKey(err.message.split('\n'), true);
+        await this.prompts.pressKey(err);
       }
     }
 

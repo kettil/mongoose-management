@@ -36,6 +36,7 @@ export default class Storage {
     this.path = join(pathData || join(pathProject, this.path));
 
     this.data = new GroupsDataset({ groups: [] }, pathProject);
+    this.data.setReference();
   }
 
   /**
@@ -53,6 +54,7 @@ export default class Storage {
       converter(data);
 
       this.data = new GroupsDataset(data, this.pathProject);
+      this.data.setReference();
     } catch (err) {
       if (err.code !== 'ENOENT') {
         spinner.fail();

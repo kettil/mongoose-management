@@ -102,6 +102,7 @@ export default class File {
       // file does not exist
       return false;
     }
+
     // file exists
     return true;
   }

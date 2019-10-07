@@ -114,12 +114,20 @@ export default class Prompts {
    *
    * @param messages
    */
-  async pressKey(messages?: string | string[], isError = false): Promise<void> {
+  async pressKey(messages?: string | string[] | Error, isError = false): Promise<void> {
+    if (messages instanceof Error) {
+      isError = true;
+      const errMessge = messages.message.split('\n');
+      const errStack = messages.stack ? messages.stack.split('\n') : [];
+
+      messages = [...errMessge, '', ...errStack];
+    }
+
     if (messages) {
       const prefix = isError ? chalk.red('>>') : chalk.green('>>');
 
       if (isError) {
-        console.log(`${prefix} Error!`);
+        console.log(`${prefix} Error`);
       }
 
       if (Array.isArray(messages)) {

@@ -26,17 +26,32 @@ describe('Check the IndexDataset class', () => {
     };
 
     dataset = new IndexDataset(index, parent);
+    dataset.setReference();
   });
 
   /**
    *
    */
   test('initialize the class', () => {
+    dataset = new IndexDataset(index, parent);
+
     expect(dataset).toBeInstanceOf(IndexDataset);
 
     expect(dataset.parent).toBe(parent);
     expect(dataset.name).toBe('i1');
-    expect(dataset.columns).toEqual({ c3: 1, c6: -1 });
+    expect(dataset.columns).toEqual([]);
+    expect(dataset.readonly).toEqual(true);
+  });
+
+  /**
+   *
+   */
+  test('initialize the class with setReference', () => {
+    expect(dataset).toBeInstanceOf(IndexDataset);
+
+    expect(dataset.parent).toBe(parent);
+    expect(dataset.name).toBe('i1');
+    expect(dataset.columns).toEqual([]);
     expect(dataset.readonly).toEqual(true);
   });
 
@@ -79,37 +94,6 @@ describe('Check the IndexDataset class', () => {
   /**
    *
    */
-  test('it should be updated all columns with the new name when updateColumnName() is called (c3 => c8)', () => {
-    dataset.updateColumnName('c3', 'c8');
-
-    expect(dataset.columns).toEqual({ c8: 1, c6: -1 });
-  });
-
-  /**
-   *
-   */
-  test('it should be updated all columns with the new name when updateColumnName() is called (c1.s3 => c1.s9)', () => {
-    dataset.columns = { 'c1.s3.d': 1, 'c1.s5.b': -1 };
-
-    dataset.updateColumnName('c1.s3', 'c1.s9');
-
-    expect(dataset.columns).toEqual({ 'c1.s9.d': 1, 'c1.s5.b': -1 });
-  });
-
-  /**
-   *
-   */
-  test('it should be updated all columns with the new name when updateColumnName() is called (c1 => c3)', () => {
-    dataset.columns = { 'c1.s3.d': 1, 'c1.s5.b': -1 };
-
-    dataset.updateColumnName('c1', 'c3');
-
-    expect(dataset.columns).toEqual({ 'c3.s3.d': 1, 'c3.s5.b': -1 });
-  });
-
-  /**
-   *
-   */
   test('it should be return a property value when getProperty() is called', () => {
     const result = dataset.getProperty('unique');
 
@@ -145,18 +129,12 @@ describe('Check the IndexDataset class', () => {
     expect(result).toBe(expected);
   });
 
-  /**
-   *
-   */
   test('it should be return undefined when getColumnValue() is called with two column items', () => {
     const result = dataset.getColumnValue();
 
     expect(result).toBe(undefined);
   });
 
-  /**
-   *
-   */
   test('it should be return the column value when getColumnValue() is called with one column item', () => {
     dataset.columns = { c: 'hashed' };
 
@@ -165,9 +143,6 @@ describe('Check the IndexDataset class', () => {
     expect(result).toBe('hashed');
   });
 
-  /**
-   *
-   */
   test('it should be return undefined when getColumnValue() is called with null column items', () => {
     dataset.columns = {};
 
@@ -176,18 +151,12 @@ describe('Check the IndexDataset class', () => {
     expect(result).toBe(undefined);
   });
 
-  /**
-   *
-   */
   test('it should be return true when isReadonly() is called', () => {
     const result = dataset.isReadonly();
 
     expect(result).toBe(true);
   });
 
-  /**
-   *
-   */
   test('it should be remove this index when remove() is called', () => {
     dataset.remove();
 
@@ -195,9 +164,6 @@ describe('Check the IndexDataset class', () => {
     expect(parent.removeIndex).toHaveBeenCalledWith(dataset);
   });
 
-  /**
-   *
-   */
   test('it should be return a data object when getObject() is called [1]', () => {
     const data = dataset.getObject();
 
@@ -209,9 +175,6 @@ describe('Check the IndexDataset class', () => {
     });
   });
 
-  /**
-   *
-   */
   test('it should be return a data object when getObject() is called [2]', () => {
     dataset.properties = { sparse: true };
     dataset.readonly = false;

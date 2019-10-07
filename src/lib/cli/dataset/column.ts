@@ -1,80 +1,55 @@
-import AbstractColumnsDataset from './abstractColumn';
+import AbstractColumnsDataset, { InterfaceColumnDataset } from './abstractColumn';
 import CollectionDataset from './collection';
 import IndexDataset from './index';
-
-import { sortByName } from '../helper/sort';
 
 import {
   dataColumnInternalValuesType,
   dataColumnType,
   dataIndexColumnValueType,
-  dataIndexType,
+  schemaIndexType,
   schemaNormalType,
 } from '../../types';
 
-/**
- *
- */
 export type optionsType = Exclude<keyof dataColumnType, keyof dataColumnInternalValuesType | 'name'>;
 
-/**
- *
- */
-export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset | CollectionDataset, ColumnDataset> {
-  protected data: dataColumnType;
+export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset | CollectionDataset, ColumnDataset>
+  implements InterfaceColumnDataset<ColumnDataset> {
   protected columns: ColumnDataset[];
   protected subTypes: schemaNormalType[];
 
   protected index?: IndexDataset;
 
-  /**
-   *
-   * @param column
-   * @param collection
-   */
   constructor(
-    column: dataColumnType,
+    protected column: dataColumnType,
     parent: ColumnDataset | CollectionDataset,
     protected collection: CollectionDataset,
+    protected readonly: boolean = false,
   ) {
     super(parent);
 
-    this.data = column;
     this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, collection)) : [];
     this.subTypes = column.subTypes ? column.subTypes : [];
-
-    this.setIndex(collection.getIndex(this.getIndexName()));
   }
 
-  /**
-   *
-   */
+  setReference() {
+    this.index = this.collection.getIndex(this.getIndexName());
+
+    this.columns.forEach((column) => column.setReference());
+  }
+
   getName(withBrackets = false) {
-    return withBrackets && this.get('type') === 'array' ? `${this.data.name}[]` : this.data.name;
+    return withBrackets && this.get('type') === 'array' ? `${this.column.name}[]` : this.column.name;
   }
 
-  /**
-   *
-   */
   setName(name: string) {
-    const oldName = this.getFullname(false, false);
-
-    this.data.name = name;
+    this.column.name = name;
     this.getParent().sortColumns();
-    this.refreshIndex();
 
-    // update all indexes
-    this.collection
-      .getIndexes()
-      .filter((i) => !i.isReadonly()) // ignore column indexes
-      .forEach((i) => i.updateColumnName(oldName, this.getFullname(false, false)));
+    if (this.index) {
+      this.index.setName(this.getIndexName());
+    }
   }
 
-  /**
-   *
-   * @param withArrayBrackets
-   * @param withoutBrackets
-   */
   getFullname(withBracketsForThisColumn = false, withBrackets = true) {
     const name: string[] = [];
 
@@ -87,27 +62,14 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     return name.join('.');
   }
 
-  /**
-   *
-   * @param key
-   */
   get<K extends optionsType>(key: K): dataColumnType[K] {
-    return this.data[key];
+    return this.column[key];
   }
 
-  /**
-   *
-   * @param key
-   * @param value
-   */
   set<K extends optionsType>(key: K, value: dataColumnType[K]) {
-    this.data[key] = value;
+    this.column[key] = value;
   }
 
-  /**
-   *
-   * @param key
-   */
   isset<K extends optionsType>(key: K, withEmptyString = true) {
     const value = this.get(key);
 
@@ -126,10 +88,6 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     }
   }
 
-  /**
-   *
-   * @param selectedColumn
-   */
   getTableName(selectedColumn?: ColumnDataset, withArrayBrackets = false) {
     let name = this.getName(withArrayBrackets);
 
@@ -140,9 +98,6 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     return name;
   }
 
-  /**
-   *
-   */
   getTableType() {
     const type = this.get('type');
     if (type === 'array') {
@@ -156,114 +111,97 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     return type;
   }
 
-  /**
-   *
-   */
   getSubTypes() {
     return this.subTypes;
   }
 
-  /**
-   *
-   * @param subTypes
-   */
   setSubTypes(subTypes: schemaNormalType[]) {
     this.subTypes = subTypes;
   }
 
-  /**
-   *
-   */
   getIndexName() {
     return this.getFullname(false, false) + '_';
   }
 
-  /**
-   *
-   */
   getIndex() {
     return this.index;
   }
 
-  /**
-   *
-   * @param index
-   */
-  setIndex(index?: IndexDataset) {
+  getIndexType(): schemaIndexType | undefined {
+    const index = this.index;
     if (index === undefined) {
-      // remove the index
-      this.index = undefined;
-    } else {
-      // set the index
-      const cName = this.getIndexName();
-      const iName = index.getName();
+      return;
+    }
 
-      if (cName !== iName) {
-        throw new Error(`The index is not named like the column (${cName} !== ${iName})`);
-      }
+    switch (true) {
+      case index.getProperty('unique'):
+        return 'unique';
 
-      this.index = index;
+      case index.getProperty('sparse'):
+        return 'sparse';
+
+      default:
+        return 'index';
     }
   }
 
-  /**
-   *
-   */
-  getIndexColumn(value: dataIndexColumnValueType): dataIndexType['columns'] {
-    return { [this.getFullname(false, false)]: value };
+  getIndexValue(): dataIndexColumnValueType | undefined {
+    const index = this.index;
+    if (index === undefined) {
+      return;
+    }
+
+    const columns = index.getColumns();
+
+    return columns.length === 1 ? columns[0][1] : undefined;
   }
 
-  /**
-   *
-   */
-  refreshIndex() {
+  setIndex(value: dataIndexColumnValueType, type: schemaIndexType) {
     if (this.index) {
-      const value = this.index.getColumnValue();
-
-      if (!value) {
-        throw new Error('The column has a index but the index value is not defined');
-      }
-
-      this.index.setName(this.getIndexName());
-      this.index.setColumns(this.getIndexColumn(value));
+      this.index.setProperty('unique', type === 'unique');
+      this.index.setProperty('sparse', type === 'sparse');
+      //
+    } else {
+      this.index = this.collection.addIndex(
+        new IndexDataset(
+          {
+            name: this.getIndexName(),
+            columns: { [this.getFullname(false, false)]: value },
+            readonly: true,
+            properties: {
+              unique: type === 'unique',
+              sparse: type === 'sparse',
+            },
+          },
+          this.collection,
+        ),
+      );
     }
-
-    // Updates the subcolumns
-    this.getColumns().forEach((c) => c.refreshIndex());
   }
 
-  /**
-   *
-   */
+  removeIndex() {
+    if (this.index) {
+      this.index.remove();
+      this.index = undefined;
+    }
+  }
+
+  isReadonly(): boolean {
+    return this.readonly;
+  }
+
+  remove() {
+    this.removeIndex();
+    this.parent.removeColumn(this);
+  }
+
   getCollection() {
     return this.collection;
   }
 
-  /**
-   *
-   */
-  sortColumns() {
-    this.columns.sort(sortByName);
-  }
-
-  /**
-   *
-   */
-  remove() {
-    const index = this.getIndex();
-    if (index) {
-      index.remove();
-    }
-
-    this.parent.removeColumn(this);
-  }
-
-  /**
-   *
-   */
   getObject(): dataColumnType {
     return {
-      ...this.data,
+      ...this.column,
       subColumns: this.columns.length > 0 ? this.columns.map((c) => c.getObject()) : undefined,
       subTypes: this.subTypes.length > 0 ? this.subTypes : undefined,
     };

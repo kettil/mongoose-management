@@ -4,28 +4,8 @@ import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import IndexDataset from '../dataset/index';
 
-import { schemaType } from '../../types';
+export type answersType = { name: string; columns: ColumnDataset[] };
 
-/**
- *
- */
-export type answersType = { name: string; columns: Array<ColumnDataset['data']['name']> };
-
-/**
- *
- */
-export const extendColumns: Array<[string, schemaType]> = [
-  ['createdAt', 'date'],
-  ['updatedAt', 'date'],
-  ['_id', 'objectId'],
-];
-
-/**
- *
- * @param prompts
- * @param columns
- * @param column
- */
 export const call = async (
   prompts: Prompts,
   collection: CollectionDataset,
@@ -41,23 +21,14 @@ export const call = async (
   return answersMain;
 };
 
-/**
- *
- * @param collection
- * @param column
- */
 export const getQuestions = (collection: CollectionDataset, index?: IndexDataset): ReadonlyArray<any> => {
   const indexes = collection.getIndexes();
 
   const nameValue = index && index.getName();
   const nameValues = indexes.filter((d) => d !== index).map((d) => d.getName().toLowerCase());
 
-  const columnNames = index ? Object.keys(index.getColumns()) : [];
-
-  const columnValues = collection
-    .flatColumns()
-    .map((c) => getChoiceItem(c.getFullname(false, false), c.get('type'), columnNames))
-    .concat(extendColumns.map((d) => getChoiceItem(d[0], d[1], columnNames)));
+  const columnNames = index ? index.getColumns().map(([column]) => column.getFullname(false, false)) : [];
+  const columnValues = collection.flatColumns().map((column) => getChoiceItem(column, columnNames));
 
   return [
     {
@@ -79,11 +50,6 @@ export const getQuestions = (collection: CollectionDataset, index?: IndexDataset
   ];
 };
 
-/**
- *
- * @param answers
- * @param collection
- */
 export const evaluation = (answers: answersType, collection: CollectionDataset) => {
   return (index?: IndexDataset): IndexDataset => {
     if (!index) {
@@ -98,33 +64,20 @@ export const evaluation = (answers: answersType, collection: CollectionDataset) 
   };
 };
 
-/**
- *
- * @param name
- * @param type
- * @param columns
- */
-export const getChoiceItem = (
-  name: ColumnDataset['data']['name'],
-  type: ColumnDataset['data']['type'],
-  columns: string[],
-) => {
-  const disabled = Object.keys(schemaTypesSpecial).indexOf(type) >= 0;
+export const getChoiceItem = (column: ColumnDataset, columns: string[]) => {
+  const name = column.getFullname(false, false);
+  const disabled = Object.keys(schemaTypesSpecial).indexOf(column.get('type')) >= 0;
   const checked = !disabled && columns.length > 0 && columns.indexOf(name) >= 0;
 
   return {
     name,
-    value: name,
+    value: column,
     short: name,
     checked,
     disabled,
   };
 };
 
-/**
- *
- * @param nameValues
- */
 export const validateName = (nameValues: string[]) => (value: string) => {
   const name = value.trim();
 
@@ -139,7 +92,4 @@ export const validateName = (nameValues: string[]) => (value: string) => {
   return true;
 };
 
-/**
- *
- */
 export const whenColumns = () => ({ name }: { name: string }) => name.trim() !== '';

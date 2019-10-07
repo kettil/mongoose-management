@@ -1,9 +1,3 @@
-/**
- *
- * @param mainCall
- * @param subCalls
- * @param item
- */
 export const mergeEvaluation = <T>(
   mainCall: (item: T | undefined) => T,
   subCalls: Array<(item: T) => T> = [],

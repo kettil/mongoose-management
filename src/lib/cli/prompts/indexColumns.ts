@@ -2,22 +2,12 @@ import { indexColumnValues } from '../../mongo';
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import IndexDataset from '../dataset/index';
-
 import * as main from './indexMain';
 
-import { dataIndexColumnValueType } from '../../types';
+import { Unpacked } from '../../types';
 
-/**
- *
- */
-export type answersType = { [K: string]: dataIndexColumnValueType };
+export type answersType = { [K: string]: Unpacked<IndexDataset['columns']> };
 
-/**
- *
- * @param prompts
- * @param answersMain
- * @param index
- */
 export const call = async (
   prompts: Prompts,
   answersMain: main.answersType,
@@ -26,6 +16,7 @@ export const call = async (
 ): Promise<answersType> => {
   const questions = getQuestions(answersMain, index);
   const answersColumns = await prompts.call<answersType>(questions);
+  const answersNormalize = normalizer(answersColumns);
 
   collection.getIndexes().forEach((i) => {
     if (i !== index && equalIndexColumns(answersColumns, i.getColumns())) {
@@ -33,79 +24,62 @@ export const call = async (
     }
   });
 
-  return normalizeAnwsers(answersColumns);
+  return answersNormalize;
 };
 
-/**
- *
- * @param answersMain
- * @param index
- */
 export const getQuestions = (answersMain: main.answersType, index?: IndexDataset): ReadonlyArray<any> => {
-  return answersMain.columns.map((name) => {
-    const columns = index ? index.getColumns() : {};
-    const column = columns[name];
+  const columns = index ? index.getColumnsNormalize() : {};
+
+  return answersMain.columns.map((column) => {
+    const name = column.getFullname(false, false);
+    const dValue = indexColumnValues.indexOf(columns[name]);
+    const choices = indexColumnValues.map((value) => ({ name: value, value: [column, value], short: value }));
 
     return {
       type: 'list',
       name,
       message: `Choose a index type for "${name}":`,
-      choices: indexColumnValues,
-      default: typeof column !== 'undefined' ? indexColumnValues.indexOf(column) : undefined,
+      choices,
+      default: dValue,
     };
   });
 };
 
-/**
- *
- * @param answers
- */
 export const evaluation = (answers: answersType) => {
   return (index: IndexDataset): IndexDataset => {
-    index.setColumns(answers);
+    index.setColumns(Object.values(answers));
 
     return index;
   };
 };
 
-/**
- *
- * @param answers
- * @param names
- */
-export const normalizeAnwsers = (
-  answers: answersType | { [K: string]: answersType },
-  names: string[] = [],
-): answersType => {
+export const normalizer = (answers: answersType | { [K: string]: answersType }, names: string[] = []): answersType => {
   let data: answersType = {};
 
   Object.keys(answers).forEach((key) => {
     const value = answers[key];
-    if (typeof value === 'object') {
-      data = { ...data, ...normalizeAnwsers(value, [...names, key]) };
-    } else {
+    if (Array.isArray(value)) {
       data[[...names, key].join('.')] = value;
+    } else {
+      data = { ...data, ...normalizer(value, [...names, key]) };
     }
   });
 
   return data;
 };
 
-/**
- *
- * @param a
- * @param b
- */
-export const equalIndexColumns = (a: IndexDataset['columns'], b: IndexDataset['columns']): boolean => {
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+export const equalIndexColumns = (answers: answersType, columns: IndexDataset['columns']): boolean => {
+  const keys = Object.keys(answers);
 
-  if (aKeys.length !== bKeys.length) {
+  if (keys.length !== columns.length) {
     return false;
   }
 
-  for (const key of aKeys) {
-    if (a[key] !== b[key]) {
+  for (const [column, value] of columns) {
+    const name = column.getFullname(false, false);
+    const answer = answers[name];
+
+    if (!Array.isArray(answer) || answer[0] !== column || answer[1] !== value) {
       return false;
     }
   }

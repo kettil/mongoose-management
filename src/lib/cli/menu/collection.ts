@@ -94,8 +94,9 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     const header = ['Name', 'Column(s)', 'Unique', 'Sparse'];
     const values = indexes.map((index: IndexDataset) => [
       index.getName(),
-      Object.entries(index.getColumns())
-        .map(([k, v]) => `${k}: ${v}`)
+      index
+        .getColumns()
+        .map(([k, v]) => `${k.getFullname(false, false)}: ${v}`)
         .join(', '),
       index.getProperty('unique') ? '✔' : '',
       index.getProperty('sparse') ? '✔' : '',

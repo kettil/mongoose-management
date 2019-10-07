@@ -15,9 +15,6 @@ import IndexLevel from './index';
 
 import { choiceValueType, levelOptionsType } from '../../types';
 
-/**
- *
- */
 export default class CollectionLevel extends AbstractLevel<
   CollectionDataset,
   ColumnDataset | IndexDataset,
@@ -26,11 +23,6 @@ export default class CollectionLevel extends AbstractLevel<
 > {
   protected promptEdit = promptsCollection;
 
-  /**
-   *
-   * @param dataset
-   * @param prompts
-   */
   constructor(dataset: CollectionDataset, options: levelOptionsType) {
     super(dataset, new CollectionMenu(options.prompts), options);
   }
