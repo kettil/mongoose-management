@@ -204,9 +204,11 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   }
 
   getObject(): dataColumnType {
+    const isSubColumnType = ['object', 'array'].indexOf(this.get('type')) >= 0;
+
     return {
       ...this.column,
-      subColumns: this.columns.length > 0 ? this.columns.map((c) => c.getObject()) : undefined,
+      subColumns: isSubColumnType ? this.columns.map((c) => c.getObject()) : undefined,
       subTypes: this.subTypes.length > 0 ? this.subTypes : undefined,
     };
   }

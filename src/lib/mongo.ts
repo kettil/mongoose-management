@@ -12,10 +12,10 @@ export const schemaTypesNormal = {
 
 export const schemaTypesSpecial = {
   arrayType: schemaTypesNormal.arrayType,
-  array: { name: 'Array<Object>', definition: '[]', type: '[]' },
-  object: { name: 'Object', definition: '{}', type: '{}' },
-  map: { name: 'Map', definition: 'Map', type: 'Map' },
-  '2dsphere': { name: '2dsphere', definition: '{}', type: '{}' },
+  array: { name: 'Array<Object>', definition: 'Schema.Types.Array', type: '[]' },
+  object: { name: 'Object', definition: 'Schema.Types.Mixed', type: '{}' },
+  map: { name: 'Map', definition: 'Schema.Types.Map', type: 'Map' },
+  '2dsphere': { name: '2dsphere', definition: 'Schema.Types.Mixed', type: '{}' },
 };
 
 export const schemaTypes = {

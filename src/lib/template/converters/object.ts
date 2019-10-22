@@ -5,7 +5,7 @@ import { dataColumnType } from '../../types';
 /**
  *
  */
-export default class ConverterObjrect extends AbstractConverter<dataColumnType[]> {
+export default class ConverterObject extends AbstractConverter<dataColumnType[]> {
   /**
    *
    * @param column
@@ -19,6 +19,10 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
    * @param column
    */
   columnToDefinitions(columns: dataColumnType[]) {
+    if (columns.length === 0) {
+      return this.converter.converterCommon.columnToDefinitions({ name: '', type: 'object' });
+    }
+
     return this.switchers(columns, 'columnToDefinitions');
   }
 
@@ -59,7 +63,7 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
         return this.converter.converter2dSphere[funcs]();
 
       case 'arrayType':
-        if (!column.subTypes) {
+        if (!Array.isArray(column.subTypes)) {
           throw new Error('SubType is not defined!');
         }
 
