@@ -7,13 +7,13 @@ export const schemaTypesNormal = {
   decimal: { name: 'Decimal128', definition: 'Schema.Types.Decimal128', type: 'number' },
   buffer: { name: 'Buffer', definition: 'Schema.Types.Buffer', type: 'Buffer' },
   mixed: { name: 'Mixed', definition: 'Schema.Types.Mixed', type: 'any' },
-  arrayType: { name: 'Array<Type>', definition: '[]', type: '[]' },
+  arrayType: { name: 'Array<Type>', definition: 'Schema.Types.Array', type: 'any[]' },
 };
 
 export const schemaTypesSpecial = {
   arrayType: schemaTypesNormal.arrayType,
-  array: { name: 'Array<Object>', definition: 'Schema.Types.Array', type: '[]' },
-  object: { name: 'Object', definition: 'Schema.Types.Mixed', type: '{}' },
+  array: { name: 'Array<Object>', definition: 'Schema.Types.Array', type: 'any[]' },
+  object: { name: 'Object', definition: 'Schema.Types.Mixed', type: 'any' },
   map: { name: 'Map', definition: 'Schema.Types.Map', type: 'Map' },
   '2dsphere': { name: '2dsphere', definition: 'Schema.Types.Mixed', type: '{}' },
 };

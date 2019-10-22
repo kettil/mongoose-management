@@ -11,6 +11,10 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
    * @param column
    */
   columnToTypes(columns: dataColumnType[]) {
+    if (columns.length === 0) {
+      return this.converter.converterCommon.columnToTypes({ name: '', type: 'object' });
+    }
+
     return this.switchers(columns, 'columnToTypes');
   }
 
