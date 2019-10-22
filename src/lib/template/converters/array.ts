@@ -11,7 +11,7 @@ export default class ConverterArray extends AbstractConverter<dataColumnType> {
    * @param column
    */
   columnToTypes(column: dataColumnType) {
-    if (!column.subColumns) {
+    if (!Array.isArray(column.subColumns)) {
       throw new Error('SubColumns are not defined!');
     }
 
@@ -23,7 +23,7 @@ export default class ConverterArray extends AbstractConverter<dataColumnType> {
    * @param column
    */
   columnToDefinitions(column: dataColumnType) {
-    if (!column.subColumns) {
+    if (!Array.isArray(column.subColumns)) {
       throw new Error('SubColumns are not defined!');
     }
 
