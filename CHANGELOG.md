@@ -6,7 +6,14 @@
 
 ### Fixes
 
+- Default import from mongoose is not defined in model template
+- Add a transformer to the toJSON function
+- Not all options were displayed when creating a column.
+- Empty objects and arrays of objects could not be generated
+
 ### Chore & Maintenance
+
+- Update the mongodb and mongoose packages to the latest version.
 
 ### Performance
 

@@ -8,18 +8,14 @@ import AbstractMenu from './abstract';
 import { choicesType } from '../../types';
 
 export default class GroupsMenu extends AbstractMenu<GroupsDataset, GroupDataset> {
-  /**
-   *
-   * @param groups
-   */
   async exec(groups: GroupsDataset) {
     const choices = this.getChoiceList(groups.getGroups());
 
     if (choices.length === 0) {
-      choices.push(new Separator(`- No groups defined -`));
+      choices.push(new Separator('- No groups defined -'));
     }
 
-    const result = await this.prompt.menu<GroupDataset>('Choose a group or a command:', [
+    const result = await this.prompts.menu<GroupDataset>('Choose a group or a command:', [
       new Separator('Group list'),
       new Separator(' '),
       ...choices,
@@ -34,10 +30,6 @@ export default class GroupsMenu extends AbstractMenu<GroupsDataset, GroupDataset
     return result;
   }
 
-  /**
-   *
-   * @param groups
-   */
   getChoiceList(groups: GroupDataset[]): Array<choicesType<GroupDataset>> {
     return groups.map((d) => ({ name: d.getPath(), value: { data: d }, short: d.getPath() }));
   }

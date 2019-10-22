@@ -1,178 +1,141 @@
 jest.mock('../../prompts');
-jest.mock('../../storage');
-jest.mock('../../template/create');
-jest.mock('../dataset/collection');
-jest.mock('../dataset/column');
-jest.mock('../dataset/index');
-jest.mock('../menu/collection');
-jest.mock('../prompts/collection');
-jest.mock('../prompts/column');
-jest.mock('../prompts/index');
 jest.mock('./column');
 jest.mock('./index');
 
 import Prompts from '../../prompts';
-import Storage from '../../storage';
-import Creater from '../../template/create';
-
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import IndexDataset from '../dataset/index';
-
 import CollectionMenu from '../menu/collection';
-
 import promptsCollection from '../prompts/collection';
-import promptsColumn from '../prompts/column';
-import promptsIndex from '../prompts/index';
-
 import ColumnLevel from './column';
 import IndexLevel from './index';
 
 import CollectionLevel from './collection';
 
-import { levelOptionsType } from '../../types';
-
-/**
- *
- */
 describe('Check the CollectionLevel class', () => {
-  let level: any;
-  let dataset: any;
   let prompts: any;
-  let options: levelOptionsType;
+  let storage: any;
+  let creater: any;
+  let dataset: CollectionDataset;
+  let level: any;
 
-  /**
-   *
-   */
   beforeEach(() => {
-    const storage = new (Storage as any)();
-    const creater = new (Creater as any)();
-    prompts = new (Prompts as any)();
-    dataset = new (CollectionDataset as any)();
-    options = { prompts, storage, creater };
+    prompts = new Prompts();
+    storage = jest.fn();
+    creater = jest.fn();
 
-    level = new CollectionLevel(dataset, options);
+    dataset = new CollectionDataset(
+      {
+        name: 'collectionName',
+        columns: [{ name: 'c1', type: 'string' }],
+        indexes: [{ name: 'i1', columns: { c1: 'hashed' }, properties: {} }],
+      },
+      jest.fn() as any,
+    );
+    level = new CollectionLevel(dataset, { prompts, storage, creater });
   });
 
-  /**
-   *
-   */
   test('initialize the class', () => {
     expect(level).toBeInstanceOf(CollectionLevel);
 
-    expect(level.dataset).toBe(dataset);
+    expect(level.dataset).toBeInstanceOf(CollectionDataset);
     expect(level.menu).toBeInstanceOf(CollectionMenu);
     expect(level.prompts).toBe(prompts);
-    expect(level.options).toBe(options);
+    expect(level.options).toEqual({ prompts, storage, creater });
 
     expect(level.promptCreate).toEqual(expect.any(Function));
-    expect(level.promptEdit).toEqual(expect.any(Function));
-
     expect(level.promptEdit).toBe(promptsCollection);
   });
 
-  /**
-   *
-   */
   test('it should be promptsIndex() called when create() is called with action "createIndex"', async () => {
-    const mock = new (IndexDataset as any)();
+    const c1 = dataset.getColumn('c1');
 
-    (promptsIndex as jest.Mock).mockResolvedValue(mock);
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'indexName', columns: [c1] });
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ c1: [c1, 1] });
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ unique: true, sparse: false });
+
+    expect(dataset.getIndexes().length).toBe(1);
 
     const result = await level.create('createIndex');
 
     expect(result).toBe(undefined);
 
-    expect(promptsIndex).toHaveBeenCalledTimes(1);
-    expect(promptsIndex).toHaveBeenCalledWith(prompts, dataset);
-
-    expect(promptsColumn).toHaveBeenCalledTimes(0);
+    expect(dataset.getIndexes().length).toBe(2);
+    expect(prompts.call).toHaveBeenCalledTimes(3);
+    expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
   });
 
-  /**
-   *
-   */
-  test.each([['array'], ['object']])(
-    'it should be promptsIndex() called when create() is called with action "createColumn" and type "%s"',
-    async (action) => {
-      const mock = new (ColumnDataset as any)();
-
-      mock.get = jest.fn().mockReturnValue(action);
-
-      (promptsColumn as jest.Mock).mockResolvedValue(mock);
-
-      const result = await level.create('createColumn');
-
-      expect(result).toBe(mock);
-
-      expect(promptsIndex).toHaveBeenCalledTimes(0);
-
-      expect(promptsColumn).toHaveBeenCalledTimes(1);
-      expect(promptsColumn).toHaveBeenCalledWith(prompts, dataset);
-    },
-  );
-
-  /**
-   *
-   */
   test('it should be promptsIndex() called when create() is called with action "createColumn" and type "string"', async () => {
-    const mock = new (ColumnDataset as any)();
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type: 'string' });
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['default'], default: "'Moin'" });
+    ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ type: 'unique', value: 'hashed' });
 
-    mock.get = jest.fn().mockReturnValue('string');
-
-    (promptsColumn as jest.Mock).mockResolvedValue(mock);
+    expect(dataset.getColumns().length).toBe(4);
 
     const result = await level.create('createColumn');
 
-    expect(result).toBe(undefined);
+    expect(result).toEqual(undefined);
 
-    expect(promptsIndex).toHaveBeenCalledTimes(0);
-
-    expect(promptsColumn).toHaveBeenCalledTimes(1);
-    expect(promptsColumn).toHaveBeenCalledWith(prompts, dataset);
+    expect(dataset.getColumns().length).toBe(5);
+    expect(prompts.call).toHaveBeenCalledTimes(3);
+    expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
   });
 
-  /**
-   *
-   */
-  test('it should be create IndexLevel when show() is called with an IndexDataset', async () => {
-    const mock = new (IndexDataset as any)();
+  test.each([['array'], ['object']])(
+    'it should be promptsIndex() called when create() is called with action "createColumn" and type "%s"',
+    async (type) => {
+      ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type });
+      ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['required'] });
 
-    await level.show(mock);
+      expect(dataset.getColumns().length).toBe(4);
+
+      const result = await level.create('createColumn');
+
+      expect(result).toEqual(expect.any(ColumnDataset));
+
+      expect(dataset.getColumns().length).toBe(5);
+      expect(prompts.call).toHaveBeenCalledTimes(2);
+      expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
+    },
+  );
+
+  test('it should be throw an error when create() is called with unknwon action', async () => {
+    expect.assertions(2);
+    try {
+      await level.create('create');
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toBe('Unknown action');
+    }
+  });
+
+  test('it should be create IndexLevel when show() is called with an IndexDataset', async () => {
+    const subDataset = dataset.getIndex('i1');
+
+    expect(subDataset).toBeInstanceOf(IndexDataset);
+
+    await level.show(subDataset);
 
     expect(IndexLevel).toHaveBeenCalledTimes(1);
-    expect(IndexLevel).toHaveBeenCalledWith(mock, options);
-
+    expect(IndexLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
     expect(IndexLevel.prototype.exec).toHaveBeenCalledTimes(1);
     expect(IndexLevel.prototype.exec).toHaveBeenCalledWith();
-
-    expect(ColumnLevel).toHaveBeenCalledTimes(0);
-
-    expect(ColumnLevel.prototype.exec).toHaveBeenCalledTimes(0);
   });
 
-  /**
-   *
-   */
-  test('it should be create ConsumerLevel when show() is called with a ColumnDataset', async () => {
-    const mock = new (ColumnDataset as any)();
+  test('it should be create ColumnLevel when show() is called with a ColumnDataset', async () => {
+    const subDataset = dataset.getColumn('c1');
 
-    await level.show(mock);
+    expect(subDataset).toBeInstanceOf(ColumnDataset);
 
-    expect(IndexLevel).toHaveBeenCalledTimes(0);
-
-    expect(IndexLevel.prototype.exec).toHaveBeenCalledTimes(0);
+    await level.show(subDataset);
 
     expect(ColumnLevel).toHaveBeenCalledTimes(1);
-    expect(ColumnLevel).toHaveBeenCalledWith(mock, options);
-
+    expect(ColumnLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
     expect(ColumnLevel.prototype.exec).toHaveBeenCalledTimes(1);
     expect(ColumnLevel.prototype.exec).toHaveBeenCalledWith();
   });
 
-  /**
-   *
-   */
   test('it should be throw an error when show() is called without Dataset', async () => {
     expect.assertions(6);
     try {
@@ -183,17 +146,11 @@ describe('Check the CollectionLevel class', () => {
     }
 
     expect(IndexLevel).toHaveBeenCalledTimes(0);
-
     expect(IndexLevel.prototype.exec).toHaveBeenCalledTimes(0);
-
     expect(ColumnLevel).toHaveBeenCalledTimes(0);
-
     expect(ColumnLevel.prototype.exec).toHaveBeenCalledTimes(0);
   });
 
-  /**
-   *
-   */
   test('it should be throw an error when promptCreate() is called', async () => {
     expect.assertions(2);
     try {

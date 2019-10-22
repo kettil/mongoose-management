@@ -1,82 +1,48 @@
-jest.mock('../../prompts');
-jest.mock('../../storage');
-jest.mock('../../template/create');
-jest.mock('../dataset/collection');
-jest.mock('../dataset/group');
-
-jest.mock('../menu/group');
-jest.mock('../prompts/collection');
-jest.mock('../prompts/group');
 jest.mock('./collection');
 
-import Prompts from '../../prompts';
-import Storage from '../../storage';
-import Creater from '../../template/create';
-
-import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
-
 import GroupMenu from '../menu/group';
-
 import promptsCollection from '../prompts/collection';
 import promptsGroup from '../prompts/group';
-
 import CollectionLevel from './collection';
 
 import GroupLevel from './group';
 
-import { levelOptionsType } from '../../types';
-
-/**
- *
- */
 describe('Check the GroupLevel class', () => {
-  let level: any;
-  let dataset: any;
   let prompts: any;
-  let options: levelOptionsType;
+  let storage: any;
+  let creater: any;
+  let dataset: GroupDataset;
+  let level: any;
 
-  /**
-   *
-   */
   beforeEach(() => {
-    const storage = new (Storage as any)();
-    const creater = new (Creater as any)();
-    prompts = new (Prompts as any)();
-    dataset = new (GroupDataset as any)();
-    options = { prompts, storage, creater };
+    prompts = jest.fn();
+    storage = jest.fn();
+    creater = jest.fn();
 
-    level = new GroupLevel(dataset, options);
+    dataset = new GroupDataset({ path: 'subpath', collections: [] }, jest.fn() as any);
+    level = new GroupLevel(dataset, { prompts, storage, creater });
   });
 
-  /**
-   *
-   */
   test('initialize the class', () => {
     expect(level).toBeInstanceOf(GroupLevel);
 
-    expect(level.dataset).toBe(dataset);
+    expect(level.dataset).toBeInstanceOf(GroupDataset);
     expect(level.menu).toBeInstanceOf(GroupMenu);
     expect(level.prompts).toBe(prompts);
-    expect(level.options).toBe(options);
-
-    expect(level.promptCreate).toEqual(expect.any(Function));
-    expect(level.promptEdit).toEqual(expect.any(Function));
+    expect(level.options).toEqual({ prompts, storage, creater });
 
     expect(level.promptCreate).toBe(promptsCollection);
     expect(level.promptEdit).toBe(promptsGroup);
   });
 
-  /**
-   *
-   */
   test('it should be create CollectionLevel when show() is called', async () => {
-    const mock = new (CollectionDataset as any)();
+    const subDataset = jest.fn();
 
-    await level.show(mock);
+    await level.show(subDataset);
 
     expect(CollectionLevel).toHaveBeenCalledTimes(1);
-    expect(CollectionLevel).toHaveBeenCalledWith(mock, options);
+    expect(CollectionLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
 
     expect(CollectionLevel.prototype.exec).toHaveBeenCalledTimes(1);
     expect(CollectionLevel.prototype.exec).toHaveBeenCalledWith();

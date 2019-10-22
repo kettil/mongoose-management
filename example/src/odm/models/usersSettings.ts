@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import mongoose, { Connection, Schema } from 'mongoose';
+import { Connection, model, Schema } from 'mongoose';
 
 import { usersSettingsDefinitions, usersSettingsIndexes } from '../documents/usersSettings';
 import { InterfaceUsersSettingsDocument, InterfaceUsersSettingsModel } from '../interfaces/usersSettings';
@@ -44,9 +44,6 @@ export const createUsersSettingsModel = (handler: Connection) => {
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<InterfaceUsersSettingsDocument, InterfaceUsersSettingsModel>(
-  'UsersSettings',
-  usersSettingsSchema,
-);
+const Model = model<InterfaceUsersSettingsDocument, InterfaceUsersSettingsModel>('UsersSettings', usersSettingsSchema);
 
 export default Model;

@@ -1,46 +1,63 @@
-jest.mock('../../prompts');
-jest.mock('../dataset/collection');
-jest.mock('../dataset/group');
-jest.mock('../helper/evaluation');
-jest.mock('./collectionMain');
-
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
-import { mergeEvaluation } from '../helper/evaluation';
-
-import * as main from './collectionMain';
 
 import execute from './collection';
 
-/**
- *
- */
+const mockCall = jest.fn();
+
 describe('Check the prompts collection function', () => {
-  /**
-   *
-   */
+  let prompts: Prompts;
+  let group: GroupDataset;
+  let collection: CollectionDataset;
+
+  beforeEach(() => {
+    prompts = { call: mockCall } as any;
+
+    group = new GroupDataset(
+      {
+        path: 'path',
+        collections: [
+          {
+            name: 'collection',
+            columns: [],
+            indexes: [],
+          },
+        ],
+      },
+      jest.fn() as any,
+    );
+    group.setReference();
+
+    collection = group.getCollection('collection')!;
+  });
+
   test('it should be return the collection when execute() is called', async () => {
-    const prompts = new (Prompts as any)();
-    const collection = new (CollectionDataset as any)();
-    const group = new (GroupDataset as any)();
+    expect.assertions(4);
 
-    const mainEvaluation = jest.fn();
+    mockCall.mockImplementation((questions) => {
+      expect(questions).toEqual([
+        {
+          default: 'collection',
+          message: 'Collection name:',
+          name: 'name',
+          type: 'input',
+          validate: expect.any(Function),
+        },
+      ]);
 
-    (main.call as jest.Mock).mockResolvedValue({ name: 'collectionName' });
-    (main.evaluation as jest.Mock).mockReturnValue(mainEvaluation);
-    (mergeEvaluation as jest.Mock).mockReturnValue(group);
+      return { name: 'newCollectionName' };
+    });
 
-    const result = await execute(prompts, collection, group);
+    expect(collection).toBeInstanceOf(CollectionDataset);
 
-    expect(result).toBe(group);
+    const result = await execute(prompts, group, collection);
 
-    expect(main.call).toHaveBeenCalledTimes(1);
-    expect(main.call).toHaveBeenCalledWith(prompts, collection, group);
-    expect(main.evaluation).toHaveBeenCalledTimes(1);
-    expect(main.evaluation).toHaveBeenCalledWith({ name: 'collectionName' }, collection);
-
-    expect(mergeEvaluation).toHaveBeenCalledTimes(1);
-    expect(mergeEvaluation).toHaveBeenCalledWith(mainEvaluation, [], group);
+    expect(result).toBe(collection);
+    expect(result.getObject()).toEqual({
+      name: 'newCollectionName',
+      columns: [],
+      indexes: [],
+    });
   });
 });

@@ -5,7 +5,6 @@
 - [Features](#features)
 - [Installation](#installation)
 - [Introduction](#introduction)
-- [Todos](#todos)
 - [Building](#building)
 - [Tests](#tests)
 - [Prettier and Lint](#prettier-and-lint)
@@ -52,11 +51,6 @@ mongoose-management -p path/to/example/folder
 ### Creating a column
 
 ![Creating a column](./images/column.png)
-
-## ToDos
-
-- [ ] Integration of [Populate](https://mongoosejs.com/docs/populate.html)
-- [ ] Integration of [Subdocuments](https://mongoosejs.com/docs/subdocs.html)
 
 ## Building
 

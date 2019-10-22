@@ -8,13 +8,7 @@ import ColumnDataset from '../dataset/column';
 
 import { call, evaluation, getQuestions, validateName, whenType } from './columnMain';
 
-/**
- *
- */
 describe('Check the prompts columnMain functions', () => {
-  /**
-   *
-   */
   test('it should be return the answers when call() is called', async () => {
     const prompts = new (Prompts as any)();
     const collection = new (CollectionDataset as any)();
@@ -69,9 +63,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(collection.getColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be throw an error when call() is called and name is empty', async () => {
     const prompts = new (Prompts as any)();
     const collection = new (CollectionDataset as any)();
@@ -130,9 +121,6 @@ describe('Check the prompts columnMain functions', () => {
     }
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called without column', () => {
     const collection = new (CollectionDataset as any)();
     const column1 = new (ColumnDataset as any)();
@@ -181,9 +169,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(collection.getColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called with column', () => {
     const collection = new (CollectionDataset as any)();
     const column1 = new (ColumnDataset as any)();
@@ -232,9 +217,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(collection.getColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called and parent is a ColumnDataset', () => {
     const column1 = new (ColumnDataset as any)();
     const column2 = new (ColumnDataset as any)();
@@ -280,9 +262,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(column2.get).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the column when evaluation() is called', () => {
     const collection = new (CollectionDataset as any)();
 
@@ -303,9 +282,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(collection.addColumn).toHaveBeenCalledWith(result);
   });
 
-  /**
-   *
-   */
   test('it should be return the column when evaluation() is called with column', () => {
     const collection = new (CollectionDataset as any)();
     const column = new (ColumnDataset as any)();
@@ -330,9 +306,6 @@ describe('Check the prompts columnMain functions', () => {
     expect(column.set).toHaveBeenCalledWith('type', 'array');
   });
 
-  /**
-   *
-   */
   test.each<[string, string, string | boolean, boolean, string | undefined, number]>([
     ['true', 'name9  ', true, true, 'name9', 1],
     ['string', 'name9  ', regexpNameMessage, false, 'name9', 1],
@@ -362,9 +335,6 @@ describe('Check the prompts columnMain functions', () => {
     },
   );
 
-  /**
-   *
-   */
   test.each<[boolean, string]>([[true, 'name'], [true, '  name  '], [false, ''], [false, '    ']])(
     'it should be return %p when whenType() is called with "%s"',
     (expected, name) => {

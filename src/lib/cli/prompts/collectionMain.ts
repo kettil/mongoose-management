@@ -3,17 +3,8 @@ import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
 
-/**
- *
- */
 export type answersType = { name: string };
 
-/**
- *
- * @param prompts
- * @param group
- * @param collection
- */
 export const call = async (
   prompts: Prompts,
   group: GroupDataset,
@@ -29,11 +20,6 @@ export const call = async (
   return answersMain;
 };
 
-/**
- *
- * @param group
- * @param collection
- */
 export const getQuestions = (group: GroupDataset, collection?: CollectionDataset): ReadonlyArray<any> => {
   const nameValue = collection ? collection.getName() : undefined;
   const nameValues = group
@@ -52,11 +38,6 @@ export const getQuestions = (group: GroupDataset, collection?: CollectionDataset
   ];
 };
 
-/**
- *
- * @param answers
- * @param group
- */
 export const evaluation = (answers: answersType, group: GroupDataset) => {
   return (collection?: CollectionDataset) => {
     if (!collection) {
@@ -69,19 +50,15 @@ export const evaluation = (answers: answersType, group: GroupDataset) => {
   };
 };
 
-/**
- *
- * @param nameValues
- */
 export const validateName = (nameValues: string[]) => (value: string) => {
-  const item = value.trim();
+  const name = value.trim();
 
-  if (!regexpName.test(item)) {
+  if (!regexpName.test(name)) {
     return regexpNameMessage;
   }
 
-  if (nameValues.indexOf(item.toLowerCase()) >= 0) {
-    return `A collection with the name already exists!`;
+  if (nameValues.indexOf(name.toLowerCase()) >= 0) {
+    return 'A collection with the name already exists!';
   }
 
   return true;

@@ -1,46 +1,55 @@
-jest.mock('../../prompts');
-jest.mock('../dataset/group');
-jest.mock('../dataset/groups');
-jest.mock('../helper/evaluation');
-jest.mock('./groupMain');
-
 import Prompts from '../../prompts';
 import GroupDataset from '../dataset/group';
 import GroupsDataset from '../dataset/groups';
-import { mergeEvaluation } from '../helper/evaluation';
 
-import * as main from './groupMain';
+const mockCall = jest.fn();
 
 import execute from './group';
 
-/**
- *
- */
 describe('Check the prompts group function', () => {
-  /**
-   *
-   */
+  let prompts: Prompts;
+
+  let groups: GroupsDataset;
+
+  beforeEach(() => {
+    prompts = { call: mockCall } as any;
+
+    groups = new GroupsDataset({ groups: [{ path: 'path/to', collections: [] }] }, '/project/path');
+    groups.setReference();
+  });
+
   test('it should be return the group when execute() is called', async () => {
-    const prompts = new (Prompts as any)();
-    const groups = new (GroupDataset as any)();
-    const group = new (GroupsDataset as any)();
+    expect.assertions(3);
 
-    const mainEvaluation = jest.fn();
+    mockCall.mockImplementation((questions) => {
+      expect(questions).toEqual([
+        {
+          excludePath: expect.any(Function),
+          itemType: 'directory',
+          message: 'Target path for the group:',
+          name: 'path',
+          rootPath: '/project/path',
+          suggestOnly: false,
+          type: 'fuzzypath',
+        },
+        {
+          default: 'odm',
+          message: 'Collection group name:',
+          name: 'name',
+          type: 'input',
+          validate: expect.any(Function),
+        },
+      ]);
 
-    (main.call as jest.Mock).mockResolvedValue({ name: 'groupName', path: 'path/to/folder' });
-    (main.evaluation as jest.Mock).mockReturnValue(mainEvaluation);
-    (mergeEvaluation as jest.Mock).mockReturnValue(group);
+      return {
+        path: '/project/path/src',
+        name: 'odm',
+      };
+    });
 
     const result = await execute(prompts, groups);
 
-    expect(result).toBe(group);
-
-    expect(main.call).toHaveBeenCalledTimes(1);
-    expect(main.call).toHaveBeenCalledWith(prompts, groups);
-    expect(main.evaluation).toHaveBeenCalledTimes(1);
-    expect(main.evaluation).toHaveBeenCalledWith({ name: 'groupName', path: 'path/to/folder' }, groups);
-
-    expect(mergeEvaluation).toHaveBeenCalledTimes(1);
-    expect(mergeEvaluation).toHaveBeenCalledWith(mainEvaluation);
+    expect(result).toBeInstanceOf(GroupDataset);
+    expect(result.getObject()).toEqual({ collections: [], path: 'src/odm' });
   });
 });

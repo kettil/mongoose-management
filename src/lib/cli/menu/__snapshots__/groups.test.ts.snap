@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the GroupsMenu class it should be return adjusted groups when getChoiceList() is called 1`] = `
+Array [
+  Object {
+    "name": "path",
+    "short": "path",
+    "value": Object {
+      "data": GroupDataset {
+        "collections": Array [],
+        "parent": GroupsDataset {
+          "groups": Array [
+            [Circular],
+          ],
+          "parent": undefined,
+          "pathProject": [MockFunction],
+        },
+        "path": "path",
+      },
+    },
+  },
+]
+`;
+
+exports[`Check the GroupsMenu class it should be return menu selection when exec() is called with groups 1`] = `
+Array [
+  Separator {
+    "line": "[2mGroup list[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "path",
+    "short": "path",
+    "value": Object {
+      "data": GroupDataset {
+        "collections": Array [],
+        "parent": GroupsDataset {
+          "groups": Array [
+            [Circular],
+          ],
+          "parent": undefined,
+          "pathProject": [MockFunction],
+        },
+        "path": "path",
+      },
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m──────────────[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "Create new group",
+    "short": "[31mCommand - Create group[39m",
+    "value": Object {
+      "action": "create",
+    },
+  },
+  Object {
+    "name": "Save",
+    "short": "[31mCommand - Save[39m",
+    "value": Object {
+      "action": "save",
+    },
+  },
+  Object {
+    "name": "Exit",
+    "short": "[31mCommand - Exit[39m",
+    "value": Object {
+      "action": "exit",
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;
+
+exports[`Check the GroupsMenu class it should be return menu selection when exec() is called without groups 1`] = `
+Array [
+  Separator {
+    "line": "[2mGroup list[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m- No groups defined -[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m──────────────[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "Create new group",
+    "short": "[31mCommand - Create group[39m",
+    "value": Object {
+      "action": "create",
+    },
+  },
+  Object {
+    "name": "Save",
+    "short": "[31mCommand - Save[39m",
+    "value": Object {
+      "action": "save",
+    },
+  },
+  Object {
+    "name": "Exit",
+    "short": "[31mCommand - Exit[39m",
+    "value": Object {
+      "action": "exit",
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;

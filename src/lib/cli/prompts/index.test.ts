@@ -17,13 +17,7 @@ import * as cOptions from './indexOptions';
 
 import execute from './index';
 
-/**
- *
- */
 describe('Check the prompts index function', () => {
-  /**
-   *
-   */
   test('it should be return the index when execute() is called with collection', async () => {
     const prompts = new (Prompts as any)();
     const collection = new (CollectionDataset as any)();

@@ -9,12 +9,6 @@ import * as cColumns from './indexColumns';
 import * as cMain from './indexMain';
 import * as cOptions from './indexOptions';
 
-/**
- *
- * @param prompts
- * @param collection
- * @param column
- */
 export const execute = async (prompts: Prompts, collection: CollectionDataset, index?: IndexDataset) => {
   const answersMain = await cMain.call(prompts, collection, index);
 
@@ -28,7 +22,4 @@ export const execute = async (prompts: Prompts, collection: CollectionDataset, i
   );
 };
 
-/**
- *
- */
 export default execute;

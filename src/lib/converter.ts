@@ -9,10 +9,6 @@ type subType = {
   subType?: subType;
 };
 
-/**
- *
- * @param column
- */
 export const converterSubType = (column: subType): string[] => {
   if (column.subType) {
     return [column.type, ...converterSubType(column.subType)];
@@ -21,10 +17,6 @@ export const converterSubType = (column: subType): string[] => {
   return [column.type];
 };
 
-/**
- *
- * @param column
- */
 export const recursionSubType = (column: dataColumnType) => {
   if (column.type === 'arrayType' && (column as any).subType) {
     column.subTypes = converterSubType((column as any).subType) as any;
@@ -36,10 +28,6 @@ export const recursionSubType = (column: dataColumnType) => {
   }
 };
 
-/**
- *
- * @param index
- */
 export const convertColumnIndex = (index: dataIndexType) => {
   if (typeof (index as any).mode !== 'undefined' && typeof (index as any).type !== 'undefined') {
     index.name = index.name.replace(`-${(index as any).mode}_`, '_');
@@ -48,10 +36,6 @@ export const convertColumnIndex = (index: dataIndexType) => {
   }
 };
 
-/**
- *
- * @param data
- */
 export const converter = (data: dataType) => {
   data.groups.forEach((v1) =>
     v1.collections.forEach((v2) => {

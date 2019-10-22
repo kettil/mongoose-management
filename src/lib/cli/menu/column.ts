@@ -10,49 +10,46 @@ import { choicesType, choiceValueType } from '../../types';
 import CollectionDataset from '../dataset/collection';
 
 export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDataset> {
-  /**
-   *
-   * @param column
-   */
   async exec(column: ColumnDataset) {
     const choices = this.getChoiceList(column.flatColumns(), column);
     let result: choiceValueType<ColumnDataset>;
 
     if (column.get('type') === 'array' || column.get('type') === 'object') {
-      result = await this.prompt.menu<ColumnDataset>(
+      result = await this.prompts.menu<ColumnDataset>(
         `Choose a subcolumn or a command for the column "${column.getFullname(true)}":`,
         [
-          new Separator(chalk.underline(`Columns list`)),
+          new Separator(chalk.underline('Columns list')),
           new Separator(' '),
           ...choices,
-          this.getMenuChoiceCreate(`subcolumn`),
-          this.getMenuChoiceEdit(`column`),
-          this.getMenuChoiceRemove(`column`),
+          this.getMenuChoiceCreate('subcolumn'),
+          this.getMenuChoiceEdit('column'),
+          this.getMenuChoiceRemove('column'),
           this.getMenuChoiceBack(),
           new Separator(' '),
         ],
       );
     } else {
-      result = await this.prompt.menu<ColumnDataset>(`Choose a command for the column "${column.getFullname(true)}":`, [
-        this.getMenuChoiceEdit(`column`),
-        this.getMenuChoiceRemove(`column`),
-        this.getMenuChoiceBack(),
-        new Separator(' '),
-      ]);
+      result = await this.prompts.menu<ColumnDataset>(
+        `Choose a command for the column "${column.getFullname(true)}":`,
+        [
+          this.getMenuChoiceEdit('column'),
+          this.getMenuChoiceRemove('column'),
+          this.getMenuChoiceBack(),
+          new Separator(' '),
+        ],
+      );
     }
 
     return result;
   }
 
-  /**
-   *
-   * @param collections
-   */
   getChoiceList(columns: ColumnDataset[], selected?: ColumnDataset): Array<choicesType<ColumnDataset>> {
     const rows = this.createTable(columns, selected);
     const choices = [];
     const columnChoices = columns.map<choicesType<ColumnDataset>>((d, i) => {
-      if (d.getParent() !== selected && !(d.getParent() instanceof CollectionDataset)) {
+      const parent = d.getParent();
+
+      if (d.isReadonly() || (parent !== selected && !(parent instanceof CollectionDataset))) {
         return new Separator(rows[i + 1]);
       }
 
@@ -64,7 +61,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     });
 
     if (columnChoices.length === 0) {
-      choices.push(new Separator(`- No columns defined -`));
+      choices.push(new Separator('- No columns defined -'));
     } else {
       choices.push(new Separator(rows[0]));
       choices.push(...columnChoices);
@@ -80,10 +77,6 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     return choices;
   }
 
-  /**
-   *
-   * @param columns
-   */
   createTable(columns: ColumnDataset[], selected?: ColumnDataset) {
     const header = ['Name', 'Type', 'Required', 'Default', 'Index', 'Unique', 'Sparse'];
     const values = columns.map((c) => [
@@ -104,17 +97,10 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     }).split('\n');
   }
 
-  /**
-   *
-   * @param column
-   */
   createTableIndexRow(column: ColumnDataset): [string | number | undefined, string, string] {
-    const index = column.getIndex();
+    const value = column.getIndexValue();
+    const type = column.getIndexType();
 
-    if (index) {
-      return [index.getColumnValue(), index.getProperty('unique') ? '✔' : '', index.getProperty('sparse') ? '✔' : ''];
-    }
-
-    return ['', '', ''];
+    return [value, type === 'unique' ? '✔' : '', type === 'sparse' ? '✔' : ''];
   }
 }

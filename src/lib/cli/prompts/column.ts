@@ -8,12 +8,6 @@ import * as cMain from './columnMain';
 import * as cOptions from './columnOptions';
 import * as cSubType from './columnSubType';
 
-/**
- *
- * @param prompts
- * @param collection
- * @param column
- */
 export const execute = async (prompts: Prompts, parent: CollectionDataset | ColumnDataset, column?: ColumnDataset) => {
   const collection = parent instanceof ColumnDataset ? parent.getCollection() : parent;
 
@@ -25,16 +19,9 @@ export const execute = async (prompts: Prompts, parent: CollectionDataset | Colu
 
   return mergeEvaluation<ColumnDataset>(
     cMain.evaluation(answersMain, parent, collection),
-    [
-      cSubType.evaluation(answersSubType),
-      cOptions.evaluation(answersOptions),
-      cIndex.evaluation(answersIndex, collection),
-    ],
+    [cSubType.evaluation(answersSubType), cOptions.evaluation(answersOptions), cIndex.evaluation(answersIndex)],
     column,
   );
 };
 
-/**
- *
- */
 export default execute;

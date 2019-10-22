@@ -1,144 +1,76 @@
-jest.mock('path');
+jest.spyOn(console, 'log').mockImplementation();
+jest.spyOn(process, 'exit').mockImplementation(() => {
+  throw { notice: 'process.exit()' };
+});
 
+jest.mock('fs');
+jest.mock('inquirer');
 jest.mock('prettier');
 
-jest.mock('./args', () => jest.fn());
-jest.mock('./prompts');
-jest.mock('./storage');
-
-jest.mock('./template/create');
-jest.mock('./template/helper');
-
-jest.mock('./cli/dataset/groups');
-jest.mock('./cli/level/groups');
-
-import { join, resolve } from 'path';
-
+import { access, readFile } from 'fs';
+import { prompt, Separator } from 'inquirer';
 import { resolveConfig } from 'prettier';
-
-import args from './args';
-import Prompts from './prompts';
-import Storage from './storage';
-
-import Creater from './template/create';
-import { exists } from './template/helper';
-
-import GroupsDataset from './cli/dataset/groups';
-import GroupsLevel from './cli/level/groups';
 
 import app from './app';
 
-/**
- *
- */
 describe('Check the app() function', () => {
-  /**
-   *
-   */
   test('it should be faultless when app() is called with default vaules', async () => {
-    const groupsDataset = new (GroupsDataset as any)();
-    const prettier = {
-      arrowParens: 'always',
-      bracketSpacing: true,
-      jsxBracketSameLine: false,
-      parser: 'cli',
-      printWidth: 120,
-      semi: true,
-      singleQuote: true,
-      tabWidth: 2,
-      trailingComma: 'all',
-      useTabs: false,
-    };
+    ((prompt as any) as jest.Mock).mockResolvedValueOnce({ value: { action: 'exit' } });
+    ((prompt as any) as jest.Mock).mockResolvedValueOnce({ confirm: true });
+    ((resolveConfig as any) as jest.Mock).mockResolvedValue({});
+    ((access as any) as jest.Mock).mockImplementation((_1, _2, cb) => cb());
+    ((readFile as any) as jest.Mock).mockImplementation((_1, _2, cb) => {
+      const err = new Error('Not Found');
+      (err as any).code = 'ENOENT';
 
-    (args as jest.Mock).mockReturnValue({ p: undefined, d: undefined, c: undefined });
-
-    (join as jest.Mock).mockReturnValue('/path/to/templates');
-    (resolve as jest.Mock).mockReturnValue('/path/to/root');
-    ((resolveConfig as any) as jest.Mock).mockResolvedValue({ parser: 'cli' });
-
-    (Storage.prototype.load as jest.Mock).mockResolvedValue(groupsDataset);
-
-    await app();
-
-    expect(args).toHaveBeenCalledTimes(1);
-    expect(resolve).toHaveBeenCalledTimes(1);
-    expect(resolve).toHaveBeenCalledWith(expect.any(String), './');
-    expect(join).toHaveBeenCalledTimes(1);
-    expect(join).toHaveBeenCalledWith(expect.any(String), 'template/templates');
-    expect(exists).toHaveBeenCalledTimes(1);
-    expect(exists).toHaveBeenCalledWith('/path/to/root');
-    expect(resolveConfig).toHaveBeenCalledTimes(1);
-    expect(resolveConfig).toHaveBeenCalledWith('/path/to/root');
-
-    expect(Prompts).toHaveBeenCalledTimes(1);
-    expect(Prompts).toHaveBeenCalledWith(true);
-    expect(Storage).toHaveBeenCalledTimes(1);
-    expect(Storage).toHaveBeenCalledWith('/path/to/root', undefined, expect.any(Prompts), prettier);
-    expect(Storage.prototype.load).toHaveBeenCalledTimes(1);
-    expect(Creater).toHaveBeenCalledTimes(1);
-    expect(Creater).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
-
-    expect(GroupsLevel).toHaveBeenCalledTimes(1);
-    expect(GroupsLevel).toHaveBeenCalledWith(groupsDataset, {
-      prompts: (Prompts as jest.Mock).mock.instances[0],
-      storage: (Storage as jest.Mock).mock.instances[0],
-      creater: (Creater as jest.Mock).mock.instances[0],
+      cb(err);
     });
-    expect(GroupsLevel.prototype.exec).toHaveBeenCalledTimes(1);
-  });
 
-  /**
-   *
-   */
-  test('it should be faultless when app() is called', async () => {
-    const groupsDataset = new (GroupsDataset as any)();
-    const prettier = {
-      arrowParens: 'always',
-      bracketSpacing: true,
-      jsxBracketSameLine: false,
-      parser: 'cli',
-      printWidth: 120,
-      semi: true,
-      singleQuote: true,
-      tabWidth: 2,
-      trailingComma: 'all',
-      useTabs: false,
-    };
+    try {
+      await app();
+    } catch (err) {
+      expect(err).toEqual({ notice: 'process.exit()' });
 
-    (args as jest.Mock).mockReturnValue({ p: 'src', d: './schema.json', c: true });
+      expect(access).toHaveBeenCalledTimes(1);
+      expect(access).toHaveBeenCalledWith(expect.any(String), 0, expect.any(Function));
+      expect(readFile).toHaveBeenCalledTimes(1);
+      expect(readFile).toHaveBeenCalledWith(expect.any(String), { encoding: 'utf8' }, expect.any(Function));
+      expect(resolveConfig).toHaveBeenCalledTimes(1);
+      expect(resolveConfig).toHaveBeenCalledWith(expect.any(String));
 
-    (join as jest.Mock).mockReturnValue('/path/to/templates');
-    (resolve as jest.Mock).mockReturnValue('/path/to/root');
-    ((resolveConfig as any) as jest.Mock).mockResolvedValue({ parser: 'cli' });
-
-    (Storage.prototype.load as jest.Mock).mockReturnValue(groupsDataset);
-
-    await app();
-
-    expect(args).toHaveBeenCalledTimes(1);
-    expect(resolve).toHaveBeenCalledTimes(1);
-    expect(resolve).toHaveBeenCalledWith(expect.any(String), 'src');
-    expect(join).toHaveBeenCalledTimes(1);
-    expect(join).toHaveBeenCalledWith(expect.any(String), 'template/templates');
-    expect(exists).toHaveBeenCalledTimes(1);
-    expect(exists).toHaveBeenCalledWith('/path/to/root');
-    expect(resolveConfig).toHaveBeenCalledTimes(1);
-    expect(resolveConfig).toHaveBeenCalledWith('/path/to/root');
-
-    expect(Prompts).toHaveBeenCalledTimes(1);
-    expect(Prompts).toHaveBeenCalledWith(false);
-    expect(Storage).toHaveBeenCalledTimes(1);
-    expect(Storage).toHaveBeenCalledWith('/path/to/root', './schema.json', expect.any(Prompts), prettier);
-    expect(Storage.prototype.load).toHaveBeenCalledTimes(1);
-    expect(Creater).toHaveBeenCalledTimes(1);
-    expect(Creater).toHaveBeenCalledWith(expect.any(Prompts), '/path/to/root', '/path/to/templates', prettier);
-
-    expect(GroupsLevel).toHaveBeenCalledTimes(1);
-    expect(GroupsLevel).toHaveBeenCalledWith(groupsDataset, {
-      prompts: (Prompts as jest.Mock).mock.instances[0],
-      storage: (Storage as jest.Mock).mock.instances[0],
-      creater: (Creater as jest.Mock).mock.instances[0],
-    });
-    expect(GroupsLevel.prototype.exec).toHaveBeenCalledTimes(1);
+      expect(prompt).toHaveBeenCalledTimes(2);
+      expect(prompt).toHaveBeenNthCalledWith(1, [
+        {
+          choices: [
+            expect.any(Separator),
+            expect.any(Separator),
+            expect.any(Separator),
+            expect.any(Separator),
+            expect.any(Separator),
+            { name: 'Create new group', short: expect.any(String), value: { action: 'create' } },
+            { name: 'Save', short: expect.any(String), value: { action: 'save' } },
+            { name: 'Exit', short: expect.any(String), value: { action: 'exit' } },
+            expect.any(Separator),
+          ],
+          filter: expect.any(Function),
+          message: 'Choose a group or a command:',
+          name: 'value',
+          pageSize: 75,
+          prefix: '🎃',
+          type: 'list',
+        },
+      ]);
+      expect(prompt).toHaveBeenNthCalledWith(2, [
+        {
+          default: false,
+          filter: expect.any(Function),
+          message: 'Generator really quit?',
+          name: 'confirm',
+          pageSize: 75,
+          prefix: '🎃',
+          type: 'confirm',
+        },
+      ]);
+    }
   });
 });

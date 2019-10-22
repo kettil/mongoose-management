@@ -5,22 +5,10 @@ import * as main from './columnMain';
 
 import { choiceListType, schemaNormalType } from '../../types';
 
-/**
- *
- */
 export type answersType = schemaNormalType[];
 
-/**
- *
- */
 export type answersInternalType = { type: schemaNormalType };
 
-/**
- *
- * @param prompts
- * @param answersMain
- * @param column
- */
 export const call = async (
   prompts: Prompts,
   answersMain: main.answersType,
@@ -47,10 +35,6 @@ export const call = async (
   return answersSubType;
 };
 
-/**
- *
- * @param subType
- */
 export const getQuestions = (subType?: schemaNormalType): ReadonlyArray<any> => {
   const typeValue = subType ? Object.keys(schemaTypesNormal).indexOf(subType) : undefined;
   const typeValues = Object.entries(schemaTypesNormal).map<choiceListType<string>>(([key, value]) => ({
@@ -70,10 +54,6 @@ export const getQuestions = (subType?: schemaNormalType): ReadonlyArray<any> => 
   ];
 };
 
-/**
- *
- * @param answers
- */
 export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
     column.setSubTypes(answers);

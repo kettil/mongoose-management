@@ -9,24 +9,14 @@ import converter from './converter';
 
 import Prompts from './prompts';
 
-const writeFile = promisify(fs.writeFile);
-const readFile = promisify(fs.readFile);
+export const writeFile = promisify(fs.writeFile);
+export const readFile = promisify(fs.readFile);
 
-/**
- *
- */
 export default class Storage {
   protected path = './schemas-mongodb.json';
 
   protected data: GroupsDataset;
 
-  /**
-   *
-   * @param pathProject
-   * @param pathData
-   * @param prompts
-   * @param prettier
-   */
   constructor(
     protected pathProject: string,
     pathData: string | undefined,
@@ -36,11 +26,9 @@ export default class Storage {
     this.path = join(pathData || join(pathProject, this.path));
 
     this.data = new GroupsDataset({ groups: [] }, pathProject);
+    this.data.setReference();
   }
 
-  /**
-   *
-   */
   async load(): Promise<GroupsDataset> {
     const spinner = this.prompts.getSpinner();
 
@@ -53,6 +41,7 @@ export default class Storage {
       converter(data);
 
       this.data = new GroupsDataset(data, this.pathProject);
+      this.data.setReference();
     } catch (err) {
       if (err.code !== 'ENOENT') {
         spinner.fail();
@@ -65,9 +54,6 @@ export default class Storage {
     return this.data;
   }
 
-  /**
-   *
-   */
   async write(withPressKey = true): Promise<void> {
     const spinner = this.prompts.getSpinner();
 

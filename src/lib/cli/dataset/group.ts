@@ -2,21 +2,15 @@ import AbstractDataset from './abstract';
 import CollectionDataset from './collection';
 import GroupsDataset from './groups';
 
+import { sortByName } from '../helper/sort';
+
 import { dataGroupType } from '../../types';
 
-/**
- *
- */
 export default class GroupDataset extends AbstractDataset<GroupsDataset> {
   protected path: string;
 
   protected collections: CollectionDataset[];
 
-  /**
-   *
-   * @param group
-   * @param groups
-   */
   constructor(group: dataGroupType, groups: GroupsDataset) {
     super(groups);
 
@@ -24,97 +18,53 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
     this.collections = group.collections.map((c) => new CollectionDataset(c, this));
   }
 
-  /**
-   *
-   */
+  setReference() {
+    this.collections.forEach((collection) => collection.setReference());
+  }
+
   getPath(): string {
     return this.path;
   }
 
-  /**
-   *
-   * @param path
-   */
   setPath(path: string) {
     this.path = path;
   }
 
-  /**
-   *
-   */
   getCollections() {
     return this.collections;
   }
 
-  /**
-   *
-   * @param name
-   */
   getCollection(name: string) {
     const collections = this.collections.filter((c) => c.getName() === name);
 
     return collections.length === 1 ? collections[0] : undefined;
   }
 
-  /**
-   *
-   * @param subCollection
-   */
   addCollection(collection: CollectionDataset) {
+    collection.setReference();
+
     this.collections.push(collection);
     this.sortCollections();
 
     return collection;
   }
 
-  /**
-   *
-   * @param index
-   */
   removeCollection(collection: CollectionDataset) {
     this.collections = this.collections.filter((c) => c !== collection);
   }
 
-  /**
-   *
-   */
   sortCollections() {
-    this.collections.sort(this.sort);
+    this.collections.sort(sortByName);
   }
 
-  /**
-   *
-   * @param a
-   * @param b
-   */
-  sort<T extends CollectionDataset>(a: T, b: T) {
-    const pathA = a.getName().toLowerCase();
-    const pathB = b.getName().toLowerCase();
-
-    if (pathA === pathB) {
-      return 0;
-    }
-
-    return pathA < pathB ? -1 : 1;
-  }
-
-  /**
-   *
-   */
   getName() {
     return this.getPath();
   }
 
-  /**
-   *
-   */
   remove() {
     this.parent.removeGroup(this);
   }
 
-  /**
-   *
-   */
   getObject(): dataGroupType {
     return {
       path: this.path,

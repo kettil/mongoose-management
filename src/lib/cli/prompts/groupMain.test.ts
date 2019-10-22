@@ -1,93 +1,36 @@
-jest.mock('../../prompts');
-jest.mock('../dataset/group');
-jest.mock('../dataset/groups');
-
-import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
+import Prompts, { regexpNameMessage } from '../../prompts';
 import GroupDataset from '../dataset/group';
 import GroupsDataset from '../dataset/groups';
 
-import { call, evaluation, excludePath, getQuestions, validateName } from './groupMain';
+import { call, evaluation, excludePath, getQuestions, pathRelative, validateName } from './groupMain';
 
-/**
- *
- */
+const mockCall = jest.fn();
+
 describe('Check the prompts groupMain functions', () => {
-  /**
-   *
-   */
-  test('it should be return the answers when call() is called', async () => {
-    const prompts = new (Prompts as any)();
-    const groups = new (GroupsDataset as any)();
-    const group1 = new (GroupDataset as any)();
-    const group2 = new (GroupDataset as any)();
+  let prompts: Prompts;
+  let group: GroupDataset;
+  let groups: GroupsDataset;
 
-    (group1.getPath as jest.Mock).mockReturnValue('oldName1');
-    (group2.getPath as jest.Mock).mockReturnValue('oldName2');
-    (groups.getGroups as jest.Mock).mockReturnValue([group1, group2]);
-    (groups.getPathProject as jest.Mock).mockReturnValue('path/to/project');
+  beforeEach(() => {
+    prompts = { call: mockCall } as any;
 
-    (prompts.call as jest.Mock).mockResolvedValue({ name: 'groupName', path: 'path/to' });
+    groups = new GroupsDataset({ groups: [{ path: 'path/to', collections: [] }] }, '/project/path');
+    groups.setReference();
 
-    const result = await call(prompts, groups);
-
-    expect(result).toEqual({ name: 'groupName', path: 'path/to' });
-
-    expect(prompts.call).toHaveBeenCalledTimes(1);
-    expect(prompts.call).toHaveBeenCalledWith([
-      {
-        excludePath: expect.any(Function),
-        itemType: 'directory',
-        message: 'Target path for the group:',
-        name: 'path',
-        rootPath: 'path/to/project',
-        suggestOnly: false,
-        type: 'fuzzypath',
-      },
-      {
-        default: 'odm',
-        message: 'Collection group name:',
-        name: 'name',
-        type: 'input',
-        validate: expect.any(Function),
-      },
-    ]);
-
-    expect(group1.getPath).toHaveBeenCalledTimes(1);
-    expect(group2.getPath).toHaveBeenCalledTimes(1);
-    expect(groups.getGroups).toHaveBeenCalledTimes(1);
+    group = groups.getGroup('path/to')!;
   });
 
-  /**
-   *
-   */
-  test('it should be throw an error when call() is called and name is empty', async () => {
-    const prompts = new (Prompts as any)();
-    const groups = new (GroupsDataset as any)();
-    const group1 = new (GroupDataset as any)();
-    const group2 = new (GroupDataset as any)();
+  test('it should be return the answers when call() is called', async () => {
+    expect.assertions(3);
 
-    (group1.getPath as jest.Mock).mockReturnValue('oldName1');
-    (group2.getPath as jest.Mock).mockReturnValue('oldName2');
-    (groups.getGroups as jest.Mock).mockReturnValue([group1, group2]);
-    (groups.getPathProject as jest.Mock).mockReturnValue('path/to/project');
-
-    (prompts.call as jest.Mock).mockResolvedValue({ name: '', path: 'path/to' });
-
-    expect.assertions(7);
-    try {
-      await call(prompts, groups);
-    } catch (err) {
-      expect(err).toBeInstanceOf(Error);
-      expect(err.message).toBe('cancel');
-
-      expect(prompts.call).toHaveBeenCalledTimes(1);
-      expect(prompts.call).toHaveBeenCalledWith([
+    mockCall.mockImplementation((questions) => {
+      expect(questions).toEqual([
         {
           excludePath: expect.any(Function),
           itemType: 'directory',
           message: 'Target path for the group:',
           name: 'path',
-          rootPath: 'path/to/project',
+          rootPath: '/project/path',
           suggestOnly: false,
           type: 'fuzzypath',
         },
@@ -100,25 +43,58 @@ describe('Check the prompts groupMain functions', () => {
         },
       ]);
 
-      expect(groups.getGroups).toHaveBeenCalledTimes(1);
-      expect(group1.getPath).toHaveBeenCalledTimes(1);
-      expect(group2.getPath).toHaveBeenCalledTimes(1);
+      return {
+        path: '/project/path/src',
+        name: 'odm',
+      };
+    });
+
+    const result = await call(prompts, groups);
+
+    expect(result).toEqual({ name: 'odm', path: '/project/path/src' });
+    expect(prompts.call).toHaveBeenCalledTimes(1);
+  });
+
+  test('it should be throw an error when call() is called and name is empty', async () => {
+    expect.assertions(4);
+
+    mockCall.mockImplementation((questions) => {
+      expect(questions).toEqual([
+        {
+          excludePath: expect.any(Function),
+          itemType: 'directory',
+          message: 'Target path for the group:',
+          name: 'path',
+          rootPath: '/project/path',
+          suggestOnly: false,
+          type: 'fuzzypath',
+        },
+        {
+          default: 'odm',
+          message: 'Collection group name:',
+          name: 'name',
+          type: 'input',
+          validate: expect.any(Function),
+        },
+      ]);
+
+      return {
+        path: '/project/path/src',
+        name: '',
+      };
+    });
+
+    try {
+      await call(prompts, groups);
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toBe('cancel');
+
+      expect(prompts.call).toHaveBeenCalledTimes(1);
     }
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called', () => {
-    const groups = new (GroupsDataset as any)();
-    const group1 = new (GroupDataset as any)();
-    const group2 = new (GroupDataset as any)();
-
-    (group1.getPath as jest.Mock).mockReturnValue('oldName1');
-    (group2.getPath as jest.Mock).mockReturnValue('oldName2');
-    (groups.getGroups as jest.Mock).mockReturnValue([group1, group2]);
-    (groups.getPathProject as jest.Mock).mockReturnValue('path/to/project');
-
     const result = getQuestions(groups);
 
     expect(result).toEqual([
@@ -127,7 +103,7 @@ describe('Check the prompts groupMain functions', () => {
         itemType: 'directory',
         message: 'Target path for the group:',
         name: 'path',
-        rootPath: 'path/to/project',
+        rootPath: '/project/path',
         suggestOnly: false,
         type: 'fuzzypath',
       },
@@ -139,93 +115,70 @@ describe('Check the prompts groupMain functions', () => {
         validate: expect.any(Function),
       },
     ]);
-
-    expect(groups.getGroups).toHaveBeenCalledTimes(1);
-    expect(groups.getPathProject).toHaveBeenCalledTimes(2);
-    expect(group1.getPath).toHaveBeenCalledTimes(1);
-    expect(group2.getPath).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the group when evaluation() is called', () => {
-    const groups = new (GroupsDataset as any)();
-
-    (groups.getPathProject as jest.Mock).mockReturnValue('projectPath');
-    (groups.addGroup as jest.Mock).mockImplementation((a) => a);
-
-    const closure = evaluation({ name: 'gName', path: 'projectPath/gPath' }, groups);
+    const closure = evaluation(
+      {
+        path: '/project/path',
+        name: 'odm',
+      },
+      groups,
+    );
 
     expect(closure).toEqual(expect.any(Function));
+    expect(groups.getGroups().length).toBe(1);
 
     const result = closure();
 
     expect(result).toBeInstanceOf(GroupDataset);
-
-    expect(GroupDataset).toHaveBeenCalledTimes(1);
-    expect(GroupDataset).toHaveBeenCalledWith({ collections: [], path: 'gPath/gName' }, groups);
-
-    expect(groups.getPathProject).toHaveBeenCalledTimes(1);
-
-    expect(groups.addGroup).toHaveBeenCalledTimes(1);
-    expect(groups.addGroup).toHaveBeenCalledWith(result);
+    expect(result.getObject()).toEqual({ collections: [], path: 'odm' });
+    expect(groups.getGroups().length).toBe(2);
   });
 
-  /**
-   *
-   */
   test('it should be return the group when evaluation() is called with group', () => {
-    const groups = new (GroupsDataset as any)();
-    const group = new (GroupDataset as any)();
-
-    (groups.getPathProject as jest.Mock).mockReturnValue('projectPath');
-
-    const closure = evaluation({ name: 'gName', path: 'projectPath/gPath' }, groups);
+    const closure = evaluation(
+      {
+        path: '/project/path/src',
+        name: 'odm',
+      },
+      groups,
+    );
 
     expect(closure).toEqual(expect.any(Function));
+    expect(groups.getGroups().length).toBe(1);
 
     const result = closure(group);
 
     expect(result).toBeInstanceOf(GroupDataset);
-
-    expect(GroupDataset).toHaveBeenCalledTimes(1);
-    expect(GroupDataset).toHaveBeenCalledWith();
-
-    expect(groups.getPathProject).toHaveBeenCalledTimes(1);
-    expect(groups.addGroup).toHaveBeenCalledTimes(0);
-
-    expect(group.setPath).toHaveBeenCalledTimes(1);
-    expect(group.setPath).toHaveBeenCalledWith('gPath/gName');
+    expect(result).toBe(group);
+    expect(result.getObject()).toEqual({ collections: [], path: 'src/odm' });
+    expect(groups.getGroups().length).toBe(1);
   });
 
-  /**
-   *
-   */
-  test.each<[string, string, string | boolean, boolean, string]>([
-    ['true', 'name9  ', true, true, 'name9'],
-    ['string', 'name9  ', regexpNameMessage, false, 'name9'],
-    ['string', 'name2', 'The path and the name already exist as a group [group: gPath/name2]!', true, 'name2'],
-  ])('it should be return %s when validateName() is called (%p)', (_, name, expected, regexpReturn, regexpValue) => {
-    const mock = jest.fn().mockReturnValue(regexpReturn);
-
-    regexpName.test = mock;
-
-    const closure = validateName(['gpath/name1', 'gpath/name2'], 'projectPath');
+  test.each<[string, string, string | boolean]>([
+    ['true', 'name9  ', true],
+    ['string', '_name9', regexpNameMessage],
+    ['string', 'name2', 'The path and the name already exist as a group [group: src/name2]!'],
+  ])('it should be return %s when validateName() is called (%p)', (_, name, expected) => {
+    const closure = validateName(['name1', 'src/name2'], groups.getPathProject());
 
     expect(closure).toEqual(expect.any(Function));
 
-    const result = closure(name, { path: 'projectPath/gPath' });
+    const result = closure(name, { path: 'src' });
 
     expect(result).toEqual(expected);
-
-    expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith(regexpValue);
   });
 
-  /**
-   *
-   */
+  test.each([['src/odm', '/project/src', '/project'], ['odm', '/project', '/project']])(
+    'it should be return %p when pathRelative() is called with arguments %p and %p',
+    (expected, pathDocuments, pathProject) => {
+      const result = pathRelative('odm', pathDocuments, pathProject);
+
+      expect(result).toBe(expected);
+    },
+  );
+
   test.each<[boolean, string]>([
     [false, '.'],
     [false, 'path/to'],

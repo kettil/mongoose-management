@@ -7,17 +7,8 @@ import { choiceListType, schemaType } from '../../types';
 
 const blacklist = ['id', '_id', 'createdAt', 'updatedAt'];
 
-/**
- *
- */
 export type answersType = { name: string; type: schemaType };
 
-/**
- *
- * @param prompts
- * @param parent
- * @param column
- */
 export const call = async (
   prompts: Prompts,
   parent: CollectionDataset | ColumnDataset,
@@ -33,11 +24,6 @@ export const call = async (
   return answersMain;
 };
 
-/**
- *
- * @param parent
- * @param column
- */
 export const getQuestions = (parent: CollectionDataset | ColumnDataset, column?: ColumnDataset): ReadonlyArray<any> => {
   const reservedColumnNames = parent instanceof CollectionDataset ? blacklist.map((v) => v.toLowerCase()) : [];
   const existedColumnName = parent.getColumns().map((d) => d.getName().toLowerCase());
@@ -72,11 +58,6 @@ export const getQuestions = (parent: CollectionDataset | ColumnDataset, column?:
   ];
 };
 
-/**
- *
- * @param answers
- * @param collection
- */
 export const evaluation = (
   answers: answersType,
   parent: CollectionDataset | ColumnDataset,
@@ -94,12 +75,6 @@ export const evaluation = (
   };
 };
 
-/**
- *
- * @param reservedColumnNames
- * @param existedColumnName
- * @param nameValue
- */
 export const validateName = (reservedColumnNames: string[], existedColumnName: string[], nameValue?: string) => (
   value: string,
 ) => {
@@ -111,7 +86,7 @@ export const validateName = (reservedColumnNames: string[], existedColumnName: s
   }
 
   if (existedColumnName.indexOf(lower) >= 0 && name !== nameValue) {
-    return `A column with the name already exists!`;
+    return 'A column with the name already exists!';
   }
 
   if (!regexpName.test(name)) {
@@ -121,7 +96,4 @@ export const validateName = (reservedColumnNames: string[], existedColumnName: s
   return true;
 };
 
-/**
- *
- */
 export const whenType = () => ({ name }: { name: string }) => name.trim() !== '';

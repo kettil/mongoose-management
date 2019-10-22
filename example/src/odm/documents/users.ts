@@ -28,4 +28,4 @@ export const usersDefinitions = {
 /**
  *
  */
-export const usersIndexes: indexType[] = [{ fields: { email: 1 }, options: { name: 'email_', unique: true } }];
+export const usersIndexes: indexType[] = [{ fields: { email: -1 }, options: { name: 'email_', unique: true } }];

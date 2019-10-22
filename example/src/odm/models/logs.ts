@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import mongoose, { Connection, Schema } from 'mongoose';
+import { Connection, model, Schema } from 'mongoose';
 
 import { logsDefinitions, logsIndexes } from '../documents/logs';
 import { InterfaceLogsDocument, InterfaceLogsModel } from '../interfaces/logs';
@@ -41,6 +41,6 @@ export const createLogsModel = (handler: Connection) => {
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
+const Model = model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
 
 export default Model;

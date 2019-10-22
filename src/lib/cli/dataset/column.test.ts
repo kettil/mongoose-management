@@ -1,285 +1,121 @@
-jest.mock('./collection');
-jest.mock('./index');
-
 import CollectionDataset from './collection';
 import IndexDataset from './index';
 
 import ColumnDataset from './column';
 
-import { dataColumnType, schemaNormalType, schemaType } from '../../types';
+import { dataColumnType } from '../../types';
 
-/**
- *
- */
-describe('Check the CollectionDataset class', () => {
+describe('Check the ColumnDataset class', () => {
+  let collection: any;
   let dataset: any;
-  let parent: any;
   let index: any;
-  let data: dataColumnType;
-
-  /**
-   *
-   */
-  beforeEach(() => {
-    data = {
-      name: 'cName',
-      type: 'object',
-      required: true,
-      subColumns: [
-        { name: 'cSubName1', type: 'string', required: true },
-        { name: 'cSubName2', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
-        {
-          name: 'cSubName3',
-          type: 'array',
-          subColumns: [{ name: 'cSubSubName1', type: 'number', required: true }],
-        },
-      ],
-    };
-
-    index = new (IndexDataset as any)();
-    parent = new (CollectionDataset as any)();
-    parent.getIndex.mockReturnValueOnce(undefined);
-    parent.getIndex.mockReturnValueOnce(undefined);
-    parent.getIndex.mockReturnValueOnce(undefined);
-    parent.getIndex.mockReturnValueOnce(undefined);
-    parent.getIndex.mockReturnValueOnce(index);
-    index.getName.mockReturnValueOnce('cName_');
-  });
 
   afterEach(() => {
+    collection = undefined;
     dataset = undefined;
+    index = undefined;
   });
 
-  /**
-   *
-   */
-  test('initialize the class [1]', () => {
-    dataset = new ColumnDataset(data, parent, parent);
-
-    expect(dataset).toBeInstanceOf(ColumnDataset);
-
-    expect(dataset.parent).toBeInstanceOf(CollectionDataset);
-    expect(dataset.data).toEqual({
-      name: 'cName',
-      type: 'object',
-      required: true,
-      subColumns: [
-        { name: 'cSubName1', type: 'string', required: true },
-        { name: 'cSubName2', type: 'arrayType', subTypes: ['arrayType', 'boolean'] },
-        { name: 'cSubName3', type: 'array', subColumns: [{ name: 'cSubSubName1', type: 'number', required: true }] },
-      ],
-    });
-    expect(dataset.columns).toEqual([expect.any(ColumnDataset), expect.any(ColumnDataset), expect.any(ColumnDataset)]);
-    expect(dataset.subTypes).toEqual([]);
-
-    expect(index.getName).toHaveBeenCalledTimes(1);
-    expect(parent.getIndex).toHaveBeenCalledTimes(5);
-    expect(parent.getIndex).toHaveBeenNthCalledWith(1, 'cName.cSubName1_');
-    expect(parent.getIndex).toHaveBeenNthCalledWith(2, 'cName.cSubName2_');
-    expect(parent.getIndex).toHaveBeenNthCalledWith(3, 'cName.cSubName3.cSubSubName1_');
-    expect(parent.getIndex).toHaveBeenNthCalledWith(4, 'cName.cSubName3_');
-    expect(parent.getIndex).toHaveBeenNthCalledWith(5, 'cName_');
-  });
-
-  /**
-   *
-   */
-  test('initialize the class [2]', () => {
-    parent.getIndex.mockClear();
-    parent.getIndex.mockReturnValue(undefined);
-
-    dataset = new ColumnDataset({ ...data, subColumns: undefined, type: 'string', required: false }, parent, parent);
-
-    expect(dataset).toBeInstanceOf(ColumnDataset);
-
-    expect(dataset.parent).toBeInstanceOf(CollectionDataset);
-    expect(dataset.data).toEqual({ name: 'cName', type: 'string', required: false });
-    expect(dataset.columns).toEqual([]);
-    expect(dataset.subTypes).toEqual([]);
-
-    expect(index.getName).toHaveBeenCalledTimes(0);
-    expect(parent.getIndex).toHaveBeenCalledTimes(1);
-    expect(parent.getIndex).toHaveBeenNthCalledWith(1, 'cName_');
-  });
-
-  /**
-   *
-   */
-  test('initialize the class [3]', () => {
-    parent.getIndex.mockClear();
-    parent.getIndex.mockReturnValue(undefined);
-
-    const subTypes: schemaNormalType[] = ['arrayType', 'string'];
-
-    dataset = new ColumnDataset(
-      { ...data, type: 'arrayType', subColumns: undefined, subTypes, required: undefined },
-      parent,
-      parent,
-    );
-
-    expect(dataset).toBeInstanceOf(ColumnDataset);
-
-    expect(dataset.parent).toBeInstanceOf(CollectionDataset);
-    expect(dataset.data).toEqual({
-      name: 'cName',
-      type: 'arrayType',
-      subTypes: ['arrayType', 'string'],
-    });
-    expect(dataset.columns).toEqual([]);
-    expect(dataset.subTypes).toEqual(['arrayType', 'string']);
-
-    expect(index.getName).toHaveBeenCalledTimes(0);
-    expect(parent.getIndex).toHaveBeenCalledTimes(1);
-    expect(parent.getIndex).toHaveBeenNthCalledWith(1, 'cName_');
-  });
-
-  /**
-   *
-   */
-  test('it should be return the name when getName() is called', () => {
-    dataset = new ColumnDataset(data, parent, parent);
-
-    const name = dataset.getName();
-
-    expect(name).toBe('cName');
-  });
-
-  /**
-   *
-   */
-  test('it should be return the name when getName() is called with type ”array"', () => {
-    dataset = new ColumnDataset(data, parent, parent);
-
-    dataset.data.type = 'array';
-    const name = dataset.getName(true);
-
-    expect(name).toBe('cName[]');
-  });
-
-  /**
-   *
-   */
-  test('it should be change the name and the collection will be re-sorted when setName() is called', () => {
-    const mockIndex1 = new (IndexDataset as any)();
-    const mockIndex2 = new (IndexDataset as any)();
-
-    mockIndex1.isReadonly.mockReturnValue(true);
-    mockIndex2.isReadonly.mockReturnValue(false);
-
-    parent.getIndexes.mockReturnValue([mockIndex1, mockIndex2]);
-
-    dataset = new ColumnDataset(data, parent, parent);
-    dataset.refreshIndex = jest.fn();
-
-    dataset.setName('new-cName');
-
-    expect(dataset.data.name).toBe('new-cName');
-    expect(dataset.refreshIndex).toHaveBeenCalledTimes(1);
-    expect(parent.sortColumns).toHaveBeenCalledTimes(1);
-    expect(parent.getIndexes).toHaveBeenCalledTimes(1);
-    expect(mockIndex1.isReadonly).toHaveBeenCalledTimes(1);
-    expect(mockIndex2.isReadonly).toHaveBeenCalledTimes(1);
-    expect(mockIndex1.updateColumnName).toHaveBeenCalledTimes(0);
-    expect(mockIndex2.updateColumnName).toHaveBeenCalledTimes(1);
-  });
-
-  /**
-   *
-   */
-  describe.each<[schemaType, string]>([['array', '[]'], ['object', ''], ['string', ''], ['number', '']])(
-    'Check the getFullname()',
-    (type, extend) => {
-      /**
-       *
-       */
-      beforeEach(() => {
-        dataset = new ColumnDataset(data, parent, parent);
-      });
-
-      /**
-       *
-       */
-      test.each<[string, boolean | undefined, boolean | undefined]>([
-        ['cName', undefined, undefined],
-        ['cName' + extend, true, true],
-        ['cName', true, false],
-        ['cName', false, true],
-        ['cName', false, false],
-      ])(
-        `it should be return "%s" when getFullname() is called with type "${type}" [%p, %p]`,
-        (expected, args1, args2) => {
-          dataset.data.type = type;
-
-          const name = dataset.getFullname(args1, args2);
-
-          expect(name).toBe(expected);
+  describe('Check a simple column structure (with index)', () => {
+    beforeEach(() => {
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [{ name: 'cName', type: 'string', required: true, enum: 'hello; morning' }],
+          indexes: [{ name: 'cName_', properties: { unique: true }, columns: { cName: 1 }, readonly: true }],
         },
+        jest.fn() as any,
       );
-    },
-  );
+      collection.setReference();
 
-  /**
-   *
-   */
-  describe.each<[schemaType]>([['array'], ['object']])('Check the getFullname() from subcolumn', (type) => {
-    /**
-     *
-     */
-    beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
+      dataset = collection.getColumn('cName');
+      index = collection.getIndex('cName_');
     });
 
-    /**
-     *
-     */
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toEqual(index);
+      expect(dataset.column).toEqual({ name: 'cName', required: true, type: 'string', enum: 'hello; morning' });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(1);
+
+      expect(index).toBeInstanceOf(IndexDataset);
+    });
+
+    test('it should be call setReference() from the columns when setReference() is called', () => {
+      const mock0 = jest.fn();
+
+      collection.getIndex = mock0;
+
+      dataset.setReference();
+
+      expect(mock0).toHaveBeenCalledTimes(1);
+      expect(mock0).toHaveBeenCalledWith('cName_');
+    });
+
+    test('it should be return the name when getName() is called', () => {
+      const name = dataset.getName();
+
+      expect(name).toBe('cName');
+    });
+
+    test('it should be return the name when getName() is called with withBrackets is true', () => {
+      const name = dataset.getName(true);
+
+      expect(name).toBe('cName');
+    });
+
+    test('it should be change the name and the collection will be re-sorted when setName() is called', () => {
+      expect(collection.getColumns()).toEqual([
+        expect.any(ColumnDataset),
+        dataset,
+        expect.any(ColumnDataset),
+        expect.any(ColumnDataset),
+      ]);
+
+      dataset.setName('new-cName');
+
+      expect(dataset.column.name).toBe('new-cName');
+      expect(collection.getColumns()).toEqual([
+        expect.any(ColumnDataset),
+        expect.any(ColumnDataset),
+        dataset,
+        expect.any(ColumnDataset),
+      ]);
+
+      expect(index.getName()).toBe('new-cName_');
+      expect(index.getColumnsNormalize()).toEqual({ 'new-cName': 1 });
+    });
+
     test.each<[string, boolean | undefined, boolean | undefined]>([
-      ['cName.cSubName1', undefined, undefined],
-      ['cName.cSubName1[]', true, true],
-      ['cName.cSubName1', true, false],
-      ['cName.cSubName1', false, true],
-      ['cName.cSubName1', false, false],
-    ])(
-      `it should be return "%s" when getFullname() is called with type "${type}" [%p, %p]`,
-      (expected, args1, args2) => {
-        dataset.type = type;
-        dataset.getColumn('cSubName1').data.type = 'array';
+      ['cName', undefined, undefined],
+      ['cName', true, true],
+      ['cName', true, false],
+      ['cName', false, true],
+      ['cName', false, false],
+    ])('it should be return "%s" when getFullname() is called [%p, %p]', (expected, args1, args2) => {
+      const name = dataset.getFullname(args1, args2);
 
-        const name = dataset.getColumn('cSubName1').getFullname(args1, args2);
-
-        expect(name).toBe(expected);
-      },
-    );
-  });
-
-  /**
-   *
-   */
-  describe('Check the properties()', () => {
-    /**
-     *
-     */
-    beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
+      expect(name).toBe(expected);
     });
 
-    /**
-     *
-     */
     test('it should be return the value when get() is called', () => {
-      dataset.data.enum = 'hello; morning';
-
       const result = dataset.get('enum');
 
       expect(result).toBe('hello; morning');
     });
 
-    /**
-     *
-     */
     test('it should be set value when set() is called', () => {
       dataset.set('default', 'Date.now()');
 
-      expect(dataset.data.default).toBe('Date.now()');
+      expect(dataset.column.default).toBe('Date.now()');
     });
 
     const dataIsset: Array<[boolean, keyof dataColumnType, any]> = [
@@ -292,13 +128,10 @@ describe('Check the CollectionDataset class', () => {
       [false, 'enum', undefined],
     ];
 
-    /**
-     *
-     */
     test.each(dataIsset)(
-      `it should be return %p when isset(%p) is called with init value "%p" and the value exists`,
+      'it should be return %p when isset(%p) is called with init value "%p" and the value exists',
       (expected, opts, message) => {
-        dataset.data[opts] = message;
+        dataset.column[opts] = message;
 
         const result = dataset.isset(opts);
 
@@ -306,438 +139,457 @@ describe('Check the CollectionDataset class', () => {
       },
     );
 
-    /**
-     *
-     */
     test('it should be return false when isset(enum) is called with withEmptyString is false and string is empty', () => {
-      dataset.data.enum = '';
+      dataset.set('enum', '');
 
       const result = dataset.isset('enum', false);
 
       expect(result).toBe(false);
     });
 
-    /**
-     *
-     */
     test('it should be return true when isset(enum) is called with withEmptyString is true and string is empty', () => {
-      dataset.data.enum = '';
+      dataset.set('enum', '');
 
       const result = dataset.isset('enum', true);
 
       expect(result).toBe(true);
     });
-  });
 
-  /**
-   *
-   */
-  describe('Check the table values', () => {
-    /**
-     *
-     */
-    beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the table name when getTableName() is called`, () => {
+    test('it should be return the table name when getTableName() is called', () => {
       const name = dataset.getTableName();
 
       expect(name).toBe('cName');
     });
 
-    /**
-     *
-     */
-    test(`it should be return the table name when getTableName() is called from subcolumn`, () => {
-      const name = dataset.getColumn('cSubName1').getTableName();
-
-      expect(name).toBe('cName.cSubName1');
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the table name when getTableName() is called from subsubcolumn`, () => {
-      const name = dataset
-        .getColumn('cSubName3')
-        .getColumn('cSubSubName1')
-        .getTableName();
-
-      expect(name).toBe('cName.cSubName3[].cSubSubName1');
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the table name when getTableName() is called from subsubcolumn with selectedColumn`, () => {
-      const name = dataset
-        .getColumn('cSubName3')
-        .getColumn('cSubSubName1')
-        .getTableName(dataset.getColumn('cSubName3'));
-
-      expect(name).toBe('cSubSubName1');
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the type when getTableType() is called with type is an object`, () => {
+    test('it should be return the type when getTableType() is called with type is an object', () => {
       const name = dataset.getTableType();
-
-      expect(name).toBe('object');
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the type when getTableType() is called with type is an array`, () => {
-      const name = dataset
-        .getColumn('cSubName3')
-
-        .getTableType();
-
-      expect(name).toBe('[object]');
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the type when getTableType() is called with type is an string`, () => {
-      const name = dataset.getColumn('cSubName1').getTableType();
 
       expect(name).toBe('string');
     });
 
-    /**
-     *
-     */
-    test(`it should be return the type when getTableType() is called with type is an multiple boolean array`, () => {
-      const name = dataset.getColumn('cSubName2').getTableType();
-
-      expect(name).toBe('[[boolean]]');
-    });
-  });
-
-  /**
-   *
-   */
-  describe('Check the subTypes', () => {
-    /**
-     *
-     */
-    beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
-    });
-
-    /**
-     *
-     */
-    test(`it should be a empty array when getSubTypes() is called without sub types`, () => {
+    test('it should be a empty array when getSubTypes() is called without sub types', () => {
       const name = dataset.getSubTypes();
 
       expect(name).toEqual([]);
     });
 
-    /**
-     *
-     */
-    test(`it should be a empty array when getSubTypes() is called with sub types`, () => {
-      const name = dataset.getColumn('cSubName2').getSubTypes();
-
-      expect(name).toEqual(['arrayType', 'boolean']);
-    });
-
-    /**
-     *
-     */
-    test(`it should be set sub types when setSubTypes() is called`, () => {
-      const subColumn = dataset.getColumn('cSubName2');
-
-      subColumn.setSubTypes(['number']);
-
-      expect(subColumn.subTypes).toEqual(['number']);
-    });
-  });
-
-  /**
-   *
-   */
-  describe('Check the index-context', () => {
-    /**
-     *
-     */
-    beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
-    });
-
-    /**
-     *
-     */
-    test(`it should be return the index name when getIndexName() is called`, () => {
+    test('it should be return the index name when getIndexName() is called', () => {
       const name = dataset.getIndexName();
 
       expect(name).toEqual('cName_');
     });
 
-    /**
-     *
-     */
-    test(`it should be return index when getIndex() is called`, () => {
+    test('it should be return index when getIndex() is called ', () => {
       const result = dataset.getIndex();
 
       expect(result).toBe(index);
     });
 
-    /**
-     *
-     */
-    test(`it should be remove the index when setIndex() is called without index`, () => {
-      dataset.setIndex();
+    test.each([['unique', true, true], ['unique', true, false], ['sparse', false, true], ['index', false, false]])(
+      'it should be return "%s" when getIndexType() is called  and the index has the following properties [%p, %p]',
+      (expected, withUnique, withSparse) => {
+        index.setProperty('unique', withUnique);
+        index.setProperty('sparse', withSparse);
 
-      expect(dataset.index).toBe(undefined);
+        const result = dataset.getIndexType();
+
+        expect(result).toBe(expected);
+      },
+    );
+
+    test('it should be return the index value when getIndexValue() is called ', () => {
+      const result = dataset.getIndexValue();
+
+      expect(result).toBe(1);
     });
 
-    /**
-     *
-     */
-    test(`it should be set the index when setIndex() is called with index`, () => {
-      const mockIndex = new (IndexDataset as any)();
+    test('it should be return undefined when getIndexValue() is called and the index structure is faulty', () => {
+      index.setColumns([]);
 
-      mockIndex.getName.mockReturnValue('cName_');
-
-      dataset.setIndex(mockIndex);
-
-      expect(dataset.index).toBe(mockIndex);
-
-      expect(mockIndex.getName).toHaveBeenCalledTimes(1);
-    });
-
-    /**
-     *
-     */
-    test(`it should be throw an error when setIndex() is called with index but the name is different`, () => {
-      const mockIndex = new (IndexDataset as any)();
-
-      mockIndex.getName.mockReturnValue('cOther_');
-
-      expect.assertions(4);
+      expect.assertions(2);
       try {
-        dataset.setIndex(mockIndex);
+        dataset.getIndexValue();
       } catch (err) {
         expect(err).toBeInstanceOf(Error);
-        expect(err.message).toBe('The index is not named like the column (cName_ !== cOther_)');
-
-        // old index value
-        expect(dataset.index).toBe(index);
-
-        expect(mockIndex.getName).toHaveBeenCalledTimes(1);
+        expect(err.message).toBe('The column index has less or more than 1 entry');
       }
     });
 
-    /**
-     *
-     */
-    test(`it should be return the index column structure when getIndexColumn() is called`, () => {
-      const result = dataset.getIndexColumn('text');
+    test('it should be update the index when setIndex() is called', () => {
+      expect(index.getProperty('unique')).toBe(true);
+      expect(index.getProperty('sparse')).toBe(undefined);
+      expect(index.getColumns()).toEqual([[dataset, 1]]);
 
-      expect(result).toEqual({ cName: 'text' });
+      dataset.setIndex('hashed', 'sparse');
+
+      expect(index.getProperty('unique')).toBe(false);
+      expect(index.getProperty('sparse')).toBe(true);
+      expect(index.getColumns()).toEqual([[dataset, 'hashed']]);
     });
 
-    /**
-     *
-     */
-    test(`it should be updated the index and also the index of the subcolumns when refreshIndex() is called and the index is defined`, () => {
-      index.getColumnValue.mockReturnValue('hashed');
+    test('it should be remove the column index when removeIndex() is called', () => {
+      expect(collection.getIndexes().length).toBe(1);
 
-      expect(dataset.columns.length).toBe(3);
+      dataset.removeIndex();
 
-      dataset.columns[0].refreshIndex = jest.fn();
-      dataset.columns[1].refreshIndex = jest.fn();
-      dataset.columns[2].refreshIndex = jest.fn();
-
-      dataset.refreshIndex();
-
-      expect(index.getColumnValue).toHaveBeenCalledTimes(1);
-      expect(index.setName).toHaveBeenCalledTimes(1);
-      expect(index.setName).toHaveBeenCalledWith('cName_');
-      expect(index.setColumns).toHaveBeenCalledTimes(1);
-      expect(index.setColumns).toHaveBeenCalledWith({ cName: 'hashed' });
-
-      expect(dataset.columns[0].refreshIndex).toHaveBeenCalledTimes(1);
-      expect(dataset.columns[1].refreshIndex).toHaveBeenCalledTimes(1);
-      expect(dataset.columns[2].refreshIndex).toHaveBeenCalledTimes(1);
+      expect(dataset.getIndex()).toBe(undefined);
+      expect(collection.getIndexes().length).toBe(0);
     });
 
-    /**
-     *
-     */
-    test(`it should be throw an error when refreshIndex() is called and the index is defined but value is wrong`, () => {
-      expect.assertions(9);
+    test('it should be return false when isReadonly() is called and the column has not the readonly flag', () => {
+      const result = dataset.isReadonly();
 
-      index.getColumnValue.mockReturnValue(undefined);
-
-      expect(dataset.columns.length).toBe(3);
-
-      dataset.columns[0].refreshIndex = jest.fn();
-      dataset.columns[1].refreshIndex = jest.fn();
-      dataset.columns[2].refreshIndex = jest.fn();
-
-      try {
-        dataset.refreshIndex();
-      } catch (err) {
-        expect(err).toBeInstanceOf(Error);
-        expect(err.message).toBe('The column has a index but the index value is not defined');
-
-        expect(index.getColumnValue).toHaveBeenCalledTimes(1);
-        expect(index.setName).toHaveBeenCalledTimes(0);
-        expect(index.setColumns).toHaveBeenCalledTimes(0);
-
-        expect(dataset.columns[0].refreshIndex).toHaveBeenCalledTimes(0);
-        expect(dataset.columns[1].refreshIndex).toHaveBeenCalledTimes(0);
-        expect(dataset.columns[2].refreshIndex).toHaveBeenCalledTimes(0);
-      }
+      expect(result).toBe(false);
     });
 
-    /**
-     *
-     */
-    test(`it should be updated the indexes of the subcolumns when refreshIndex() is called and the index is not defined`, () => {
-      dataset.index = undefined;
+    test('it should be remove this column and the column index when remove() is called', () => {
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(1);
 
-      expect(dataset.columns.length).toBe(3);
+      dataset.remove();
 
-      dataset.columns[0].refreshIndex = jest.fn();
-      dataset.columns[1].refreshIndex = jest.fn();
-      dataset.columns[2].refreshIndex = jest.fn();
+      expect(collection.getColumns().length).toBe(3);
+      expect(collection.getIndexes().length).toBe(0);
+    });
 
-      dataset.refreshIndex();
+    test('it should be return the collection when getCollection() is called', () => {
+      const result = dataset.getCollection();
 
-      expect(dataset.columns[0].refreshIndex).toHaveBeenCalledTimes(1);
-      expect(dataset.columns[1].refreshIndex).toHaveBeenCalledTimes(1);
-      expect(dataset.columns[2].refreshIndex).toHaveBeenCalledTimes(1);
+      expect(result).toBe(collection);
+    });
+
+    test('it should be return a data object when getObject() is called', () => {
+      const result = dataset.getObject();
+
+      expect(result).toEqual({
+        enum: 'hello; morning',
+        name: 'cName',
+        required: true,
+        type: 'string',
+      });
     });
   });
 
-  /**
-   *
-   */
-  describe('Check the helper functions', () => {
-    /**
-     *
-     */
+  describe('Check a simple column structure (without index)', () => {
     beforeEach(() => {
-      dataset = new ColumnDataset(data, parent, parent);
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [],
+          indexes: [],
+        },
+        jest.fn() as any,
+      );
+      collection.setReference();
+
+      dataset = collection.getColumn('_id');
     });
 
-    /**
-     *
-     */
-    test(`it should be return the collection instance when getCollection() is called`, () => {
-      const result = dataset.getCollection();
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
 
-      expect(result).toBe(parent);
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.column).toEqual({ name: '_id', type: 'objectId' });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(true);
+
+      expect(collection.getColumns().length).toBe(3);
+      expect(collection.getIndexes().length).toBe(0);
     });
 
-    /**
-     *
-     */
-    test(`it should be return the collection instance when getCollection() is called from a sub sub column`, () => {
-      const result = dataset
-        .getColumn('cSubName3')
-        .getColumn('cSubSubName1')
-        .getCollection();
+    test('it should be change the name and the collection will be re-sorted when setName() is called', () => {
+      expect(collection.getColumns()).toEqual([dataset, expect.any(ColumnDataset), expect.any(ColumnDataset)]);
 
-      expect(result).toBe(parent);
+      dataset.setName('_id2');
+
+      expect(dataset.column.name).toBe('_id2');
+      expect(collection.getColumns()).toEqual([dataset, expect.any(ColumnDataset), expect.any(ColumnDataset)]);
     });
 
-    /**
-     *
-     */
-    test(`it should be sorted the sub columns when sortColumns() is called`, () => {
-      parent.sort.mockReturnValue(1);
-      parent.sort.mockReturnValueOnce(-1);
+    test('it should be return undefined when getIndexType() is called', () => {
+      const result = dataset.getIndexType();
 
-      const c1 = dataset.getColumn('cSubName1');
-      const c2 = dataset.getColumn('cSubName2');
-      const c3 = dataset.getColumn('cSubName3');
-
-      dataset.sortColumns();
-
-      expect(parent.sort).toHaveBeenCalledTimes(3);
-      expect(parent.sort).toHaveBeenNthCalledWith(1, c2, c1);
-      expect(parent.sort).toHaveBeenNthCalledWith(2, c3, c2);
-      expect(parent.sort).toHaveBeenNthCalledWith(3, c3, c1);
-
-      expect(dataset.columns).toEqual([c2, c1, c3]);
+      expect(result).toBe(undefined);
     });
 
-    /**
-     *
-     */
-    test(`it should be remove this column and the column index when remove() is called`, () => {
-      dataset.remove();
+    test('it should be return undefined when getIndexValue() is called ', () => {
+      const result = dataset.getIndexValue();
 
-      expect(parent.removeColumn).toHaveBeenCalledTimes(1);
-      expect(parent.removeColumn).toHaveBeenCalledWith(dataset);
-      expect(index.remove).toHaveBeenCalledTimes(1);
+      expect(result).toBe(undefined);
     });
 
-    /**
-     *
-     */
-    test(`it should be remove this column when remove() is called`, () => {
-      dataset.index = undefined;
+    test('it should be create the index when setIndex() is called', () => {
+      expect(dataset.getIndex()).toBe(undefined);
+      expect(collection.getIndexes().length).toBe(0);
 
-      dataset.remove();
+      dataset.setIndex('hashed', 'unique');
 
-      expect(parent.removeColumn).toHaveBeenCalledTimes(1);
-      expect(parent.removeColumn).toHaveBeenCalledWith(dataset);
+      expect(dataset.getIndex()).toBeInstanceOf(IndexDataset);
+      expect(dataset.getIndex().getProperty('unique')).toBe(true);
+      expect(dataset.getIndex().getProperty('sparse')).toBe(false);
+      expect(dataset.getIndex().getColumns()).toEqual([[dataset, 'hashed']]);
+      expect(collection.getIndexes().length).toBe(1);
     });
 
-    /**
-     *
-     */
-    test(`it should be return a data object when getObject() is called`, () => {
+    test('it should be remove the column index when removeIndex() is called', () => {
+      expect(dataset.getIndex()).toBe(undefined);
+      expect(collection.getIndexes().length).toBe(0);
+
+      dataset.removeIndex();
+
+      expect(dataset.getIndex()).toBe(undefined);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be return true when isReadonly() is called and the column has the readonly flag', () => {
+      const result = dataset.isReadonly();
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('Check a column structure with an object', () => {
+    beforeEach(() => {
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [
+            {
+              name: 'cName',
+              type: 'object',
+              required: true,
+              subColumns: [
+                { name: 'cSubName2', type: 'string', required: true },
+                { name: 'cSubName1', type: 'number' },
+              ],
+            },
+          ],
+          indexes: [],
+        },
+        jest.fn() as any,
+      );
+      collection.setReference();
+
+      dataset = collection.getColumn('cName');
+    });
+
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([expect.any(ColumnDataset), expect.any(ColumnDataset)]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.column).toEqual({
+        name: 'cName',
+        required: true,
+        subColumns: [{ name: 'cSubName2', required: true, type: 'string' }, { name: 'cSubName1', type: 'number' }],
+        type: 'object',
+      });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be call setReference() from the columns when setReference() is called', () => {
+      const mock0 = jest.fn();
+      const mock1 = jest.fn();
+
+      collection.getIndex = mock0;
+      dataset.getColumns().forEach((column: any) => (column.setReference = mock1));
+
+      dataset.setReference();
+
+      expect(mock0).toHaveBeenCalledTimes(1);
+      expect(mock0).toHaveBeenCalledWith('cName_');
+      expect(mock1).toHaveBeenCalledTimes(2);
+    });
+
+    test('it should be return the full table name when getTableName() is called', () => {
+      const name = dataset.getColumn('cSubName2').getTableName();
+
+      expect(name).toBe('cName.cSubName2');
+    });
+
+    test('it should be return the table name when getTableName() is called', () => {
+      const name = dataset.getColumn('cSubName2').getTableName(dataset);
+
+      expect(name).toBe('cSubName2');
+    });
+
+    test('it should be return a data object when getObject() is called', () => {
       const result = dataset.getObject();
 
       expect(result).toEqual({
         name: 'cName',
         required: true,
-        subColumns: [
-          {
-            name: 'cSubName1',
-            required: true,
-            subColumns: undefined,
-            subTypes: undefined,
-            type: 'string',
-          },
-          {
-            name: 'cSubName2',
-            subColumns: undefined,
-            subTypes: ['arrayType', 'boolean'],
-            type: 'arrayType',
-          },
-          {
-            name: 'cSubName3',
-            subColumns: [
-              {
-                name: 'cSubSubName1',
-                required: true,
-                subColumns: undefined,
-                subTypes: undefined,
-                type: 'number',
-              },
-            ],
-            subTypes: undefined,
-            type: 'array',
-          },
-        ],
+        subColumns: [{ name: 'cSubName2', required: true, type: 'string' }, { name: 'cSubName1', type: 'number' }],
         subTypes: undefined,
         type: 'object',
+      });
+    });
+  });
+
+  describe('Check a column structure with an array', () => {
+    beforeEach(() => {
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [
+            {
+              name: 'cName',
+              type: 'array',
+              subColumns: [{ name: 'cSubSubName1', type: 'number', required: true }],
+            },
+          ],
+          indexes: [],
+        },
+        jest.fn() as any,
+      );
+      collection.setReference();
+
+      dataset = collection.getColumn('cName');
+    });
+
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([expect.any(ColumnDataset)]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.column).toEqual({
+        name: 'cName',
+        subColumns: [{ name: 'cSubSubName1', required: true, type: 'number' }],
+        type: 'array',
+      });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be call setReference() from the columns when setReference() is called', () => {
+      const mock0 = jest.fn();
+      const mock1 = jest.fn();
+
+      collection.getIndex = mock0;
+      dataset.getColumns().forEach((column: any) => (column.setReference = mock1));
+
+      dataset.setReference();
+
+      expect(mock0).toHaveBeenCalledTimes(1);
+      expect(mock0).toHaveBeenCalledWith('cName_');
+      expect(mock1).toHaveBeenCalledTimes(1);
+    });
+
+    test('it should be return the name when getName() is called', () => {
+      const name = dataset.getName();
+
+      expect(name).toBe('cName');
+    });
+
+    test('it should be return the name when getName() is called with withBrackets is true', () => {
+      const name = dataset.getName(true);
+
+      expect(name).toBe('cName[]');
+    });
+
+    test('it should be return the table name when getTableName() is called', () => {
+      const name = dataset.getTableName(dataset, true);
+
+      expect(name).toBe('cName[]');
+    });
+
+    test('it should be return the type when getTableType() is called with type is an object', () => {
+      const name = dataset.getTableType();
+
+      expect(name).toBe('[object]');
+    });
+
+    test('it should be return a data object when getObject() is called', () => {
+      const result = dataset.getObject();
+
+      expect(result).toEqual({
+        name: 'cName',
+        subColumns: [{ name: 'cSubSubName1', required: true, type: 'number' }],
+        subTypes: undefined,
+        type: 'array',
+      });
+    });
+  });
+
+  describe('Check a column structure with an arrayType', () => {
+    beforeEach(() => {
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [
+            {
+              name: 'cName',
+
+              type: 'arrayType',
+              subTypes: ['arrayType', 'boolean'],
+            },
+          ],
+          indexes: [],
+        },
+        jest.fn() as any,
+      );
+      collection.setReference();
+
+      dataset = collection.getColumn('cName');
+    });
+
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([]);
+      expect(dataset.subTypes).toEqual(['arrayType', 'boolean']);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.column).toEqual({ name: 'cName', subTypes: ['arrayType', 'boolean'], type: 'arrayType' });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be return the type when getTableType() is called with type is an object', () => {
+      const name = dataset.getTableType();
+
+      expect(name).toBe('[[boolean]]');
+    });
+
+    test('it should be a array with sub types when getSubTypes() is called', () => {
+      const result = dataset.getSubTypes();
+
+      expect(result).toEqual(['arrayType', 'boolean']);
+    });
+
+    test('ot should be defined the sub types when setSubTypes() is called', () => {
+      dataset.setSubTypes(['boolean']);
+
+      const result = dataset.getSubTypes();
+
+      expect(result).toEqual(['boolean']);
+    });
+
+    test('it should be return a data object when getObject() is called', () => {
+      const result = dataset.getObject();
+
+      expect(result).toEqual({
+        name: 'cName',
+
+        subTypes: ['arrayType', 'boolean'],
+        type: 'arrayType',
       });
     });
   });

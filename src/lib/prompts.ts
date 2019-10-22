@@ -13,16 +13,13 @@ export const regexpNameMessage = `Only letters, numbers and hyphens are allowed 
 export const promptTableOptions: TableUserConfig = {
   drawHorizontalLine: () => false,
   border: {
-    ...getBorderCharacters(`norc`),
+    ...getBorderCharacters('norc'),
     bodyLeft: chalk.dim('|'),
     bodyRight: chalk.dim('|'),
     bodyJoin: chalk.dim('|'),
   },
 };
 
-/**
- *
- */
 export default class Prompts {
   private options = {
     pageSize: 75,
@@ -31,17 +28,10 @@ export default class Prompts {
     filter: (value: any) => (typeof value === 'string' ? value.trim() : value),
   };
 
-  /**
-   *
-   * @param clearScreen
-   */
   constructor(protected clearScreen: boolean = true) {
     registerPrompt('fuzzypath', inquirerFuzzyPath);
   }
 
-  /**
-   *
-   */
   async exit() {
     const { confirm } = await this.call<{ confirm: boolean }>([
       {
@@ -61,9 +51,6 @@ export default class Prompts {
     }
   }
 
-  /**
-   *
-   */
   clear() {
     if (this.clearScreen) {
       // https://github.com/bahamas10/node-clear
@@ -72,10 +59,6 @@ export default class Prompts {
     }
   }
 
-  /**
-   *
-   * @param message
-   */
   async retry(message: string): Promise<boolean> {
     const prefix = chalk.red('>>');
 
@@ -94,9 +77,6 @@ export default class Prompts {
     return retry;
   }
 
-  /**
-   *
-   */
   async remove(name: string): Promise<boolean> {
     const { remove } = await this.call<{ remove: boolean }>([
       {
@@ -110,16 +90,20 @@ export default class Prompts {
     return remove;
   }
 
-  /**
-   *
-   * @param messages
-   */
-  async pressKey(messages?: string | string[], isError = false): Promise<void> {
+  async pressKey(messages?: string | string[] | Error, isError = false): Promise<void> {
+    if (messages instanceof Error) {
+      isError = true;
+      const errMessge = messages.message.split('\n');
+      const errStack = messages.stack ? messages.stack.split('\n') : ['Without error stack'];
+
+      messages = [...errMessge, '', ...errStack];
+    }
+
     if (messages) {
       const prefix = isError ? chalk.red('>>') : chalk.green('>>');
 
       if (isError) {
-        console.log(`${prefix} Error!`);
+        console.log(`${prefix} Error`);
       }
 
       if (Array.isArray(messages)) {
@@ -140,21 +124,12 @@ export default class Prompts {
     ]);
   }
 
-  /**
-   *
-   * @param questions
-   */
   async call<T>(questions: ReadonlyArray<DistinctQuestion>): Promise<T> {
     const result = await prompt<T>(questions.map((question) => ({ ...this.options, ...question })));
 
     return result;
   }
 
-  /**
-   *
-   * @param message
-   * @param choices
-   */
   async menu<T>(message: string, choices: Array<choicesType<T>>): Promise<choiceValueType<T>> {
     const { value } = await prompt([
       {
@@ -170,9 +145,6 @@ export default class Prompts {
     return value;
   }
 
-  /**
-   *
-   */
   getSpinner(): ora.Ora {
     return ora({
       prefixText: chalk.green('>>'),

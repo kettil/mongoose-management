@@ -1,0 +1,861 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the CollectionMenu class it should be return indexes table when createIndexTable() is called with type "index" 1`] = `
+Array [
+  "[2m|[22m [4mName[24m     [2m|[22m [4mColumn(s)[24m  [2m|[22m [4mUnique[24m [2m|[22m [4mSparse[24m [2m|[22m",
+  "[2m|[22m column1_ [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+  "[2m|[22m index1   [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+  "",
+]
+`;
+
+exports[`Check the CollectionMenu class it should be return indexes table when createIndexTable() is called with type "sparse" 1`] = `
+Array [
+  "[2m|[22m [4mName[24m     [2m|[22m [4mColumn(s)[24m  [2m|[22m [4mUnique[24m [2m|[22m [4mSparse[24m [2m|[22m",
+  "[2m|[22m column1_ [2m|[22m column1: 1 [2m|[22m        [2m|[22m   ✔    [2m|[22m",
+  "[2m|[22m index1   [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+  "",
+]
+`;
+
+exports[`Check the CollectionMenu class it should be return indexes table when createIndexTable() is called with type "unique" 1`] = `
+Array [
+  "[2m|[22m [4mName[24m     [2m|[22m [4mColumn(s)[24m  [2m|[22m [4mUnique[24m [2m|[22m [4mSparse[24m [2m|[22m",
+  "[2m|[22m column1_ [2m|[22m column1: 1 [2m|[22m   ✔    [2m|[22m        [2m|[22m",
+  "[2m|[22m index1   [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+  "",
+]
+`;
+
+exports[`Check the CollectionMenu class it should be return menu selection when exec() is called 1`] = `
+Array [
+  Separator {
+    "line": "[2mCollection: [1mc1[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[4mColumns list[24m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[2m [4mName[24m      [2m|[2m [4mType[24m     [2m|[2m [4mRequired[24m [2m|[2m [4mDefault[24m   [2m|[2m [4mIndex[24m     [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[2m _id       [2m|[2m objectId [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "[2m|[22m column1   [2m|[22m string   [2m|[22m          [2m|[22m           [2m|[22m           [2m|[22m        [2m|[22m        [2m|[22m",
+    "short": "Column - column1",
+    "value": Object {
+      "data": ColumnDataset {
+        "collection": CollectionDataset {
+          "columns": Array [
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            [Circular],
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "createdAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "updatedAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+          ],
+          "indexes": Array [
+            IndexDataset {
+              "columns": Array [
+                Array [
+                  [Circular],
+                  1,
+                ],
+              ],
+              "index": Object {
+                "columns": Object {
+                  "column1": 1,
+                },
+                "name": "index1",
+                "properties": Object {},
+              },
+              "name": "index1",
+              "parent": [Circular],
+              "properties": Object {},
+              "readonly": false,
+            },
+          ],
+          "name": "c1",
+          "parent": [MockFunction],
+        },
+        "column": Object {
+          "name": "column1",
+          "type": "string",
+        },
+        "columns": Array [],
+        "index": undefined,
+        "parent": CollectionDataset {
+          "columns": Array [
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            [Circular],
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "createdAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "updatedAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+          ],
+          "indexes": Array [
+            IndexDataset {
+              "columns": Array [
+                Array [
+                  [Circular],
+                  1,
+                ],
+              ],
+              "index": Object {
+                "columns": Object {
+                  "column1": 1,
+                },
+                "name": "index1",
+                "properties": Object {},
+              },
+              "name": "index1",
+              "parent": [Circular],
+              "properties": Object {},
+              "readonly": false,
+            },
+          ],
+          "name": "c1",
+          "parent": [MockFunction],
+        },
+        "readonly": false,
+        "subTypes": Array [],
+      },
+    },
+  },
+  Separator {
+    "line": "[2m[2m|[2m createdAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[2m updatedAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2mNote: Columns \\"_id\\", \\"createdAt\\" and \\"updatedAt\\" are created automatically[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[4mIndexes list[24m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[2m [4mName[24m   [2m|[2m [4mColumn(s)[24m  [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "[2m|[22m index1 [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+    "short": "Index - index1",
+    "value": Object {
+      "data": IndexDataset {
+        "columns": Array [
+          Array [
+            ColumnDataset {
+              "collection": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "indexes": Array [
+                  [Circular],
+                ],
+                "name": "c1",
+                "parent": [MockFunction],
+              },
+              "column": Object {
+                "name": "column1",
+                "type": "string",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "indexes": Array [
+                  [Circular],
+                ],
+                "name": "c1",
+                "parent": [MockFunction],
+              },
+              "readonly": false,
+              "subTypes": Array [],
+            },
+            1,
+          ],
+        ],
+        "index": Object {
+          "columns": Object {
+            "column1": 1,
+          },
+          "name": "index1",
+          "properties": Object {},
+        },
+        "name": "index1",
+        "parent": CollectionDataset {
+          "columns": Array [
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "column1",
+                "type": "string",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": false,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "createdAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "updatedAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+          ],
+          "indexes": Array [
+            [Circular],
+          ],
+          "name": "c1",
+          "parent": [MockFunction],
+        },
+        "properties": Object {},
+        "readonly": false,
+      },
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m──────────────[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "Create new column",
+    "short": "[31mCommand - Create column[39m",
+    "value": Object {
+      "action": "createColumn",
+    },
+  },
+  Object {
+    "name": "Create new index",
+    "short": "[31mCommand - Create index[39m",
+    "value": Object {
+      "action": "createIndex",
+    },
+  },
+  Object {
+    "name": "Edit collection",
+    "short": "[31mCommand - Edit collection[39m",
+    "value": Object {
+      "action": "edit",
+      "data": undefined,
+    },
+  },
+  Object {
+    "name": "Remove collection",
+    "short": "[31mCommand - Remove collection[39m",
+    "value": Object {
+      "action": "remove",
+      "data": undefined,
+    },
+  },
+  Object {
+    "name": "Back",
+    "short": "[31mCommand - Back[39m",
+    "value": Object {
+      "action": "back",
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;
+
+exports[`Check the CollectionMenu class it should be return menu selection when getChoiceIndexList() is called with indexes 1`] = `
+Array [
+  Separator {
+    "line": "[2m[2m|[2m [4mName[24m     [2m|[2m [4mColumn(s)[24m  [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[2m column1_ [2m|[2m column1: 1 [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "type": "separator",
+  },
+  Object {
+    "name": "[2m|[22m index1   [2m|[22m column1: 1 [2m|[22m        [2m|[22m        [2m|[22m",
+    "short": "Index - index1",
+    "value": Object {
+      "data": IndexDataset {
+        "columns": Array [
+          Array [
+            ColumnDataset {
+              "collection": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "indexes": Array [
+                  IndexDataset {
+                    "columns": Array [
+                      Array [
+                        [Circular],
+                        1,
+                      ],
+                    ],
+                    "index": Object {
+                      "columns": Object {
+                        "column1": 1,
+                      },
+                      "name": "column1_",
+                      "properties": Object {
+                        "sparse": false,
+                        "unique": false,
+                      },
+                      "readonly": true,
+                    },
+                    "name": "column1_",
+                    "parent": [Circular],
+                    "properties": Object {
+                      "sparse": false,
+                      "unique": false,
+                    },
+                    "readonly": true,
+                  },
+                  [Circular],
+                ],
+                "name": "c1",
+                "parent": [MockFunction],
+              },
+              "column": Object {
+                "name": "column1",
+                "type": "string",
+              },
+              "columns": Array [],
+              "index": IndexDataset {
+                "columns": Array [
+                  Array [
+                    [Circular],
+                    1,
+                  ],
+                ],
+                "index": Object {
+                  "columns": Object {
+                    "column1": 1,
+                  },
+                  "name": "column1_",
+                  "properties": Object {
+                    "sparse": false,
+                    "unique": false,
+                  },
+                  "readonly": true,
+                },
+                "name": "column1_",
+                "parent": CollectionDataset {
+                  "columns": Array [
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "_id",
+                        "type": "objectId",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                    [Circular],
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "createdAt",
+                        "type": "date",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "updatedAt",
+                        "type": "date",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                  ],
+                  "indexes": Array [
+                    [Circular],
+                    [Circular],
+                  ],
+                  "name": "c1",
+                  "parent": [MockFunction],
+                },
+                "properties": Object {
+                  "sparse": false,
+                  "unique": false,
+                },
+                "readonly": true,
+              },
+              "parent": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "indexes": Array [
+                  IndexDataset {
+                    "columns": Array [
+                      Array [
+                        [Circular],
+                        1,
+                      ],
+                    ],
+                    "index": Object {
+                      "columns": Object {
+                        "column1": 1,
+                      },
+                      "name": "column1_",
+                      "properties": Object {
+                        "sparse": false,
+                        "unique": false,
+                      },
+                      "readonly": true,
+                    },
+                    "name": "column1_",
+                    "parent": [Circular],
+                    "properties": Object {
+                      "sparse": false,
+                      "unique": false,
+                    },
+                    "readonly": true,
+                  },
+                  [Circular],
+                ],
+                "name": "c1",
+                "parent": [MockFunction],
+              },
+              "readonly": false,
+              "subTypes": Array [],
+            },
+            1,
+          ],
+        ],
+        "index": Object {
+          "columns": Object {
+            "column1": 1,
+          },
+          "name": "index1",
+          "properties": Object {},
+        },
+        "name": "index1",
+        "parent": CollectionDataset {
+          "columns": Array [
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "column1",
+                "type": "string",
+              },
+              "columns": Array [],
+              "index": IndexDataset {
+                "columns": Array [
+                  Array [
+                    [Circular],
+                    1,
+                  ],
+                ],
+                "index": Object {
+                  "columns": Object {
+                    "column1": 1,
+                  },
+                  "name": "column1_",
+                  "properties": Object {
+                    "sparse": false,
+                    "unique": false,
+                  },
+                  "readonly": true,
+                },
+                "name": "column1_",
+                "parent": [Circular],
+                "properties": Object {
+                  "sparse": false,
+                  "unique": false,
+                },
+                "readonly": true,
+              },
+              "parent": [Circular],
+              "readonly": false,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "createdAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": [Circular],
+              "column": Object {
+                "name": "updatedAt",
+                "type": "date",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+          ],
+          "indexes": Array [
+            IndexDataset {
+              "columns": Array [
+                Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "column1",
+                      "type": "string",
+                    },
+                    "columns": Array [],
+                    "index": [Circular],
+                    "parent": [Circular],
+                    "readonly": false,
+                    "subTypes": Array [],
+                  },
+                  1,
+                ],
+              ],
+              "index": Object {
+                "columns": Object {
+                  "column1": 1,
+                },
+                "name": "column1_",
+                "properties": Object {
+                  "sparse": false,
+                  "unique": false,
+                },
+                "readonly": true,
+              },
+              "name": "column1_",
+              "parent": [Circular],
+              "properties": Object {
+                "sparse": false,
+                "unique": false,
+              },
+              "readonly": true,
+            },
+            [Circular],
+          ],
+          "name": "c1",
+          "parent": [MockFunction],
+        },
+        "properties": Object {},
+        "readonly": false,
+      },
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;
+
+exports[`Check the CollectionMenu class it should be return menu selection when getChoiceIndexList() is called without indexes 1`] = `
+Array [
+  Separator {
+    "line": "[2m- No indexes defined -[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;

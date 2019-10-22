@@ -14,36 +14,21 @@ import ora from 'ora';
 
 import Prompts, { promptTableOptions, regexpName, regexpNameMessage } from './prompts';
 
-/**
- *
- */
 describe('Check the static variables', () => {
-  /**
-   *
-   */
   test.each(['a', 'b_c', 'userLogs'])('checks the name RegExp successfully ["%s"]', (value) => {
     const result = regexpName.test(value);
     expect(result).toBe(true);
   });
 
-  /**
-   *
-   */
   test.each(['_a', 'Users', 'users_', 'users.logs', '0_logs'])('checks the name RegExp incorrectly ["%s"]', (value) => {
     const result = regexpName.test(value);
     expect(result).toBe(false);
   });
 
-  /**
-   *
-   */
   test('checks the regexpNameMessage', () => {
     expect(regexpNameMessage).toEqual(expect.any(String));
   });
 
-  /**
-   *
-   */
   test('checks the prompt table options', () => {
     const drawHorizontalLine = promptTableOptions.drawHorizontalLine;
 
@@ -73,13 +58,7 @@ describe('Check the static variables', () => {
   });
 });
 
-/**
- *
- */
 describe('Check the Prompts class', () => {
-  /**
-   *
-   */
   test('initialize the class without arguments', () => {
     const prompts = new Prompts();
     expect(prompts).toBeInstanceOf(Prompts);
@@ -96,9 +75,6 @@ describe('Check the Prompts class', () => {
     });
   });
 
-  /**
-   *
-   */
   test('initialize the class with clearScreen is false', () => {
     const prompts = new Prompts(false);
     expect(prompts).toBeInstanceOf(Prompts);
@@ -115,13 +91,7 @@ describe('Check the Prompts class', () => {
     });
   });
 
-  /**
-   *
-   */
   describe('Check the options.filter() function', () => {
-    /**
-     *
-     */
     test('it should be return trimmed text when the filter() is called with a string value', () => {
       const prompts = new Prompts();
 
@@ -130,9 +100,6 @@ describe('Check the Prompts class', () => {
       expect(expected).toBe('value');
     });
 
-    /**
-     *
-     */
     test('it should be return equal object when the filter() is called with a object value', () => {
       const value = { a: 42 };
 
@@ -145,22 +112,13 @@ describe('Check the Prompts class', () => {
     });
   });
 
-  /**
-   *
-   */
   describe('Check the class functions', () => {
     let prompts: Prompts;
 
-    /**
-     *
-     */
     beforeEach(() => {
       prompts = new Prompts();
     });
 
-    /**
-     *
-     */
     test('it should be exit the process when exit() is called with confirmation', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({ confirm: true });
 
@@ -187,9 +145,6 @@ describe('Check the Prompts class', () => {
       expect(process.exit).toHaveBeenCalledTimes(1);
     });
 
-    /**
-     *
-     */
     test('it should be not exit the process when exit() is called without confirmation', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({ confirm: false });
 
@@ -212,9 +167,6 @@ describe('Check the Prompts class', () => {
       expect(process.exit).toHaveBeenCalledTimes(0);
     });
 
-    /**
-     *
-     */
     test('it should be clear the screen when clear() is called with clearScreen is true', async () => {
       await prompts.clear();
 
@@ -223,9 +175,6 @@ describe('Check the Prompts class', () => {
       expect(process.stdout.write).toHaveBeenNthCalledWith(2, '\x1b[0f');
     });
 
-    /**
-     *
-     */
     test('it should be not clear the screen when clear() is called with clearScreen is false', async () => {
       const prompts2 = new Prompts(false);
 
@@ -234,9 +183,6 @@ describe('Check the Prompts class', () => {
       expect(process.stdout.write).toHaveBeenCalledTimes(0);
     });
 
-    /**
-     *
-     */
     test.each([[true, true], [false, false]])(
       'it should be return %p when retry() is called and the input value is %p',
       async (expected, value) => {
@@ -265,9 +211,6 @@ describe('Check the Prompts class', () => {
       },
     );
 
-    /**
-     *
-     */
     test.each([[true, true], [false, false]])(
       'it should be return %p when remove() is called and the input value is %p',
       async (expected, value) => {
@@ -292,9 +235,6 @@ describe('Check the Prompts class', () => {
       },
     );
 
-    /**
-     *
-     */
     test('it should be show the message when pressKey() is called with without text', async () => {
       await prompts.pressKey();
 
@@ -313,9 +253,6 @@ describe('Check the Prompts class', () => {
       expect(console.log).toHaveBeenCalledTimes(0);
     });
 
-    /**
-     *
-     */
     test('it should be show the message when pressKey() is called with one line of text', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({});
 
@@ -338,9 +275,6 @@ describe('Check the Prompts class', () => {
       expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.green('>>')}`);
     });
 
-    /**
-     *
-     */
     test('it should be show the message when pressKey() is called with several lines of text', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({});
 
@@ -364,9 +298,6 @@ describe('Check the Prompts class', () => {
       expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.green('>>')}`);
     });
 
-    /**
-     *
-     */
     test('it should be show the message when pressKey() is called with several lines of text and with error flag', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({});
 
@@ -385,15 +316,73 @@ describe('Check the Prompts class', () => {
       ]);
 
       expect(console.log).toHaveBeenCalledTimes(4);
-      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error!`);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error`);
       expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} test message 1`);
       expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} test message 2`);
       expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')}`);
     });
 
-    /**
-     *
-     */
+    test('it should be show the message when pressKey() is called with an error object', async () => {
+      ((prompt as any) as jest.Mock).mockResolvedValueOnce({});
+
+      const error = new Error('Error Message');
+
+      error.stack = 'Error: Error Message\n    Line1\n    Line2\n    Line3';
+
+      await prompts.pressKey(error);
+
+      expect(prompt).toHaveBeenCalledTimes(1);
+      expect(prompt).toHaveBeenCalledWith([
+        {
+          filter: expect.any(Function),
+          message: expect.any(String),
+          name: 'press',
+          pageSize: expect.any(Number),
+          prefix: expect.any(String),
+          type: 'input',
+        },
+      ]);
+
+      expect(console.log).toHaveBeenCalledTimes(8);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} Error Message`);
+      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} `);
+      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')} Error: Error Message`);
+      expect(console.log).toHaveBeenNthCalledWith(5, `${chalk.red('>>')}     Line1`);
+      expect(console.log).toHaveBeenNthCalledWith(6, `${chalk.red('>>')}     Line2`);
+      expect(console.log).toHaveBeenNthCalledWith(7, `${chalk.red('>>')}     Line3`);
+      expect(console.log).toHaveBeenNthCalledWith(8, `${chalk.red('>>')}`);
+    });
+
+    test('it should be show the message when pressKey() is called with an error object and without stack', async () => {
+      ((prompt as any) as jest.Mock).mockResolvedValueOnce({});
+
+      const error = new Error('Error Message');
+
+      error.stack = undefined;
+
+      await prompts.pressKey(error);
+
+      expect(prompt).toHaveBeenCalledTimes(1);
+      expect(prompt).toHaveBeenCalledWith([
+        {
+          filter: expect.any(Function),
+          message: expect.any(String),
+          name: 'press',
+          pageSize: expect.any(Number),
+          prefix: expect.any(String),
+          type: 'input',
+        },
+      ]);
+
+      expect(console.log).toHaveBeenCalledTimes(5);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} Error Message`);
+      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} `);
+      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')} Without error stack`);
+      expect(console.log).toHaveBeenNthCalledWith(5, `${chalk.red('>>')}`);
+    });
+
     test('it should be return the result when call() is called', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({ a: true, b: '42' });
 
@@ -425,9 +414,6 @@ describe('Check the Prompts class', () => {
       ]);
     });
 
-    /**
-     *
-     */
     test('it should be return the result when menu() is called', async () => {
       ((prompt as any) as jest.Mock).mockResolvedValueOnce({ value: 'p2' });
 
@@ -455,9 +441,6 @@ describe('Check the Prompts class', () => {
       ]);
     });
 
-    /**
-     *
-     */
     test('it should be return a ora instance when getSpinner() is called', () => {
       const d = { ora: 'instance' };
 

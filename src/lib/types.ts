@@ -167,3 +167,5 @@ export type templateCollectionType = {
   SchemaIndexes: string;
   schemaTypes: string;
 } & templateCollectionNamesType;
+
+export type Unpacked<T> = T extends Array<infer U> ? U : T;
