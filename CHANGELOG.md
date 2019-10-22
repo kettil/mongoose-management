@@ -6,6 +6,14 @@
 
 ### Fixes
 
+### Chore & Maintenance
+
+### Performance
+
+## [0.1.4] - 2019-10-22
+
+### Fixes
+
 - Default import from mongoose is not defined in model template
 - Add a transformer to the toJSON function
 - Not all options were displayed when creating a column.
@@ -14,8 +22,6 @@
 ### Chore & Maintenance
 
 - Update the mongodb and mongoose packages to the latest version.
-
-### Performance
 
 ## [0.1.3] - 2019-09-09
 
