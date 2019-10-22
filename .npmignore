@@ -15,9 +15,11 @@ tests
 .huskyrc
 .prettierignore
 .prettierrc
+coverage.sh
 docker-compose.yml
 jest.json
 jest.ci.js
+jest.coverage.js
 tsconfig.build.json
 tsconfig.json
 tslint.json
