@@ -14,7 +14,7 @@
   "clearMocks": true,
 
   "collectCoverageFrom": ["src/**/*.{ts,tsx,js,jsx}"],
-  "coverageReporters": ["text-summary", "lcov"],
+  "coverageReporters": ["text-summary", "html"],
   "coverageDirectory": "coverage",
   "coverageThreshold": {
     "global": {
