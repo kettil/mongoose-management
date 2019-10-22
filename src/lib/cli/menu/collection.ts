@@ -16,25 +16,17 @@ import { choicesType } from '../../types';
 export default class CollectionMenu extends AbstractMenu<CollectionDataset, ColumnDataset | IndexDataset> {
   protected columnMenu: ColumnMenu;
 
-  /**
-   *
-   * @param prompts
-   */
   constructor(protected prompts: Prompts) {
     super(prompts);
 
     this.columnMenu = new ColumnMenu(prompts);
   }
 
-  /**
-   *
-   * @param collection
-   */
   async exec(collection: CollectionDataset) {
     const choicesColumns = this.columnMenu.getChoiceList(collection.flatColumns());
     const choicesIndexes = this.getChoiceIndexList(collection.getIndexes());
 
-    const result = await this.prompt.menu<ColumnDataset | IndexDataset>('Choose a column/index or a command:', [
+    const result = await this.prompts.menu<ColumnDataset | IndexDataset>('Choose a column/index or a command:', [
       new Separator(`Collection: ${chalk.bold(collection.getName())}`),
       new Separator(' '),
       new Separator(chalk.underline('Columns list')),
@@ -55,10 +47,6 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     return result;
   }
 
-  /**
-   *
-   * @param indexes
-   */
   getChoiceIndexList(indexes: IndexDataset[]): Array<choicesType<IndexDataset>> {
     const rows = this.createIndexTable(indexes);
     const choices = [];
@@ -86,10 +74,6 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     return choices;
   }
 
-  /**
-   *
-   * @param indexes
-   */
   createIndexTable(indexes: IndexDataset[]) {
     const header = ['Name', 'Column(s)', 'Unique', 'Sparse'];
     const values = indexes.map((index: IndexDataset) => [

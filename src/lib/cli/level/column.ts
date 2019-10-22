@@ -42,7 +42,8 @@ export default class ColumnLevel extends AbstractLevel<
     const indexes = dataset
       .getCollection()
       .getIndexes()
-      .filter((i) => i !== index && typeof i.hasColumn(name));
+      .filter((i) => i !== index && i.hasColumn(name));
+
     if (indexes.length > 0) {
       const messages = [
         'Indexes still exist for the column. These must be deleted first!',

@@ -5,23 +5,10 @@ import Prompts from '../../prompts';
 import { choiceType, choiceValueType } from '../../types';
 
 export default abstract class AbstractMenu<T, S> {
-  /**
-   *
-   * @param prompt
-   */
-  constructor(protected prompt: Prompts) {}
+  constructor(protected prompts: Prompts) {}
 
-  /**
-   *
-   * @param groups
-   */
   abstract exec(item: T): Promise<choiceValueType<S>>;
 
-  /**
-   *
-   * @param type
-   * @param action
-   */
   getMenuChoiceCreate(type: string, action: 'create' | 'createColumn' | 'createIndex' = 'create'): choiceType<S> {
     return {
       name: `Create new ${type}`,
@@ -30,11 +17,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   * @param type
-   * @param action
-   */
   getMenuChoiceEdit(type: string, data?: S): choiceType<S> {
     return {
       name: `Edit ${type}`,
@@ -43,11 +25,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   * @param type
-   * @param action
-   */
   getMenuChoiceRemove(type: string, data?: S): choiceType<S> {
     return {
       name: `Remove ${type}`,
@@ -56,9 +33,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   */
   getMenuChoiceSave(): choiceType<S> {
     return {
       name: 'Save',
@@ -67,9 +41,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   */
   getMenuChoiceWrite(): choiceType<S> {
     return {
       name: 'Save and Write',
@@ -78,9 +49,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   */
   getMenuChoiceBack(): choiceType<S> {
     return {
       name: 'Back',
@@ -89,9 +57,6 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
-  /**
-   *
-   */
   getMenuChoiceExit(): choiceType<S> {
     return {
       name: 'Exit',

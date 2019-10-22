@@ -10,13 +10,7 @@ import IndexDataset from '../dataset/index';
 
 import { call, evaluation, getChoiceItem, getQuestions, validateName, whenColumns } from './indexMain';
 
-/**
- *
- */
 describe('Check the prompts indexMain functions', () => {
-  /**
-   *
-   */
   test('it should be return the answers when call() is called', async () => {
     const prompts = new (Prompts as any)();
     const collection = new (CollectionDataset as any)();
@@ -76,9 +70,6 @@ describe('Check the prompts indexMain functions', () => {
     expect(collection.flatColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test.each([
     ['name is empty', { name: '', columns: ['c1', 'c6'] }],
     ['without columns', { name: 'iName', columns: [] }],
@@ -145,9 +136,6 @@ describe('Check the prompts indexMain functions', () => {
     }
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called without index', () => {
     const collection = new (CollectionDataset as any)();
     const index1 = new (IndexDataset as any)();
@@ -201,9 +189,6 @@ describe('Check the prompts indexMain functions', () => {
     expect(collection.flatColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the questions array then getQuestions() is called with index', () => {
     const collection = new (CollectionDataset as any)();
     const index1 = new (IndexDataset as any)();
@@ -257,9 +242,6 @@ describe('Check the prompts indexMain functions', () => {
     expect(collection.flatColumns).toHaveBeenCalledTimes(1);
   });
 
-  /**
-   *
-   */
   test('it should be return the index when evaluation() is called', () => {
     const collection = new (CollectionDataset as any)();
 
@@ -280,9 +262,6 @@ describe('Check the prompts indexMain functions', () => {
     expect(collection.addIndex).toHaveBeenCalledWith(result);
   });
 
-  /**
-   *
-   */
   test('it should be return the index when evaluation() is called with index', () => {
     const collection = new (CollectionDataset as any)();
     const index = new (IndexDataset as any)();
@@ -304,36 +283,24 @@ describe('Check the prompts indexMain functions', () => {
     expect(index.setName).toHaveBeenCalledWith('gName');
   });
 
-  /**
-   *
-   */
   test('it should be return a choice when getChoiceItem() is called [1]', () => {
     const result = getChoiceItem('iName', 'string', ['c1', 'c3']);
 
     expect(result).toEqual({ checked: false, disabled: false, name: 'iName', short: 'iName', value: 'iName' });
   });
 
-  /**
-   *
-   */
   test('it should be return a choice when getChoiceItem() is called [2]', () => {
     const result = getChoiceItem('c3', 'object', ['c1', 'c3']);
 
     expect(result).toEqual({ checked: false, disabled: true, name: 'c3', short: 'c3', value: 'c3' });
   });
 
-  /**
-   *
-   */
   test('it should be return a choice when getChoiceItem() is called [3]', () => {
     const result = getChoiceItem('c3', 'number', ['c1', 'c3']);
 
     expect(result).toEqual({ checked: true, disabled: false, name: 'c3', short: 'c3', value: 'c3' });
   });
 
-  /**
-   *
-   */
   test.each<[string, string, string | boolean, boolean, string]>([
     ['true', 'name9  ', true, true, 'name9'],
     ['string', 'name9  ', regexpNameMessage, false, 'name9'],
@@ -355,9 +322,6 @@ describe('Check the prompts indexMain functions', () => {
     expect(mock).toHaveBeenCalledWith(regexpValue);
   });
 
-  /**
-   *
-   */
   test.each<[boolean, string]>([[true, 'name'], [true, '  name  '], [false, ''], [false, '    ']])(
     'it should be return %p when whenColumns() is called with "%s"',
     (expected, name) => {

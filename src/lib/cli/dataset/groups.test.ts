@@ -1,118 +1,88 @@
-jest.mock('./group');
-
 import GroupDataset from './group';
 
 import GroupsDataset from './groups';
 
-/**
- *
- */
 describe('Check the GroupsDataset class', () => {
   let dataset: any;
   let groups: any;
   let g1: any;
-  let g2: any;
+  let g3: any;
 
-  /**
-   *
-   */
   beforeEach(() => {
     groups = {
-      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/two', collections: [] }],
+      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/three', collections: [] }],
     };
 
     dataset = new GroupsDataset(groups, 'path/to/project');
+    dataset.setReference();
 
-    g1 = (GroupDataset as jest.Mock).mock.instances[0];
-    g2 = (GroupDataset as jest.Mock).mock.instances[1];
+    g1 = dataset.getGroup('path/to/one');
+    g3 = dataset.getGroup('path/to/three');
   });
 
-  /**
-   *
-   */
   test('initialize the class', () => {
     expect(dataset).toBeInstanceOf(GroupsDataset);
 
     expect(dataset.parent).toBe(undefined);
-    expect(dataset.groups).toEqual([expect.any(GroupDataset), expect.any(GroupDataset)]);
+    expect(dataset.pathProject).toBe('path/to/project');
+    expect(dataset.groups).toEqual([g1, g3]);
 
-    expect(GroupDataset).toHaveBeenCalledTimes(2);
-    expect(GroupDataset).toHaveBeenNthCalledWith(1, { path: 'path/to/one', collections: [] }, dataset);
-    expect(GroupDataset).toHaveBeenNthCalledWith(2, { path: 'path/to/two', collections: [] }, dataset);
+    expect(g1).toBeInstanceOf(GroupDataset);
+    expect(g3).toBeInstanceOf(GroupDataset);
   });
 
-  /**
-   *
-   */
+  test('it should be call setReference() from the groups when setReference() is called', () => {
+    const mock1 = jest.fn();
+    const mock2 = jest.fn();
+
+    g1.setReference = mock1;
+    g3.setReference = mock2;
+
+    dataset.setReference();
+
+    expect(mock1).toHaveBeenCalledTimes(1);
+    expect(mock2).toHaveBeenCalledTimes(1);
+  });
+
   test('it should be return the groups when getGroups() is called', () => {
     const result = dataset.getGroups();
 
-    expect(result).toEqual([g1, g2]);
+    expect(result).toEqual([g1, g3]);
   });
 
-  /**
-   *
-   */
   test('it should be return the group when getGroup() is called with known names', () => {
-    g1.getPath.mockReturnValue('g1');
-    g2.getPath.mockReturnValue('g2');
+    const result = dataset.getGroup('path/to/three');
 
-    const result = dataset.getGroup('g2');
-
-    expect(result).toBe(g2);
+    expect(result).toBe(g3);
   });
 
-  /**
-   *
-   */
   test('it should be return undefined when getGroup() is called with unknown names', () => {
-    g1.getPath.mockReturnValue('g1');
-    g2.getPath.mockReturnValue('g2');
-
-    const result = dataset.getGroup('c9');
+    const result = dataset.getGroup('path/to/nine');
 
     expect(result).toBe(undefined);
   });
 
-  /**
-   *
-   */
   test('it should be added a group and the list will be re-sorted when addGroup() is called', () => {
-    dataset.sortGroups = jest.fn();
+    const g2 = new GroupDataset({ path: 'path/to/a', collections: [] }, dataset);
 
-    const group = new (GroupDataset as any)();
+    dataset.addGroup(g2);
 
-    dataset.addGroup(group);
-
-    expect(dataset.groups).toEqual([g1, g2, group]);
-
-    expect(dataset.sortGroups).toHaveBeenCalledTimes(1);
+    expect(dataset.groups).toEqual([g2, g1, g3]);
   });
 
-  /**
-   *
-   */
   test('it should be remove the group when removeGroup() is called', () => {
-    dataset.removeGroup(g2);
+    dataset.removeGroup(g3);
 
     expect(dataset.groups).toEqual([g1]);
   });
 
-  /**
-   *
-   */
   test('it should be groups will be re-sorted when sortGroups() is called', () => {
-    g1.getPath.mockReturnValue('p2');
-    g2.getPath.mockReturnValue('p1');
-
+    g3.path = 'a';
     dataset.sortGroups();
 
-    expect(dataset.groups).toEqual([g2, g1]);
+    expect(dataset.groups).toEqual([g3, g1]);
   });
 
-  /**
-   *
-   */
   test('it should be throw an error when getName() is called', () => {
     expect.assertions(2);
     try {
@@ -123,9 +93,6 @@ describe('Check the GroupsDataset class', () => {
     }
   });
 
-  /**
-   *
-   */
   test('it should be throw an error when remove() is called', () => {
     expect.assertions(2);
     try {
@@ -136,29 +103,17 @@ describe('Check the GroupsDataset class', () => {
     }
   });
 
-  /**
-   *
-   */
   test('it should be return the project path when getPathProject() is called', () => {
     const result = dataset.getPathProject();
 
     expect(result).toBe('path/to/project');
   });
 
-  /**
-   *
-   */
   test('it should be return a data object when getObject() is called', () => {
-    g1.getObject.mockReturnValue({ path: 'path/to/one', collections: [] });
-    g2.getObject.mockReturnValue({ path: 'path/to/two', collections: [] });
-
     const data = dataset.getObject();
 
     expect(data).toEqual({
-      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/two', collections: [] }],
+      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/three', collections: [] }],
     });
-
-    expect(g1.getObject).toHaveBeenCalledTimes(1);
-    expect(g2.getObject).toHaveBeenCalledTimes(1);
   });
 });

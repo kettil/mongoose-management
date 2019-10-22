@@ -5,16 +5,10 @@ import { dataColumnType } from '../../types';
 
 const booleanValues: answersType['options'] = ['required', 'lowercase', 'uppercase', 'trim'];
 
-/**
- *
- */
 export type answersType = Pick<dataColumnType, optionsType> & {
   options: optionsType[];
 };
 
-/**
- *
- */
 export type choiceOptionsType = {
   name: string;
   short: string;
@@ -22,22 +16,13 @@ export type choiceOptionsType = {
   checked: boolean | undefined;
 };
 
-/**
- *
- * @param prompts
- * @param column
- */
 export const call = async (prompts: Prompts, column?: ColumnDataset): Promise<answersType> => {
   const questions = getQuestions(column);
-  const answersMain = await prompts.call<answersType>(questions);
+  const answersOptions = await prompts.call<answersType>(questions);
 
-  return answersMain;
+  return answersOptions;
 };
 
-/**
- *
- * @param column
- */
 export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
   const choices: choiceOptionsType[] = [
     ...getColumnOptionsTypeAny(column),
@@ -144,10 +129,6 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
   return questions;
 };
 
-/**
- *
- * @param answers
- */
 export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
     answers.options
@@ -164,10 +145,6 @@ export const evaluation = (answers: answersType) => {
   };
 };
 
-/**
- *
- * @param column
- */
 export const getColumnOptionsTypeAny = (column?: ColumnDataset): choiceOptionsType[] => {
   const withRequired = column && column.isset('required');
   const withDefault = column && column.isset('default');
@@ -178,10 +155,6 @@ export const getColumnOptionsTypeAny = (column?: ColumnDataset): choiceOptionsTy
   ];
 };
 
-/**
- *
- * @param column
- */
 export const getColumnOptionsTypeString = (column?: ColumnDataset): choiceOptionsType[] => {
   if (!column || column.get('type') !== 'string') {
     return [];
@@ -206,10 +179,6 @@ export const getColumnOptionsTypeString = (column?: ColumnDataset): choiceOption
   ];
 };
 
-/**
- *
- * @param column
- */
 export const getColumnOptionsTypeNumber = (column?: ColumnDataset): choiceOptionsType[] => {
   if (!column || column.get('type') !== 'number') {
     return [];

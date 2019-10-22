@@ -1,466 +1,395 @@
 jest.mock('../../prompts');
 jest.mock('../../storage');
 jest.mock('../../template/create');
-jest.mock('../dataset/abstract');
-jest.mock('../menu/abstract');
 
 import Prompts from '../../prompts';
 import Storage from '../../storage';
 import Creater from '../../template/create';
-
-import AbstractDataset from '../dataset/abstract';
-
-import AbstractMenu from '../menu/abstract';
-
-const mockDataset = jest.fn();
+import CollectionDataset from '../dataset/collection';
+import GroupDataset from '../dataset/group';
+import GroupsDataset from '../dataset/groups';
+import CollectionMenu from '../menu/collection';
+import GroupMenu from '../menu/group';
 
 import AbstractLevel from './abstract';
 
-import { choiceValueType, levelOptionsType } from '../../types';
+import { choiceValueType } from '../../types';
 
-/**
- *
- */
 describe('Check the AbstractLevel class', () => {
-  let abstract: any;
-  let menu: any;
   let prompts: any;
-  let options: levelOptionsType;
+  let storage: any;
+  let creater: any;
+  let dataset: GroupDataset;
+  let parent: GroupsDataset;
+  let level: any;
+  let data: any;
+  let menu: any;
 
-  /**
-   *
-   */
-  beforeAll(() => {
-    (AbstractDataset as jest.Mock).mockImplementation(() => ({
-      getName: jest.fn(),
-      remove: jest.fn(),
-    }));
-
-    (AbstractMenu as jest.Mock).mockImplementation(() => ({
-      exec: jest.fn(),
-    }));
-
-    (Prompts as jest.Mock).mockImplementation(() => ({
-      clear: jest.fn(),
-      exit: jest.fn(),
-      remove: jest.fn(),
-      pressKey: jest.fn(),
-    }));
-  });
-
-  /**
-   *
-   */
   beforeEach(() => {
-    const storage = new (Storage as any)();
-    const creater = new (Creater as any)();
-    menu = new (AbstractMenu as any)();
-    prompts = new (Prompts as any)();
-    options = { prompts, storage, creater };
+    prompts = new Prompts();
+    storage = new Storage('', '', prompts, {});
+    creater = new Creater(prompts, '', '', {});
 
-    abstract = new (AbstractLevel as any)(mockDataset, menu, options);
+    menu = new GroupMenu(prompts);
+
+    data = { groups: [{ path: 'path/to/group', collections: [{ name: 'collectionName', columns: [], indexes: [] }] }] };
+    parent = new GroupsDataset(data, 'path/to/group');
+    dataset = parent.getGroup('path/to/group')!;
+
+    level = new (AbstractLevel as any)(dataset, menu, { prompts, storage, creater });
+
+    level.promptCreate = jest.fn((_, d) => new CollectionDataset({ name: 'cName', columns: [], indexes: [] }, d));
+    level.promptEdit = jest.fn((_1, _2, d) => d);
   });
 
-  /**
-   *
-   */
   test('initialize the class', () => {
-    expect(abstract).toBeInstanceOf(AbstractLevel);
+    expect(level).toBeInstanceOf(AbstractLevel);
 
-    expect(abstract.dataset).toBe(mockDataset);
-    expect(abstract.menu).toBe(menu);
-    expect(abstract.prompts).toBe(prompts);
-    expect(abstract.options).toBe(options);
+    expect(level.dataset).toBeInstanceOf(GroupDataset);
+    expect(level.dataset).toBe(dataset);
+    expect(level.menu).toBe(menu);
+    expect(level.options).toEqual({ prompts, storage, creater });
+    expect(level.prompts).toBe(prompts);
   });
 
-  /**
-   *
-   */
   describe('Check the actions function', () => {
-    /**
-     *
-     */
     test('it should be call the menu when showMenu() is called', async () => {
-      const response: choiceValueType<any> = { action: 'create' };
+      expect.assertions(5);
 
-      menu.exec.mockResolvedValue(response);
+      (prompts.menu as jest.Mock).mockImplementation(async (message: any, choices: any) => {
+        expect(typeof message).toBe('string');
+        expect(Array.isArray(choices)).toBe(true);
+        expect(choices.length).toBe(13);
 
-      const result = await abstract.showMenu();
+        return { action: 'create' };
+      });
+
+      const result = await level.showMenu();
 
       expect(result).toEqual({ action: 'create' });
 
-      expect(menu.exec).toHaveBeenCalledTimes(1);
-      expect(menu.exec).toHaveBeenCalledWith(mockDataset);
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
     });
 
-    /**
-     *
-     */
     test('it should be call promptCreate function when create() is called', async () => {
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
+      const result = await level.create('create');
 
-      abstract.promptCreate = jest.fn().mockResolvedValue(dataset);
+      expect(result).toEqual(expect.any(CollectionDataset));
 
-      const result = await abstract.create('create');
-
-      expect(result).toBe(dataset);
-
-      expect(abstract.promptCreate).toHaveBeenCalledTimes(1);
-      expect(abstract.promptCreate).toHaveBeenCalledWith(prompts, mockDataset);
+      expect(level.promptCreate).toHaveBeenCalledTimes(1);
+      expect(level.promptCreate).toHaveBeenCalledWith(prompts, dataset);
     });
 
-    /**
-     *
-     */
     test('it should be call promptEdit function when edit() is called', async () => {
-      abstract.promptEdit = jest.fn();
-
-      const parent: AbstractDataset<any> = new (AbstractDataset as any)();
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
-      dataset.getParent = jest.fn().mockReturnValue(parent);
-
-      const result = await abstract.edit(dataset);
+      const result = await level.edit(dataset);
 
       expect(result).toBe(false);
 
-      expect(abstract.promptEdit).toHaveBeenCalledTimes(1);
-      expect(abstract.promptEdit).toHaveBeenCalledWith(prompts, parent, dataset);
+      expect(level.promptEdit).toHaveBeenCalledTimes(1);
+      expect(level.promptEdit).toHaveBeenCalledWith(prompts, parent, dataset);
     });
 
-    /**
-     *
-     */
     test('it should be call promptEdit function when edit() is called without Parent', async () => {
-      abstract.promptEdit = jest.fn();
-
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
       dataset.getParent = jest.fn();
 
-      expect.assertions(3);
+      expect.assertions(5);
       try {
-        await abstract.edit(dataset);
+        await level.edit(dataset);
       } catch (err) {
         expect(err).toBeInstanceOf(Error);
         expect(err.message).toBe('Parent dataset is not defined');
 
-        expect(abstract.promptEdit).toHaveBeenCalledTimes(0);
+        expect(level.promptEdit).toHaveBeenCalledTimes(0);
+
+        expect(dataset.getParent).toHaveBeenCalledTimes(1);
+        expect(dataset.getParent).toHaveBeenCalledWith();
       }
     });
 
-    /**
-     *
-     */
     test('it should be call remove prompts function when remove() is called with confirmation ', async () => {
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
+      expect.assertions(5);
 
-      (dataset.getName as jest.Mock).mockReturnValue('dataset name');
-      prompts.remove.mockResolvedValue(true);
+      (prompts.remove as jest.Mock).mockImplementation(async (name: any) => {
+        expect(typeof name).toBe('string');
 
-      const result = await abstract.remove(dataset);
+        return true;
+      });
+
+      expect(parent.getGroups().length).toBe(1);
+
+      const result = await level.remove(dataset);
 
       expect(result).toBe(false);
 
-      expect(dataset.getName).toHaveBeenCalledTimes(1);
-      expect(dataset.getName).toHaveBeenCalledWith();
-
-      expect(dataset.remove).toHaveBeenCalledTimes(1);
-      expect(dataset.remove).toHaveBeenCalledWith();
-
       expect(prompts.remove).toHaveBeenCalledTimes(1);
-      expect(prompts.remove).toHaveBeenCalledWith('dataset name');
+      expect(parent.getGroups().length).toBe(0);
     });
 
-    /**
-     *
-     */
     test('it should be call remove prompts function when remove() is called without confirmation ', async () => {
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
+      expect.assertions(5);
 
-      (dataset.getName as jest.Mock).mockReturnValue('dataset name');
-      prompts.remove.mockResolvedValue(false);
+      (prompts.remove as jest.Mock).mockImplementation(async (name: any) => {
+        expect(typeof name).toBe('string');
 
-      const result = await abstract.remove(dataset);
+        return false;
+      });
+
+      expect(parent.getGroups().length).toBe(1);
+
+      const result = await level.remove(dataset);
 
       expect(result).toBe(true);
 
-      expect(dataset.getName).toHaveBeenCalledTimes(1);
-      expect(dataset.getName).toHaveBeenCalledWith();
-
-      expect(dataset.remove).toHaveBeenCalledTimes(0);
-
       expect(prompts.remove).toHaveBeenCalledTimes(1);
-      expect(prompts.remove).toHaveBeenCalledWith('dataset name');
+      expect(parent.getGroups().length).toBe(1);
     });
 
-    /**
-     *
-     */
     test('it should be throw an error when show() is called ', async () => {
-      const dataset: AbstractDataset<any> = new (AbstractDataset as any)();
-
       expect.assertions(2);
       try {
-        await abstract.show(dataset);
+        await level.show(dataset);
       } catch (err) {
         expect(err).toBeInstanceOf(Error);
         expect(err.message).toBe('Next menu level is not defined');
       }
     });
 
-    /**
-     *
-     */
     test('it should be run() is called twice when exec() is called ', async () => {
-      abstract.run = jest.fn();
-      abstract.run.mockResolvedValueOnce(true);
-      abstract.run.mockResolvedValueOnce(false);
+      level.run = jest.fn();
+      level.run.mockResolvedValueOnce(true);
+      level.run.mockResolvedValueOnce(false);
 
-      await abstract.exec();
+      await level.exec();
 
-      expect(abstract.run).toHaveBeenCalledTimes(2);
-      expect(prompts.clear).toHaveBeenCalledTimes(2);
+      expect(level.run).toHaveBeenCalledTimes(2);
     });
   });
 
-  /**
-   *
-   */
   describe('Check the run()', () => {
-    let response: choiceValueType<any>;
+    test('it should be exit() called when run() is called with action "exit" and it was confirmed', async () => {
+      expect.assertions(3);
 
-    /**
-     *
-     */
-    beforeEach(() => {
-      abstract.showMenu = jest.fn();
-      abstract.show = jest.fn();
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'exit' });
+      (prompts.exit as jest.Mock).mockRejectedValue('exit()');
 
-      response = {};
+      try {
+        await level.run();
+      } catch (err) {
+        expect(err).toBe('exit()');
+
+        expect(prompts.menu).toHaveBeenCalledTimes(1);
+        expect(prompts.exit).toHaveBeenCalledTimes(1);
+      }
     });
 
-    /**
-     *
-     */
-    test('it should be exit() called when run() is called with action "exit"', async () => {
-      response.action = 'exit';
+    test('it should be exit() called when run() is called with action "exit" and it was not confirmed', async () => {
+      expect.assertions(3);
 
-      abstract.showMenu.mockResolvedValue(response);
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'exit' });
+      (prompts.exit as jest.Mock).mockResolvedValue(undefined);
 
-      const result = await abstract.run();
+      const result = await level.run();
 
       expect(result).toBe(true);
 
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
       expect(prompts.exit).toHaveBeenCalledTimes(1);
     });
 
-    /**
-     *
-     */
     test('it should be return false when run() is called with action "back"', async () => {
-      response.action = 'back';
+      expect.assertions(2);
 
-      abstract.showMenu.mockResolvedValue(response);
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'back' });
 
-      const result = await abstract.run();
+      const result = await level.run();
 
       expect(result).toBe(false);
 
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
     });
 
-    /**
-     *
-     */
+    test('it should be creater() called when run() is called with action "write"', async () => {
+      expect.assertions(6);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'write' });
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(creater.exec).toHaveBeenCalledTimes(1);
+      expect(creater.exec).toHaveBeenCalledWith('path/to/group', [
+        { columns: [], indexes: [], name: 'collectionName' },
+      ]);
+      expect(storage.write).toHaveBeenCalledTimes(1);
+      expect(storage.write).toHaveBeenCalledWith(false);
+    });
+
+    test('it should be nothing happens when run() is called with action "write" but the dataset is not group dataset', async () => {
+      expect.assertions(4);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'write' });
+      level.dataset = level.dataset.getCollections()[0];
+      level.menu = new CollectionMenu(prompts);
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(creater.exec).toHaveBeenCalledTimes(0);
+      expect(storage.write).toHaveBeenCalledTimes(0);
+    });
+
+    test('it should be storage write() called when run() is called with action "save"', async () => {
+      expect.assertions(4);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'save' });
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(storage.write).toHaveBeenCalledTimes(1);
+      expect(storage.write).toHaveBeenCalledWith();
+    });
+
     test('it should be remove() called when run() is called with action "remove"', async () => {
-      response.action = 'remove';
+      expect.assertions(5);
 
-      abstract.showMenu.mockResolvedValue(response);
-      abstract.remove = jest.fn().mockResolvedValue(true);
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'remove' });
+      (prompts.remove as jest.Mock).mockResolvedValue(true);
 
-      const result = await abstract.run();
+      expect(parent.getGroups().length).toBe(1);
 
-      expect(result).toBe(true);
+      const result = await level.run();
 
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
+      expect(result).toBe(false);
 
-      expect(abstract.remove).toHaveBeenCalledTimes(1);
-      expect(abstract.remove).toHaveBeenCalledWith(mockDataset);
+      expect(parent.getGroups().length).toBe(0);
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(prompts.remove).toHaveBeenCalledTimes(1);
     });
 
-    /**
-     *
-     */
     test('it should be edit() called when run() is called with action "edit"', async () => {
-      response.action = 'edit';
+      expect.assertions(3);
 
-      abstract.showMenu.mockResolvedValue(response);
-      abstract.edit = jest.fn().mockResolvedValue(true);
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'edit' });
 
-      const result = await abstract.run();
+      const result = await level.run();
 
-      expect(result).toBe(true);
+      expect(result).toBe(false);
 
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-      expect(abstract.edit).toHaveBeenCalledTimes(1);
-      expect(abstract.edit).toHaveBeenCalledWith(mockDataset);
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(level.promptEdit).toHaveBeenCalledTimes(1);
     });
 
-    const testCreateActions: Array<Array<choiceValueType<any>['action']>> = [
-      ['create'],
-      ['createColumn'],
-      ['createIndex'],
-    ];
-
-    /**
-     *
-     */
-    test.each(testCreateActions)(
+    test.each<[choiceValueType<any>['action']]>([['create'], ['createColumn'], ['createIndex']])(
       'it should be create() called when run() is called with action "%s" and return a dataset',
       async (action) => {
-        response.action = action;
+        expect.assertions(6);
 
-        const mock = jest.fn();
+        (prompts.menu as jest.Mock).mockResolvedValue({ action });
+        level.show = jest.fn().mockRejectedValue('show');
 
-        abstract.showMenu.mockResolvedValue(response);
-        abstract.create = jest.fn().mockResolvedValue(mock);
+        try {
+          await level.run();
+        } catch (err) {
+          expect(err).toBe('show');
 
-        const result = await abstract.run();
+          expect(prompts.menu).toHaveBeenCalledTimes(1);
 
-        expect(result).toBe(true);
-
-        expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-        expect(abstract.create).toHaveBeenCalledTimes(1);
-        expect(abstract.create).toHaveBeenCalledWith(action);
-
-        expect(abstract.show).toHaveBeenCalledTimes(1);
-        expect(abstract.show).toHaveBeenCalledWith(mock);
+          expect(level.show).toHaveBeenCalledTimes(1);
+          expect(level.show).toHaveBeenCalledWith(expect.any(CollectionDataset));
+          expect(level.promptCreate).toHaveBeenCalledTimes(1);
+          expect(level.promptCreate).toHaveBeenCalledWith(prompts, dataset);
+        }
       },
     );
 
-    /**
-     *
-     */
-    test.each(testCreateActions)(
-      'it should be create() called when run() is called with action "%s"',
+    test.each<[choiceValueType<any>['action']]>([['create'], ['createColumn'], ['createIndex']])(
+      'it should be create() called when run() is called with action "%s" and does not return a dataset',
       async (action) => {
-        response.action = action;
+        expect.assertions(5);
 
-        abstract.showMenu.mockResolvedValue(response);
-        abstract.create = jest.fn().mockResolvedValue(undefined);
+        (prompts.menu as jest.Mock).mockResolvedValue({ action });
+        level.show = jest.fn().mockRejectedValue('show');
+        level.promptCreate = jest.fn();
 
-        const result = await abstract.run();
+        const result = await level.run();
 
         expect(result).toBe(true);
 
-        expect(abstract.showMenu).toHaveBeenCalledTimes(1);
+        expect(prompts.menu).toHaveBeenCalledTimes(1);
 
-        expect(abstract.create).toHaveBeenCalledTimes(1);
-        expect(abstract.create).toHaveBeenCalledWith(action);
-
-        expect(abstract.show).toHaveBeenCalledTimes(0);
+        expect(level.show).toHaveBeenCalledTimes(0);
+        expect(level.promptCreate).toHaveBeenCalledTimes(1);
+        expect(level.promptCreate).toHaveBeenCalledWith(prompts, dataset);
       },
     );
 
-    /**
-     *
-     */
     test('it should be show() called when run() is called without action and with data', async () => {
-      const mock = jest.fn();
-
-      response.data = mock;
-
-      abstract.showMenu.mockResolvedValue(response);
-
-      const result = await abstract.run();
-
-      expect(result).toBe(true);
-
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-      expect(abstract.show).toHaveBeenCalledTimes(1);
-      expect(abstract.show).toHaveBeenCalledWith(mock);
-    });
-
-    /**
-     *
-     */
-    test('it should be show() called when run() is called without action and without data', async () => {
-      abstract.showMenu.mockResolvedValue(response);
-
-      const result = await abstract.run();
-
-      expect(result).toBe(true);
-
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-      expect(abstract.show).toHaveBeenCalledTimes(0);
-    });
-
-    /**
-     *
-     */
-    test('it should be pressKey() called when run() is called with action "exit" and a error is thrown', async () => {
-      response.action = 'exit';
-
-      abstract.showMenu.mockResolvedValue(response);
-      (prompts.exit as jest.Mock).mockRejectedValue(new Error('Exit error'));
-
-      const result = await abstract.run();
-
-      expect(result).toBe(true);
-
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-      expect(prompts.exit).toHaveBeenCalledTimes(1);
-
-      expect(prompts.pressKey).toHaveBeenCalledTimes(1);
-      expect(prompts.pressKey).toHaveBeenCalledWith(['Exit error'], true);
-    });
-
-    /**
-     *
-     */
-    test('it should be ignore the error when run() is called with action "exit" and a error is thrown with message "cancel"', async () => {
-      response.action = 'exit';
-
-      abstract.showMenu.mockResolvedValue(response);
-      (prompts.exit as jest.Mock).mockRejectedValue(new Error('cancel'));
-
-      const result = await abstract.run();
-
-      expect(result).toBe(true);
-
-      expect(abstract.showMenu).toHaveBeenCalledTimes(1);
-
-      expect(prompts.exit).toHaveBeenCalledTimes(1);
-
-      expect(prompts.pressKey).toHaveBeenCalledTimes(0);
-    });
-
-    /**
-     *
-     */
-    test('it should be ignore the error when run() is called with action "exit" and a error is thrown without error object', async () => {
-      response.action = 'exit';
-
-      abstract.showMenu.mockResolvedValue(response);
-      (prompts.exit as jest.Mock).mockRejectedValue('error wthout error object');
-
       expect.assertions(4);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: '', data: { withData: true } });
+      level.show = jest.fn().mockRejectedValue('show');
+
       try {
-        await abstract.run();
+        await level.run();
       } catch (err) {
-        expect(err).toBe('error wthout error object');
+        expect(err).toBe('show');
 
-        expect(abstract.showMenu).toHaveBeenCalledTimes(1);
+        expect(prompts.menu).toHaveBeenCalledTimes(1);
 
-        expect(prompts.exit).toHaveBeenCalledTimes(1);
-
-        expect(prompts.pressKey).toHaveBeenCalledTimes(0);
+        expect(level.show).toHaveBeenCalledTimes(1);
+        expect(level.show).toHaveBeenCalledWith({ withData: true });
       }
+    });
+
+    test('it should be show() called when run() is called without action and without data', async () => {
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: '' });
+      level.show = jest.fn().mockRejectedValue('show');
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+
+      expect(level.show).toHaveBeenCalledTimes(0);
+    });
+
+    test('it should be pressKey() called when run() is called with action "edit" and a error is thrown', async () => {
+      expect.assertions(4);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'edit' });
+      level.edit = jest.fn().mockRejectedValue(new Error('error message'));
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(prompts.pressKey).toHaveBeenCalledTimes(1);
+      expect(level.edit).toHaveBeenCalledTimes(1);
+    });
+
+    test('it should be ignore the error when run() is called with action "exit" and a error is thrown with message "cancel"', async () => {
+      expect.assertions(4);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'edit' });
+
+      level.edit = jest.fn().mockRejectedValue(new Error('cancel'));
+
+      const result = await level.run();
+
+      expect(result).toBe(true);
+
+      expect(prompts.menu).toHaveBeenCalledTimes(1);
+      expect(prompts.pressKey).toHaveBeenCalledTimes(0);
+      expect(level.edit).toHaveBeenCalledTimes(1);
     });
   });
 });

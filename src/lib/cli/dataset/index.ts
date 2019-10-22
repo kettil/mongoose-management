@@ -24,7 +24,7 @@ export default class IndexDataset extends AbstractDataset<CollectionDataset> {
 
   setReference() {
     this.columns = Object.entries(this.index.columns)
-      .map<indexColumnsType>(([name, value]) => [this.getCollection().getColumn(name)!, value])
+      .map<indexColumnsType>(([name, value]) => [this.getCollection().getColumn(name, true)!, value])
       .filter(([column]) => column !== undefined);
   }
 

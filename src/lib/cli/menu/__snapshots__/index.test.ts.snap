@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the IndexMenu class it should be return menu selection when exec() is called 1`] = `
+Array [
+  Object {
+    "name": "Edit index",
+    "short": "[31mCommand - Edit index[39m",
+    "value": Object {
+      "action": "edit",
+      "data": undefined,
+    },
+  },
+  Object {
+    "name": "Remove index",
+    "short": "[31mCommand - Remove index[39m",
+    "value": Object {
+      "action": "remove",
+      "data": undefined,
+    },
+  },
+  Object {
+    "name": "Back",
+    "short": "[31mCommand - Back[39m",
+    "value": Object {
+      "action": "back",
+    },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+]
+`;

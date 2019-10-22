@@ -25,9 +25,9 @@ export const call = async (
   }
 
   const questions = getQuestions(column);
-  const answersSubType = await prompts.call<answersType>(questions);
+  const answersIndex = await prompts.call<answersType>(questions);
 
-  return answersSubType;
+  return answersIndex;
 };
 
 export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {

@@ -27,30 +27,29 @@ export default class CollectionLevel extends AbstractLevel<
     super(dataset, new CollectionMenu(options.prompts), options);
   }
 
-  /**
-   *
-   * @param action
-   */
   async create(action: choiceValueType<undefined>['action']) {
     let dataset: ColumnDataset | IndexDataset | undefined;
 
-    if (action === 'createIndex') {
-      await promptsIndex(this.prompts, this.dataset);
-    } else {
-      dataset = await promptsColumn(this.prompts, this.dataset);
+    switch (action) {
+      case 'createIndex':
+        await promptsIndex(this.prompts, this.dataset);
+        break;
 
-      if (dataset.get('type') !== 'array' && dataset.get('type') !== 'object') {
-        dataset = undefined;
-      }
+      case 'createColumn':
+        dataset = await promptsColumn(this.prompts, this.dataset);
+
+        if (dataset.get('type') !== 'array' && dataset.get('type') !== 'object') {
+          dataset = undefined;
+        }
+        break;
+
+      default:
+        throw new Error('Unknown action');
     }
 
     return dataset;
   }
 
-  /**
-   *
-   * @param dataset
-   */
   async show(dataset: ColumnDataset | IndexDataset): Promise<void> {
     if (dataset instanceof ColumnDataset) {
       const level = new ColumnLevel(dataset, this.options);
@@ -71,9 +70,6 @@ export default class CollectionLevel extends AbstractLevel<
     throw new Error('Unknown dataset instance');
   }
 
-  /**
-   *
-   */
   protected promptCreate = () => {
     throw new Error('Creating action is not done in the abstract class');
   };

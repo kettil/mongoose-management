@@ -1,8 +1,5 @@
 import { convertColumnIndex, converter, converterSubType, recursionSubType } from './converter';
 
-/**
- *
- */
 describe('Check the converter functions', () => {
   let dataset: any;
   let column1: any;
@@ -62,18 +59,12 @@ describe('Check the converter functions', () => {
     };
   });
 
-  /**
-   *
-   */
   test('it should be return a subType array when converterSubType() is called with "column3"', () => {
     const result = converterSubType(column3.subType);
 
     expect(result).toEqual(['arrayType', 'string']);
   });
 
-  /**
-   *
-   */
   test('it should be update the column object when recursionSubType() is called with "column3"', () => {
     recursionSubType(column3);
 
@@ -85,9 +76,6 @@ describe('Check the converter functions', () => {
     });
   });
 
-  /**
-   *
-   */
   test('it should be update the column object when recursionSubType() is called with "column4"', () => {
     recursionSubType(column4);
 
@@ -102,9 +90,6 @@ describe('Check the converter functions', () => {
     });
   });
 
-  /**
-   *
-   */
   test('it should be update the index object when convertColumnIndex() is called with "index1"', () => {
     convertColumnIndex(index1);
 
@@ -120,9 +105,6 @@ describe('Check the converter functions', () => {
     });
   });
 
-  /**
-   *
-   */
   test('it should be update the index object when convertColumnIndex() is called with "index2"', () => {
     convertColumnIndex(index2);
 
@@ -138,9 +120,6 @@ describe('Check the converter functions', () => {
     });
   });
 
-  /**
-   *
-   */
   test('it should be update the dataset object when converter() is called with "dataset"', () => {
     converter(dataset);
 

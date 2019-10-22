@@ -12,26 +12,14 @@ import CollectionLevel from './collection';
 
 import { levelOptionsType } from '../../types';
 
-/**
- *
- */
 export default class GroupLevel extends AbstractLevel<GroupDataset, CollectionDataset, GroupMenu, GroupsDataset> {
   protected promptCreate = promptsCollection;
   protected promptEdit = promptsGroup;
 
-  /**
-   *
-   * @param group
-   * @param prompts
-   */
   constructor(dataset: GroupDataset, options: levelOptionsType) {
     super(dataset, new GroupMenu(options.prompts), options);
   }
 
-  /**
-   *
-   * @param dataset
-   */
   async show(dataset: CollectionDataset) {
     const level = new CollectionLevel(dataset, this.options);
 

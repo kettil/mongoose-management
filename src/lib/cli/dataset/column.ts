@@ -153,14 +153,18 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
     const columns = index.getColumns();
 
-    return columns.length === 1 ? columns[0][1] : undefined;
+    if (columns.length === 1) {
+      return columns[0][1];
+    }
+
+    throw new Error('The column index has less or more than 1 entry');
   }
 
   setIndex(value: dataIndexColumnValueType, type: schemaIndexType) {
     if (this.index) {
       this.index.setProperty('unique', type === 'unique');
       this.index.setProperty('sparse', type === 'sparse');
-      //
+      this.index.setColumns([[this, value]]);
     } else {
       this.index = this.collection.addIndex(
         new IndexDataset(

@@ -1,51 +1,33 @@
-jest.spyOn(JSON, 'stringify');
-jest.spyOn(JSON, 'parse');
-
 jest.mock('fs');
-jest.mock('util');
+jest.mock('inquirer');
+jest.mock('ora');
 
-jest.mock('prettier');
+import { readFile, writeFile } from 'fs';
 
-jest.mock('./cli/dataset/groups');
-jest.mock('./converter');
-jest.mock('./prompts');
-
-import fs from 'fs';
-import { promisify } from 'util';
-
-import { format } from 'prettier';
+import { prompt } from 'inquirer';
+import ora from 'ora';
 
 import GroupsDataset from './cli/dataset/groups';
-import converter from './converter';
 import Prompts from './prompts';
 
-((promisify as any) as jest.Mock).mockImplementation((a) => a);
+import Storage from './storage';
+
 const mockSpinneFail = jest.fn();
 const mockSpinneStart = jest.fn();
 const mockSpinneSucceed = jest.fn();
-
-import Storage from './storage';
 
 /**
  *
  */
 describe('Check the Storage class', () => {
-  /**
-   *
-   */
   beforeAll(() => {
-    (format as jest.Mock).mockReturnValue('beautiful dat string');
-
-    (Prompts.prototype.getSpinner as jest.Mock).mockReturnValue({
+    ((ora as any) as jest.Mock).mockReturnValue({
       fail: mockSpinneFail,
       start: mockSpinneStart,
       succeed: mockSpinneSucceed,
     });
   });
 
-  /**
-   *
-   */
   test('initialize the class with pathData', () => {
     const prompts = new Prompts();
     const prettier = {};
@@ -59,14 +41,8 @@ describe('Check the Storage class', () => {
     expect((storage as any).prettier).toBe(prettier);
     expect((storage as any).path).toBe('path/to/data');
     expect((storage as any).data).toBeInstanceOf(GroupsDataset);
-
-    expect(GroupsDataset).toHaveBeenCalledTimes(1);
-    expect(GroupsDataset).toHaveBeenCalledWith({ groups: [] }, 'path/to/projects');
   });
 
-  /**
-   *
-   */
   test('initialize the class without pathData', () => {
     const prompts = new Prompts();
     const prettier = {};
@@ -80,16 +56,12 @@ describe('Check the Storage class', () => {
     expect((storage as any).prettier).toBe(prettier);
     expect((storage as any).path).toBe('path/to/projects/schemas-mongodb.json');
     expect((storage as any).data).toBeInstanceOf(GroupsDataset);
-
-    expect(GroupsDataset).toHaveBeenCalledTimes(1);
-    expect(GroupsDataset).toHaveBeenCalledWith({ groups: [] }, 'path/to/projects');
   });
 
-  /**
-   *
-   */
   test('it should be return data object when load() is called', async () => {
-    ((fs.readFile as any) as jest.Mock).mockResolvedValueOnce('{"groups":[{"path":"src/odm"}]}');
+    ((readFile as any) as jest.Mock).mockImplementation((_1, _2, cb) => {
+      cb(undefined, JSON.stringify({ groups: [{ path: 'path/to/group', collections: [] }] }));
+    });
 
     const prompts = new Prompts();
     const prettier = {};
@@ -99,35 +71,32 @@ describe('Check the Storage class', () => {
     const data = await storage.load();
 
     expect(data).toBeInstanceOf(GroupsDataset);
+    expect(data.getObject()).toEqual({ groups: [{ collections: [], path: 'path/to/group' }] });
 
-    expect(fs.readFile).toHaveBeenCalledTimes(1);
-    expect(fs.readFile).toHaveBeenCalledWith('path/to/projects/schemas-mongodb.json', {
-      encoding: 'utf8',
-    });
+    expect(readFile).toHaveBeenCalledTimes(1);
+    expect(readFile).toHaveBeenCalledWith(
+      'path/to/projects/schemas-mongodb.json',
+      {
+        encoding: 'utf8',
+      },
+      expect.any(Function),
+    );
 
-    expect(JSON.parse).toHaveBeenCalledTimes(1);
-    expect(JSON.parse).toHaveBeenCalledWith('{"groups":[{"path":"src/odm"}]}');
-
-    expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
     expect(mockSpinneFail).toHaveBeenCalledTimes(0);
     expect(mockSpinneSucceed).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
-
-    expect(GroupsDataset).toHaveBeenCalledTimes(2);
-    expect(GroupsDataset).toHaveBeenNthCalledWith(1, { groups: [] }, 'path/to/projects');
-    expect(GroupsDataset).toHaveBeenNthCalledWith(2, { groups: [{ path: 'src/odm' }] }, 'path/to/projects');
-
-    expect(converter).toHaveBeenCalledTimes(1);
-    expect(converter).toHaveBeenCalledWith({ groups: [{ path: 'src/odm' }] });
   });
 
-  /**
-   *
-   */
   test('it should be return data object when load() is called with a unknwon file', async () => {
-    ((fs.readFile as any) as jest.Mock).mockRejectedValueOnce({ code: 'ENOENT' });
+    ((readFile as any) as jest.Mock).mockImplementation((_1, _2, cb) => {
+      const err = new Error('Not Found');
+
+      (err as any).code = 'ENOENT';
+
+      cb(err);
+    });
 
     const prompts = new Prompts();
     const prettier = {};
@@ -137,66 +106,60 @@ describe('Check the Storage class', () => {
     const data = await storage.load();
 
     expect(data).toBeInstanceOf(GroupsDataset);
+    expect(data.getObject()).toEqual({ groups: [] });
 
-    expect(fs.readFile).toHaveBeenCalledTimes(1);
-    expect(fs.readFile).toHaveBeenCalledWith('path/to/data.json', {
-      encoding: 'utf8',
-    });
+    expect(readFile).toHaveBeenCalledTimes(1);
+    expect(readFile).toHaveBeenCalledWith(
+      'path/to/data.json',
+      {
+        encoding: 'utf8',
+      },
+      expect.any(Function),
+    );
 
-    expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
     expect(mockSpinneFail).toHaveBeenCalledTimes(0);
     expect(mockSpinneSucceed).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
-
-    expect(GroupsDataset).toHaveBeenCalledTimes(1);
-    expect(GroupsDataset).toHaveBeenNthCalledWith(1, { groups: [] }, 'path/to/projects');
-
-    expect(converter).toHaveBeenCalledTimes(0);
   });
 
-  /**
-   *
-   */
   test('it should be return data object when load() is called with a unknown read error', async () => {
-    ((fs.readFile as any) as jest.Mock).mockRejectedValueOnce(new Error('read error'));
+    ((readFile as any) as jest.Mock).mockImplementation((_1, _2, cb) => {
+      cb(new Error('read error'));
+    });
 
     const prompts = new Prompts();
     const prettier = {};
 
     const storage = new Storage('path/to/projects', undefined, prompts, prettier);
 
-    expect.assertions(11);
+    expect.assertions(8);
     try {
       await storage.load();
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe('read error');
 
-      expect(fs.readFile).toHaveBeenCalledTimes(1);
-      expect(fs.readFile).toHaveBeenCalledWith('path/to/projects/schemas-mongodb.json', {
-        encoding: 'utf8',
-      });
+      expect(readFile).toHaveBeenCalledTimes(1);
+      expect(readFile).toHaveBeenCalledWith(
+        'path/to/projects/schemas-mongodb.json',
+        {
+          encoding: 'utf8',
+        },
+        expect.any(Function),
+      );
 
-      expect(JSON.parse).toHaveBeenCalledTimes(0);
-
-      expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
       expect(mockSpinneStart).toHaveBeenCalledTimes(1);
       expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
       expect(mockSpinneFail).toHaveBeenCalledTimes(1);
       expect(mockSpinneSucceed).toHaveBeenCalledTimes(0);
-
-      expect(converter).toHaveBeenCalledTimes(0);
     }
   });
 
-  /**
-   *
-   */
   test('it should be write data file when write() is called with press key', async () => {
-    (GroupsDataset.prototype.getObject as jest.Mock).mockReturnValue({
-      groups: [{ path: 'path/to', collections: [] }],
+    ((writeFile as any) as jest.Mock).mockImplementation((_1, _2, _3, cb) => {
+      cb();
     });
 
     const prompts = new Prompts();
@@ -206,20 +169,13 @@ describe('Check the Storage class', () => {
 
     await storage.write();
 
-    expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
-
-    expect(fs.writeFile).toHaveBeenCalledTimes(1);
-    expect(fs.writeFile).toHaveBeenCalledWith('path/to/projects/schemas-mongodb.json', 'beautiful dat string', {
-      encoding: 'utf8',
-    });
-
-    expect(JSON.stringify).toHaveBeenCalledTimes(1);
-    expect(JSON.stringify).toHaveBeenCalledWith({
-      groups: [{ path: 'path/to', collections: [] }],
-    });
-
-    expect(format).toHaveBeenCalledTimes(1);
-    expect(format).toHaveBeenCalledWith('{"groups":[{"path":"path/to","collections":[]}]}', { parser: 'json' });
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(
+      'path/to/projects/schemas-mongodb.json',
+      '{ "groups": [] }\n',
+      { encoding: 'utf8' },
+      expect.any(Function),
+    );
 
     expect(mockSpinneStart).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
@@ -227,17 +183,22 @@ describe('Check the Storage class', () => {
     expect(mockSpinneSucceed).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
 
-    expect(prompts.pressKey).toHaveBeenCalledTimes(1);
-
-    expect(GroupsDataset.prototype.getObject).toHaveBeenCalledTimes(1);
+    expect(prompt).toHaveBeenCalledTimes(1);
+    expect(prompt).toHaveBeenCalledWith([
+      {
+        filter: expect.any(Function),
+        message: 'Press a key',
+        name: 'press',
+        pageSize: 75,
+        prefix: '🎃',
+        type: 'input',
+      },
+    ]);
   });
 
-  /**
-   *
-   */
   test('it should be write data file when write() is called without press key', async () => {
-    (GroupsDataset.prototype.getObject as jest.Mock).mockReturnValue({
-      groups: [{ path: 'path/to', collections: [] }],
+    ((writeFile as any) as jest.Mock).mockImplementation((_1, _2, _3, cb) => {
+      cb();
     });
 
     const prompts = new Prompts();
@@ -247,36 +208,26 @@ describe('Check the Storage class', () => {
 
     await storage.write(false);
 
-    expect(fs.writeFile).toHaveBeenCalledTimes(1);
-    expect(fs.writeFile).toHaveBeenCalledWith('path/to/data.json', 'beautiful dat string', {
-      encoding: 'utf8',
-    });
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(
+      'path/to/data.json',
+      '{ "groups": [] }\n',
+      { encoding: 'utf8' },
+      expect.any(Function),
+    );
 
-    expect(JSON.stringify).toHaveBeenCalledTimes(1);
-    expect(JSON.stringify).toHaveBeenCalledWith({
-      groups: [{ path: 'path/to', collections: [] }],
-    });
-
-    expect(format).toHaveBeenCalledTimes(1);
-    expect(format).toHaveBeenCalledWith('{"groups":[{"path":"path/to","collections":[]}]}', { parser: 'json' });
-
-    expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
     expect(mockSpinneFail).toHaveBeenCalledTimes(0);
     expect(mockSpinneSucceed).toHaveBeenCalledTimes(1);
     expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
 
-    expect(prompts.pressKey).toHaveBeenCalledTimes(0);
+    expect(prompt).toHaveBeenCalledTimes(0);
   });
 
-  /**
-   *
-   */
   test('it should be throw a error when write() is called', async () => {
-    ((fs.writeFile as any) as jest.Mock).mockRejectedValueOnce(new Error('write error'));
-    (GroupsDataset.prototype.getObject as jest.Mock).mockReturnValue({
-      groups: [{ path: 'path/to', collections: [] }],
+    ((writeFile as any) as jest.Mock).mockImplementation((_1, _2, _3, cb) => {
+      cb(new Error('write error'));
     });
 
     const prompts = new Prompts();
@@ -284,31 +235,27 @@ describe('Check the Storage class', () => {
 
     const storage = new Storage('path/to/projects', 'path/to/data.json', prompts, prettier);
 
-    expect.assertions(14);
+    expect.assertions(9);
     try {
       await storage.write();
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe('write error');
 
-      expect(fs.writeFile).toHaveBeenCalledTimes(1);
-      expect(fs.writeFile).toHaveBeenCalledWith('path/to/data.json', 'beautiful dat string', {
-        encoding: 'utf8',
-      });
+      expect(writeFile).toHaveBeenCalledTimes(1);
+      expect(writeFile).toHaveBeenCalledWith(
+        'path/to/data.json',
+        '{ "groups": [] }\n',
+        { encoding: 'utf8' },
+        expect.any(Function),
+      );
 
-      expect(JSON.stringify).toHaveBeenCalledTimes(1);
-      expect(JSON.stringify).toHaveBeenCalledWith({ groups: [{ collections: [], path: 'path/to' }] });
-
-      expect(format).toHaveBeenCalledTimes(1);
-      expect(format).toHaveBeenCalledWith('{"groups":[{"path":"path/to","collections":[]}]}', { parser: 'json' });
-
-      expect(prompts.getSpinner).toHaveBeenCalledTimes(1);
       expect(mockSpinneStart).toHaveBeenCalledTimes(1);
       expect(mockSpinneStart).toHaveBeenCalledWith(expect.any(String));
       expect(mockSpinneFail).toHaveBeenCalledTimes(1);
       expect(mockSpinneSucceed).toHaveBeenCalledTimes(0);
 
-      expect(prompts.pressKey).toHaveBeenCalledTimes(0);
+      expect(prompt).toHaveBeenCalledTimes(0);
     }
   });
 });

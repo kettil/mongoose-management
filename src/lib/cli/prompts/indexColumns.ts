@@ -18,6 +18,34 @@ export const call = async (
   const answersColumns = await prompts.call<answersType>(questions);
   const answersNormalize = normalizer(answersColumns);
 
+  /*
+{
+  name: 'bla',
+  columns: [
+    ColumnDataset {
+      parent: [ColumnDataset],
+      column: [Object],
+      collection: [CollectionDataset],
+      readonly: false,
+      columns: [],
+      subTypes: [],
+      index: undefined
+    },
+    ColumnDataset {
+      parent: [ColumnDataset],
+      column: [Object],
+      collection: [CollectionDataset],
+      readonly: false,
+      columns: [],
+      subTypes: [],
+      index: undefined
+    }
+  ]
+}
+{ content: { updatedAt: { date: [Array], user: [Array] } } }
+
+  */
+
   collection.getIndexes().forEach((i) => {
     if (i !== index && equalIndexColumns(answersColumns, i.getColumns())) {
       throw new Error(`An index with the column configuration already exists! (duplicate index: "${i.getName()}")`);

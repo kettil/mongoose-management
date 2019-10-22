@@ -1,28 +1,15 @@
 import Prompts from '../../prompts';
 import IndexDataset from '../dataset/index';
 
-/**
- *
- */
 export type answersType = { unique: boolean; sparse: boolean };
 
-/**
- *
- * @param prompts
- * @param answersMain
- * @param index
- */
 export const call = async (prompts: Prompts, index?: IndexDataset): Promise<answersType> => {
   const questions = getQuestions(index);
-  const answersColumns = await prompts.call<answersType>(questions);
+  const answersOptions = await prompts.call<answersType>(questions);
 
-  return answersColumns;
+  return answersOptions;
 };
 
-/**
- *
- * @param index
- */
 export const getQuestions = (index?: IndexDataset): ReadonlyArray<any> => {
   return [
     {
@@ -40,10 +27,6 @@ export const getQuestions = (index?: IndexDataset): ReadonlyArray<any> => {
   ];
 };
 
-/**
- *
- * @param answers
- */
 export const evaluation = (answers: answersType) => {
   return (index: IndexDataset): IndexDataset => {
     index.setProperty('unique', answers.unique || undefined);

@@ -1,8 +1,5 @@
 import yargs from 'yargs';
 
-/**
- *
- */
 export const args = () =>
   yargs
     .usage('$0 [-p path/to/project] [-d schemas.json]', 'Mongoose schemas management tool')
@@ -28,7 +25,4 @@ export const args = () =>
     .version()
     .parse();
 
-/**
- *
- */
 export default args;

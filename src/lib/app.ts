@@ -11,9 +11,6 @@ import { exists } from './template/helper';
 
 import GroupsLevel from './cli/level/groups';
 
-/**
- *
- */
 export const app = async () => {
   const { p: path, d: dataFilename, c: notClear } = args();
 
@@ -46,7 +43,4 @@ export const app = async () => {
   await handler.exec();
 };
 
-/**
- *
- */
 export default app;

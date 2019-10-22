@@ -17,8 +17,10 @@ export default abstract class AbstractColumnsDataset<P, T extends InterfaceColum
     return this.columns;
   }
 
-  getColumn(name: string) {
-    const columns = this.flatColumns().filter((c) => c.getFullname(false, false) === name);
+  getColumn(name: string, withSubColumns = false) {
+    const columns = withSubColumns
+      ? this.flatColumns().filter((c) => c.getFullname(false, false) === name)
+      : this.getColumns().filter((c) => c.getName() === name);
 
     return columns.length === 1 ? columns[0] : undefined;
   }

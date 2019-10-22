@@ -1,12 +1,6 @@
 import AbstractDataset from './abstract';
 
-/**
- *
- */
 describe('Check the AbstractDataset class', () => {
-  /**
-   *
-   */
   test('initialize the class', () => {
     const mock = jest.fn();
 
@@ -17,9 +11,6 @@ describe('Check the AbstractDataset class', () => {
     expect(dataset.parent).toBe(mock);
   });
 
-  /**
-   *
-   */
   test('it should be return the parent dataset when getParent() is called', () => {
     const mock = jest.fn();
 

@@ -19,13 +19,7 @@ import * as cSubType from './columnSubType';
 
 import execute from './column';
 
-/**
- *
- */
 describe('Check the prompts column function', () => {
-  /**
-   *
-   */
   test('it should be return the column when execute() is called with collection', async () => {
     const prompts = new (Prompts as any)();
     const parent = new (CollectionDataset as any)();
@@ -78,9 +72,6 @@ describe('Check the prompts column function', () => {
     );
   });
 
-  /**
-   *
-   */
   test('it should be return the column when execute() is called with column', async () => {
     const prompts = new (Prompts as any)();
     const collection = new (CollectionDataset as any)();

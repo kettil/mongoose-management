@@ -1,6 +1,3 @@
-/**
- *
- */
 export const schemaTypesNormal = {
   string: { name: 'String', definition: 'Schema.Types.String', type: 'string' },
   number: { name: 'Number', definition: 'Schema.Types.Number', type: 'number' },
@@ -13,9 +10,6 @@ export const schemaTypesNormal = {
   arrayType: { name: 'Array<Type>', definition: '[]', type: '[]' },
 };
 
-/**
- *
- */
 export const schemaTypesSpecial = {
   arrayType: schemaTypesNormal.arrayType,
   array: { name: 'Array<Object>', definition: '[]', type: '[]' },
@@ -24,17 +18,11 @@ export const schemaTypesSpecial = {
   '2dsphere': { name: '2dsphere', definition: '{}', type: '{}' },
 };
 
-/**
- *
- */
 export const schemaTypes = {
   ...schemaTypesNormal,
   ...schemaTypesSpecial,
 };
 
-/**
- *
- */
 export const schemaIndexTypes = {
   no: 'No index',
   index: 'Index',
@@ -43,6 +31,6 @@ export const schemaIndexTypes = {
 };
 
 /**
- * index types (without 2d an 2dsphere); see "schemaTypesSpecial"
+ * index types (without 2d an 2dsphere)
  */
 export const indexColumnValues = [1, -1, 'text', 'hashed'];

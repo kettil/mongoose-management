@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the mongo functions Snapshot of indexColumnValues 1`] = `
+Array [
+  1,
+  -1,
+  "text",
+  "hashed",
+]
+`;
+
+exports[`Check the mongo functions Snapshot of schemaIndexTypes 1`] = `
+Object {
+  "index": "Index",
+  "no": "No index",
+  "sparse": "Sparse index",
+  "unique": "Unique index",
+}
+`;
+
+exports[`Check the mongo functions Snapshot of schemaTypes 1`] = `
+Object {
+  "2dsphere": Object {
+    "definition": "{}",
+    "name": "2dsphere",
+    "type": "{}",
+  },
+  "array": Object {
+    "definition": "[]",
+    "name": "Array<Object>",
+    "type": "[]",
+  },
+  "arrayType": Object {
+    "definition": "[]",
+    "name": "Array<Type>",
+    "type": "[]",
+  },
+  "boolean": Object {
+    "definition": "Schema.Types.Boolean",
+    "name": "Boolean",
+    "type": "boolean",
+  },
+  "buffer": Object {
+    "definition": "Schema.Types.Buffer",
+    "name": "Buffer",
+    "type": "Buffer",
+  },
+  "date": Object {
+    "definition": "Schema.Types.Date",
+    "name": "Date",
+    "type": "Date",
+  },
+  "decimal": Object {
+    "definition": "Schema.Types.Decimal128",
+    "name": "Decimal128",
+    "type": "number",
+  },
+  "map": Object {
+    "definition": "Map",
+    "name": "Map",
+    "type": "Map",
+  },
+  "mixed": Object {
+    "definition": "Schema.Types.Mixed",
+    "name": "Mixed",
+    "type": "any",
+  },
+  "number": Object {
+    "definition": "Schema.Types.Number",
+    "name": "Number",
+    "type": "number",
+  },
+  "object": Object {
+    "definition": "{}",
+    "name": "Object",
+    "type": "{}",
+  },
+  "objectId": Object {
+    "definition": "Schema.Types.ObjectId",
+    "name": "ObjectId",
+    "type": "any",
+  },
+  "string": Object {
+    "definition": "Schema.Types.String",
+    "name": "String",
+    "type": "string",
+  },
+}
+`;
+
+exports[`Check the mongo functions Snapshot of schemaTypesNormal 1`] = `
+Object {
+  "arrayType": Object {
+    "definition": "[]",
+    "name": "Array<Type>",
+    "type": "[]",
+  },
+  "boolean": Object {
+    "definition": "Schema.Types.Boolean",
+    "name": "Boolean",
+    "type": "boolean",
+  },
+  "buffer": Object {
+    "definition": "Schema.Types.Buffer",
+    "name": "Buffer",
+    "type": "Buffer",
+  },
+  "date": Object {
+    "definition": "Schema.Types.Date",
+    "name": "Date",
+    "type": "Date",
+  },
+  "decimal": Object {
+    "definition": "Schema.Types.Decimal128",
+    "name": "Decimal128",
+    "type": "number",
+  },
+  "mixed": Object {
+    "definition": "Schema.Types.Mixed",
+    "name": "Mixed",
+    "type": "any",
+  },
+  "number": Object {
+    "definition": "Schema.Types.Number",
+    "name": "Number",
+    "type": "number",
+  },
+  "objectId": Object {
+    "definition": "Schema.Types.ObjectId",
+    "name": "ObjectId",
+    "type": "any",
+  },
+  "string": Object {
+    "definition": "Schema.Types.String",
+    "name": "String",
+    "type": "string",
+  },
+}
+`;
+
+exports[`Check the mongo functions Snapshot of schemaTypesSpecial 1`] = `
+Object {
+  "2dsphere": Object {
+    "definition": "{}",
+    "name": "2dsphere",
+    "type": "{}",
+  },
+  "array": Object {
+    "definition": "[]",
+    "name": "Array<Object>",
+    "type": "[]",
+  },
+  "arrayType": Object {
+    "definition": "[]",
+    "name": "Array<Type>",
+    "type": "[]",
+  },
+  "map": Object {
+    "definition": "Map",
+    "name": "Map",
+    "type": "Map",
+  },
+  "object": Object {
+    "definition": "{}",
+    "name": "Object",
+    "type": "{}",
+  },
+}
+`;

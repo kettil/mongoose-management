@@ -15,7 +15,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     let result: choiceValueType<ColumnDataset>;
 
     if (column.get('type') === 'array' || column.get('type') === 'object') {
-      result = await this.prompt.menu<ColumnDataset>(
+      result = await this.prompts.menu<ColumnDataset>(
         `Choose a subcolumn or a command for the column "${column.getFullname(true)}":`,
         [
           new Separator(chalk.underline('Columns list')),
@@ -29,12 +29,15 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
         ],
       );
     } else {
-      result = await this.prompt.menu<ColumnDataset>(`Choose a command for the column "${column.getFullname(true)}":`, [
-        this.getMenuChoiceEdit('column'),
-        this.getMenuChoiceRemove('column'),
-        this.getMenuChoiceBack(),
-        new Separator(' '),
-      ]);
+      result = await this.prompts.menu<ColumnDataset>(
+        `Choose a command for the column "${column.getFullname(true)}":`,
+        [
+          this.getMenuChoiceEdit('column'),
+          this.getMenuChoiceRemove('column'),
+          this.getMenuChoiceBack(),
+          new Separator(' '),
+        ],
+      );
     }
 
     return result;

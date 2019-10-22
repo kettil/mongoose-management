@@ -8,10 +8,6 @@ import AbstractMenu from './abstract';
 import { choicesType } from '../../types';
 
 export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionDataset> {
-  /**
-   *
-   * @param group
-   */
   async exec(group: GroupDataset) {
     const choices = this.getChoiceList(group.getCollections());
 
@@ -19,7 +15,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
       choices.push(new Separator('- No collections defined -'));
     }
 
-    const result = await this.prompt.menu<CollectionDataset>('Choose a collection or a command:', [
+    const result = await this.prompts.menu<CollectionDataset>('Choose a collection or a command:', [
       new Separator(`Group: ${chalk.bold(group.getPath())}`),
       new Separator(' '),
       new Separator('Collections list'),
@@ -38,10 +34,6 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
     return result;
   }
 
-  /**
-   *
-   * @param collections
-   */
   getChoiceList(collections: CollectionDataset[]): Array<choicesType<CollectionDataset>> {
     return collections.map((d) => ({ name: d.getName(), value: { data: d }, short: d.getName() }));
   }

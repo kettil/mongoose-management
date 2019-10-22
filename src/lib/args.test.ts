@@ -11,13 +11,7 @@ import yargs from 'yargs';
 
 import args from './args';
 
-/**
- *
- */
 describe('Check the args() function', () => {
-  /**
-   *
-   */
   test('it should be faultless when args() is called', () => {
     (yargs.parse as jest.Mock).mockReturnValueOnce({ p: 'path', d: 'filename', c: true });
 

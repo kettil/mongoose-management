@@ -88,13 +88,6 @@ export default abstract class AbstractLevel<
             await this.options.storage.write(false);
             await this.options.creater.exec(d.getPath(), d.getObject().collections);
           }
-
-          /*
-          if (this.isCollectionsGroup(this.data) && this.isGroupsGroup(this.parent)) {
-            await this.options.storage.write(false);
-            await this.options.createTemplate.exec(this.parent.path, this.data);
-          }
-          */
           break;
 
         case 'save':

@@ -5,16 +5,8 @@ import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
 import GroupDataset from '../dataset/group';
 import GroupsDataset from '../dataset/groups';
 
-/**
- *
- */
 export type answersType = { name: string; path: string };
 
-/**
- *
- * @param prompts
- * @param groups
- */
 export const call = async (prompts: Prompts, groups: GroupsDataset): Promise<answersType> => {
   const questions = getQuestions(groups);
   const answersMain = await prompts.call<answersType>(questions);
@@ -26,10 +18,6 @@ export const call = async (prompts: Prompts, groups: GroupsDataset): Promise<ans
   return answersMain;
 };
 
-/**
- *
- * @param groups
- */
 export const getQuestions = (groups: GroupsDataset): ReadonlyArray<any> => {
   const nameValues = groups.getGroups().map((d) => d.getPath().toLowerCase());
 
@@ -55,14 +43,9 @@ export const getQuestions = (groups: GroupsDataset): ReadonlyArray<any> => {
   ];
 };
 
-/**
- *
- * @param answers
- * @param groups
- */
 export const evaluation = (answers: answersType, groups: GroupsDataset) => {
   return (group?: GroupDataset) => {
-    const path = join(answers.path.replace(groups.getPathProject() + '/', ''), answers.name);
+    const path = pathRelative(answers.name, answers.path, groups.getPathProject());
 
     if (!group) {
       return groups.addGroup(new GroupDataset({ path, collections: [] }, groups));
@@ -74,16 +57,12 @@ export const evaluation = (answers: answersType, groups: GroupsDataset) => {
   };
 };
 
-/**
- *
- * @param nameValues
- */
 export const validateName = (nameValues: string[], pathProject: string) => (
   value: string,
   { path }: { path: string },
 ) => {
   const name = value.trim();
-  const mergedPath = join(path.replace(pathProject + '/', ''), name);
+  const mergedPath = pathRelative(name, path, pathProject);
 
   if (!regexpName.test(name)) {
     return regexpNameMessage;
@@ -96,8 +75,10 @@ export const validateName = (nameValues: string[], pathProject: string) => (
   return true;
 };
 
-/**
- *
- * @param path
- */
+export const pathRelative = (name: string, pathDocuments: string, pathProject: string) => {
+  const path = pathDocuments.replace(pathProject, '');
+
+  return join(path.substr(0, 1) === '/' ? path.substr(1) : path, name);
+};
+
 export const excludePath = (path: string) => /node_modules|\/\.|\\\.|^\../.test(path);
