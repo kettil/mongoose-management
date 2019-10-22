@@ -21,19 +21,19 @@ Object {
 exports[`Check the mongo functions Snapshot of schemaTypes 1`] = `
 Object {
   "2dsphere": Object {
-    "definition": "{}",
+    "definition": "Schema.Types.Mixed",
     "name": "2dsphere",
     "type": "{}",
   },
   "array": Object {
-    "definition": "[]",
+    "definition": "Schema.Types.Array",
     "name": "Array<Object>",
-    "type": "[]",
+    "type": "Array<Record<string,any>>",
   },
   "arrayType": Object {
-    "definition": "[]",
+    "definition": "Schema.Types.Array",
     "name": "Array<Type>",
-    "type": "[]",
+    "type": "any[]",
   },
   "boolean": Object {
     "definition": "Schema.Types.Boolean",
@@ -56,7 +56,7 @@ Object {
     "type": "number",
   },
   "map": Object {
-    "definition": "Map",
+    "definition": "Schema.Types.Map",
     "name": "Map",
     "type": "Map",
   },
@@ -71,9 +71,9 @@ Object {
     "type": "number",
   },
   "object": Object {
-    "definition": "{}",
+    "definition": "Schema.Types.Mixed",
     "name": "Object",
-    "type": "{}",
+    "type": "Record<string,any>",
   },
   "objectId": Object {
     "definition": "Schema.Types.ObjectId",
@@ -91,9 +91,9 @@ Object {
 exports[`Check the mongo functions Snapshot of schemaTypesNormal 1`] = `
 Object {
   "arrayType": Object {
-    "definition": "[]",
+    "definition": "Schema.Types.Array",
     "name": "Array<Type>",
-    "type": "[]",
+    "type": "any[]",
   },
   "boolean": Object {
     "definition": "Schema.Types.Boolean",
@@ -141,29 +141,29 @@ Object {
 exports[`Check the mongo functions Snapshot of schemaTypesSpecial 1`] = `
 Object {
   "2dsphere": Object {
-    "definition": "{}",
+    "definition": "Schema.Types.Mixed",
     "name": "2dsphere",
     "type": "{}",
   },
   "array": Object {
-    "definition": "[]",
+    "definition": "Schema.Types.Array",
     "name": "Array<Object>",
-    "type": "[]",
+    "type": "Array<Record<string,any>>",
   },
   "arrayType": Object {
-    "definition": "[]",
+    "definition": "Schema.Types.Array",
     "name": "Array<Type>",
-    "type": "[]",
+    "type": "any[]",
   },
   "map": Object {
-    "definition": "Map",
+    "definition": "Schema.Types.Map",
     "name": "Map",
     "type": "Map",
   },
   "object": Object {
-    "definition": "{}",
+    "definition": "Schema.Types.Mixed",
     "name": "Object",
-    "type": "{}",
+    "type": "Record<string,any>",
   },
 }
 `;
