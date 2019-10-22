@@ -69,7 +69,7 @@ export default class ConverterObjrect extends AbstractConverter<dataColumnType[]
         return this.converter.converterArray[funcs](column);
 
       case 'object':
-        if (!column.subColumns) {
+        if (!Array.isArray(column.subColumns)) {
           throw new Error('SubColumns are not defined!');
         }
 
