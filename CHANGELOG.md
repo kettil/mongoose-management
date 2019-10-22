@@ -8,6 +8,8 @@
 
 ### Chore & Maintenance
 
+- Update the mongodb and mongoose packages to the latest version.
+
 ### Performance
 
 ## [0.1.3] - 2019-09-09
