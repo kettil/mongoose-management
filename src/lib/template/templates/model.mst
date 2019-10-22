@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import mongoose, { Connection, Schema } from 'mongoose';
+import { Connection, model, Schema } from 'mongoose';
 
 import { {{collectionNameLower}}Definitions, {{collectionNameLower}}Indexes } from '../documents/{{collectionNameLower}}';
 import { {{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
@@ -44,7 +44,7 @@ export const create{{collectionNameUpper}}Model = (handler: Connection) => {
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
+const Model = model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
   '{{collectionNameUpper}}',
   {{collectionNameLower}}Schema,
 );

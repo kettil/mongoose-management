@@ -6,6 +6,8 @@
 
 ### Fixes
 
+- Default import from mongoose is not defined in model template
+
 ### Chore & Maintenance
 
 - Update the mongodb and mongoose packages to the latest version.
