@@ -322,7 +322,7 @@ describe('Check the prompts indexMain functions', () => {
     expect(mock).toHaveBeenCalledWith(regexpValue);
   });
 
-  test.each<[boolean, string]>([[true, 'name'], [true, '  name  '], [false, ''], [false, '    ']])(
+  test.only.each<[boolean, string]>([[true, 'name'], [true, '  name  '], [false, ''], [false, '    ']])(
     'it should be return %p when whenColumns() is called with "%s"',
     (expected, name) => {
       const closure = whenColumns();
