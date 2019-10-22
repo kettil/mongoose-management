@@ -7,6 +7,7 @@
 ### Fixes
 
 - Default import from mongoose is not defined in model template
+- Add a transformer to the toJSON function
 
 ### Chore & Maintenance
 
