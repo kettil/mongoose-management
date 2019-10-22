@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import mongoose, { Connection, Schema } from 'mongoose';
+import { Connection, model, Schema } from 'mongoose';
 
 import { pagesDefinitions, pagesIndexes } from '../documents/pages';
 import { InterfacePagesDocument, InterfacePagesModel } from '../interfaces/pages';
@@ -41,6 +41,6 @@ export const createPagesModel = (handler: Connection) => {
 /**
  * Create default model with default connection
  */
-const Model = mongoose.model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
+const Model = model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
 
 export default Model;

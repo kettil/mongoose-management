@@ -15,12 +15,13 @@ import { indexType } from '../types';
 /**
  *
  */
-export type logsTypes = { message: string; tags?: string[]; user: any };
+export type logsTypes = { data?: any; message: string; tags?: string[]; user: any };
 
 /**
  *
  */
 export const logsDefinitions = {
+  data: { type: Schema.Types.Mixed },
   message: { type: Schema.Types.String, required: true },
   tags: { type: [Schema.Types.String] },
   user: { type: Schema.Types.ObjectId, required: true },
