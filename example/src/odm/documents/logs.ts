@@ -15,7 +15,7 @@ import { indexType } from '../types';
 /**
  *
  */
-export type logsTypes = { data?: any; message: string; tags?: string[]; user: any };
+export type logsTypes = { data?: Record<string, any>; message: string; tags?: string[]; user: any };
 
 /**
  *
