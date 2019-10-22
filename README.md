@@ -57,6 +57,7 @@ mongoose-management -p path/to/example/folder
 
 - [ ] Integration of [Populate](https://mongoosejs.com/docs/populate.html)
 - [ ] Integration of [Subdocuments](https://mongoosejs.com/docs/subdocs.html)
+- [ ] Integration of [Pre](https://mongoosejs.com/docs/middleware.html#pre)/[Post](https://mongoosejs.com/docs/middleware.html#post) Functions
 
 ## Building
 
