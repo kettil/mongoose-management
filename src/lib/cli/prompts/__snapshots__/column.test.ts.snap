@@ -1,0 +1,754 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection and column: index 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "name": "No index",
+        "short": "No index",
+        "value": "no",
+      },
+      Object {
+        "name": "Index",
+        "short": "Index",
+        "value": "index",
+      },
+      Object {
+        "name": "Unique index",
+        "short": "Unique index",
+        "value": "unique",
+      },
+      Object {
+        "name": "Sparse index",
+        "short": "Sparse index",
+        "value": "sparse",
+      },
+    ],
+    "default": undefined,
+    "message": "Choose a index",
+    "name": "type",
+    "type": "list",
+  },
+  Object {
+    "choices": Array [
+      1,
+      -1,
+      "text",
+      "hashed",
+    ],
+    "default": undefined,
+    "message": "Choose a index type",
+    "name": "value",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection and column: main 1`] = `
+Array [
+  Object {
+    "default": "column1",
+    "message": "Column name:",
+    "name": "name",
+    "type": "input",
+    "validate": [Function],
+  },
+  Object {
+    "choices": Array [
+      Object {
+        "name": "String",
+        "short": "String",
+        "value": "string",
+      },
+      Object {
+        "name": "Number",
+        "short": "Number",
+        "value": "number",
+      },
+      Object {
+        "name": "Date",
+        "short": "Date",
+        "value": "date",
+      },
+      Object {
+        "name": "Boolean",
+        "short": "Boolean",
+        "value": "boolean",
+      },
+      Object {
+        "name": "ObjectId",
+        "short": "ObjectId",
+        "value": "objectId",
+      },
+      Object {
+        "name": "Decimal128",
+        "short": "Decimal128",
+        "value": "decimal",
+      },
+      Object {
+        "name": "Buffer",
+        "short": "Buffer",
+        "value": "buffer",
+      },
+      Object {
+        "name": "Mixed",
+        "short": "Mixed",
+        "value": "mixed",
+      },
+      Object {
+        "name": "Array<Type>",
+        "short": "Array<Type>",
+        "value": "arrayType",
+      },
+      Object {
+        "name": "Array<Object>",
+        "short": "Array<Object>",
+        "value": "array",
+      },
+      Object {
+        "name": "Object",
+        "short": "Object",
+        "value": "object",
+      },
+      Object {
+        "name": "Map",
+        "short": "Map",
+        "value": "map",
+      },
+      Object {
+        "name": "2dsphere",
+        "short": "2dsphere",
+        "value": "2dsphere",
+      },
+    ],
+    "default": 0,
+    "message": "Choose a SchemaType:",
+    "name": "type",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection and column: options 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "checked": false,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": false,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+      Object {
+        "checked": false,
+        "name": "enum",
+        "short": "enum",
+        "value": "enum",
+      },
+      Object {
+        "checked": false,
+        "name": "match (regexp)",
+        "short": "match",
+        "value": "match",
+      },
+      Object {
+        "checked": false,
+        "name": "trim",
+        "short": "trim",
+        "value": "trim",
+      },
+      Object {
+        "checked": false,
+        "name": "lowerCase",
+        "short": "lowercase",
+        "value": "lowercase",
+      },
+      Object {
+        "checked": false,
+        "name": "upperCase",
+        "short": "uppercase",
+        "value": "uppercase",
+      },
+      Object {
+        "checked": false,
+        "name": "minLength",
+        "short": "minLength",
+        "value": "minLength",
+      },
+      Object {
+        "checked": false,
+        "name": "maxLength",
+        "short": "maxLength",
+        "value": "maxLength",
+      },
+    ],
+    "message": "Choose the scheme options:",
+    "name": "options",
+    "type": "checkbox",
+    "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "filter": [Function],
+    "message": "Allowed enum strings (semicolon [;] as separator):",
+    "name": "enum",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
+    "name": "match",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Minimum number of characters:",
+    "name": "minLength",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Maximum number of characters:",
+    "name": "maxLength",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must greater than or equal:",
+    "name": "min",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must less than or equal:",
+    "name": "max",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection: index 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "name": "No index",
+        "short": "No index",
+        "value": "no",
+      },
+      Object {
+        "name": "Index",
+        "short": "Index",
+        "value": "index",
+      },
+      Object {
+        "name": "Unique index",
+        "short": "Unique index",
+        "value": "unique",
+      },
+      Object {
+        "name": "Sparse index",
+        "short": "Sparse index",
+        "value": "sparse",
+      },
+    ],
+    "default": undefined,
+    "message": "Choose a index",
+    "name": "type",
+    "type": "list",
+  },
+  Object {
+    "choices": Array [
+      1,
+      -1,
+      "text",
+      "hashed",
+    ],
+    "default": undefined,
+    "message": "Choose a index type",
+    "name": "value",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection: main 1`] = `
+Array [
+  Object {
+    "default": undefined,
+    "message": "Column name:",
+    "name": "name",
+    "type": "input",
+    "validate": [Function],
+  },
+  Object {
+    "choices": Array [
+      Object {
+        "name": "String",
+        "short": "String",
+        "value": "string",
+      },
+      Object {
+        "name": "Number",
+        "short": "Number",
+        "value": "number",
+      },
+      Object {
+        "name": "Date",
+        "short": "Date",
+        "value": "date",
+      },
+      Object {
+        "name": "Boolean",
+        "short": "Boolean",
+        "value": "boolean",
+      },
+      Object {
+        "name": "ObjectId",
+        "short": "ObjectId",
+        "value": "objectId",
+      },
+      Object {
+        "name": "Decimal128",
+        "short": "Decimal128",
+        "value": "decimal",
+      },
+      Object {
+        "name": "Buffer",
+        "short": "Buffer",
+        "value": "buffer",
+      },
+      Object {
+        "name": "Mixed",
+        "short": "Mixed",
+        "value": "mixed",
+      },
+      Object {
+        "name": "Array<Type>",
+        "short": "Array<Type>",
+        "value": "arrayType",
+      },
+      Object {
+        "name": "Array<Object>",
+        "short": "Array<Object>",
+        "value": "array",
+      },
+      Object {
+        "name": "Object",
+        "short": "Object",
+        "value": "object",
+      },
+      Object {
+        "name": "Map",
+        "short": "Map",
+        "value": "map",
+      },
+      Object {
+        "name": "2dsphere",
+        "short": "2dsphere",
+        "value": "2dsphere",
+      },
+    ],
+    "default": undefined,
+    "message": "Choose a SchemaType:",
+    "name": "type",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with collection: options 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "checked": undefined,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": undefined,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+      Object {
+        "checked": undefined,
+        "name": "enum",
+        "short": "enum",
+        "value": "enum",
+      },
+      Object {
+        "checked": undefined,
+        "name": "match (regexp)",
+        "short": "match",
+        "value": "match",
+      },
+      Object {
+        "checked": undefined,
+        "name": "trim",
+        "short": "trim",
+        "value": "trim",
+      },
+      Object {
+        "checked": undefined,
+        "name": "lowerCase",
+        "short": "lowercase",
+        "value": "lowercase",
+      },
+      Object {
+        "checked": undefined,
+        "name": "upperCase",
+        "short": "uppercase",
+        "value": "uppercase",
+      },
+      Object {
+        "checked": undefined,
+        "name": "minLength",
+        "short": "minLength",
+        "value": "minLength",
+      },
+      Object {
+        "checked": undefined,
+        "name": "maxLength",
+        "short": "maxLength",
+        "value": "maxLength",
+      },
+    ],
+    "message": "Choose the scheme options:",
+    "name": "options",
+    "type": "checkbox",
+    "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "filter": [Function],
+    "message": "Allowed enum strings (semicolon [;] as separator):",
+    "name": "enum",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
+    "name": "match",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Minimum number of characters:",
+    "name": "minLength",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Maximum number of characters:",
+    "name": "maxLength",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must greater than or equal:",
+    "name": "min",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must less than or equal:",
+    "name": "max",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with column: index 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "name": "No index",
+        "short": "No index",
+        "value": "no",
+      },
+      Object {
+        "name": "Index",
+        "short": "Index",
+        "value": "index",
+      },
+      Object {
+        "name": "Unique index",
+        "short": "Unique index",
+        "value": "unique",
+      },
+      Object {
+        "name": "Sparse index",
+        "short": "Sparse index",
+        "value": "sparse",
+      },
+    ],
+    "default": undefined,
+    "message": "Choose a index",
+    "name": "type",
+    "type": "list",
+  },
+  Object {
+    "choices": Array [
+      1,
+      -1,
+      "text",
+      "hashed",
+    ],
+    "default": undefined,
+    "message": "Choose a index type",
+    "name": "value",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with column: main 1`] = `
+Array [
+  Object {
+    "default": undefined,
+    "message": "Column name:",
+    "name": "name",
+    "type": "input",
+    "validate": [Function],
+  },
+  Object {
+    "choices": Array [
+      Object {
+        "name": "String",
+        "short": "String",
+        "value": "string",
+      },
+      Object {
+        "name": "Number",
+        "short": "Number",
+        "value": "number",
+      },
+      Object {
+        "name": "Date",
+        "short": "Date",
+        "value": "date",
+      },
+      Object {
+        "name": "Boolean",
+        "short": "Boolean",
+        "value": "boolean",
+      },
+      Object {
+        "name": "ObjectId",
+        "short": "ObjectId",
+        "value": "objectId",
+      },
+      Object {
+        "name": "Decimal128",
+        "short": "Decimal128",
+        "value": "decimal",
+      },
+      Object {
+        "name": "Buffer",
+        "short": "Buffer",
+        "value": "buffer",
+      },
+      Object {
+        "name": "Mixed",
+        "short": "Mixed",
+        "value": "mixed",
+      },
+      Object {
+        "name": "Array<Type>",
+        "short": "Array<Type>",
+        "value": "arrayType",
+      },
+      Object {
+        "name": "Array<Object>",
+        "short": "Array<Object>",
+        "value": "array",
+      },
+      Object {
+        "name": "Object",
+        "short": "Object",
+        "value": "object",
+      },
+      Object {
+        "name": "Map",
+        "short": "Map",
+        "value": "map",
+      },
+      Object {
+        "name": "2dsphere",
+        "short": "2dsphere",
+        "value": "2dsphere",
+      },
+    ],
+    "default": undefined,
+    "message": "Choose a SchemaType:",
+    "name": "type",
+    "type": "list",
+    "when": [Function],
+  },
+]
+`;
+
+exports[`Check the prompts column function it should be return the column when execute() is called with column: options 1`] = `
+Array [
+  Object {
+    "choices": Array [
+      Object {
+        "checked": undefined,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": undefined,
+        "name": "default",
+        "short": "default",
+        "value": "default",
+      },
+      Object {
+        "checked": undefined,
+        "name": "enum",
+        "short": "enum",
+        "value": "enum",
+      },
+      Object {
+        "checked": undefined,
+        "name": "match (regexp)",
+        "short": "match",
+        "value": "match",
+      },
+      Object {
+        "checked": undefined,
+        "name": "trim",
+        "short": "trim",
+        "value": "trim",
+      },
+      Object {
+        "checked": undefined,
+        "name": "lowerCase",
+        "short": "lowercase",
+        "value": "lowercase",
+      },
+      Object {
+        "checked": undefined,
+        "name": "upperCase",
+        "short": "uppercase",
+        "value": "uppercase",
+      },
+      Object {
+        "checked": undefined,
+        "name": "minLength",
+        "short": "minLength",
+        "value": "minLength",
+      },
+      Object {
+        "checked": undefined,
+        "name": "maxLength",
+        "short": "maxLength",
+        "value": "maxLength",
+      },
+    ],
+    "message": "Choose the scheme options:",
+    "name": "options",
+    "type": "checkbox",
+    "validate": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+    "name": "default",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "filter": [Function],
+    "message": "Allowed enum strings (semicolon [;] as separator):",
+    "name": "enum",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
+    "name": "match",
+    "type": "input",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Minimum number of characters:",
+    "name": "minLength",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Maximum number of characters:",
+    "name": "maxLength",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must greater than or equal:",
+    "name": "min",
+    "type": "number",
+    "when": [Function],
+  },
+  Object {
+    "default": undefined,
+    "message": "Value must less than or equal:",
+    "name": "max",
+    "type": "number",
+    "validate": [Function],
+    "when": [Function],
+  },
+]
+`;
