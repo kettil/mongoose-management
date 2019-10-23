@@ -58,7 +58,7 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
       message: 'Choose a index type',
       choices: valueValues,
       default: valueValue,
-      when: ({ type }: { type: schemaIndexType }) => typeof type === 'string' && type !== 'no',
+      when: whenValue,
     },
   ];
 };
@@ -74,3 +74,5 @@ export const evaluation = (answers: answersType) => {
     return column;
   };
 };
+
+export const whenValue = ({ type }: { type: schemaIndexType }) => typeof type === 'string' && type !== 'no';

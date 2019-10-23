@@ -64,27 +64,13 @@ The following command is available:
 
 ## Tests
 
-There are two types of tests:
-
-- **Unit Tests**
-
-  These tests have no dependencies outside the tested file (exception: class inheritance). All dependencies are mocked.
-
-- **Integration Tests**
-
-  These tests have no dependencies outside the project. All dependencies in the package.json file are mocked.
-  Small libraries, e.g. lodash or luxon, don't need to be mocked.
-
 **The following commands are available:**
 
-| Command                          |    Type     | Description                                     |
-| -------------------------------- | :---------: | ----------------------------------------------- |
-| `npm run test`                   |    unit     | Run all unit tests                              |
-| `npm run test:watch`             |    unit     | Watching mode from unit test                    |
-| `npm run coverage`               |    unit     | Creates a coverage report from unit test        |
-| `npm run test:integration`       | integration | Run all integration tests                       |
-| `npm run test:integration:watch` | integration | Watching mode from integration test             |
-| `npm run coverage:integration`   | integration | Creates a coverage report from integration test |
+| Command                 | Description               |
+| ----------------------- | ------------------------- |
+| `npm run test`          | Run all tests             |
+| `npm run test:watch`    | Watching mode from test   |
+| `npm run test:coverage` | Creates a coverage report |
 
 ## Prettier and Lint
 

@@ -1,129 +1,175 @@
-jest.mock('../../prompts');
-jest.mock('../dataset/collection');
-jest.mock('../dataset/column');
-jest.mock('../helper/evaluation');
-jest.mock('./columnIndex');
-jest.mock('./columnMain');
-jest.mock('./columnOptions');
-jest.mock('./columnSubType');
-
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
-import { mergeEvaluation } from '../helper/evaluation';
-
-import * as cIndex from './columnIndex';
-import * as cMain from './columnMain';
-import * as cOptions from './columnOptions';
-import * as cSubType from './columnSubType';
 
 import execute from './column';
 
+const mockCall = jest.fn();
+
 describe('Check the prompts column function', () => {
-  test.skip('it should be return the column when execute() is called with collection', async () => {
-    const prompts = new (Prompts as any)();
-    const parent = new (CollectionDataset as any)();
-    const column = new (ColumnDataset as any)();
+  let prompts: Prompts;
+  let collection: CollectionDataset;
+  let column: ColumnDataset;
 
-    const mainEvaluation = jest.fn();
-    const cSubTypeEvaluation = jest.fn();
-    const cOptionsEvaluation = jest.fn();
-    const cIndexEvaluation = jest.fn();
+  beforeEach(() => {
+    prompts = { call: mockCall } as any;
 
-    (cMain.call as jest.Mock).mockResolvedValue({ name: 'columnName', type: 'arrayType' });
-    (cMain.evaluation as jest.Mock).mockReturnValue(mainEvaluation);
-    (cSubType.call as jest.Mock).mockResolvedValue(['arrayType', 'date']);
-    (cSubType.evaluation as jest.Mock).mockReturnValue(cSubTypeEvaluation);
-    (cOptions.call as jest.Mock).mockResolvedValue({ options: ['required', 'default'], default: '[[Date.now()]]' });
-    (cOptions.evaluation as jest.Mock).mockReturnValue(cOptionsEvaluation);
-    (cIndex.call as jest.Mock).mockResolvedValue({ type: 'unique', value: 'hashed' });
-    (cIndex.evaluation as jest.Mock).mockReturnValue(cIndexEvaluation);
-    (mergeEvaluation as jest.Mock).mockReturnValue(column);
-
-    const result = await execute(prompts, parent, column);
-
-    expect(result).toBe(column);
-
-    expect(cMain.call).toHaveBeenCalledTimes(1);
-    expect(cMain.call).toHaveBeenCalledWith(prompts, parent, column);
-    expect(cMain.evaluation).toHaveBeenCalledTimes(1);
-    expect(cMain.evaluation).toHaveBeenCalledWith({ name: 'columnName', type: 'arrayType' }, parent, parent);
-
-    expect(cSubType.call).toHaveBeenCalledTimes(1);
-    expect(cSubType.call).toHaveBeenCalledWith(prompts, { name: 'columnName', type: 'arrayType' }, column);
-    expect(cSubType.evaluation).toHaveBeenCalledTimes(1);
-    expect(cSubType.evaluation).toHaveBeenCalledWith(['arrayType', 'date']);
-
-    expect(cOptions.call).toHaveBeenCalledTimes(1);
-    expect(cOptions.call).toHaveBeenCalledWith(prompts, column);
-    expect(cOptions.evaluation).toHaveBeenCalledTimes(1);
-    expect(cOptions.evaluation).toHaveBeenCalledWith({ options: ['required', 'default'], default: '[[Date.now()]]' });
-
-    expect(cIndex.call).toHaveBeenCalledTimes(1);
-    expect(cIndex.call).toHaveBeenCalledWith(prompts, { name: 'columnName', type: 'arrayType' }, column);
-    expect(cIndex.evaluation).toHaveBeenCalledTimes(1);
-    expect(cIndex.evaluation).toHaveBeenCalledWith({ type: 'unique', value: 'hashed' }, parent);
-
-    expect(mergeEvaluation).toHaveBeenCalledTimes(1);
-    expect(mergeEvaluation).toHaveBeenCalledWith(
-      mainEvaluation,
-      [cSubTypeEvaluation, cOptionsEvaluation, cIndexEvaluation],
-      column,
+    collection = new CollectionDataset(
+      {
+        name: 'collectionName',
+        columns: [{ name: 'column1', type: 'string' }],
+        indexes: [],
+      },
+      jest.fn() as any,
     );
+    collection.setReference();
+
+    column = collection.getColumn('column1')!;
   });
 
-  test.skip('it should be return the column when execute() is called with column', async () => {
-    const prompts = new (Prompts as any)();
-    const collection = new (CollectionDataset as any)();
-    const parent = new (ColumnDataset as any)();
-    const column = new (ColumnDataset as any)();
+  test('it should be return the column when execute() is called with collection', async () => {
+    expect.assertions(8);
 
-    const mainEvaluation = jest.fn();
-    const cSubTypeEvaluation = jest.fn();
-    const cOptionsEvaluation = jest.fn();
-    const cIndexEvaluation = jest.fn();
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('main');
 
-    (parent.getCollection as jest.Mock).mockReturnValue(collection);
+      return { name: 'newColumnName', type: 'string' };
+    });
 
-    (cMain.call as jest.Mock).mockResolvedValue({ name: 'columnName', type: 'arrayType' });
-    (cMain.evaluation as jest.Mock).mockReturnValue(mainEvaluation);
-    (cSubType.call as jest.Mock).mockResolvedValue(['arrayType', 'date']);
-    (cSubType.evaluation as jest.Mock).mockReturnValue(cSubTypeEvaluation);
-    (cOptions.call as jest.Mock).mockResolvedValue({ options: ['required', 'default'], default: '[[Date.now()]]' });
-    (cOptions.evaluation as jest.Mock).mockReturnValue(cOptionsEvaluation);
-    (cIndex.call as jest.Mock).mockResolvedValue({ type: 'unique', value: 'hashed' });
-    (cIndex.evaluation as jest.Mock).mockReturnValue(cIndexEvaluation);
-    (mergeEvaluation as jest.Mock).mockReturnValue(column);
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('options');
 
-    const result = await execute(prompts, parent, column);
+      return { options: ['default', 'trim'], default: 'Hello' };
+    });
 
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('index');
+
+      return { type: 'index', value: 1 };
+    });
+
+    expect(collection.getColumns().length).toBe(4);
+
+    const result = await execute(prompts, collection);
+
+    expect(collection.getColumns().length).toBe(5);
+    expect(result).toBeInstanceOf(ColumnDataset);
+    expect(result.getObject()).toEqual({
+      default: 'Hello',
+      enum: undefined,
+      lowercase: undefined,
+      match: undefined,
+      max: undefined,
+      maxLength: undefined,
+      min: undefined,
+      minLength: undefined,
+      name: 'newColumnName',
+      required: undefined,
+      subColumns: undefined,
+      subTypes: undefined,
+      trim: true,
+      type: 'string',
+      uppercase: undefined,
+    });
+    expect(prompts.call).toHaveBeenCalledTimes(3);
+  });
+
+  test('it should be return the column when execute() is called with collection and column', async () => {
+    expect.assertions(10);
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('main');
+
+      return { name: 'newColumnName', type: 'string' };
+    });
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('options');
+
+      return { options: ['default', 'trim'], default: 'Hello' };
+    });
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('index');
+
+      return { type: 'index', value: 1 };
+    });
+
+    expect(column).toBeInstanceOf(ColumnDataset);
+    expect(collection.getColumns().length).toBe(4);
+
+    const result = await execute(prompts, collection, column);
+
+    expect(collection.getColumns().length).toBe(4);
+    expect(result).toBeInstanceOf(ColumnDataset);
     expect(result).toBe(column);
+    expect(result.getObject()).toEqual({
+      default: 'Hello',
+      enum: undefined,
+      lowercase: undefined,
+      match: undefined,
+      max: undefined,
+      maxLength: undefined,
+      min: undefined,
+      minLength: undefined,
+      name: 'newColumnName',
+      required: undefined,
+      subColumns: undefined,
+      subTypes: undefined,
+      trim: true,
+      type: 'string',
+      uppercase: undefined,
+    });
+    expect(prompts.call).toHaveBeenCalledTimes(3);
+  });
 
-    expect(cMain.call).toHaveBeenCalledTimes(1);
-    expect(cMain.call).toHaveBeenCalledWith(prompts, parent, column);
-    expect(cMain.evaluation).toHaveBeenCalledTimes(1);
-    expect(cMain.evaluation).toHaveBeenCalledWith({ name: 'columnName', type: 'arrayType' }, parent, collection);
+  test('it should be return the column when execute() is called with column', async () => {
+    expect.assertions(9);
 
-    expect(cSubType.call).toHaveBeenCalledTimes(1);
-    expect(cSubType.call).toHaveBeenCalledWith(prompts, { name: 'columnName', type: 'arrayType' }, column);
-    expect(cSubType.evaluation).toHaveBeenCalledTimes(1);
-    expect(cSubType.evaluation).toHaveBeenCalledWith(['arrayType', 'date']);
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('main');
 
-    expect(cOptions.call).toHaveBeenCalledTimes(1);
-    expect(cOptions.call).toHaveBeenCalledWith(prompts, column);
-    expect(cOptions.evaluation).toHaveBeenCalledTimes(1);
-    expect(cOptions.evaluation).toHaveBeenCalledWith({ options: ['required', 'default'], default: '[[Date.now()]]' });
+      return { name: 'newColumnName', type: 'string' };
+    });
 
-    expect(cIndex.call).toHaveBeenCalledTimes(1);
-    expect(cIndex.call).toHaveBeenCalledWith(prompts, { name: 'columnName', type: 'arrayType' }, column);
-    expect(cIndex.evaluation).toHaveBeenCalledTimes(1);
-    expect(cIndex.evaluation).toHaveBeenCalledWith({ type: 'unique', value: 'hashed' }, collection);
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('options');
 
-    expect(mergeEvaluation).toHaveBeenCalledTimes(1);
-    expect(mergeEvaluation).toHaveBeenCalledWith(
-      mainEvaluation,
-      [cSubTypeEvaluation, cOptionsEvaluation, cIndexEvaluation],
-      column,
-    );
+      return { options: ['default', 'trim'], default: 'Hello' };
+    });
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot('index');
+
+      return { type: 'index', value: 1 };
+    });
+
+    expect(column).toBeInstanceOf(ColumnDataset);
+    expect(collection.getColumns().length).toBe(4);
+
+    column.set('type', 'object');
+
+    const result = await execute(prompts, column);
+
+    expect(collection.getColumns().length).toBe(4);
+    expect(result).toBeInstanceOf(ColumnDataset);
+    expect(result.getObject()).toEqual({
+      default: 'Hello',
+      enum: undefined,
+      lowercase: undefined,
+      match: undefined,
+      max: undefined,
+      maxLength: undefined,
+      min: undefined,
+      minLength: undefined,
+      name: 'newColumnName',
+      required: undefined,
+      subColumns: undefined,
+      subTypes: undefined,
+      trim: true,
+      type: 'string',
+      uppercase: undefined,
+    });
+    expect(prompts.call).toHaveBeenCalledTimes(3);
   });
 });

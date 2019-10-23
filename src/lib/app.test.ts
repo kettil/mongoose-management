@@ -6,15 +6,18 @@ jest.spyOn(process, 'exit').mockImplementation(() => {
 jest.mock('fs');
 jest.mock('inquirer');
 jest.mock('prettier');
+jest.mock('ora');
 
 import { access, readFile } from 'fs';
 import { prompt, Separator } from 'inquirer';
+import ora from 'ora';
 import { resolveConfig } from 'prettier';
 
 import app from './app';
 
 describe('Check the app() function', () => {
   test('it should be faultless when app() is called with default vaules', async () => {
+    ((ora as any) as jest.Mock).mockReturnValueOnce({ start: jest.fn(), fail: jest.fn(), succeed: jest.fn() });
     ((prompt as any) as jest.Mock).mockResolvedValueOnce({ value: { action: 'exit' } });
     ((prompt as any) as jest.Mock).mockResolvedValueOnce({ confirm: true });
     ((resolveConfig as any) as jest.Mock).mockResolvedValue({});

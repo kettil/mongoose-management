@@ -1,65 +1,99 @@
-jest.mock('../../prompts');
-jest.mock('../dataset/collection');
-jest.mock('../dataset/index');
-jest.mock('../helper/evaluation');
-jest.mock('./indexColumns');
-jest.mock('./indexMain');
-jest.mock('./indexOptions');
-
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
+import ColumnDataset from '../dataset/column';
 import IndexDataset from '../dataset/index';
-import { mergeEvaluation } from '../helper/evaluation';
-
-import * as cColumns from './indexColumns';
-import * as cMain from './indexMain';
-import * as cOptions from './indexOptions';
 
 import execute from './index';
 
+const mockCall = jest.fn();
+
 describe('Check the prompts index function', () => {
-  test('it should be return the index when execute() is called with collection', async () => {
-    const prompts = new (Prompts as any)();
-    const collection = new (CollectionDataset as any)();
-    const index = new (IndexDataset as any)();
+  let prompts: Prompts;
+  let collection: CollectionDataset;
+  let column2: ColumnDataset;
+  let column3: ColumnDataset;
 
-    const mainEvaluation = jest.fn();
-    const cColumnsEvaluation = jest.fn();
-    const cOptionsEvaluation = jest.fn();
+  beforeEach(() => {
+    prompts = { call: mockCall } as any;
 
-    (cMain.call as jest.Mock).mockResolvedValue({ name: 'indexName', columns: ['c1', 'c2'] });
-    (cMain.evaluation as jest.Mock).mockReturnValue(mainEvaluation);
-    (cColumns.call as jest.Mock).mockResolvedValue({ c1: 1, c2: -1 });
-    (cColumns.evaluation as jest.Mock).mockReturnValue(cColumnsEvaluation);
-    (cOptions.call as jest.Mock).mockResolvedValue({ unique: true, sparse: true });
-    (cOptions.evaluation as jest.Mock).mockReturnValue(cOptionsEvaluation);
-    (mergeEvaluation as jest.Mock).mockReturnValue(index);
-
-    const result = await execute(prompts, collection, index);
-
-    expect(result).toBe(index);
-
-    expect(cMain.call).toHaveBeenCalledTimes(1);
-    expect(cMain.call).toHaveBeenCalledWith(prompts, collection, index);
-    expect(cMain.evaluation).toHaveBeenCalledTimes(1);
-    expect(cMain.evaluation).toHaveBeenCalledWith({ name: 'indexName', columns: ['c1', 'c2'] }, collection);
-
-    expect(cColumns.call).toHaveBeenCalledTimes(1);
-    expect(cColumns.call).toHaveBeenCalledWith(
-      prompts,
-      { name: 'indexName', columns: ['c1', 'c2'] },
-      collection,
-      index,
+    collection = new CollectionDataset(
+      {
+        name: 'collectionName',
+        columns: [
+          { name: 'column1', type: 'object', subColumns: [{ name: 'column2', type: 'string' }] },
+          { name: 'column3', type: 'string' },
+        ],
+        indexes: [{ name: 'index1', columns: { column1: 1 }, properties: {} }],
+      },
+      jest.fn() as any,
     );
-    expect(cColumns.evaluation).toHaveBeenCalledTimes(1);
-    expect(cColumns.evaluation).toHaveBeenCalledWith({ c1: 1, c2: -1 });
+    collection.setReference();
 
-    expect(cOptions.call).toHaveBeenCalledTimes(1);
-    expect(cOptions.call).toHaveBeenCalledWith(prompts, index);
-    expect(cOptions.evaluation).toHaveBeenCalledTimes(1);
-    expect(cOptions.evaluation).toHaveBeenCalledWith({ unique: true, sparse: true });
+    column2 = collection.getColumn('column1.column2', true)!;
+    column3 = collection.getColumn('column3')!;
+  });
 
-    expect(mergeEvaluation).toHaveBeenCalledTimes(1);
-    expect(mergeEvaluation).toHaveBeenCalledWith(mainEvaluation, [cColumnsEvaluation, cOptionsEvaluation], index);
+  test('it should be return the index when execute() is called', async () => {
+    expect.assertions(8);
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toMatchSnapshot();
+
+      return { name: 'newIndexName', columns: [column2, column3] };
+    });
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toEqual([
+        {
+          choices: [
+            { name: 1, short: 1, value: [column2, 1] },
+            { name: -1, short: -1, value: [column2, -1] },
+            { name: 'text', short: 'text', value: [column2, 'text'] },
+            { name: 'hashed', short: 'hashed', value: [column2, 'hashed'] },
+          ],
+          default: -1,
+          message: 'Choose a index type for "column1.column2":',
+          name: 'column1.column2',
+          type: 'list',
+        },
+        {
+          choices: [
+            { name: 1, short: 1, value: [column3, 1] },
+            { name: -1, short: -1, value: [column3, -1] },
+            { name: 'text', short: 'text', value: [column3, 'text'] },
+            { name: 'hashed', short: 'hashed', value: [column3, 'hashed'] },
+          ],
+          default: -1,
+          message: 'Choose a index type for "column3":',
+          name: 'column3',
+          type: 'list',
+        },
+      ]);
+
+      return { column1: { column2: [column2, 1] }, column3: [column3, -1] };
+    });
+
+    mockCall.mockImplementationOnce((questions) => {
+      expect(questions).toEqual([
+        { default: undefined, message: 'Unique index?', name: 'unique', type: 'confirm' },
+        { default: undefined, message: 'Sparse index?', name: 'sparse', type: 'confirm' },
+      ]);
+
+      return { unique: true, sparse: false };
+    });
+
+    expect(column2).toBeInstanceOf(ColumnDataset);
+    expect(column3).toBeInstanceOf(ColumnDataset);
+
+    const result = await execute(prompts, collection);
+
+    expect(result).toBeInstanceOf(IndexDataset);
+    expect(result.getObject()).toEqual({
+      columns: { 'column1.column2': 1, column3: -1 },
+      name: 'newIndexName',
+      properties: { sparse: undefined, unique: true },
+      readonly: undefined,
+    });
+    expect(mockCall).toHaveBeenCalledTimes(3);
   });
 });

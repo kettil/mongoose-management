@@ -1,9 +1,22 @@
 import Prompts from '../../prompts';
 import ColumnDataset, { optionsType } from '../dataset/column';
+import * as main from './columnMain';
 
 import { dataColumnType } from '../../types';
 
-const booleanValues: answersType['options'] = ['required', 'lowercase', 'uppercase', 'trim'];
+const options = {
+  required: 'boolean',
+  default: 'any',
+  lowercase: 'boolean',
+  uppercase: 'boolean',
+  trim: 'boolean',
+  match: 'string',
+  enum: 'string',
+  minLength: 'number',
+  maxLength: 'number',
+  min: 'number',
+  max: 'number',
+};
 
 export type answersType = Pick<dataColumnType, optionsType> & {
   options: optionsType[];
@@ -16,18 +29,22 @@ export type choiceOptionsType = {
   checked: boolean | undefined;
 };
 
-export const call = async (prompts: Prompts, column?: ColumnDataset): Promise<answersType> => {
-  const questions = getQuestions(column);
+export const call = async (
+  prompts: Prompts,
+  answersMain: main.answersType,
+  column?: ColumnDataset,
+): Promise<answersType> => {
+  const questions = getQuestions(answersMain, column);
   const answersOptions = await prompts.call<answersType>(questions);
 
   return answersOptions;
 };
 
-export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
+export const getQuestions = (answersMain: main.answersType, column?: ColumnDataset): ReadonlyArray<any> => {
   const choices: choiceOptionsType[] = [
-    ...getColumnOptionsTypeAny(column),
-    ...getColumnOptionsTypeString(column),
-    ...getColumnOptionsTypeNumber(column),
+    ...getColumnOptionsTypeAny(answersMain, column),
+    ...getColumnOptionsTypeString(answersMain, column),
+    ...getColumnOptionsTypeNumber(answersMain, column),
   ];
 
   // create questions
@@ -37,136 +54,109 @@ export const getQuestions = (column?: ColumnDataset): ReadonlyArray<any> => {
       name: 'options',
       message: 'Choose the scheme options:',
       choices,
-      validate: (v: string[]) => {
-        if (v.indexOf('lowercase') >= 0 && v.indexOf('uppercase') >= 0) {
-          return 'Either "lowercase" or "uppercase" can be selected!';
-        }
-
-        return true;
-      },
+      validate: validateOptions,
     },
     {
       type: 'input',
       name: 'default',
       message: 'Default value for the column (e.g. Date.now or "Hello World"):',
       default: column && column.get('default'),
-      when: ({ options }: { options: string[] }) => options.indexOf('default') >= 0,
+      when: whenCommon('default'),
+    },
+    {
+      type: 'input',
+      name: 'enum',
+      message: 'Allowed enum strings (semicolon [;] as separator):',
+      default: column && column.get('enum'),
+      when: whenCommon('enum'),
+      filter: filterEnum,
+    },
+    {
+      type: 'input',
+      name: 'match',
+      message: 'RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):',
+      default: column && column.get('match'),
+      when: whenCommon('match'),
+    },
+    {
+      type: 'number',
+      name: 'minLength',
+      message: 'Minimum number of characters:',
+      default: column && column.get('minLength'),
+      when: whenCommon('minLength'),
+    },
+    {
+      type: 'number',
+      name: 'maxLength',
+      message: 'Maximum number of characters:',
+      default: column && column.get('maxLength'),
+      when: whenCommon('maxLength'),
+      validate: validateMaxLength,
+    },
+    {
+      type: 'number',
+      name: 'min',
+      message: 'Value must greater than or equal:',
+      default: column && column.get('min'),
+      when: whenCommon('min'),
+    },
+    {
+      type: 'number',
+      name: 'max',
+      message: 'Value must less than or equal:',
+      default: column && column.get('max'),
+      when: whenCommon('max'),
+      validate: validateMax,
     },
   ];
-
-  if (column && column.get('type') === 'string') {
-    questions.push(
-      {
-        type: 'input',
-        name: 'enum',
-        message: 'Allowed enum strings (semicolon [;] as separator):',
-        default: column.get('enum'),
-        when: ({ options }: { options: string[] }) => options.indexOf('enum') >= 0,
-        filter: (value: string) =>
-          value
-            .split(';')
-            .map((s) => s.trim())
-            .filter((s) => s !== '')
-            .join('; '),
-      },
-      {
-        type: 'input',
-        name: 'match',
-        message: 'RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):',
-        default: column.get('match'),
-        when: ({ options }: { options: string[] }) => options.indexOf('match') >= 0,
-      },
-      {
-        type: 'number',
-        name: 'minLength',
-        message: 'Minimum number of characters:',
-        default: column.get('minLength'),
-        when: ({ options }: { options: string[] }) => options.indexOf('minLength') >= 0,
-      },
-      {
-        type: 'number',
-        name: 'maxLength',
-        message: 'Maximum number of characters:',
-        default: column.get('maxLength'),
-        when: ({ options }: { options: string[] }) => options.indexOf('maxLength') >= 0,
-        validate: (v: string, { minLength }: { minLength?: number }) => {
-          if (minLength && minLength > parseInt(v, 10)) {
-            return `Length must be greater or equal than to minimum length (>= ${minLength})!`;
-          }
-
-          return true;
-        },
-      },
-    );
-  }
-
-  if (column && column.get('type') === 'number') {
-    questions.push(
-      {
-        type: 'number',
-        name: 'min',
-        message: 'Value must greater than or equal:',
-        default: column.get('min'),
-        when: ({ options }: { options: string[] }) => options.indexOf('min') >= 0,
-      },
-      {
-        type: 'number',
-        name: 'max',
-        message: 'Value must less than or equal:',
-        default: column.get('max'),
-        when: ({ options }: { options: string[] }) => options.indexOf('max') >= 0,
-        validate: (v: string, { min }: { min?: number }) => {
-          if (min && min > parseInt(v, 10)) {
-            return `Value must be greater or equal than to minimum value (>= ${min})!`;
-          }
-
-          return true;
-        },
-      },
-    );
-  }
 
   return questions;
 };
 
 export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
-    answers.options
-      .filter((key) => booleanValues.indexOf(key) === -1)
-      .forEach((key) => {
+    (Object.entries(options) as Array<[keyof typeof options, string]>).forEach(([key, type]) => {
+      if (type === 'boolean') {
+        column.set(key, answers.options.indexOf(key) >= 0 ? true : undefined);
+      } else {
         column.set(key, answers[key]);
-      });
-
-    booleanValues.forEach((key) => {
-      column.set(key, answers.options.indexOf(key) >= 0 ? true : undefined);
+      }
     });
 
     return column;
   };
 };
 
-export const getColumnOptionsTypeAny = (column?: ColumnDataset): choiceOptionsType[] => {
+export const getColumnOptionsTypeAny = (answersMain: main.answersType, column?: ColumnDataset): choiceOptionsType[] => {
   const withRequired = column && column.isset('required');
   const withDefault = column && column.isset('default');
 
-  return [
-    { name: 'required', short: 'required', value: 'required', checked: withRequired },
-    { name: 'default', short: 'default', value: 'default', checked: withDefault },
-  ];
+  const choices: choiceOptionsType[] = [];
+
+  if (['object', 'array'].indexOf(answersMain.type) === -1) {
+    choices.push({ name: 'required', short: 'required', value: 'required', checked: withRequired });
+  }
+
+  choices.push({ name: 'default', short: 'default', value: 'default', checked: withDefault });
+
+  return choices;
 };
 
-export const getColumnOptionsTypeString = (column?: ColumnDataset): choiceOptionsType[] => {
-  if (!column || column.get('type') !== 'string') {
+export const getColumnOptionsTypeString = (
+  answersMain: main.answersType,
+  column?: ColumnDataset,
+): choiceOptionsType[] => {
+  if (answersMain.type !== 'string') {
     return [];
   }
 
-  const withTrim = column.isset('trim');
-  const withLowerCase = column.isset('lowercase');
-  const withUpperCase = column.isset('uppercase');
-  const withMatch = column.isset('match', false);
-  const withEnum = column.isset('enum', false);
-  const withMinLength = column.isset('minLength');
-  const withMaxLength = column.isset('maxLength');
+  const withTrim = column && column.isset('trim');
+  const withLowerCase = column && column.isset('lowercase');
+  const withUpperCase = column && column.isset('uppercase');
+  const withMatch = column && column.isset('match', false);
+  const withEnum = column && column.isset('enum', false);
+  const withMinLength = column && column.isset('minLength');
+  const withMaxLength = column && column.isset('maxLength');
 
   return [
     { name: 'enum', short: 'enum', value: 'enum', checked: withEnum },
@@ -179,16 +169,52 @@ export const getColumnOptionsTypeString = (column?: ColumnDataset): choiceOption
   ];
 };
 
-export const getColumnOptionsTypeNumber = (column?: ColumnDataset): choiceOptionsType[] => {
-  if (!column || column.get('type') !== 'number') {
+export const getColumnOptionsTypeNumber = (
+  answersMain: main.answersType,
+  column?: ColumnDataset,
+): choiceOptionsType[] => {
+  if (answersMain.type !== 'number') {
     return [];
   }
 
-  const withNumberMin = column.isset('min');
-  const withNumberax = column.isset('max');
+  const withNumberMin = column && column.isset('min');
+  const withNumberax = column && column.isset('max');
 
   return [
     { name: 'min', short: 'min', value: 'min', checked: withNumberMin },
     { name: 'max', short: 'max', value: 'max', checked: withNumberax },
   ];
 };
+
+export const whenCommon = (type: optionsType) => ({ opts }: { opts: string[] }) => opts.indexOf(type) >= 0;
+
+export const validateOptions = (v: string[]) => {
+  if (v.indexOf('lowercase') >= 0 && v.indexOf('uppercase') >= 0) {
+    return 'Either "lowercase" or "uppercase" can be selected!';
+  }
+
+  return true;
+};
+
+export const validateMaxLength = (v: string, { minLength }: { minLength?: string }) => {
+  if (minLength && parseInt(minLength, 10) > parseInt(v, 10)) {
+    return `Length must be greater or equal than to minimum length (>= ${minLength})!`;
+  }
+
+  return true;
+};
+
+export const validateMax = (v: string, { min }: { min?: string }) => {
+  if (min && parseInt(min, 10) > parseInt(v, 10)) {
+    return `Value must be greater or equal than to minimum value (>= ${min})!`;
+  }
+
+  return true;
+};
+
+export const filterEnum = (value: string) =>
+  value
+    .split(';')
+    .map((s) => s.trim())
+    .filter((s) => s !== '')
+    .join('; ');

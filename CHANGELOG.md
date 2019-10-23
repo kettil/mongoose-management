@@ -8,6 +8,8 @@
 
 ### Chore & Maintenance
 
+- Code coverage of 100% in the CLI section
+
 ### Performance
 
 ## [0.1.4] - 2019-10-22

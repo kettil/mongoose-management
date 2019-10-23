@@ -14,7 +14,7 @@ export const execute = async (prompts: Prompts, parent: CollectionDataset | Colu
   const answersMain = await cMain.call(prompts, parent, column);
 
   const answersSubType = await cSubType.call(prompts, answersMain, column);
-  const answersOptions = await cOptions.call(prompts, column);
+  const answersOptions = await cOptions.call(prompts, answersMain, column);
   const answersIndex = await cIndex.call(prompts, answersMain, column);
 
   return mergeEvaluation<ColumnDataset>(
