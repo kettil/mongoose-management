@@ -4,6 +4,9 @@
 
 ### Features
 
+- Added feature [populate](https://mongoosejs.com/docs/populate.html) [#1](https://github.com/kettil/mongoose-management/issues/1)
+- Added feature "Back to collection"
+
 ### Fixes
 
 ### Chore & Maintenance

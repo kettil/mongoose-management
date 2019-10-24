@@ -25,7 +25,12 @@ describe('Check the ColumnMenu class', () => {
         name: 'c1',
         columns: [
           { name: 'column1', type: 'string' },
-          { name: 'column2', type: 'object', required: true, subColumns: [] },
+          {
+            name: 'column2',
+            type: 'object',
+            required: true,
+            subColumns: [{ name: 'column3', type: 'object', subColumns: [] }],
+          },
         ],
         indexes: [{ name: 'column2_', columns: { column2: -1 }, properties: {}, readonly: true }],
       },
@@ -78,6 +83,26 @@ describe('Check the ColumnMenu class', () => {
     expect(result).toEqual({ action: 'edit', data: undefined });
     expect(prompts.menu).toHaveBeenCalledTimes(1);
     expect(prompts.menu).toHaveBeenCalledWith(title, expect.any(Array));
+  });
+
+  test('it should be return menu selection when exec() is called and the column is a subcolumn', async () => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+      expect(choices).toMatchSnapshot();
+
+      return { action: 'edit', data: undefined };
+    });
+
+    const column = collection.getColumn('column2.column3', true)!;
+    expect(column).toBeInstanceOf(ColumnDataset);
+
+    const result = await menu.exec(column);
+
+    expect(result).toEqual({ action: 'edit', data: undefined });
+    expect(prompts.menu).toHaveBeenCalledTimes(1);
+    expect(prompts.menu).toHaveBeenCalledWith(
+      'Choose a subcolumn or a command for the column "column2.column3":',
+      expect.any(Array),
+    );
   });
 
   test('it should be return menu selection when getChoiceList() is called with columns', () => {

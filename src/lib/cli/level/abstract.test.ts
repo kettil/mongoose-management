@@ -8,6 +8,7 @@ import Creater from '../../template/create';
 import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
 import GroupsDataset from '../dataset/groups';
+import { BackToCollectionError, CancelPromptError } from '../errors';
 import CollectionMenu from '../menu/collection';
 import GroupMenu from '../menu/group';
 
@@ -208,6 +209,21 @@ describe('Check the AbstractLevel class', () => {
       expect(prompts.menu).toHaveBeenCalledTimes(1);
     });
 
+    test('it should be return false when run() is called with action "backToCollection"', async () => {
+      expect.assertions(3);
+
+      (prompts.menu as jest.Mock).mockResolvedValue({ action: 'backToCollection' });
+
+      try {
+        await level.run();
+      } catch (err) {
+        expect(err).toBeInstanceOf(BackToCollectionError);
+        expect(err.message).toBe('back');
+
+        expect(prompts.menu).toHaveBeenCalledTimes(1);
+      }
+    });
+
     test('it should be creater() called when run() is called with action "write"', async () => {
       expect.assertions(6);
 
@@ -381,7 +397,7 @@ describe('Check the AbstractLevel class', () => {
 
       (prompts.menu as jest.Mock).mockResolvedValue({ action: 'edit' });
 
-      level.edit = jest.fn().mockRejectedValue(new Error('cancel'));
+      level.edit = jest.fn().mockRejectedValue(new CancelPromptError('cancel'));
 
       const result = await level.run();
 

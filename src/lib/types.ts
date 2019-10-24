@@ -141,7 +141,17 @@ export type choiceListType<T> = {
  *
  */
 export type choiceValueType<T> = {
-  action?: 'create' | 'createColumn' | 'createIndex' | 'back' | 'exit' | 'save' | 'edit' | 'remove' | 'write';
+  action?:
+    | 'create'
+    | 'createColumn'
+    | 'createIndex'
+    | 'back'
+    | 'backToCollection'
+    | 'exit'
+    | 'save'
+    | 'edit'
+    | 'remove'
+    | 'write';
   data?: T;
 };
 

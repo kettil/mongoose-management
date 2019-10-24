@@ -2,6 +2,7 @@ import Prompts, { regexpNameMessage } from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import IndexDataset from '../dataset/index';
+import { CancelPromptError } from '../errors';
 
 import { call, evaluation, getChoiceItem, getQuestions, validateName, whenColumns } from './indexMain';
 
@@ -74,7 +75,7 @@ describe('Check the prompts indexMain functions', () => {
     try {
       await call(prompts, collection);
     } catch (err) {
-      expect(err).toBeInstanceOf(Error);
+      expect(err).toBeInstanceOf(CancelPromptError);
       expect(err.message).toBe('cancel');
 
       expect(prompts.call).toHaveBeenCalledTimes(1);

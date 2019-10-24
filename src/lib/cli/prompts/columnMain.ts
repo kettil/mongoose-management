@@ -2,6 +2,7 @@ import { schemaTypes } from '../../mongo';
 import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import { CancelPromptError } from '../errors';
 
 import { choiceListType, schemaType } from '../../types';
 
@@ -18,7 +19,7 @@ export const call = async (
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '') {
-    throw new Error('cancel');
+    throw new CancelPromptError('cancel');
   }
 
   return answersMain;

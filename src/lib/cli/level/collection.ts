@@ -2,13 +2,11 @@ import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import GroupDataset from '../dataset/group';
 import IndexDataset from '../dataset/index';
-
+import { BackToCollectionError } from '../errors';
 import CollectionMenu from '../menu/collection';
-
 import promptsCollection from '../prompts/collection';
 import promptsColumn from '../prompts/column';
 import promptsIndex from '../prompts/index';
-
 import AbstractLevel from './abstract';
 import ColumnLevel from './column';
 import IndexLevel from './index';
@@ -51,20 +49,28 @@ export default class CollectionLevel extends AbstractLevel<
   }
 
   async show(dataset: ColumnDataset | IndexDataset): Promise<void> {
-    if (dataset instanceof ColumnDataset) {
-      const level = new ColumnLevel(dataset, this.options);
+    try {
+      if (dataset instanceof ColumnDataset) {
+        const level = new ColumnLevel(dataset, this.options);
 
-      await level.exec();
+        await level.exec();
 
-      return;
-    }
+        return;
+      }
 
-    if (dataset instanceof IndexDataset) {
-      const level = new IndexLevel(dataset, this.options);
+      if (dataset instanceof IndexDataset) {
+        const level = new IndexLevel(dataset, this.options);
 
-      await level.exec();
+        await level.exec();
 
-      return;
+        return;
+      }
+    } catch (err) {
+      if (err instanceof BackToCollectionError) {
+        return;
+      }
+
+      throw err;
     }
 
     throw new Error('Unknown dataset instance');

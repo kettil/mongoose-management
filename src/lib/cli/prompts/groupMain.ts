@@ -1,9 +1,9 @@
 import { join } from 'path';
 
 import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
-
 import GroupDataset from '../dataset/group';
 import GroupsDataset from '../dataset/groups';
+import { CancelPromptError } from '../errors';
 
 export type answersType = { name: string; path: string };
 
@@ -12,7 +12,7 @@ export const call = async (prompts: Prompts, groups: GroupsDataset): Promise<ans
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '') {
-    throw new Error('cancel');
+    throw new CancelPromptError('cancel');
   }
 
   return answersMain;

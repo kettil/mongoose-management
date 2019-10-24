@@ -1,6 +1,7 @@
 import Prompts, { regexpNameMessage } from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import { CancelPromptError } from '../errors';
 
 import { call, evaluation, getQuestions, validateName, whenType } from './columnMain';
 
@@ -92,7 +93,7 @@ describe('Check the prompts columnMain functions', () => {
     try {
       await call(prompts, collection, column);
     } catch (err) {
-      expect(err).toBeInstanceOf(Error);
+      expect(err).toBeInstanceOf(CancelPromptError);
       expect(err.message).toBe('cancel');
 
       expect(prompts.call).toHaveBeenCalledTimes(1);

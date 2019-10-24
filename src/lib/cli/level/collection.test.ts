@@ -7,6 +7,7 @@ import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import GroupDataset from '../dataset/group';
 import IndexDataset from '../dataset/index';
+import { BackToCollectionError } from '../errors';
 import CollectionMenu from '../menu/collection';
 import promptsCollection from '../prompts/collection';
 import ColumnLevel from './column';
@@ -132,6 +133,43 @@ describe('Check the CollectionLevel class', () => {
     expect(subDataset).toBeInstanceOf(ColumnDataset);
 
     await level.show(subDataset);
+
+    expect(ColumnLevel).toHaveBeenCalledTimes(1);
+    expect(ColumnLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
+    expect(ColumnLevel.prototype.exec).toHaveBeenCalledTimes(1);
+    expect(ColumnLevel.prototype.exec).toHaveBeenCalledWith();
+  });
+
+  test('it should be catch the error BackToCollectionError when show() is called and this one throws the error BackToCollectionError', async () => {
+    (ColumnLevel.prototype.exec as jest.Mock).mockRejectedValue(new BackToCollectionError('back to collection'));
+
+    const subDataset = dataset.getColumn('c1');
+
+    expect(subDataset).toBeInstanceOf(ColumnDataset);
+
+    await level.show(subDataset);
+
+    expect(ColumnLevel).toHaveBeenCalledTimes(1);
+    expect(ColumnLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
+    expect(ColumnLevel.prototype.exec).toHaveBeenCalledTimes(1);
+    expect(ColumnLevel.prototype.exec).toHaveBeenCalledWith();
+  });
+
+  test('it should be forwards the error when show() is called and this one throws an error', async () => {
+    expect.assertions(7);
+
+    (ColumnLevel.prototype.exec as jest.Mock).mockRejectedValue(new Error('other error'));
+
+    const subDataset = dataset.getColumn('c1');
+
+    expect(subDataset).toBeInstanceOf(ColumnDataset);
+
+    try {
+      await level.show(subDataset);
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toBe('other error');
+    }
 
     expect(ColumnLevel).toHaveBeenCalledTimes(1);
     expect(ColumnLevel).toHaveBeenCalledWith(subDataset, { prompts, storage, creater });
