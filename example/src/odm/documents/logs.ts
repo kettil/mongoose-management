@@ -23,7 +23,7 @@ export type logsTypes = { data?: Record<string, any>; message: string; tags?: st
 export const logsDefinitions = {
   data: { type: Schema.Types.Mixed },
   message: { type: Schema.Types.String, required: true },
-  tags: { type: [Schema.Types.String] },
+  tags: [{ type: Schema.Types.String }],
   user: { type: Schema.Types.ObjectId, required: true },
 };
 

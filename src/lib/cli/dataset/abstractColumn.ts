@@ -26,10 +26,10 @@ export default abstract class AbstractColumnsDataset<P, T extends InterfaceColum
   }
 
   addColumn(column: T) {
-    column.setReference();
-
     this.columns.push(column);
     this.sortColumns();
+
+    column.setReference();
 
     return column;
   }

@@ -6,6 +6,7 @@ import { mergeEvaluation } from '../helper/evaluation';
 import * as cIndex from './columnIndex';
 import * as cMain from './columnMain';
 import * as cOptions from './columnOptions';
+import * as cPopulate from './columnPopulate';
 import * as cSubType from './columnSubType';
 
 export const execute = async (prompts: Prompts, parent: CollectionDataset | ColumnDataset, column?: ColumnDataset) => {
@@ -15,11 +16,17 @@ export const execute = async (prompts: Prompts, parent: CollectionDataset | Colu
 
   const answersSubType = await cSubType.call(prompts, answersMain, column);
   const answersOptions = await cOptions.call(prompts, answersMain, column);
+  const answersPopulate = await cPopulate.call(prompts, collection, answersMain, answersSubType, column);
   const answersIndex = await cIndex.call(prompts, answersMain, column);
 
   return mergeEvaluation<ColumnDataset>(
     cMain.evaluation(answersMain, parent, collection),
-    [cSubType.evaluation(answersSubType), cOptions.evaluation(answersOptions), cIndex.evaluation(answersIndex)],
+    [
+      cSubType.evaluation(answersSubType),
+      cOptions.evaluation(answersOptions),
+      cPopulate.evaluation(answersPopulate),
+      cIndex.evaluation(answersIndex),
+    ],
     column,
   );
 };

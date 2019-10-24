@@ -67,11 +67,7 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
         return this.converter.converter2dSphere[funcs]();
 
       case 'arrayType':
-        if (!Array.isArray(column.subTypes)) {
-          throw new Error('SubType is not defined!');
-        }
-
-        return this.converter.converterArrayType[funcs](column.subTypes);
+        return this.converter.converterArrayType[funcs](column);
 
       case 'array':
         return this.converter.converterArray[funcs](column);

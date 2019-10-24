@@ -55,10 +55,10 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   }
 
   addIndex(index: IndexDataset) {
-    index.setReference();
-
     this.indexes.push(index);
     this.sortIndexes();
+
+    index.setReference();
 
     return index;
   }

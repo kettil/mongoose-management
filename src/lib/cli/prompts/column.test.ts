@@ -1,6 +1,7 @@
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import GroupDataset from '../dataset/group';
 
 import execute from './column';
 
@@ -14,15 +15,17 @@ describe('Check the prompts column function', () => {
   beforeEach(() => {
     prompts = { call: mockCall } as any;
 
+    const group = new GroupDataset({ path: 'path/to/project', collections: [] }, jest.fn() as any);
     collection = new CollectionDataset(
       {
         name: 'collectionName',
         columns: [{ name: 'column1', type: 'string' }],
         indexes: [],
       },
-      jest.fn() as any,
+      group,
     );
-    collection.setReference();
+
+    group.addCollection(collection);
 
     column = collection.getColumn('column1')!;
   });

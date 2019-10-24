@@ -63,15 +63,26 @@ describe('Check the prompts columnOptions functions', () => {
     mockCall.mockImplementation((questions) => {
       expect(questions).toMatchSnapshot();
 
-      return { options: ['default'], default: "{'a':42}" };
+      return { options: ['default'], default: '42' };
     });
+
+    expect(column).toBeInstanceOf(ColumnDataset);
+
+    const result = await call(prompts, { name: 'columnName', type: 'number' }, column);
+
+    expect(result).toEqual({ options: ['default'], default: '42' });
+    expect(prompts.call).toHaveBeenCalledTimes(1);
+  });
+
+  test('it should be return the answers when call() is called without questions', async () => {
+    expect.assertions(3);
 
     expect(column).toBeInstanceOf(ColumnDataset);
 
     const result = await call(prompts, { name: 'columnName', type: 'object' }, column);
 
-    expect(result).toEqual({ options: ['default'], default: "{'a':42}" });
-    expect(prompts.call).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ options: [] });
+    expect(prompts.call).toHaveBeenCalledTimes(0);
   });
 
   test('it should be return the questions array then getQuestions() is called without column', () => {
@@ -187,7 +198,7 @@ describe('Check the prompts columnOptions functions', () => {
 
     expect(closure).toBeInstanceOf(Function);
 
-    const result = closure({ opts: ['a', 'trim', 'b'] });
+    const result = closure({ options: ['a', 'trim', 'b'] });
 
     expect(result).toBe(true);
   });
@@ -197,7 +208,7 @@ describe('Check the prompts columnOptions functions', () => {
 
     expect(closure).toBeInstanceOf(Function);
 
-    const result = closure({ opts: ['a', 'b'] });
+    const result = closure({ options: ['a', 'b'] });
 
     expect(result).toBe(false);
   });

@@ -44,7 +44,7 @@ export const pagesDefinitions = {
       ],
     },
   ],
-  tags: { type: [Schema.Types.String] },
+  tags: [{ type: Schema.Types.String }],
   user: { type: Schema.Types.ObjectId, required: true },
 };
 

@@ -2,7 +2,6 @@ import { Separator } from 'inquirer';
 
 import Prompts from './prompts';
 import Storage from './storage';
-
 import Create from './template/create';
 
 import * as mongoTypes from './mongo';
@@ -88,6 +87,9 @@ export type dataColumnType = {
  *
  */
 export type dataColumnInternalValuesType = {
+  // objectId
+  populate?: string;
+
   subTypes?: schemaNormalType[];
   subColumns?: dataColumnType[];
 };
@@ -169,3 +171,5 @@ export type templateCollectionType = {
 } & templateCollectionNamesType;
 
 export type Unpacked<T> = T extends Array<infer U> ? U : T;
+
+export type OptionalValues<T> = T extends { [K in keyof T]: any } ? { [K in keyof T]?: T[K] } : T;

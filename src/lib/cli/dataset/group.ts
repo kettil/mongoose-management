@@ -41,10 +41,10 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
   }
 
   addCollection(collection: CollectionDataset) {
-    collection.setReference();
-
     this.collections.push(collection);
     this.sortCollections();
+
+    collection.setReference();
 
     return collection;
   }

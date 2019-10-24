@@ -6,9 +6,27 @@ Array [
     "choices": Array [
       Object {
         "checked": true,
+        "name": "required",
+        "short": "required",
+        "value": "required",
+      },
+      Object {
+        "checked": true,
         "name": "default",
         "short": "default",
         "value": "default",
+      },
+      Object {
+        "checked": true,
+        "name": "min",
+        "short": "min",
+        "value": "min",
+      },
+      Object {
+        "checked": true,
+        "name": "max",
+        "short": "max",
+        "value": "max",
       },
     ],
     "message": "Choose the scheme options:",
@@ -21,36 +39,6 @@ Array [
     "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
     "name": "default",
     "type": "input",
-    "when": [Function],
-  },
-  Object {
-    "default": "13",
-    "filter": [Function],
-    "message": "Allowed enum strings (semicolon [;] as separator):",
-    "name": "enum",
-    "type": "input",
-    "when": [Function],
-  },
-  Object {
-    "default": "[a-z]+",
-    "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
-    "name": "match",
-    "type": "input",
-    "when": [Function],
-  },
-  Object {
-    "default": 2,
-    "message": "Minimum number of characters:",
-    "name": "minLength",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": 8,
-    "message": "Maximum number of characters:",
-    "name": "maxLength",
-    "type": "number",
-    "validate": [Function],
     "when": [Function],
   },
   Object {
@@ -72,645 +60,1185 @@ Array [
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "2dsphere" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "2dsphere" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "array" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "array" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "arrayType" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "arrayType" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "boolean" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "boolean" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "buffer" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "buffer" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "date" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "date" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "decimal" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "decimal" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "map" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "map" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "mixed" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "mixed" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "number" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "number" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "object" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "object" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "objectId" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "objectId" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "string" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": true,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "string" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "required",
-    "short": "required",
-    "value": "required",
-  },
-  Object {
-    "checked": undefined,
-    "name": "default",
-    "short": "default",
-    "value": "default",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. Date.now or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
 `;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "2dsphere" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "2dsphere" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "2dsphere" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "2dsphere" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "array" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "array" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "array" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "array" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "arrayType" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "arrayType" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "arrayType" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "arrayType" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "boolean" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "boolean" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "boolean" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "boolean" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "buffer" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "buffer" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "buffer" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "buffer" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "date" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "date" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "date" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "date" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "decimal" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "decimal" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "decimal" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "decimal" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "map" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "map" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "map" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "map" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "mixed" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "mixed" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "mixed" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "mixed" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "number" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "min",
-    "short": "min",
-    "value": "min",
-  },
-  Object {
-    "checked": true,
-    "name": "max",
-    "short": "max",
-    "value": "max",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "min",
+      "short": "min",
+      "value": "min",
+    },
+    Object {
+      "checked": true,
+      "name": "max",
+      "short": "max",
+      "value": "max",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": 2,
+      "message": "Value must greater than or equal:",
+      "name": "min",
+      "type": "number",
+      "when": [Function],
+    },
+    Object {
+      "default": 5,
+      "message": "Value must less than or equal:",
+      "name": "max",
+      "type": "number",
+      "validate": [Function],
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "number" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "min",
-    "short": "min",
-    "value": "min",
-  },
-  Object {
-    "checked": undefined,
-    "name": "max",
-    "short": "max",
-    "value": "max",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "min",
+      "short": "min",
+      "value": "min",
+    },
+    Object {
+      "checked": undefined,
+      "name": "max",
+      "short": "max",
+      "value": "max",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Value must greater than or equal:",
+      "name": "min",
+      "type": "number",
+      "when": [Function],
+    },
+    Object {
+      "default": undefined,
+      "message": "Value must less than or equal:",
+      "name": "max",
+      "type": "number",
+      "validate": [Function],
+      "when": [Function],
+    },
+  ],
+}
 `;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "object" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "object" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "object" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "object" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "objectId" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "objectId" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "objectId" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "objectId" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "string" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "string" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "string" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "string" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "2dsphere" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "2dsphere" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "2dsphere" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "2dsphere" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "array" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "array" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "array" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "array" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "arrayType" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "arrayType" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "arrayType" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "arrayType" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "boolean" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "boolean" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "boolean" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "boolean" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "buffer" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "buffer" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "buffer" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "buffer" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "date" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "date" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "date" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "date" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "decimal" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "decimal" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "decimal" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "decimal" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "map" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "map" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "map" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "map" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "mixed" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "mixed" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "mixed" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "mixed" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "number" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "number" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "number" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "number" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "object" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "object" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "object" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "object" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "objectId" (with column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "objectId" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
-exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "objectId" (without column) 1`] = `Array []`;
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "objectId" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "string" (with column) 1`] = `
-Array [
-  Object {
-    "checked": true,
-    "name": "enum",
-    "short": "enum",
-    "value": "enum",
-  },
-  Object {
-    "checked": true,
-    "name": "match (regexp)",
-    "short": "match",
-    "value": "match",
-  },
-  Object {
-    "checked": true,
-    "name": "trim",
-    "short": "trim",
-    "value": "trim",
-  },
-  Object {
-    "checked": true,
-    "name": "lowerCase",
-    "short": "lowercase",
-    "value": "lowercase",
-  },
-  Object {
-    "checked": true,
-    "name": "upperCase",
-    "short": "uppercase",
-    "value": "uppercase",
-  },
-  Object {
-    "checked": true,
-    "name": "minLength",
-    "short": "minLength",
-    "value": "minLength",
-  },
-  Object {
-    "checked": true,
-    "name": "maxLength",
-    "short": "maxLength",
-    "value": "maxLength",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "enum",
+      "short": "enum",
+      "value": "enum",
+    },
+    Object {
+      "checked": true,
+      "name": "match (regexp)",
+      "short": "match",
+      "value": "match",
+    },
+    Object {
+      "checked": true,
+      "name": "trim",
+      "short": "trim",
+      "value": "trim",
+    },
+    Object {
+      "checked": true,
+      "name": "lowerCase",
+      "short": "lowercase",
+      "value": "lowercase",
+    },
+    Object {
+      "checked": true,
+      "name": "upperCase",
+      "short": "uppercase",
+      "value": "uppercase",
+    },
+    Object {
+      "checked": true,
+      "name": "minLength",
+      "short": "minLength",
+      "value": "minLength",
+    },
+    Object {
+      "checked": true,
+      "name": "maxLength",
+      "short": "maxLength",
+      "value": "maxLength",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "13",
+      "filter": [Function],
+      "message": "Allowed enum strings (semicolon [;] as separator):",
+      "name": "enum",
+      "type": "input",
+      "when": [Function],
+    },
+    Object {
+      "default": "[a-z]+",
+      "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
+      "name": "match",
+      "type": "input",
+      "when": [Function],
+    },
+    Object {
+      "default": 2,
+      "message": "Minimum number of characters:",
+      "name": "minLength",
+      "type": "number",
+      "when": [Function],
+    },
+    Object {
+      "default": 8,
+      "message": "Maximum number of characters:",
+      "name": "maxLength",
+      "type": "number",
+      "validate": [Function],
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "string" (without column) 1`] = `
-Array [
-  Object {
-    "checked": undefined,
-    "name": "enum",
-    "short": "enum",
-    "value": "enum",
-  },
-  Object {
-    "checked": undefined,
-    "name": "match (regexp)",
-    "short": "match",
-    "value": "match",
-  },
-  Object {
-    "checked": undefined,
-    "name": "trim",
-    "short": "trim",
-    "value": "trim",
-  },
-  Object {
-    "checked": undefined,
-    "name": "lowerCase",
-    "short": "lowercase",
-    "value": "lowercase",
-  },
-  Object {
-    "checked": undefined,
-    "name": "upperCase",
-    "short": "uppercase",
-    "value": "uppercase",
-  },
-  Object {
-    "checked": undefined,
-    "name": "minLength",
-    "short": "minLength",
-    "value": "minLength",
-  },
-  Object {
-    "checked": undefined,
-    "name": "maxLength",
-    "short": "maxLength",
-    "value": "maxLength",
-  },
-]
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "enum",
+      "short": "enum",
+      "value": "enum",
+    },
+    Object {
+      "checked": undefined,
+      "name": "match (regexp)",
+      "short": "match",
+      "value": "match",
+    },
+    Object {
+      "checked": undefined,
+      "name": "trim",
+      "short": "trim",
+      "value": "trim",
+    },
+    Object {
+      "checked": undefined,
+      "name": "lowerCase",
+      "short": "lowercase",
+      "value": "lowercase",
+    },
+    Object {
+      "checked": undefined,
+      "name": "upperCase",
+      "short": "uppercase",
+      "value": "uppercase",
+    },
+    Object {
+      "checked": undefined,
+      "name": "minLength",
+      "short": "minLength",
+      "value": "minLength",
+    },
+    Object {
+      "checked": undefined,
+      "name": "maxLength",
+      "short": "maxLength",
+      "value": "maxLength",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "filter": [Function],
+      "message": "Allowed enum strings (semicolon [;] as separator):",
+      "name": "enum",
+      "type": "input",
+      "when": [Function],
+    },
+    Object {
+      "default": undefined,
+      "message": "RegExp match value (e.g. ^[a-zA-Z0-9]+$ or [a-z]+):",
+      "name": "match",
+      "type": "input",
+      "when": [Function],
+    },
+    Object {
+      "default": undefined,
+      "message": "Minimum number of characters:",
+      "name": "minLength",
+      "type": "number",
+      "when": [Function],
+    },
+    Object {
+      "default": undefined,
+      "message": "Maximum number of characters:",
+      "name": "maxLength",
+      "type": "number",
+      "validate": [Function],
+      "when": [Function],
+    },
+  ],
+}
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getQuestions() is called with column 1`] = `
@@ -810,21 +1338,6 @@ Array [
     "default": 8,
     "message": "Maximum number of characters:",
     "name": "maxLength",
-    "type": "number",
-    "validate": [Function],
-    "when": [Function],
-  },
-  Object {
-    "default": 2,
-    "message": "Value must greater than or equal:",
-    "name": "min",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": 5,
-    "message": "Value must less than or equal:",
-    "name": "max",
     "type": "number",
     "validate": [Function],
     "when": [Function],
@@ -929,21 +1442,6 @@ Array [
     "default": undefined,
     "message": "Maximum number of characters:",
     "name": "maxLength",
-    "type": "number",
-    "validate": [Function],
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must greater than or equal:",
-    "name": "min",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must less than or equal:",
-    "name": "max",
     "type": "number",
     "validate": [Function],
     "when": [Function],

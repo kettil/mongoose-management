@@ -15,15 +15,15 @@ import { indexType } from '../types';
 /**
  *
  */
-export type usersSettingsTypes = { key: string; user: any; value: any };
+export type usersSettingsTypes = { key: string; user: any; value?: Record<string, any> };
 
 /**
  *
  */
 export const usersSettingsDefinitions = {
   key: { type: Schema.Types.String, required: true },
-  user: { type: Schema.Types.ObjectId, required: true },
-  value: { type: Schema.Types.Mixed, required: true },
+  user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
+  value: { type: Schema.Types.Mixed },
 };
 
 /**

@@ -1,18 +1,24 @@
-import { schemaTypes } from '../../mongo';
 import AbstractConverter from './abstract';
 
-import { schemaNormalType } from '../../types';
+import { dataColumnType } from '../../types';
 
 /**
  *
  */
-export default class ConverterArrayType extends AbstractConverter<schemaNormalType[]> {
+export default class ConverterArrayType extends AbstractConverter<dataColumnType> {
   /**
    *
    * @param columns
    */
-  columnToTypes(columns: schemaNormalType[]): string {
-    const type = columns.reduceRight((p, c) => (c === 'arrayType' ? `${p}[]` : schemaTypes[c].type), '');
+  columnToTypes(column: dataColumnType): string {
+    if (!Array.isArray(column.subTypes)) {
+      throw new Error('SubType is not defined!');
+    }
+
+    const type = column.subTypes.reduceRight(
+      (p, t) => (t === 'arrayType' ? `${p}[]` : this.converter.converterCommon.columnToTypes({ ...column, type: t })),
+      '',
+    );
 
     return `${type}[]`;
   }
@@ -21,10 +27,18 @@ export default class ConverterArrayType extends AbstractConverter<schemaNormalTy
    *
    * @param columns
    */
-  columnToDefinitions(columns: schemaNormalType[]): string {
-    const type = columns.reduceRight((p, c) => (c === 'arrayType' ? `[${p}]` : schemaTypes[c].definition), '');
+  columnToDefinitions(column: dataColumnType): string {
+    if (!Array.isArray(column.subTypes)) {
+      throw new Error('SubType is not defined!');
+    }
 
-    return `{ type: [${type}] }`;
+    const type = column.subTypes.reduceRight(
+      (p, t) =>
+        t === 'arrayType' ? `[${p}]` : this.converter.converterCommon.columnToDefinitions({ ...column, type: t }),
+      '',
+    );
+
+    return `[${type}]`;
   }
 
   /**
