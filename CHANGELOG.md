@@ -4,16 +4,22 @@
 
 ### Features
 
-- Added feature [populate](https://mongoosejs.com/docs/populate.html) [[#1](https://github.com/kettil/mongoose-management/issues/1)]
-- Added feature "Back to collection"
-
 ### Fixes
 
 ### Chore & Maintenance
 
-- Code coverage of 100% in the CLI section
-
 ### Performance
+
+## [0.2.0] - 2019-10-24
+
+### Features
+
+- Added feature [populate](https://mongoosejs.com/docs/populate.html) [[#1](https://github.com/kettil/mongoose-management/issues/1)]
+- Added feature "Back to collection"
+
+### Chore & Maintenance
+
+- Code coverage of 100% in the CLI section
 
 ## [0.1.4] - 2019-10-22
 
