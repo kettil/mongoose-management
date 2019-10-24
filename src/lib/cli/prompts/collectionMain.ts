@@ -1,7 +1,7 @@
 import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
-
 import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
+import { CancelPromptError } from '../errors';
 
 export type answersType = { name: string };
 
@@ -14,7 +14,7 @@ export const call = async (
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '') {
-    throw new Error('cancel');
+    throw new CancelPromptError('cancel');
   }
 
   return answersMain;

@@ -3,6 +3,7 @@ import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import IndexDataset from '../dataset/index';
+import { CancelPromptError } from '../errors';
 
 export type answersType = { name: string; columns: ColumnDataset[] };
 
@@ -15,7 +16,7 @@ export const call = async (
   const answersMain = await prompts.call<answersType>(questions);
 
   if (answersMain.name === '' || answersMain.columns.length === 0) {
-    throw new Error('cancel');
+    throw new CancelPromptError('cancel');
   }
 
   return answersMain;

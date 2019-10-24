@@ -1,8 +1,7 @@
 import Prompts from '../../prompts';
-
 import AbstractDataset from '../dataset/abstract';
 import GroupDataset from '../dataset/group';
-
+import { BackToCollectionError, CancelPromptError } from '../errors';
 import AbstractMenu from '../menu/abstract';
 
 import { choiceValueType, levelOptionsType } from '../../types';
@@ -69,6 +68,7 @@ export default abstract class AbstractLevel<
     } while (status);
   }
 
+  // tslint:disable-next-line:cyclomatic-complexity
   async run(): Promise<boolean> {
     const result = await this.showMenu();
     let status = true;
@@ -81,6 +81,9 @@ export default abstract class AbstractLevel<
 
         case 'back':
           return false;
+
+        case 'backToCollection':
+          throw new BackToCollectionError('back');
 
         case 'write':
           const d = this.dataset;
@@ -118,11 +121,11 @@ export default abstract class AbstractLevel<
           }
       }
     } catch (err) {
-      if (!(err instanceof Error)) {
+      if (!(err instanceof Error) || err instanceof BackToCollectionError) {
         throw err;
       }
 
-      if (err.message !== 'cancel') {
+      if (!(err instanceof CancelPromptError)) {
         await this.prompts.pressKey(err);
       }
     }

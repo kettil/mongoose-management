@@ -82,6 +82,16 @@ describe('Check the AbstractMenu class', () => {
     });
   });
 
+  test('it should be return the menu item when getMenuChoiceBackToCollection() is called', () => {
+    const result = menu.getMenuChoiceBackToCollection();
+
+    expect(result).toEqual({
+      name: 'Back to collection',
+      short: chalk.red('Command - Back to collection'),
+      value: { action: 'backToCollection' },
+    });
+  });
+
   test('it should be return the menu item when getMenuChoiceExit() is called', () => {
     const result = menu.getMenuChoiceExit();
 

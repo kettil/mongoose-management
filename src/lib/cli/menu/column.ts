@@ -15,15 +15,23 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     let result: choiceValueType<ColumnDataset>;
 
     if (column.get('type') === 'array' || column.get('type') === 'object') {
+      const menuChoices = [
+        this.getMenuChoiceCreate('subcolumn'),
+        this.getMenuChoiceEdit('column'),
+        this.getMenuChoiceRemove('column'),
+      ];
+
+      if (!(column.getParent() instanceof CollectionDataset)) {
+        menuChoices.push(this.getMenuChoiceBackToCollection());
+      }
+
       result = await this.prompts.menu<ColumnDataset>(
         `Choose a subcolumn or a command for the column "${column.getFullname(true)}":`,
         [
           new Separator(chalk.underline('Columns list')),
           new Separator(' '),
           ...choices,
-          this.getMenuChoiceCreate('subcolumn'),
-          this.getMenuChoiceEdit('column'),
-          this.getMenuChoiceRemove('column'),
+          ...menuChoices,
           this.getMenuChoiceBack(),
           new Separator(' '),
         ],

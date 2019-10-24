@@ -57,6 +57,14 @@ export default abstract class AbstractMenu<T, S> {
     };
   }
 
+  getMenuChoiceBackToCollection(): choiceType<S> {
+    return {
+      name: 'Back to collection',
+      value: { action: 'backToCollection' },
+      short: chalk.red('Command - Back to collection'),
+    };
+  }
+
   getMenuChoiceExit(): choiceType<S> {
     return {
       name: 'Exit',
