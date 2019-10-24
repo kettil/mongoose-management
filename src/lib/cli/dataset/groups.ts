@@ -29,10 +29,10 @@ export default class GroupsDataset extends AbstractDataset<undefined> {
   }
 
   addGroup(group: GroupDataset) {
-    group.setReference();
-
     this.groups.push(group);
     this.sortGroups();
+
+    group.setReference();
 
     return group;
   }

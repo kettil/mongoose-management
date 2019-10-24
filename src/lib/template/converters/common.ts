@@ -34,6 +34,7 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
       this.getTypeString(column, 'maxLength'),
       this.getTypeString(column, 'min'),
       this.getTypeString(column, 'max'),
+      this.getTypeString(column, 'populate'),
     ];
 
     return `{ ${items.filter((s) => s.trim() !== '').join(', ')} }`;
@@ -55,6 +56,12 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
     const value = column[type];
 
     switch (true) {
+      case ['populate'].indexOf(type) >= 0:
+        if (typeof value === 'string') {
+          return `ref: '${value.substr(0, 1).toUpperCase() + value.substr(1)}'`;
+        }
+        break;
+
       case ['enum'].indexOf(type) >= 0:
         if (typeof value === 'string' && value !== '') {
           const values = value
@@ -79,7 +86,7 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
         break;
 
       case ['default', 'minLength', 'maxLength', 'min', 'max'].indexOf(type) >= 0:
-        if (typeof value === 'number' || typeof value === 'string') {
+        if (['number', 'string'].indexOf(typeof value) >= 0) {
           return `${type}: ${value}`;
         }
         break;

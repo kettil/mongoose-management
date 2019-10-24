@@ -1,4 +1,5 @@
 import CollectionDataset from './collection';
+import GroupDataset from './group';
 import IndexDataset from './index';
 
 import ColumnDataset from './column';
@@ -6,6 +7,7 @@ import ColumnDataset from './column';
 import { dataColumnType } from '../../types';
 
 describe('Check the ColumnDataset class', () => {
+  let group: any;
   let collection: any;
   let dataset: any;
   let index: any;
@@ -13,6 +15,7 @@ describe('Check the ColumnDataset class', () => {
   afterEach(() => {
     collection = undefined;
     dataset = undefined;
+    group = undefined;
     index = undefined;
   });
 
@@ -38,7 +41,8 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset.parent).toBeInstanceOf(CollectionDataset);
       expect(dataset.columns).toEqual([]);
       expect(dataset.subTypes).toEqual([]);
-      expect(dataset.index).toEqual(index);
+      expect(dataset.index).toBeInstanceOf(IndexDataset);
+      expect(dataset.index).toBe(index);
       expect(dataset.column).toEqual({ name: 'cName', required: true, type: 'string', enum: 'hello; morning' });
       expect(dataset.collection).toEqual(collection);
       expect(dataset.readonly).toEqual(false);
@@ -348,6 +352,112 @@ describe('Check the ColumnDataset class', () => {
       const result = dataset.isReadonly();
 
       expect(result).toBe(true);
+    });
+  });
+
+  describe('Check a simple column structure (with populate)', () => {
+    beforeEach(() => {
+      group = new GroupDataset({ path: 'path/to', collections: [] }, jest.fn() as any);
+      group.setReference();
+
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [{ name: 'ref', type: 'objectId', populate: 'collect' }],
+          indexes: [],
+        },
+        group,
+      );
+      group.addCollection(collection);
+
+      dataset = collection.getColumn('ref');
+    });
+
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.populate).toBe(collection);
+      expect(dataset.column).toEqual({ name: 'ref', type: 'objectId', populate: 'collect' });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be return CollectionDataset when getPopulate() is called', () => {
+      const result = dataset.getPopulate();
+
+      expect(result).toBeInstanceOf(CollectionDataset);
+    });
+
+    test('it should be return collection name when getPopulateName() is called', () => {
+      const result = dataset.getPopulateName();
+
+      expect(result).toBe('collect');
+    });
+
+    test('it should be remove the reference when setPopulate() is called without CollectionDataset', () => {
+      dataset.setPopulate();
+
+      expect(dataset.populate).toBe(undefined);
+    });
+  });
+
+  describe('Check a simple column structure (without populate)', () => {
+    beforeEach(() => {
+      group = new GroupDataset({ path: 'path/to', collections: [] }, jest.fn() as any);
+      group.setReference();
+
+      collection = new CollectionDataset(
+        {
+          name: 'collect',
+          columns: [{ name: 'ref', type: 'objectId' }],
+          indexes: [],
+        },
+        group,
+      );
+      group.addCollection(collection);
+
+      dataset = collection.getColumn('ref');
+    });
+
+    test('initialize the class', () => {
+      expect(dataset).toBeInstanceOf(ColumnDataset);
+
+      expect(dataset.parent).toBeInstanceOf(CollectionDataset);
+      expect(dataset.columns).toEqual([]);
+      expect(dataset.subTypes).toEqual([]);
+      expect(dataset.index).toBe(undefined);
+      expect(dataset.populate).toBe(undefined);
+      expect(dataset.column).toEqual({ name: 'ref', type: 'objectId' });
+      expect(dataset.collection).toEqual(collection);
+      expect(dataset.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('it should be return undefined when getPopulate() is called', () => {
+      const result = dataset.getPopulate();
+
+      expect(result).toBe(undefined);
+    });
+
+    test('it should be return undefined when getPopulateName() is called', () => {
+      const result = dataset.getPopulateName();
+
+      expect(result).toBe(undefined);
+    });
+
+    test('it should be remove the reference when setPopulate() is called without CollectionDataset', () => {
+      dataset.setPopulate(collection);
+
+      expect(dataset.populate).toBe(collection);
     });
   });
 

@@ -3,6 +3,7 @@ jest.mock('../../prompts');
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import GroupDataset from '../dataset/group';
 import ColumnMenu from '../menu/column';
 import promptsColumn from '../prompts/column';
 
@@ -20,6 +21,7 @@ describe('Check the ColumnLevel class', () => {
     storage = jest.fn();
     creater = jest.fn();
 
+    const group = new GroupDataset({ path: 'path/to/project', collections: [] }, jest.fn() as any);
     const parent = new CollectionDataset(
       {
         name: 'c1',
@@ -29,10 +31,10 @@ describe('Check the ColumnLevel class', () => {
         ],
         indexes: [{ name: 'name_unique', columns: { cName: -1 }, properties: {} }],
       },
-      jest.fn() as any,
+      group,
     );
 
-    parent.setReference();
+    group.addCollection(parent);
 
     dataset = parent.getColumn('columnName')!;
     level = new ColumnLevel(dataset, { prompts, storage, creater });
@@ -70,7 +72,6 @@ describe('Check the ColumnLevel class', () => {
     'it should be promptsColumn() called when create() is called with type "%s"',
     async (type) => {
       ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type });
-      ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['required'] });
 
       expect(dataset.getColumns().length).toBe(1);
 
@@ -79,7 +80,7 @@ describe('Check the ColumnLevel class', () => {
       expect(result).toEqual(expect.any(ColumnDataset));
 
       expect(dataset.getColumns().length).toBe(2);
-      expect(prompts.call).toHaveBeenCalledTimes(2);
+      expect(prompts.call).toHaveBeenCalledTimes(1);
       expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
     },
   );

@@ -233,21 +233,6 @@ Array [
     "validate": [Function],
     "when": [Function],
   },
-  Object {
-    "default": undefined,
-    "message": "Value must greater than or equal:",
-    "name": "min",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must less than or equal:",
-    "name": "max",
-    "type": "number",
-    "validate": [Function],
-    "when": [Function],
-  },
 ]
 `;
 
@@ -484,21 +469,6 @@ Array [
     "validate": [Function],
     "when": [Function],
   },
-  Object {
-    "default": undefined,
-    "message": "Value must greater than or equal:",
-    "name": "min",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must less than or equal:",
-    "name": "max",
-    "type": "number",
-    "validate": [Function],
-    "when": [Function],
-  },
 ]
 `;
 
@@ -731,21 +701,6 @@ Array [
     "default": undefined,
     "message": "Maximum number of characters:",
     "name": "maxLength",
-    "type": "number",
-    "validate": [Function],
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must greater than or equal:",
-    "name": "min",
-    "type": "number",
-    "when": [Function],
-  },
-  Object {
-    "default": undefined,
-    "message": "Value must less than or equal:",
-    "name": "max",
     "type": "number",
     "validate": [Function],
     "when": [Function],

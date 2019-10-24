@@ -5,6 +5,7 @@ jest.mock('./index');
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import GroupDataset from '../dataset/group';
 import IndexDataset from '../dataset/index';
 import CollectionMenu from '../menu/collection';
 import promptsCollection from '../prompts/collection';
@@ -25,14 +26,17 @@ describe('Check the CollectionLevel class', () => {
     storage = jest.fn();
     creater = jest.fn();
 
+    const group = new GroupDataset({ path: 'path/to/project', collections: [] }, jest.fn() as any);
     dataset = new CollectionDataset(
       {
         name: 'collectionName',
         columns: [{ name: 'c1', type: 'string' }],
         indexes: [{ name: 'i1', columns: { c1: 'hashed' }, properties: {} }],
       },
-      jest.fn() as any,
+      group,
     );
+    group.addCollection(dataset);
+
     level = new CollectionLevel(dataset, { prompts, storage, creater });
   });
 
@@ -86,7 +90,6 @@ describe('Check the CollectionLevel class', () => {
     'it should be promptsIndex() called when create() is called with action "createColumn" and type "%s"',
     async (type) => {
       ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type });
-      ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['required'] });
 
       expect(dataset.getColumns().length).toBe(4);
 
@@ -95,7 +98,7 @@ describe('Check the CollectionLevel class', () => {
       expect(result).toEqual(expect.any(ColumnDataset));
 
       expect(dataset.getColumns().length).toBe(5);
-      expect(prompts.call).toHaveBeenCalledTimes(2);
+      expect(prompts.call).toHaveBeenCalledTimes(1);
       expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
     },
   );

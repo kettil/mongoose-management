@@ -45,6 +45,7 @@
         {
           "name": "users",
           "columns": [
+            { "name": "children", "type": "arrayType", "populate": "users", "subTypes": ["objectId"] },
             { "name": "email", "type": "string", "required": true },
             { "name": "password", "type": "string", "required": true }
           ],
@@ -56,8 +57,8 @@
           "name": "users_settings",
           "columns": [
             { "name": "key", "type": "string", "required": true },
-            { "name": "user", "type": "objectId", "required": true },
-            { "name": "value", "type": "mixed", "required": true }
+            { "name": "user", "type": "objectId", "required": true, "populate": "users" },
+            { "name": "value", "type": "object", "subColumns": [] }
           ],
           "indexes": [
             {

@@ -18,6 +18,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   protected subTypes: schemaNormalType[];
 
   protected index?: IndexDataset;
+  protected populate?: CollectionDataset;
 
   constructor(
     protected column: dataColumnType,
@@ -33,6 +34,10 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
   setReference() {
     this.index = this.collection.getIndex(this.getIndexName());
+
+    if (this.column.populate) {
+      this.setPopulate(this.collection.getParent().getCollection(this.column.populate));
+    }
 
     this.columns.forEach((column) => column.setReference());
   }
@@ -190,6 +195,20 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     }
   }
 
+  getPopulate() {
+    return this.populate;
+  }
+
+  getPopulateName() {
+    const populate = this.getPopulate();
+
+    return populate ? populate.getName() : undefined;
+  }
+
+  setPopulate(collection?: CollectionDataset) {
+    this.populate = collection;
+  }
+
   isReadonly(): boolean {
     return this.readonly;
   }
@@ -208,6 +227,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
     return {
       ...this.column,
+      populate: this.getPopulateName(),
       subColumns: isSubColumnType ? this.columns.map((c) => c.getObject()) : undefined,
       subTypes: this.subTypes.length > 0 ? this.subTypes : undefined,
     };
