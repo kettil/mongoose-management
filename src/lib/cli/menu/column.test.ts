@@ -3,12 +3,14 @@ jest.mock('../../prompts');
 import Prompts from '../../prompts';
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
+import GroupDataset from '../dataset/group';
 
 import ColumnMenu from './column';
 
 import { choicesType } from '../../types';
 
 describe('Check the ColumnMenu class', () => {
+  let group: GroupDataset;
   let collection: CollectionDataset;
   let column1: ColumnDataset;
   let column2: ColumnDataset;
@@ -20,23 +22,27 @@ describe('Check the ColumnMenu class', () => {
 
     menu = new ColumnMenu(prompts);
 
-    collection = new CollectionDataset(
-      {
-        name: 'c1',
-        columns: [
-          { name: 'column1', type: 'string' },
-          {
-            name: 'column2',
-            type: 'object',
-            required: true,
-            subColumns: [{ name: 'column3', type: 'object', subColumns: [] }],
-          },
-        ],
-        indexes: [{ name: 'column2_', columns: { column2: -1 }, properties: {}, readonly: true }],
-      },
-      jest.fn() as any,
+    group = new GroupDataset({ path: 'path/to', collections: [] }, jest.fn() as any);
+    group.setReference();
+
+    collection = group.addCollection(
+      new CollectionDataset(
+        {
+          name: 'c1',
+          columns: [
+            { name: 'column1', type: 'string', populate: 'c1.column2' },
+            {
+              name: 'column2',
+              type: 'object',
+              required: true,
+              subColumns: [{ name: 'column3', type: 'object', subColumns: [] }],
+            },
+          ],
+          indexes: [{ name: 'column2_', columns: { column2: -1 }, properties: {}, readonly: true }],
+        },
+        group,
+      ),
     );
-    collection.setReference();
 
     column1 = collection.getColumn('column1')!;
     column2 = collection.getColumn('column2')!;

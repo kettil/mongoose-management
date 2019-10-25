@@ -4,6 +4,8 @@
 
 ### Features
 
+- Expand the populate with nested schemas [[#9](https://github.com/kettil/mongoose-management/issues/9)]
+
 ### Fixes
 
 ### Chore & Maintenance
