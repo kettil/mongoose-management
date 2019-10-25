@@ -18,7 +18,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   protected subTypes: schemaNormalType[];
 
   protected index?: IndexDataset;
-  protected populate?: CollectionDataset;
+  protected populate?: CollectionDataset | ColumnDataset;
 
   constructor(
     protected column: dataColumnType,
@@ -36,7 +36,21 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     this.index = this.collection.getIndex(this.getIndexName());
 
     if (this.column.populate) {
-      this.setPopulate(this.collection.getParent().getCollection(this.column.populate));
+      const separator = this.column.populate.indexOf('.');
+
+      if (separator >= 0) {
+        // column
+        const collectionName = this.column.populate.substr(0, separator);
+        const columnName = this.column.populate.substr(separator + 1);
+        const collection = this.collection.getParent().getCollection(collectionName);
+
+        if (collection) {
+          this.setPopulate(collection.getColumn(columnName, true));
+        }
+      } else {
+        // collection
+        this.setPopulate(this.collection.getParent().getCollection(this.column.populate));
+      }
     }
 
     this.columns.forEach((column) => column.setReference());
@@ -202,10 +216,14 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   getPopulateName() {
     const populate = this.getPopulate();
 
+    if (populate instanceof ColumnDataset) {
+      return `${populate.getCollection().getName()}.${populate.getFullname(false, false)}`;
+    }
+
     return populate ? populate.getName() : undefined;
   }
 
-  setPopulate(collection?: CollectionDataset) {
+  setPopulate(collection?: CollectionDataset | ColumnDataset) {
     this.populate = collection;
   }
 

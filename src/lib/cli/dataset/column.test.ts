@@ -389,19 +389,75 @@ describe('Check the ColumnDataset class', () => {
       expect(collection.getIndexes().length).toBe(0);
     });
 
+    test('initialize the class with nested schemas', () => {
+      const column = group.addCollection(
+        new ColumnDataset({ name: 'ref2', type: 'objectId', populate: 'collect.ref' }, collection, collection),
+      );
+
+      expect(column).toBeInstanceOf(ColumnDataset);
+
+      expect(column.parent).toBeInstanceOf(CollectionDataset);
+      expect(column.columns).toEqual([]);
+      expect(column.subTypes).toEqual([]);
+      expect(column.index).toBe(undefined);
+      expect(column.populate).toBe(dataset);
+      expect(column.column).toEqual({ name: 'ref2', type: 'objectId', populate: 'collect.ref' });
+      expect(column.collection).toEqual(collection);
+      expect(column.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
+    test('initialize the class with unknown nested schemas', () => {
+      const column = group.addCollection(
+        new ColumnDataset({ name: 'ref2', type: 'objectId', populate: 'collectWrong.ref' }, collection, collection),
+      );
+
+      expect(column).toBeInstanceOf(ColumnDataset);
+
+      expect(column.parent).toBeInstanceOf(CollectionDataset);
+      expect(column.columns).toEqual([]);
+      expect(column.subTypes).toEqual([]);
+      expect(column.index).toBe(undefined);
+      expect(column.populate).toBe(undefined);
+      expect(column.column).toEqual({ name: 'ref2', type: 'objectId', populate: 'collectWrong.ref' });
+      expect(column.collection).toEqual(collection);
+      expect(column.readonly).toEqual(false);
+
+      expect(collection.getColumns().length).toBe(4);
+      expect(collection.getIndexes().length).toBe(0);
+    });
+
     test('it should be return CollectionDataset when getPopulate() is called', () => {
       const result = dataset.getPopulate();
 
       expect(result).toBeInstanceOf(CollectionDataset);
     });
 
-    test('it should be return collection name when getPopulateName() is called', () => {
+    test('it should be return collection name when getPopulateName() is called with CollectionDataset', () => {
       const result = dataset.getPopulateName();
 
       expect(result).toBe('collect');
     });
 
-    test('it should be remove the reference when setPopulate() is called without CollectionDataset', () => {
+    test('it should be return collection name when getPopulateName() is called with ColumnDataset', () => {
+      dataset.setPopulate(dataset);
+
+      const result = dataset.getPopulateName();
+
+      expect(result).toBe('collect.ref');
+    });
+
+    test('it should be return collection name when getPopulateName() is called', () => {
+      dataset.setPopulate();
+
+      const result = dataset.getPopulateName();
+
+      expect(result).toBe(undefined);
+    });
+
+    test('it should be remove the reference when setPopulate() is called', () => {
       dataset.setPopulate();
 
       expect(dataset.populate).toBe(undefined);
@@ -454,10 +510,16 @@ describe('Check the ColumnDataset class', () => {
       expect(result).toBe(undefined);
     });
 
-    test('it should be remove the reference when setPopulate() is called without CollectionDataset', () => {
+    test('it should be remove the reference when setPopulate() is called with CollectionDataset', () => {
       dataset.setPopulate(collection);
 
       expect(dataset.populate).toBe(collection);
+    });
+
+    test('it should be remove the reference when setPopulate() is called with Column', () => {
+      dataset.setPopulate(dataset);
+
+      expect(dataset.populate).toBe(dataset);
     });
   });
 

@@ -86,12 +86,13 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
   }
 
   createTable(columns: ColumnDataset[], selected?: ColumnDataset) {
-    const header = ['Name', 'Type', 'Required', 'Default', 'Index', 'Unique', 'Sparse'];
+    const header = ['Name', 'Type', 'Required', 'Default', 'Reference', 'Index', 'Unique', 'Sparse'];
     const values = columns.map((c) => [
       c.getTableName(selected),
       c.getTableType(),
       c.get('required') ? '✔' : '',
       c.get('default'),
+      c.getPopulateName(),
       ...this.createTableIndexRow(c),
     ]);
 
@@ -99,8 +100,8 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
       ...promptTableOptions,
       columns: {
         2: { alignment: 'center' },
-        5: { alignment: 'center' },
         6: { alignment: 'center' },
+        7: { alignment: 'center' },
       },
     }).split('\n');
   }
