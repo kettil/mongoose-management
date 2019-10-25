@@ -15,16 +15,16 @@ import { Connection } from 'mongoose';
  */
 import Logs, { createLogsModel } from './models/logs';
 import Pages, { createPagesModel } from './models/pages';
+import UserSettings, { createUserSettingsModel } from './models/userSettings';
 import Users, { createUsersModel } from './models/users';
-import UsersSettings, { createUsersSettingsModel } from './models/usersSettings';
 
 /**
  * TypeScript Namespace
  */
 export * from './interfaces/logs';
 export * from './interfaces/pages';
+export * from './interfaces/userSettings';
 export * from './interfaces/users';
-export * from './interfaces/usersSettings';
 
 /**
  * Create a object with models and these has a custom connection handler
@@ -35,8 +35,8 @@ export const getModels = (handler: Connection) => {
   return {
     Logs: createLogsModel(handler),
     Pages: createPagesModel(handler),
+    UserSettings: createUserSettingsModel(handler),
     Users: createUsersModel(handler),
-    UsersSettings: createUsersSettingsModel(handler),
   };
 };
 
@@ -45,8 +45,8 @@ export const getModels = (handler: Connection) => {
  */
 export const LogsModel = Logs;
 export const PagesModel = Pages;
+export const UserSettingsModel = UserSettings;
 export const UsersModel = Users;
-export const UsersSettingsModel = UsersSettings;
 
 /**
  * Object with all models
@@ -54,8 +54,8 @@ export const UsersSettingsModel = UsersSettings;
 export const models = {
   Logs,
   Pages,
+  UserSettings,
   Users,
-  UsersSettings,
 };
 
 export default models;

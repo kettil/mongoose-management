@@ -43,18 +43,7 @@
           ]
         },
         {
-          "name": "users",
-          "columns": [
-            { "name": "children", "type": "arrayType", "populate": "users", "subTypes": ["objectId"] },
-            { "name": "email", "type": "string", "required": true },
-            { "name": "password", "type": "string", "required": true }
-          ],
-          "indexes": [
-            { "name": "email_", "columns": { "email": -1 }, "properties": { "unique": true }, "readonly": true }
-          ]
-        },
-        {
-          "name": "users_settings",
+          "name": "user_settings",
           "columns": [
             { "name": "key", "type": "string", "required": true },
             { "name": "user", "type": "objectId", "required": true, "populate": "users" },
@@ -66,6 +55,17 @@
               "columns": { "key": 1, "user": 1, "value": 1 },
               "properties": { "unique": true, "sparse": true }
             }
+          ]
+        },
+        {
+          "name": "users",
+          "columns": [
+            { "name": "children", "type": "arrayType", "populate": "users", "subTypes": ["objectId"] },
+            { "name": "email", "type": "string", "required": true },
+            { "name": "password", "type": "string", "required": true }
+          ],
+          "indexes": [
+            { "name": "email_", "columns": { "email": -1 }, "properties": { "unique": true }, "readonly": true }
           ]
         }
       ]

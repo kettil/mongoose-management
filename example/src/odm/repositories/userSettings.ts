@@ -10,7 +10,7 @@
 
 import { SchemaOptions } from 'mongoose';
 
-// import * as nsUsersSettings from '../interfaces/usersSettings';
+// import * as nsUserSettings from '../interfaces/userSettings';
 
 /**
  * Schema Optionen
@@ -18,7 +18,7 @@ import { SchemaOptions } from 'mongoose';
  * @see https://mongoosejs.com/docs/guide.html#options
  */
 export const options: SchemaOptions = {
-  collection: 'users_settings',
+  collection: 'user_settings',
 
   toObject: {
     getters: true,
@@ -32,6 +32,10 @@ export const options: SchemaOptions = {
   toJSON: {
     getters: true,
     virtuals: true,
+    transform: (doc, ret) => {
+      delete ret._id;
+      return ret;
+    },
   },
 
   strict: 'throw',
@@ -45,7 +49,7 @@ export const options: SchemaOptions = {
  * Example:
  * ```typescript
  * export const methods = {
- *   getStringId: function(this: nsUsersSettings.InterfaceUsersSettingsDocument): string {
+ *   getStringId: function(this: nsUserSettings.InterfaceUserSettingsDocument): string {
  *     return this._id.toHexString();
  *   },
  * };
@@ -61,7 +65,7 @@ export const methods = {};
  * Example:
  * ```typescript
  * export const statics = {
- *   findByX: async function(this: nsUsersSettings.InterfaceUsersSettingsDocumentQuery, x: string) {
+ *   findByX: async function(this: nsUserSettings.InterfaceUserSettingsDocumentQuery, x: string) {
  *     return this.find({ x }).exec();
  *   },
  * };
@@ -77,7 +81,7 @@ export const statics = {};
  * Example:
  * ```typescript
  * export const query = {
- *   byName: function(this: nsUsersSettings.InterfaceUsersSettingsDocumentQuery, name: string) {
+ *   byName: function(this: nsUserSettings.InterfaceUserSettingsDocumentQuery, name: string) {
  *     return this.find({ name });
  *   },
  * };
@@ -99,10 +103,10 @@ export const queries = {};
  * ```typescript
  * export const virtual = {
  *   name: {
- *     get: function(this: nsUsersSettings.InterfaceUsersSettingsVirtual): string {
+ *     get: function(this: nsUserSettings.InterfaceUserSettingsVirtual): string {
  *       return this.firstname + ' ' + this.lastname;
  *     },
- *     set: function(this: nsUsersSettings.InterfaceUsersSettingsVirtual, value: string) {
+ *     set: function(this: nsUserSettings.InterfaceUserSettingsVirtual, value: string) {
  *       this.firstname = value.substr(0, value.indexOf(' '));
  *       this.lastname = value.substr(value.indexOf(' ') + 1);
  *     },
