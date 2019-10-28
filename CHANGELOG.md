@@ -4,13 +4,17 @@
 
 ### Features
 
-- Expand the populate with nested schemas [[#9](https://github.com/kettil/mongoose-management/issues/9)]
-
 ### Fixes
 
 ### Chore & Maintenance
 
 ### Performance
+
+## [0.2.1] - 2019-10-28
+
+### Features
+
+- Expand the populate with nested schemas [[#9](https://github.com/kettil/mongoose-management/issues/9)]
 
 ## [0.2.0] - 2019-10-24
 

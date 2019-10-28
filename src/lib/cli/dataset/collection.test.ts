@@ -19,19 +19,35 @@ describe('Check the CollectionDataset class', () => {
         collections: [
           {
             name: 'collection-name',
-            columns: [{ name: 'column1', type: 'string' }, { name: 'column7', type: 'number' }],
+            columns: [
+              { name: 'column1', type: 'string' },
+              {
+                name: 'column7',
+                type: 'object',
+                subColumns: [],
+              },
+            ],
             indexes: [
               { name: 'index1', columns: { column7: 1 }, properties: {} },
               { name: 'index7', columns: { column1: 1, column7: -1 }, properties: {} },
             ],
           },
+          {
+            name: 'collect2',
+            columns: [
+              { name: 'ref1', type: 'objectId', populate: 'collection-name' },
+              { name: 'ref2', type: 'objectId', populate: 'collection-name.column7' },
+              { name: 'ref3', type: 'objectId', populate: 'collect2' },
+            ],
+            indexes: [],
+          },
         ],
       },
       jest.fn() as any,
     );
+    group.setReference();
 
     dataset = group.getCollection('collection-name');
-    dataset.setReference();
 
     column1 = dataset.getColumn('column1')!;
     column7 = dataset.getColumn('column7')!;
@@ -133,23 +149,53 @@ describe('Check the CollectionDataset class', () => {
   });
 
   test('it should be remove this collection from the parent list when remove() is called', () => {
-    expect(group.getCollections()).toEqual([dataset]);
+    const collection = group.getCollection('collect2');
+    expect(collection).toBeInstanceOf(CollectionDataset);
+    expect(group.getCollections()).toEqual([dataset, collection]);
 
     dataset.remove();
 
-    expect(group.getCollections()).toEqual([]);
+    expect(group.getCollections()).toEqual([collection]);
+  });
+
+  test('it should be return an array with columns when getPopulates() is called (references from another collection)', () => {
+    const collection = group.getCollection('collect2');
+    expect(collection).toBeInstanceOf(CollectionDataset);
+
+    const col1 = collection.getColumn('ref1');
+    const col2 = collection.getColumn('ref2');
+    expect(col1).toBeInstanceOf(ColumnDataset);
+    expect(col2).toBeInstanceOf(ColumnDataset);
+
+    const result = dataset.getPopulates();
+
+    expect(result).toEqual([col1, col2]);
+  });
+
+  test('it should be return an array with columns when getPopulates() is called (references from the same collection)', () => {
+    const collection = group.getCollection('collect2');
+    expect(collection).toBeInstanceOf(CollectionDataset);
+
+    const col1 = collection.getColumn('ref3');
+    expect(col1).toBeInstanceOf(ColumnDataset);
+
+    const result = collection.getPopulates();
+
+    expect(result).toEqual([col1]);
+  });
+
+  test('it should be return an array with columns when getPopulates() is called and without own populates (references from the same collection)', () => {
+    const collection = group.getCollection('collect2');
+    expect(collection).toBeInstanceOf(CollectionDataset);
+
+    const result = collection.getPopulates(false);
+
+    expect(result).toEqual([]);
   });
 
   test('it should be return a object when getObject() is called', () => {
-    const result = dataset.getObject();
+    const result = group.getObject();
 
-    expect(result).toEqual({
-      name: 'collection-name',
-      columns: [{ name: 'column1', type: 'string' }, { name: 'column7', type: 'number' }],
-      indexes: [
-        { name: 'index1', columns: { column7: 1 }, properties: {} },
-        { name: 'index7', columns: { column1: 1, column7: -1 }, properties: {} },
-      ],
-    });
+    expect(result).toMatchSnapshot();
   });
 });

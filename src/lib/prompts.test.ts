@@ -343,15 +343,12 @@ describe('Check the Prompts class', () => {
         },
       ]);
 
-      expect(console.log).toHaveBeenCalledTimes(8);
-      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error`);
-      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} Error Message`);
-      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} `);
-      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')} Error: Error Message`);
-      expect(console.log).toHaveBeenNthCalledWith(5, `${chalk.red('>>')}     Line1`);
-      expect(console.log).toHaveBeenNthCalledWith(6, `${chalk.red('>>')}     Line2`);
-      expect(console.log).toHaveBeenNthCalledWith(7, `${chalk.red('>>')}     Line3`);
-      expect(console.log).toHaveBeenNthCalledWith(8, `${chalk.red('>>')}`);
+      expect(console.log).toHaveBeenCalledTimes(5);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error: Error Message`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')}     Line1`);
+      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')}     Line2`);
+      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')}     Line3`);
+      expect(console.log).toHaveBeenNthCalledWith(5, `${chalk.red('>>')}`);
     });
 
     test('it should be show the message when pressKey() is called with an error object and without stack', async () => {
@@ -375,12 +372,9 @@ describe('Check the Prompts class', () => {
         },
       ]);
 
-      expect(console.log).toHaveBeenCalledTimes(5);
-      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error`);
-      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} Error Message`);
-      expect(console.log).toHaveBeenNthCalledWith(3, `${chalk.red('>>')} `);
-      expect(console.log).toHaveBeenNthCalledWith(4, `${chalk.red('>>')} Without error stack`);
-      expect(console.log).toHaveBeenNthCalledWith(5, `${chalk.red('>>')}`);
+      expect(console.log).toHaveBeenCalledTimes(2);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error Message`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')}`);
     });
 
     test('it should be return the result when call() is called', async () => {

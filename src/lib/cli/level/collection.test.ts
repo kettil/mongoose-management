@@ -15,10 +15,13 @@ import IndexLevel from './index';
 
 import CollectionLevel from './collection';
 
+import { dataColumnType } from '../../types';
+
 describe('Check the CollectionLevel class', () => {
   let prompts: any;
   let storage: any;
   let creater: any;
+  let group: GroupDataset;
   let dataset: CollectionDataset;
   let level: any;
 
@@ -27,11 +30,11 @@ describe('Check the CollectionLevel class', () => {
     storage = jest.fn();
     creater = jest.fn();
 
-    const group = new GroupDataset({ path: 'path/to/project', collections: [] }, jest.fn() as any);
+    group = new GroupDataset({ path: 'path/to/project', collections: [] }, jest.fn() as any);
     dataset = new CollectionDataset(
       {
         name: 'collectionName',
-        columns: [{ name: 'c1', type: 'string' }],
+        columns: [{ name: 'c1', type: 'string' }, { name: 'c2', type: 'object' }],
         indexes: [{ name: 'i1', columns: { c1: 'hashed' }, properties: {} }],
       },
       group,
@@ -76,13 +79,13 @@ describe('Check the CollectionLevel class', () => {
     ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['default'], default: "'Moin'" });
     ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ type: 'unique', value: 'hashed' });
 
-    expect(dataset.getColumns().length).toBe(4);
+    expect(dataset.getColumns().length).toBe(5);
 
     const result = await level.create('createColumn');
 
     expect(result).toEqual(undefined);
 
-    expect(dataset.getColumns().length).toBe(5);
+    expect(dataset.getColumns().length).toBe(6);
     expect(prompts.call).toHaveBeenCalledTimes(3);
     expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
   });
@@ -92,13 +95,13 @@ describe('Check the CollectionLevel class', () => {
     async (type) => {
       ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type });
 
-      expect(dataset.getColumns().length).toBe(4);
+      expect(dataset.getColumns().length).toBe(5);
 
       const result = await level.create('createColumn');
 
       expect(result).toEqual(expect.any(ColumnDataset));
 
-      expect(dataset.getColumns().length).toBe(5);
+      expect(dataset.getColumns().length).toBe(6);
       expect(prompts.call).toHaveBeenCalledTimes(1);
       expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
     },
@@ -111,6 +114,41 @@ describe('Check the CollectionLevel class', () => {
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toBe('Unknown action');
+    }
+  });
+
+  test('it should be remove the collection when remove() is called', async () => {
+    (prompts.remove as jest.Mock).mockImplementation(async (name: any) => {
+      expect(typeof name).toBe('string');
+
+      return true;
+    });
+
+    expect(group.getCollections().length).toBe(1);
+
+    const result = await level.remove(dataset);
+
+    expect(result).toBe(false);
+
+    expect(group.getCollections().length).toBe(0);
+    expect(prompts.remove).toHaveBeenCalledTimes(1);
+  });
+
+  test('it should be throw an error when remove() is called with a column reference', async () => {
+    const columns: dataColumnType[] = [{ name: 'column2', type: 'objectId', populate: 'collectionName' }];
+    group.addCollection(new CollectionDataset({ name: 'collection2', columns, indexes: [] }, group));
+
+    expect.assertions(5);
+    expect(group.getCollections().length).toBe(2);
+
+    try {
+      await level.remove(dataset);
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toMatchSnapshot();
+
+      expect(group.getCollections().length).toBe(2);
+      expect(prompts.remove).toHaveBeenCalledTimes(0);
     }
   });
 

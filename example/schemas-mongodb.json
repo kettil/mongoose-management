@@ -9,7 +9,7 @@
             { "name": "data", "type": "object", "subColumns": [] },
             { "name": "message", "type": "string", "required": true },
             { "name": "tags", "type": "arrayType", "subTypes": ["string"] },
-            { "name": "user", "type": "objectId", "required": true }
+            { "name": "user", "type": "objectId", "required": true, "populate": "users" }
           ],
           "indexes": []
         },
@@ -30,13 +30,13 @@
                   "type": "array",
                   "subColumns": [
                     { "name": "date", "type": "date", "required": true },
-                    { "name": "user", "type": "objectId", "required": true }
+                    { "name": "user", "type": "objectId", "required": true, "populate": "users" }
                   ]
                 }
               ]
             },
             { "name": "tags", "type": "arrayType", "subTypes": ["string"] },
-            { "name": "user", "type": "objectId", "required": true }
+            { "name": "user", "type": "objectId", "required": true, "populate": "users" }
           ],
           "indexes": [
             { "name": "content.locale_", "columns": { "content.locale": 1 }, "properties": {}, "readonly": true }
@@ -62,6 +62,7 @@
           "columns": [
             { "name": "children", "type": "arrayType", "populate": "users", "subTypes": ["objectId"] },
             { "name": "email", "type": "string", "required": true },
+            { "name": "pages", "type": "arrayType", "populate": "pages.content", "subTypes": ["objectId"] },
             { "name": "password", "type": "string", "required": true }
           ],
           "indexes": [

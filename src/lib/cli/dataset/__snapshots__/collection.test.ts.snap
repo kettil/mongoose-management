@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the CollectionDataset class it should be return a object when getObject() is called 1`] = `
+Object {
+  "collections": Array [
+    Object {
+      "columns": Array [
+        Object {
+          "name": "column1",
+          "populate": undefined,
+          "subColumns": undefined,
+          "subTypes": undefined,
+          "type": "string",
+        },
+        Object {
+          "name": "column7",
+          "populate": undefined,
+          "subColumns": Array [],
+          "subTypes": undefined,
+          "type": "object",
+        },
+      ],
+      "indexes": Array [
+        Object {
+          "columns": Object {
+            "column7": 1,
+          },
+          "name": "index1",
+          "properties": Object {
+            "sparse": undefined,
+            "unique": undefined,
+          },
+          "readonly": undefined,
+        },
+        Object {
+          "columns": Object {
+            "column1": 1,
+            "column7": -1,
+          },
+          "name": "index7",
+          "properties": Object {
+            "sparse": undefined,
+            "unique": undefined,
+          },
+          "readonly": undefined,
+        },
+      ],
+      "name": "collection-name",
+    },
+    Object {
+      "columns": Array [
+        Object {
+          "name": "ref1",
+          "populate": "collection-name",
+          "subColumns": undefined,
+          "subTypes": undefined,
+          "type": "objectId",
+        },
+        Object {
+          "name": "ref2",
+          "populate": "collection-name.column7",
+          "subColumns": undefined,
+          "subTypes": undefined,
+          "type": "objectId",
+        },
+        Object {
+          "name": "ref3",
+          "populate": "collect2",
+          "subColumns": undefined,
+          "subTypes": undefined,
+          "type": "objectId",
+        },
+      ],
+      "indexes": Array [],
+      "name": "collect2",
+    },
+  ],
+  "path": "path",
+}
+`;

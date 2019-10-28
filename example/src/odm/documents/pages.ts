@@ -40,12 +40,15 @@ export const pagesDefinitions = {
       message: { type: Schema.Types.String, required: true },
       subject: { type: Schema.Types.String, required: true },
       updatedAt: [
-        { date: { type: Schema.Types.Date, required: true }, user: { type: Schema.Types.ObjectId, required: true } },
+        {
+          date: { type: Schema.Types.Date, required: true },
+          user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
+        },
       ],
     },
   ],
   tags: [{ type: Schema.Types.String }],
-  user: { type: Schema.Types.ObjectId, required: true },
+  user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
 };
 
 /**

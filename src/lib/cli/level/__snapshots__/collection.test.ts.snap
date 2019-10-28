@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the CollectionLevel class it should be throw an error when remove() is called with a column reference 1`] = `
+"This collection is referenced by other column(s):
+
+- [1mcollection2[22m.column2
+
+The references must first be deleted"
+`;

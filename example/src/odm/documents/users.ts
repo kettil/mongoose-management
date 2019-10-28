@@ -15,7 +15,7 @@ import { indexType } from '../types';
 /**
  *
  */
-export type usersTypes = { children?: any[]; email: string; password: string };
+export type usersTypes = { children?: any[]; email: string; pages?: any[]; password: string };
 
 /**
  *
@@ -23,6 +23,7 @@ export type usersTypes = { children?: any[]; email: string; password: string };
 export const usersDefinitions = {
   children: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   email: { type: Schema.Types.String, required: true },
+  pages: [{ type: Schema.Types.ObjectId, ref: 'Pages.content' }],
   password: { type: Schema.Types.String, required: true },
 };
 

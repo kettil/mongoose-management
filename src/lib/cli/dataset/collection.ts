@@ -75,6 +75,20 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
     this.parent.removeCollection(this);
   }
 
+  getPopulates(withOwnPopulates = true) {
+    return this.getParent()
+      .getCollections()
+      .reduce<ColumnDataset[]>((prev, curr) => prev.concat(curr.flatColumns()), [])
+      .filter((column) => {
+        const populate = column.getPopulate();
+        const collection = populate instanceof ColumnDataset ? populate.getCollection() : populate;
+
+        return collection === this;
+      })
+      .filter((column) => withOwnPopulates || column.getCollection() !== this)
+      .filter((value, index, self) => self.indexOf(value) === index);
+  }
+
   getObject(): dataCollectionType {
     const specialNames = specialColumns.map((d) => d[0]);
 
