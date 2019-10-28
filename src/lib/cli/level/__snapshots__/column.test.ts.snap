@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the ColumnLevel class it should be throw an error when remove() is called with a reference 1`] = `
+"This nested schema is referenced by other column(s):
+
+- [1mc1[22m.cName
+
+The references must first be deleted"
+`;
+
+exports[`Check the ColumnLevel class it should be throw an error when remove() is called with indexes found 1`] = `
+"Indexes still exist for the column. These must be deleted first!
+
+The following indexes contain the column:
+- name_unique"
+`;

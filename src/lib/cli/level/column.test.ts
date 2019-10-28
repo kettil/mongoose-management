@@ -139,6 +139,29 @@ describe('Check the ColumnLevel class', () => {
     expect(dataset.getColumns().length).toBe(1);
   });
 
+  test('it should be throw an error when remove() is called with a reference', async () => {
+    expect.assertions(6);
+
+    const column = dataset.getCollection().getColumn('cName')!;
+    const subColumn = dataset.getColumn('subColumnName')!;
+
+    expect(column).toBeInstanceOf(ColumnDataset);
+    expect(subColumn).toBeInstanceOf(ColumnDataset);
+    expect(column.getCollection().getColumns().length).toBe(5);
+
+    column.setPopulate(dataset);
+    dataset.getColumns().forEach((c) => c.remove());
+
+    try {
+      await level.remove(dataset);
+    } catch (err) {
+      expect(err).toBeInstanceOf(Error);
+      expect(err.message).toMatchSnapshot();
+
+      expect(column.getCollection().getColumns().length).toBe(5);
+    }
+  });
+
   test('it should be throw an error when remove() is called with others indexes', async () => {
     expect.assertions(5);
 
@@ -158,7 +181,7 @@ describe('Check the ColumnLevel class', () => {
   });
 
   test('it should be throw an error when remove() is called with indexes found', async () => {
-    expect.assertions(4);
+    expect.assertions(3);
 
     const column = dataset.getCollection().getColumn('cName')!;
 
@@ -168,8 +191,7 @@ describe('Check the ColumnLevel class', () => {
       await level.remove(column);
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
-      expect(typeof err.message).toBe('string');
-      expect(err.message.split('\n')[0]).toBe('Indexes still exist for the column. These must be deleted first!');
+      expect(err.message).toMatchSnapshot();
     }
   });
 

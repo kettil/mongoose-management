@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
 import GroupDataset from '../dataset/group';
@@ -46,6 +48,28 @@ export default class CollectionLevel extends AbstractLevel<
     }
 
     return dataset;
+  }
+
+  async remove(dataset: CollectionDataset): Promise<boolean> {
+    const populates = dataset
+      .getPopulates(false)
+      .map((c) => `- ${chalk.bold(c.getCollection().getName())}.${c.getFullname(false, false)}`);
+
+    if (populates.length > 0) {
+      throw new Error(
+        [
+          'This collection is referenced by other column(s):',
+          '',
+          ...populates,
+          '',
+          'The references must first be deleted',
+        ].join('\n'),
+      );
+    }
+
+    const result = await super.remove(dataset);
+
+    return result;
   }
 
   async show(dataset: ColumnDataset | IndexDataset): Promise<void> {

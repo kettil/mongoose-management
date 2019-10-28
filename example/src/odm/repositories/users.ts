@@ -32,6 +32,10 @@ export const options: SchemaOptions = {
   toJSON: {
     getters: true,
     virtuals: true,
+    transform: (doc, ret) => {
+      delete ret._id;
+      return ret;
+    },
   },
 
   strict: 'throw',

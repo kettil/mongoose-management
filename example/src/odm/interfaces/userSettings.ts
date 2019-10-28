@@ -12,9 +12,9 @@ import { Document, DocumentQuery, Model } from 'mongoose';
 
 import { extendIdType, extendTimestampType, virtualType as virtualTypeConvert } from '../types';
 
-import { usersSettingsTypes } from '../documents/usersSettings';
+import { userSettingsTypes } from '../documents/userSettings';
 
-import { methods, queries, statics, virtuals } from '../repositories/usersSettings';
+import { methods, queries, statics, virtuals } from '../repositories/userSettings';
 
 type methodsType = typeof methods;
 type staticsType = typeof statics;
@@ -24,8 +24,8 @@ type virtualsType = virtualTypeConvert<typeof virtuals>;
 /**
  * Document | Methods
  */
-export interface InterfaceUsersSettingsDocument
-  extends usersSettingsTypes,
+export interface InterfaceUserSettingsDocument
+  extends userSettingsTypes,
     extendTimestampType,
     virtualsType,
     methodsType,
@@ -34,18 +34,18 @@ export interface InterfaceUsersSettingsDocument
 /**
  * DocumentQuery | Statics | Query
  */
-export interface InterfaceUsersSettingsDocumentQuery
+export interface InterfaceUserSettingsDocumentQuery
   extends DocumentQuery<
-    InterfaceUsersSettingsDocument | InterfaceUsersSettingsDocument[],
-    InterfaceUsersSettingsDocument
+    InterfaceUserSettingsDocument | InterfaceUserSettingsDocument[],
+    InterfaceUserSettingsDocument
   > {}
 
 /**
  * Model
  */
-export interface InterfaceUsersSettingsModel extends staticsType, Model<InterfaceUsersSettingsDocument, queriesType> {}
+export interface InterfaceUserSettingsModel extends staticsType, Model<InterfaceUserSettingsDocument, queriesType> {}
 
 /**
  * Virtual
  */
-export interface InterfaceUsersSettingsVirtual extends usersSettingsTypes, extendTimestampType, extendIdType {}
+export interface InterfaceUserSettingsVirtual extends userSettingsTypes, extendTimestampType, extendIdType {}

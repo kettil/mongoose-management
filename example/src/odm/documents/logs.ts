@@ -24,7 +24,7 @@ export const logsDefinitions = {
   data: { type: Schema.Types.Mixed },
   message: { type: Schema.Types.String, required: true },
   tags: [{ type: Schema.Types.String }],
-  user: { type: Schema.Types.ObjectId, required: true },
+  user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
 };
 
 /**

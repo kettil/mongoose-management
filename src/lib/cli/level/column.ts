@@ -1,10 +1,9 @@
+import chalk from 'chalk';
+
 import CollectionDataset from '../dataset/collection';
 import ColumnDataset from '../dataset/column';
-
 import ColumnMenu from '../menu/column';
-
 import promptsColumn from '../prompts/column';
-
 import AbstractLevel from './abstract';
 
 import { choiceValueType, levelOptionsType } from '../../types';
@@ -35,6 +34,32 @@ export default class ColumnLevel extends AbstractLevel<
   async remove(dataset: ColumnDataset): Promise<boolean> {
     if (dataset.getColumns().length > 0) {
       throw new Error('There are still subcolumns. These must be deleted first!');
+    }
+
+    const subColumns = dataset.flatColumns().concat(dataset);
+    const populates = dataset
+      .getCollection()
+      .getPopulates()
+      // ignore references from subcolumns
+      .filter((c) => subColumns.indexOf(c) === -1)
+      // ignore columns that are not this column or subcolumns
+      .filter((c) => {
+        const populate = c.getPopulate();
+
+        return populate instanceof ColumnDataset && subColumns.indexOf(populate) >= 0;
+      })
+      .map((c) => `- ${chalk.bold(c.getCollection().getName())}.${c.getFullname(false, false)}`);
+
+    if (populates.length > 0) {
+      throw new Error(
+        [
+          'This nested schema is referenced by other column(s):',
+          '',
+          ...populates,
+          '',
+          'The references must first be deleted',
+        ].join('\n'),
+      );
     }
 
     const name = dataset.getFullname(false, false);
