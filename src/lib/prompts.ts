@@ -21,15 +21,26 @@ export const promptTableOptions: TableUserConfig = {
 };
 
 export default class Prompts {
-  private options = {
+  private options: Record<string, any> = {
     pageSize: 75,
-    prefix: '🎃',
-
     filter: (value: any) => (typeof value === 'string' ? value.trim() : value),
   };
 
+  private defaultItem = '🎯';
+  private items: Array<[[number, number], [number, number], string]> = [
+    [[6, 1], [8, 15], '⛺'],
+    [[3, 21], [4, 25], '🐰'],
+    [[10, 24], [11, 8], '🎃'],
+    [[12, 31], [12, 31], '🎉'],
+    [[12, 1], [12, 31], '🎄'],
+    [[11, 1], [12, 31], '⛄'],
+    [[1, 1], [3, 31], '⛄'],
+  ];
+
   constructor(protected clearScreen: boolean = true) {
     registerPrompt('fuzzypath', inquirerFuzzyPath);
+
+    this.options.prefix = this.getIcon(new Date());
   }
 
   async exit() {
@@ -144,6 +155,22 @@ export default class Prompts {
     ]);
 
     return value;
+  }
+
+  getIcon(time: Date) {
+    const year = new Date().getFullYear();
+    const now = time.getTime();
+
+    for (const [[beginMonth, beginDay], [endMonth, endDay], icon] of this.items) {
+      const begin = new Date(year, beginMonth - 1, beginDay, 0, 0, 0, 0).getTime();
+      const end = new Date(year, endMonth - 1, endDay + 1, 0, 0, 0, 0).getTime();
+
+      if (begin <= now && now < end) {
+        return icon;
+      }
+    }
+
+    return this.defaultItem;
   }
 
   getSpinner(): ora.Ora {

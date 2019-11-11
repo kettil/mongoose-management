@@ -59,7 +59,7 @@ describe('Check the app() function', () => {
           message: 'Choose a group or a command:',
           name: 'value',
           pageSize: 75,
-          prefix: '🎃',
+          prefix: expect.any(String),
           type: 'list',
         },
       ]);
@@ -70,7 +70,7 @@ describe('Check the app() function', () => {
           message: 'Generator really quit?',
           name: 'confirm',
           pageSize: 75,
-          prefix: '🎃',
+          prefix: expect.any(String),
           type: 'confirm',
         },
       ]);

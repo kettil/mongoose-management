@@ -190,7 +190,7 @@ describe('Check the Storage class', () => {
         message: 'Press a key',
         name: 'press',
         pageSize: 75,
-        prefix: '🎃',
+        prefix: expect.any(String),
         type: 'input',
       },
     ]);

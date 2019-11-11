@@ -15,6 +15,7 @@
 ### Features
 
 - Expand the populate with nested schemas [[#9](https://github.com/kettil/mongoose-management/issues/9)]
+- Add various emoji in the command line
 
 ## [0.2.0] - 2019-10-24
 

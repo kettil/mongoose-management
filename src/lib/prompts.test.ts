@@ -429,10 +429,27 @@ describe('Check the Prompts class', () => {
           message: 'questions',
           name: 'value',
           pageSize: 75,
-          prefix: '🎃',
+          prefix: expect.any(String),
           type: 'list',
         },
       ]);
+    });
+
+    test('it should be return various icons when getIcon() is called with all days of a year', () => {
+      const months: string[][] = [];
+
+      for (let i = 1; i <= 365; i++) {
+        const day = new Date(2019, 0, i, 2);
+        const month = day.getMonth();
+
+        if (typeof months[month] === 'undefined') {
+          months[month] = [];
+        }
+
+        months[month].push(prompts.getIcon(day));
+      }
+
+      expect(months.map((m) => m.join(' '))).toMatchSnapshot();
     });
 
     test('it should be return a ora instance when getSpinner() is called', () => {
