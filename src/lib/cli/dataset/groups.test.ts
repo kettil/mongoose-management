@@ -10,7 +10,10 @@ describe('Check the GroupsDataset class', () => {
 
   beforeEach(() => {
     groups = {
-      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/three', collections: [] }],
+      groups: [
+        { path: 'path/to/one', collections: [] },
+        { path: 'path/to/three', collections: [] },
+      ],
     };
 
     dataset = new GroupsDataset(groups, 'path/to/project');
@@ -113,7 +116,10 @@ describe('Check the GroupsDataset class', () => {
     const data = dataset.getObject();
 
     expect(data).toEqual({
-      groups: [{ path: 'path/to/one', collections: [] }, { path: 'path/to/three', collections: [] }],
+      groups: [
+        { path: 'path/to/one', collections: [] },
+        { path: 'path/to/three', collections: [] },
+      ],
     });
   });
 });

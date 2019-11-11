@@ -195,16 +195,17 @@ describe('Check the prompts columnMain functions', () => {
     expect(result).toEqual(expected);
   });
 
-  test.each<[boolean, string]>([[true, 'withName'], [false, ''], [false, '   ']])(
-    'it should be return %p when whenType is called with %p',
-    (expected, name) => {
-      const closure = whenType();
+  test.each<[boolean, string]>([
+    [true, 'withName'],
+    [false, ''],
+    [false, '   '],
+  ])('it should be return %p when whenType is called with %p', (expected, name) => {
+    const closure = whenType();
 
-      expect(closure).toEqual(expect.any(Function));
+    expect(closure).toEqual(expect.any(Function));
 
-      const result = closure({ name });
+    const result = closure({ name });
 
-      expect(result).toEqual(expected);
-    },
-  );
+    expect(result).toEqual(expected);
+  });
 });

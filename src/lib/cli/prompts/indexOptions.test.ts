@@ -20,7 +20,10 @@ describe('Check the prompts indexOptions functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
-        columns: [{ name: 'column1', type: 'string' }, { name: 'column2', type: 'string' }],
+        columns: [
+          { name: 'column1', type: 'string' },
+          { name: 'column2', type: 'string' },
+        ],
         indexes: [{ name: 'index1', columns: { column1: 1 }, properties: { unique: true } }],
       },
       jest.fn() as any,

@@ -171,7 +171,10 @@ describe('Check the prompts groupMain functions', () => {
     expect(result).toEqual(expected);
   });
 
-  test.each([['src/odm', '/project/src', '/project'], ['odm', '/project', '/project']])(
+  test.each([
+    ['src/odm', '/project/src', '/project'],
+    ['odm', '/project', '/project'],
+  ])(
     'it should be return %p when pathRelative() is called with arguments %p and %p',
     (expected, pathDocuments, pathProject) => {
       const result = pathRelative('odm', pathDocuments, pathProject);

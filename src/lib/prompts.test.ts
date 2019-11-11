@@ -183,57 +183,57 @@ describe('Check the Prompts class', () => {
       expect(process.stdout.write).toHaveBeenCalledTimes(0);
     });
 
-    test.each([[true, true], [false, false]])(
-      'it should be return %p when retry() is called and the input value is %p',
-      async (expected, value) => {
-        ((prompt as any) as jest.Mock).mockResolvedValueOnce({ retry: value });
+    test.each([
+      [true, true],
+      [false, false],
+    ])('it should be return %p when retry() is called and the input value is %p', async (expected, value) => {
+      ((prompt as any) as jest.Mock).mockResolvedValueOnce({ retry: value });
 
-        const result = await prompts.retry('test message');
+      const result = await prompts.retry('test message');
 
-        expect(result).toBe(expected);
+      expect(result).toBe(expected);
 
-        expect(prompt).toHaveBeenCalledTimes(1);
-        expect(prompt).toHaveBeenCalledWith([
-          {
-            default: false,
-            filter: expect.any(Function),
-            message: expect.any(String),
-            name: 'retry',
-            pageSize: expect.any(Number),
-            prefix: expect.any(String),
-            type: 'confirm',
-          },
-        ]);
+      expect(prompt).toHaveBeenCalledTimes(1);
+      expect(prompt).toHaveBeenCalledWith([
+        {
+          default: false,
+          filter: expect.any(Function),
+          message: expect.any(String),
+          name: 'retry',
+          pageSize: expect.any(Number),
+          prefix: expect.any(String),
+          type: 'confirm',
+        },
+      ]);
 
-        expect(console.log).toHaveBeenCalledTimes(2);
-        expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error!`);
-        expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} test message`);
-      },
-    );
+      expect(console.log).toHaveBeenCalledTimes(2);
+      expect(console.log).toHaveBeenNthCalledWith(1, `${chalk.red('>>')} Error!`);
+      expect(console.log).toHaveBeenNthCalledWith(2, `${chalk.red('>>')} test message`);
+    });
 
-    test.each([[true, true], [false, false]])(
-      'it should be return %p when remove() is called and the input value is %p',
-      async (expected, value) => {
-        ((prompt as any) as jest.Mock).mockResolvedValueOnce({ remove: value });
+    test.each([
+      [true, true],
+      [false, false],
+    ])('it should be return %p when remove() is called and the input value is %p', async (expected, value) => {
+      ((prompt as any) as jest.Mock).mockResolvedValueOnce({ remove: value });
 
-        const result = await prompts.remove('dataset name');
+      const result = await prompts.remove('dataset name');
 
-        expect(result).toBe(expected);
+      expect(result).toBe(expected);
 
-        expect(prompt).toHaveBeenCalledTimes(1);
-        expect(prompt).toHaveBeenCalledWith([
-          {
-            default: false,
-            filter: expect.any(Function),
-            message: 'Really delete "dataset name"?',
-            name: 'remove',
-            pageSize: expect.any(Number),
-            prefix: expect.any(String),
-            type: 'confirm',
-          },
-        ]);
-      },
-    );
+      expect(prompt).toHaveBeenCalledTimes(1);
+      expect(prompt).toHaveBeenCalledWith([
+        {
+          default: false,
+          filter: expect.any(Function),
+          message: 'Really delete "dataset name"?',
+          name: 'remove',
+          pageSize: expect.any(Number),
+          prefix: expect.any(String),
+          type: 'confirm',
+        },
+      ]);
+    });
 
     test('it should be show the message when pressKey() is called with without text', async () => {
       await prompts.pressKey();

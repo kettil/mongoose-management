@@ -189,7 +189,12 @@ describe('Check the ColumnDataset class', () => {
       expect(result).toBe(index);
     });
 
-    test.each([['unique', true, true], ['unique', true, false], ['sparse', false, true], ['index', false, false]])(
+    test.each([
+      ['unique', true, true],
+      ['unique', true, false],
+      ['sparse', false, true],
+      ['index', false, false],
+    ])(
       'it should be return "%s" when getIndexType() is called  and the index has the following properties [%p, %p]',
       (expected, withUnique, withSparse) => {
         index.setProperty('unique', withUnique);
@@ -558,7 +563,10 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset.column).toEqual({
         name: 'cName',
         required: true,
-        subColumns: [{ name: 'cSubName2', required: true, type: 'string' }, { name: 'cSubName1', type: 'number' }],
+        subColumns: [
+          { name: 'cSubName2', required: true, type: 'string' },
+          { name: 'cSubName1', type: 'number' },
+        ],
         type: 'object',
       });
       expect(dataset.collection).toEqual(collection);
@@ -600,7 +608,10 @@ describe('Check the ColumnDataset class', () => {
       expect(result).toEqual({
         name: 'cName',
         required: true,
-        subColumns: [{ name: 'cSubName2', required: true, type: 'string' }, { name: 'cSubName1', type: 'number' }],
+        subColumns: [
+          { name: 'cSubName2', required: true, type: 'string' },
+          { name: 'cSubName1', type: 'number' },
+        ],
         subTypes: undefined,
         type: 'object',
       });

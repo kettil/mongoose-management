@@ -55,7 +55,10 @@ describe('Check the IndexDataset class', () => {
 
     expect(dataset.parent).toBe(collection);
     expect(dataset.name).toBe('i1');
-    expect(dataset.columns).toEqual([[expect.any(ColumnDataset), 1], [expect.any(ColumnDataset), -1]]);
+    expect(dataset.columns).toEqual([
+      [expect.any(ColumnDataset), 1],
+      [expect.any(ColumnDataset), -1],
+    ]);
     expect(dataset.readonly).toEqual(false);
 
     expect(c3).toBeInstanceOf(ColumnDataset);
@@ -78,7 +81,10 @@ describe('Check the IndexDataset class', () => {
   test('it should be return the collections when getColumns() is called', () => {
     const result = dataset.getColumns();
 
-    expect(result).toEqual([[expect.any(ColumnDataset), 1], [expect.any(ColumnDataset), -1]]);
+    expect(result).toEqual([
+      [expect.any(ColumnDataset), 1],
+      [expect.any(ColumnDataset), -1],
+    ]);
   });
 
   test('it should be return the collections when getColumnsNormalize() is called', () => {

@@ -34,7 +34,10 @@ describe('Check the CollectionLevel class', () => {
     dataset = new CollectionDataset(
       {
         name: 'collectionName',
-        columns: [{ name: 'c1', type: 'string' }, { name: 'c2', type: 'object' }],
+        columns: [
+          { name: 'c1', type: 'string' },
+          { name: 'c2', type: 'object' },
+        ],
         indexes: [{ name: 'i1', columns: { c1: 'hashed' }, properties: {} }],
       },
       group,

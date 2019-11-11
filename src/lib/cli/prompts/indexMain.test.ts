@@ -22,7 +22,10 @@ describe('Check the prompts indexMain functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
-        columns: [{ name: 'column1', type: 'string' }, { name: 'column2', type: 'string' }],
+        columns: [
+          { name: 'column1', type: 'string' },
+          { name: 'column2', type: 'string' },
+        ],
         indexes: [{ name: 'index1', columns: { column1: 1 }, properties: {} }],
       },
       jest.fn() as any,
@@ -213,16 +216,18 @@ describe('Check the prompts indexMain functions', () => {
     expect(result).toEqual(expected);
   });
 
-  test.each<[boolean, string]>([[true, 'name'], [true, '  name  '], [false, ''], [false, '    ']])(
-    'it should be return %p when whenColumns() is called with "%s"',
-    (expected, name) => {
-      const closure = whenColumns();
+  test.each<[boolean, string]>([
+    [true, 'name'],
+    [true, '  name  '],
+    [false, ''],
+    [false, '    '],
+  ])('it should be return %p when whenColumns() is called with "%s"', (expected, name) => {
+    const closure = whenColumns();
 
-      expect(closure).toEqual(expect.any(Function));
+    expect(closure).toEqual(expect.any(Function));
 
-      const result = closure({ name });
+    const result = closure({ name });
 
-      expect(result).toBe(expected);
-    },
-  );
+    expect(result).toBe(expected);
+  });
 });

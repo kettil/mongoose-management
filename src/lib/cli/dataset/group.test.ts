@@ -15,7 +15,10 @@ describe('Check the GroupDataset class', () => {
         groups: [
           {
             path: 'path/to',
-            collections: [{ name: 'c1', columns: [], indexes: [] }, { name: 'c6', columns: [], indexes: [] }],
+            collections: [
+              { name: 'c1', columns: [], indexes: [] },
+              { name: 'c6', columns: [], indexes: [] },
+            ],
           },
         ],
       },
@@ -124,7 +127,10 @@ describe('Check the GroupDataset class', () => {
 
     expect(data).toEqual({
       path: 'path/to',
-      collections: [{ name: 'c1', columns: [], indexes: [] }, { name: 'c6', columns: [], indexes: [] }],
+      collections: [
+        { name: 'c1', columns: [], indexes: [] },
+        { name: 'c6', columns: [], indexes: [] },
+      ],
     });
   });
 });

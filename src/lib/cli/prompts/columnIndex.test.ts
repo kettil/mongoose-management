@@ -152,30 +152,32 @@ describe('Check the prompts columnIndex functions', () => {
     });
   });
 
-  test.each<[string, any]>([['with type "no"', { type: 'no', value: 'hashed' }], ['without value', { type: 'index' }]])(
-    'it should be return the column and remove the index when evaluation() is called %s',
-    (_, answers) => {
-      const closure = evaluation(answers);
+  test.each<[string, any]>([
+    ['with type "no"', { type: 'no', value: 'hashed' }],
+    ['without value', { type: 'index' }],
+  ])('it should be return the column and remove the index when evaluation() is called %s', (_, answers) => {
+    const closure = evaluation(answers);
 
-      expect(closure).toEqual(expect.any(Function));
+    expect(closure).toEqual(expect.any(Function));
 
-      const result = closure(column);
+    const result = closure(column);
 
-      expect(result).toBe(column);
-      expect(collection.getObject()).toEqual({
-        columns: [{ name: 'column1', type: 'string' }],
-        indexes: [],
-        name: 'collectionName',
-      });
-    },
-  );
+    expect(result).toBe(column);
+    expect(collection.getObject()).toEqual({
+      columns: [{ name: 'column1', type: 'string' }],
+      indexes: [],
+      name: 'collectionName',
+    });
+  });
 
-  test.each<[boolean, any]>([[true, 'index'], [true, 'sparse'], [false, 'no'], [false, undefined]])(
-    'it should be return %p when whenValue() is called with type %p',
-    (expected, type) => {
-      const result = whenValue({ type });
+  test.each<[boolean, any]>([
+    [true, 'index'],
+    [true, 'sparse'],
+    [false, 'no'],
+    [false, undefined],
+  ])('it should be return %p when whenValue() is called with type %p', (expected, type) => {
+    const result = whenValue({ type });
 
-      expect(result).toBe(expected);
-    },
-  );
+    expect(result).toBe(expected);
+  });
 });
