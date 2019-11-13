@@ -16,7 +16,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
     }
 
     const result = await this.prompts.menu<CollectionDataset>('Choose a collection or a command:', [
-      new Separator(`Group: ${chalk.bold(group.getPath())}`),
+      new Separator(`Group: ${chalk.reset.bold(group.getPath())}`),
       new Separator(' '),
       new Separator('Collections list'),
       new Separator(' '),

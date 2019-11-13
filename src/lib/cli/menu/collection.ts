@@ -27,7 +27,7 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     const choicesIndexes = this.getChoiceIndexList(collection.getIndexes());
 
     const result = await this.prompts.menu<ColumnDataset | IndexDataset>('Choose a column/index or a command:', [
-      new Separator(`Collection: ${chalk.bold(collection.getName())}`),
+      new Separator(`Collection: ${chalk.reset.bold(collection.getName())}`),
       new Separator(' '),
       new Separator(chalk.underline('Columns list')),
       new Separator(' '),
