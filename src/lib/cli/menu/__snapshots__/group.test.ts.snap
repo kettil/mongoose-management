@@ -204,7 +204,7 @@ Array [
 exports[`Check the GroupMenu class it should be return menu selection when exec() is called with collections 1`] = `
 Array [
   Separator {
-    "line": "[2mGroup: [1mpath[2m[22m",
+    "line": "[2mGroup: [0m[1mpath[2m[0m[22m",
     "type": "separator",
   },
   Separator {
@@ -469,7 +469,7 @@ Array [
 exports[`Check the GroupMenu class it should be return menu selection when exec() is called without collections 1`] = `
 Array [
   Separator {
-    "line": "[2mGroup: [1mpath[2m[22m",
+    "line": "[2mGroup: [0m[1mpath[2m[0m[22m",
     "type": "separator",
   },
   Separator {
