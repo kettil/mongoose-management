@@ -62,7 +62,7 @@
     "url": "https://github.com/kettil/mongoose-management/issues/new"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.22",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.12.7",
     "copyfiles": "^2.1.1",
     "husky": "^3.0.9",
@@ -86,10 +86,10 @@
     "chalk": "^3.0.0",
     "inquirer": "^7.0.0",
     "inquirer-fuzzy-path": "^2.1.0",
-    "mongodb": "^3.3.3",
-    "mongoose": "^5.7.9",
+    "mongodb": "^3.3.4",
+    "mongoose": "^5.7.10",
     "mustache": "^3.1.0",
-    "ora": "^4.0.0",
+    "ora": "^4.0.3",
     "prettier": "^1.19.1",
     "table": "^5.4.6",
     "yargs": "^14.0.0"
