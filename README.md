@@ -28,12 +28,16 @@ In your project folder you start the application and follow the menu items.
 
 ```bash
 mongoose-management
+
+# show the help menu
+mongoose-management --help
 ```
 
-The [example folder](./example) contains an example project. With the following command the `mongoose-management` can be started in the context of the example project.
+The [example folder](./example) contains an example project. If the application is installed globally, the example project can be called using the following command.
 
 ```bash
-mongoose-management -p path/to/example/folder
+# on a mac where nodejs is installed via homebrew
+mongoose-management -p /usr/local/lib/node_modules/mongoose-management/example
 ```
 
 ### Overview of collections groups

@@ -8,6 +8,8 @@
 
 ### Fixes
 
+- Contrast adjustment [[#13](https://github.com/kettil/mongoose-management/issues/13)]
+
 ### Chore & Maintenance
 
 ### Performance

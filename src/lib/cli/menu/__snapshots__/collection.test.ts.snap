@@ -30,7 +30,7 @@ Array [
 exports[`Check the CollectionMenu class it should be return menu selection when exec() is called 1`] = `
 Array [
   Separator {
-    "line": "[2mCollection: [1mc1[2m[22m",
+    "line": "[2mCollection: [0m[1mc1[2m[0m[22m",
     "type": "separator",
   },
   Separator {
