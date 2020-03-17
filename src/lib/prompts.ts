@@ -158,7 +158,7 @@ export default class Prompts {
   }
 
   getIcon(time: Date) {
-    const year = new Date().getFullYear();
+    const year = time.getFullYear();
     const now = time.getTime();
 
     for (const [[beginMonth, beginDay], [endMonth, endDay], icon] of this.items) {
