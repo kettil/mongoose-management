@@ -108,7 +108,9 @@ export const getColumnOptionsTypeAny = (
       {
         type: 'input',
         name: 'default',
-        message: 'Default value for the column (e.g. Date.now or "Hello World"):',
+        message: `Default value for the column (e.g. ${
+          answersMain.type === 'uuidv4' ? 'uuidv4' : 'Date.now'
+        } or "Hello World"):`,
         default: column && column.get('default'),
         when: whenCommon('default'),
       },

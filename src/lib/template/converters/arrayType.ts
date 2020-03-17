@@ -47,4 +47,12 @@ export default class ConverterArrayType extends AbstractConverter<dataColumnType
   columnToVirtuals() {
     return '';
   }
+
+  columnToImports(column: dataColumnType) {
+    if (!Array.isArray(column.subColumns)) {
+      return [];
+    }
+
+    return this.converter.converterObject.columnToImports(column.subColumns);
+  }
 }

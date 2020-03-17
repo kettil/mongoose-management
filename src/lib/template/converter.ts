@@ -3,6 +3,7 @@ import ConverterArray from './converters/array';
 import ConverterArrayType from './converters/arrayType';
 import ConverterCommon from './converters/common';
 import ConverterObject from './converters/object';
+import ConverterUUIDv4 from './converters/uuidv4';
 
 import { dataColumnType, dataIndexType } from '../types';
 
@@ -11,6 +12,7 @@ import { dataColumnType, dataIndexType } from '../types';
  */
 export default class Converter {
   readonly converter2dSphere: Converter2dSphere;
+  readonly converterUUIDv4: ConverterUUIDv4;
   readonly converterArray: ConverterArray;
   readonly converterArrayType: ConverterArrayType;
   readonly converterCommon: ConverterCommon;
@@ -18,6 +20,7 @@ export default class Converter {
 
   constructor() {
     this.converter2dSphere = new Converter2dSphere(this);
+    this.converterUUIDv4 = new ConverterUUIDv4(this);
     this.converterArray = new ConverterArray(this);
     this.converterArrayType = new ConverterArrayType(this);
     this.converterCommon = new ConverterCommon(this);
@@ -42,6 +45,12 @@ export default class Converter {
 
   getVirtuals(columns: dataColumnType[]): string {
     return '';
+  }
+
+  getImports(columns: dataColumnType[]): string[] {
+    const columnImports = this.converterObject.columnToImports(columns);
+
+    return columnImports.filter((value, index) => columnImports.indexOf(value) === index).sort();
   }
 
   /**

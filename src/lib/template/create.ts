@@ -82,6 +82,7 @@ export default class Create {
       schemaDefinitions: this.converter.getDefinitions(collection.columns),
       SchemaIndexes: this.converter.getIndexes(collection.indexes),
       schemaTypes: this.converter.getTypes(collection.columns),
+      additionalImports: this.converter.getImports(collection.columns),
     };
   }
 

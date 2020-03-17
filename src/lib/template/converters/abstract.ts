@@ -27,4 +27,10 @@ export default abstract class AbstractConverter<T> {
    * @param value
    */
   abstract columnToVirtuals(value: T): string;
+
+  /**
+   *
+   * @param value
+   */
+  abstract columnToImports(value: T): string[];
 }

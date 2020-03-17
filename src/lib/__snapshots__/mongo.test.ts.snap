@@ -85,6 +85,11 @@ Object {
     "name": "String",
     "type": "string",
   },
+  "uuidv4": Object {
+    "definition": "Schema.Types.UUIDv4",
+    "name": "UUIDv4",
+    "type": "string",
+  },
 }
 `;
 
@@ -133,6 +138,11 @@ Object {
   "string": Object {
     "definition": "Schema.Types.String",
     "name": "String",
+    "type": "string",
+  },
+  "uuidv4": Object {
+    "definition": "Schema.Types.UUIDv4",
+    "name": "UUIDv4",
     "type": "string",
   },
 }

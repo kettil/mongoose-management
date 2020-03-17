@@ -30,4 +30,8 @@ export default class Converter2dSphere extends AbstractConverter<undefined> {
   columnToVirtuals() {
     return '';
   }
+
+  columnToImports() {
+    return [];
+  }
 }

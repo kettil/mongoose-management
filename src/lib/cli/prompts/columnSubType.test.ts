@@ -23,6 +23,7 @@ describe('Check the prompts columnSubType functions', () => {
       { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
       { name: 'Decimal128', short: 'Decimal128', value: 'decimal' },
       { name: 'Buffer', short: 'Buffer', value: 'buffer' },
+      { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
       { name: 'Mixed', short: 'Mixed', value: 'mixed' },
       { name: 'Array<Type>', short: 'Array<Type>', value: 'arrayType' },
     ];
@@ -47,7 +48,7 @@ describe('Check the prompts columnSubType functions', () => {
       expect(questions).toEqual([
         {
           choices,
-          default: 8,
+          default: 9,
           message: 'Choose a SchemaSubType',
           name: 'type',
           type: 'list',
@@ -60,7 +61,7 @@ describe('Check the prompts columnSubType functions', () => {
       expect(questions).toEqual([
         {
           choices,
-          default: 8,
+          default: 9,
           message: 'Choose a SchemaSubType',
           name: 'type',
           type: 'list',
@@ -133,7 +134,7 @@ describe('Check the prompts columnSubType functions', () => {
     expect(result).toEqual([
       {
         choices,
-        default: 8,
+        default: 9,
         message: 'Choose a SchemaSubType',
         name: 'type',
         type: 'list',

@@ -6,6 +6,7 @@ export const schemaTypesNormal = {
   objectId: { name: 'ObjectId', definition: 'Schema.Types.ObjectId', type: 'any' },
   decimal: { name: 'Decimal128', definition: 'Schema.Types.Decimal128', type: 'number' },
   buffer: { name: 'Buffer', definition: 'Schema.Types.Buffer', type: 'Buffer' },
+  uuidv4: { name: 'UUIDv4', definition: 'Schema.Types.UUIDv4', type: 'string' },
   mixed: { name: 'Mixed', definition: 'Schema.Types.Mixed', type: 'any' },
   arrayType: { name: 'Array<Type>', definition: 'Schema.Types.Array', type: 'any[]' },
 };

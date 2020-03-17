@@ -23,6 +23,7 @@ describe('Check the prompts columnMain functions', () => {
       { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
       { name: 'Decimal128', short: 'Decimal128', value: 'decimal' },
       { name: 'Buffer', short: 'Buffer', value: 'buffer' },
+      { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
       { name: 'Mixed', short: 'Mixed', value: 'mixed' },
       { name: 'Array<Type>', short: 'Array<Type>', value: 'arrayType' },
       { name: 'Array<Object>', short: 'Array<Object>', value: 'array' },
@@ -135,7 +136,7 @@ describe('Check the prompts columnMain functions', () => {
     const result = getQuestions(column);
 
     expect(result).toEqual([
-      { message: 'Column name:', name: 'name', type: 'input', validate: expect.any(Function) },
+      { message: 'Column name:', name: 'name', type: 'input', validate: expect.any(Function), default: undefined },
       {
         choices,
 
@@ -143,6 +144,7 @@ describe('Check the prompts columnMain functions', () => {
         name: 'type',
         type: 'list',
         when: expect.any(Function),
+        default: undefined,
       },
     ]);
   });

@@ -671,6 +671,62 @@ Object {
 }
 `;
 
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "uuidv4" (with column) 1`] = `
+Object {
+  "choices": Array [
+    Object {
+      "checked": true,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": true,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": "null",
+      "message": "Default value for the column (e.g. uuidv4 or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
+`;
+
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeAny() is called with type "uuidv4" (without column) 1`] = `
+Object {
+  "choices": Array [
+    Object {
+      "checked": undefined,
+      "name": "required",
+      "short": "required",
+      "value": "required",
+    },
+    Object {
+      "checked": undefined,
+      "name": "default",
+      "short": "default",
+      "value": "default",
+    },
+  ],
+  "questions": Array [
+    Object {
+      "default": undefined,
+      "message": "Default value for the column (e.g. uuidv4 or \\"Hello World\\"):",
+      "name": "default",
+      "type": "input",
+      "when": [Function],
+    },
+  ],
+}
+`;
+
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "2dsphere" (with column) 1`] = `
 Object {
   "choices": Array [],
@@ -905,6 +961,20 @@ Object {
 `;
 
 exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "string" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
+
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "uuidv4" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
+
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeNumber() is called with type "uuidv4" (without column) 1`] = `
 Object {
   "choices": Array [],
   "questions": Array [],
@@ -1238,6 +1308,20 @@ Object {
       "when": [Function],
     },
   ],
+}
+`;
+
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "uuidv4" (with column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
+}
+`;
+
+exports[`Check the prompts columnOptions functions it should be return the questions array then getColumnOptionsTypeString() is called with type "uuidv4" (without column) 1`] = `
+Object {
+  "choices": Array [],
+  "questions": Array [],
 }
 `;
 
