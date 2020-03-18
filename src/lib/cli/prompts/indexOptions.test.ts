@@ -20,6 +20,7 @@ describe('Check the prompts indexOptions functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
+        idType: 'objectId',
         columns: [
           { name: 'column1', type: 'string' },
           { name: 'column2', type: 'string' },
@@ -90,11 +91,12 @@ describe('Check the prompts indexOptions functions', () => {
     expect(result).toBeInstanceOf(IndexDataset);
     expect(collection.getObject()).toEqual({
       columns: [
-        { name: 'column1', subColumns: undefined, subTypes: undefined, type: 'string' },
-        { name: 'column2', subColumns: undefined, subTypes: undefined, type: 'string' },
+        { name: 'column1', type: 'string' },
+        { name: 'column2', type: 'string' },
       ],
       indexes: [{ columns: { column1: 1 }, name: 'index1', properties: { unique: true } }],
       name: 'collectionName',
+      idType: 'objectId',
     });
   });
 
@@ -112,11 +114,12 @@ describe('Check the prompts indexOptions functions', () => {
     expect(result).toBeInstanceOf(IndexDataset);
     expect(collection.getObject()).toEqual({
       columns: [
-        { name: 'column1', subColumns: undefined, subTypes: undefined, type: 'string' },
-        { name: 'column2', subColumns: undefined, subTypes: undefined, type: 'string' },
+        { name: 'column1', type: 'string' },
+        { name: 'column2', type: 'string' },
       ],
       indexes: [{ columns: { column1: 1 }, name: 'index1', properties: { sparse: true } }],
       name: 'collectionName',
+      idType: 'objectId',
     });
   });
 });

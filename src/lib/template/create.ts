@@ -8,7 +8,7 @@ import File from './handlers/file';
 import Template from './handlers/template';
 import { exists } from './helper';
 
-import { dataCollectionType, templateCollectionNamesType, templateCollectionType } from '../types';
+import { dataCollectionType, dataColumnType, templateCollectionNamesType, templateCollectionType } from '../types';
 
 /**
  *
@@ -76,13 +76,31 @@ export default class Create {
    * @param collection
    */
   getCollectionDataset(collection: dataCollectionType): templateCollectionType {
+    const columns: dataColumnType[] = collection.columns;
+    const idColumnValues: dataColumnType = {
+      name: '_id',
+      type: collection.idType,
+      required: true,
+    };
+    switch (collection.idType) {
+      case 'uuidv4':
+        columns.unshift({
+          ...idColumnValues,
+          default: 'uuidv4',
+        });
+        break;
+      case 'objectId':
+      default:
+      // do nothing
+    }
+
     return {
       ...this.createCollectionNames(collection.name),
       interfaceName: this.interfaceName,
-      schemaDefinitions: this.converter.getDefinitions(collection.columns),
+      schemaDefinitions: this.converter.getDefinitions(columns),
       SchemaIndexes: this.converter.getIndexes(collection.indexes),
-      schemaTypes: this.converter.getTypes(collection.columns),
-      additionalImports: this.converter.getImports(collection.columns),
+      schemaTypes: this.converter.getTypes(columns),
+      additionalImports: this.converter.getImports(columns),
     };
   }
 

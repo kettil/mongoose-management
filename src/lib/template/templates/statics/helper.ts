@@ -30,7 +30,7 @@ export const addIndexes = (schema: Schema, indexes: indexType[]) => {
  */
 export const addVirtualProperties = (
   schema: Schema,
-  virtual: { [k: string]: { get?: () => void; set?: () => void } },
+  virtual: { [k: string]: { get?: () => void; set?: (val: any) => void } },
 ) => {
   Object.entries(virtual).forEach(([name, { get, set }]) => {
     const space = schema.virtual(name);

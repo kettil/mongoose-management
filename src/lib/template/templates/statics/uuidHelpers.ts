@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
-import bson from 'bson';
+import * as BSON from 'bson';
+import { v4 } from 'uuid';
 
 const byteToHex: string[] = [];
 const hexToByte: { [key: string]: number } = {};
@@ -8,6 +8,9 @@ for (let i = 0; i < 256; i++) {
   byteToHex[i] = (i + 0x100).toString(16).substr(1);
   hexToByte[byteToHex[i]] = i;
 }
+
+export const bson = BSON;
+export const uuidv4 = v4;
 
 export const parse = (val: string): number[] => {
   let i = 0;
@@ -29,12 +32,10 @@ export const parse = (val: string): number[] => {
 };
 
 export const unparse = (value: Buffer): string => {
+  const buf = Buffer.from(value);
+  const len = buf.length;
   let hex = '';
-  const len = value.length;
-  const buf = new Buffer(len);
-  for (let i = 0; i < len; i++) {
-    buf[i] = value[i];
-  }
+
   for (let i = 0; i < len; i++) {
     const n = buf.readUInt8(i);
     if (n < 16) {
@@ -60,10 +61,7 @@ export const setter = (value: string | Buffer | any) => {
     return value;
   }
   if (typeof value === 'string') {
-    const uuidBuffer = new Types.Buffer(parse(value));
-    uuidBuffer.subtype(bson.Binary.SUBTYPE_UUID);
-
-    return uuidBuffer.toObject();
+    return Buffer.from(parse(value));
   }
   throw new Error(`Could not convert ${value} to UUID`);
 };
@@ -73,4 +71,6 @@ export default {
   setter,
   parse,
   unparse,
+  bson,
+  uuidv4,
 };

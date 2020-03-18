@@ -16,9 +16,15 @@ export default class ConverterUUIDv4 extends AbstractConverter<dataColumnType> {
    *
    */
   columnToDefinitions(column: dataColumnType) {
-    const defaultVal = column.default !== undefined ? `default: ${column.default},` : '';
+    let additionalOptions = '';
+    if (column.default) {
+      additionalOptions += `default: ${column.default},`;
+    }
+    if (column.required) {
+      additionalOptions += 'required: true,';
+    }
 
-    return `{ type: Buffer, get: uuidGetter, set: uuidSetter, ${defaultVal} }`;
+    return `{ type: Buffer, get: uuidGetter, set: uuidSetter, subtype: bson.Binary.SUBTYPE_UUID, ${additionalOptions} }`;
   }
 
   /**
@@ -29,9 +35,6 @@ export default class ConverterUUIDv4 extends AbstractConverter<dataColumnType> {
   }
 
   columnToImports() {
-    return [
-      "import { v4 as uuidv4 } from 'uuid';",
-      "import {getter as uuidGetter, setter as uuidSetter} from '../uuidHelpers';",
-    ];
+    return ["import { getter as uuidGetter, setter as uuidSetter, bson, uuidv4 } from '../uuidHelpers';"];
   }
 }

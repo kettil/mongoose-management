@@ -35,16 +35,19 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
       return [];
     }
 
-    return columns
-      .map((column) => {
-        const switcher = this.switcher(column, 'columnToImports');
-        if (typeof switcher === 'string') {
-          return [switcher];
-        }
+    return (
+      columns
+        .map((column) => {
+          const switcher = this.switcher(column, 'columnToImports');
+          if (typeof switcher === 'string') {
+            return [switcher];
+          }
 
-        return switcher;
-      })
-      .flat();
+          return switcher;
+        })
+        // following is the same as .flat(), but that does not exist in node 10
+        .reduce((acc, val) => acc.concat(val), [])
+    );
   }
 
   /**

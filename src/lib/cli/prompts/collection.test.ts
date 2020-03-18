@@ -20,6 +20,7 @@ describe('Check the prompts collection function', () => {
         collections: [
           {
             name: 'collection',
+            idType: 'objectId',
             columns: [],
             indexes: [],
           },
@@ -44,6 +45,24 @@ describe('Check the prompts collection function', () => {
           type: 'input',
           validate: expect.any(Function),
         },
+        {
+          name: 'idType',
+          message: "Type of '_id' column:",
+          type: 'list',
+          default: 'objectId',
+          choices: [
+            {
+              name: 'ObjectId',
+              short: 'ObjectId',
+              value: 'objectId',
+            },
+            {
+              name: 'UUIDv4',
+              short: 'UUIDv4',
+              value: 'uuidv4',
+            },
+          ],
+        },
       ]);
 
       return { name: 'newCollectionName' };
@@ -56,6 +75,7 @@ describe('Check the prompts collection function', () => {
     expect(result).toBe(collection);
     expect(result.getObject()).toEqual({
       name: 'newCollectionName',
+      idType: 'objectId',
       columns: [],
       indexes: [],
     });

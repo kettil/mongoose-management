@@ -24,6 +24,7 @@ describe('Check the prompts columnIndex functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
+        idType: 'objectId',
         columns: [{ name: 'column1', type: 'string' }],
         indexes: [{ name: 'column1_', columns: { column1: -1 }, properties: {}, readonly: true }],
       },
@@ -92,14 +93,12 @@ describe('Check the prompts columnIndex functions', () => {
     expect(result).toEqual([
       {
         choices,
-        default: undefined,
         message: 'Choose a index',
         name: 'type',
         type: 'list',
       },
       {
         choices: [1, -1, 'text', 'hashed'],
-        default: undefined,
         message: 'Choose a index type',
         name: 'value',
         type: 'list',
@@ -144,10 +143,11 @@ describe('Check the prompts columnIndex functions', () => {
         {
           columns: { column1: 'hashed' },
           name: 'column1_',
-          properties: { sparse: undefined, unique: undefined },
+          properties: {},
           readonly: true,
         },
       ],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });
@@ -167,6 +167,7 @@ describe('Check the prompts columnIndex functions', () => {
       columns: [{ name: 'column1', type: 'string' }],
       indexes: [],
       name: 'collectionName',
+      idType: 'objectId',
     });
   });
 

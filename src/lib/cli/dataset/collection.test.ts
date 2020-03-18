@@ -19,6 +19,7 @@ describe('Check the CollectionDataset class', () => {
         collections: [
           {
             name: 'collection-name',
+            idType: 'objectId',
             columns: [
               { name: 'column1', type: 'string' },
               {
@@ -34,6 +35,7 @@ describe('Check the CollectionDataset class', () => {
           },
           {
             name: 'collect2',
+            idType: 'uuidv4',
             columns: [
               { name: 'ref1', type: 'objectId', populate: 'collection-name' },
               { name: 'ref2', type: 'objectId', populate: 'collection-name.column7' },
@@ -122,6 +124,29 @@ describe('Check the CollectionDataset class', () => {
     const index = dataset.getIndex('index8');
 
     expect(index).toEqual(undefined);
+  });
+
+  test.each([
+    ['collection-name', 'objectId'],
+    ['collect2', 'uuidv4'],
+  ])(
+    'getIdType() on collection "%s" should return the currently selected idType "%s"',
+    (collectionName, expectedIdType) => {
+      const collection = group.getCollection(collectionName);
+      if (!collection) {
+        throw new Error(`Could not get collection '${collectionName}'`);
+      }
+      expect(collection.getIdType()).toBe(expectedIdType);
+    },
+  );
+
+  test.each([
+    ['objectId', 'objectId'],
+    ['uuidv4', 'uuidv4'],
+    ['randomValueThatDoesNotExist', 'objectId'],
+  ])('setIdType("%s") should set the idType to "%s"', (input, output) => {
+    dataset.setIdType(input);
+    expect(dataset.getIdType()).toBe(output);
   });
 
   test('it should be add a new index to the index list when addIndex() is called with a index', () => {

@@ -1,9 +1,10 @@
 import Prompts, { regexpName, regexpNameMessage } from '../../prompts';
+import { schemaType } from '../../types';
 import CollectionDataset from '../dataset/collection';
 import GroupDataset from '../dataset/group';
 import { CancelPromptError } from '../errors';
 
-export type answersType = { name: string };
+export type answersType = { name: string; idType: schemaType };
 
 export const call = async (
   prompts: Prompts,
@@ -27,6 +28,19 @@ export const getQuestions = (group: GroupDataset, collection?: CollectionDataset
     .filter((d) => d !== collection)
     .map((d) => d.getName().toLowerCase());
 
+  const idTypes = [
+    {
+      name: 'ObjectId',
+      value: 'objectId',
+      short: 'ObjectId',
+    },
+    {
+      name: 'UUIDv4',
+      value: 'uuidv4',
+      short: 'UUIDv4',
+    },
+  ];
+
   return [
     {
       type: 'input',
@@ -35,16 +49,26 @@ export const getQuestions = (group: GroupDataset, collection?: CollectionDataset
       message: 'Collection name:',
       validate: validateName(nameValues),
     },
+    {
+      type: 'list',
+      name: 'idType',
+      message: "Type of '_id' column:",
+      choices: idTypes,
+      default: collection ? collection.getIdType() : 'objectId',
+    },
   ];
 };
 
 export const evaluation = (answers: answersType, group: GroupDataset) => {
   return (collection?: CollectionDataset) => {
     if (!collection) {
-      return group.addCollection(new CollectionDataset({ name: answers.name, columns: [], indexes: [] }, group));
+      return group.addCollection(
+        new CollectionDataset({ name: answers.name, idType: answers.idType, columns: [], indexes: [] }, group),
+      );
     }
 
     collection.setName(answers.name);
+    collection.setIdType(answers.idType);
 
     return collection;
   };

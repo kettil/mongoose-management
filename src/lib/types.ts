@@ -55,6 +55,7 @@ export type dataGroupType = {
  */
 export type dataCollectionType = {
   name: string;
+  idType: schemaType;
   columns: dataColumnType[];
   indexes: dataIndexType[];
 };

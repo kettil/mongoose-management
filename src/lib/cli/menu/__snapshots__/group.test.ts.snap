@@ -45,6 +45,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": "objectId",
         "indexes": Array [],
         "name": "collection2",
         "parent": GroupDataset {
@@ -89,14 +90,43 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [],
               "name": "collection1",
               "parent": [Circular],
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
           ],
           "parent": [MockFunction],
           "path": "path",
         },
+        "specialColumns": Array [
+          Array [
+            "createdAt",
+            "date",
+          ],
+          Array [
+            "updatedAt",
+            "date",
+          ],
+          Array [
+            "_id",
+            "objectId",
+          ],
+        ],
       },
     },
   },
@@ -143,6 +173,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": "objectId",
         "indexes": Array [],
         "name": "collection1",
         "parent": GroupDataset {
@@ -186,15 +217,44 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [],
               "name": "collection2",
               "parent": [Circular],
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
             [Circular],
           ],
           "parent": [MockFunction],
           "path": "path",
         },
+        "specialColumns": Array [
+          Array [
+            "createdAt",
+            "date",
+          ],
+          Array [
+            "updatedAt",
+            "date",
+          ],
+          Array [
+            "_id",
+            "objectId",
+          ],
+        ],
       },
     },
   },
@@ -262,6 +322,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": "objectId",
         "indexes": Array [],
         "name": "collection2",
         "parent": GroupDataset {
@@ -306,14 +367,43 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [],
               "name": "collection1",
               "parent": [Circular],
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
           ],
           "parent": [MockFunction],
           "path": "path",
         },
+        "specialColumns": Array [
+          Array [
+            "createdAt",
+            "date",
+          ],
+          Array [
+            "updatedAt",
+            "date",
+          ],
+          Array [
+            "_id",
+            "objectId",
+          ],
+        ],
       },
     },
   },
@@ -360,6 +450,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": "objectId",
         "indexes": Array [],
         "name": "collection1",
         "parent": GroupDataset {
@@ -403,15 +494,44 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [],
               "name": "collection2",
               "parent": [Circular],
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
             [Circular],
           ],
           "parent": [MockFunction],
           "path": "path",
         },
+        "specialColumns": Array [
+          Array [
+            "createdAt",
+            "date",
+          ],
+          Array [
+            "updatedAt",
+            "date",
+          ],
+          Array [
+            "_id",
+            "objectId",
+          ],
+        ],
       },
     },
   },

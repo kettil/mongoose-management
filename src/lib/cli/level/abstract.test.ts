@@ -39,7 +39,9 @@ describe('Check the AbstractLevel class', () => {
 
     level = new (AbstractLevel as any)(dataset, menu, { prompts, storage, creater });
 
-    level.promptCreate = jest.fn((_, d) => new CollectionDataset({ name: 'cName', columns: [], indexes: [] }, d));
+    level.promptCreate = jest.fn(
+      (_, d) => new CollectionDataset({ name: 'cName', columns: [], indexes: [], idType: 'objectId' }, d),
+    );
     level.promptEdit = jest.fn((_1, _2, d) => d);
   });
 
@@ -236,7 +238,7 @@ describe('Check the AbstractLevel class', () => {
       expect(prompts.menu).toHaveBeenCalledTimes(1);
       expect(creater.exec).toHaveBeenCalledTimes(1);
       expect(creater.exec).toHaveBeenCalledWith('path/to/group', [
-        { columns: [], indexes: [], name: 'collectionName' },
+        { columns: [], indexes: [], name: 'collectionName', idType: 'objectId' },
       ]);
       expect(storage.write).toHaveBeenCalledTimes(1);
       expect(storage.write).toHaveBeenCalledWith(false);
