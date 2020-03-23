@@ -199,14 +199,14 @@ export const getColumnOptionsTypeNumber = (
       {
         type: 'number',
         name: 'min',
-        message: 'Value must greater than or equal:',
+        message: 'Value must be greater than or equal:',
         default: column && column.get('min'),
         when: whenCommon('min'),
       },
       {
         type: 'number',
         name: 'max',
-        message: 'Value must less than or equal:',
+        message: 'Value must be less than or equal:',
         default: column && column.get('max'),
         when: whenCommon('max'),
         validate: validateMax,

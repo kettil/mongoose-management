@@ -23,6 +23,9 @@ export default class ConverterUUIDv4 extends AbstractConverter<dataColumnType> {
     if (column.required) {
       additionalOptions += 'required: true,';
     }
+    if (column.populate) {
+      additionalOptions += `ref: '${column.populate.substr(0, 1).toUpperCase() + column.populate.substr(1)}',`;
+    }
 
     return `{ type: Buffer, get: uuidGetter, set: uuidSetter, subtype: bson.Binary.SUBTYPE_UUID, ${additionalOptions} }`;
   }

@@ -86,7 +86,7 @@ Object {
     "type": "string",
   },
   "uuidv4": Object {
-    "definition": "Schema.Types.UUIDv4",
+    "definition": "Schema.Types.Buffer",
     "name": "UUIDv4",
     "type": "string",
   },
@@ -141,7 +141,7 @@ Object {
     "type": "string",
   },
   "uuidv4": Object {
-    "definition": "Schema.Types.UUIDv4",
+    "definition": "Schema.Types.Buffer",
     "name": "UUIDv4",
     "type": "string",
   },

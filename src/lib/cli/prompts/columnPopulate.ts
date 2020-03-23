@@ -16,8 +16,8 @@ export const call = async (
   column?: ColumnDataset,
 ): Promise<answersType> => {
   if (
-    answersMain.type !== 'objectId' &&
-    (answersMain.type !== 'arrayType' || answersSubType[answersSubType.length - 1] !== 'objectId')
+    !['objectId', 'uuidv4'].includes(answersMain.type) &&
+    (answersMain.type !== 'arrayType' || !['objectId', 'uuidv4'].includes(answersSubType[answersSubType.length - 1]))
   ) {
     return {};
   }

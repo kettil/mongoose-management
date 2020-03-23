@@ -43,14 +43,14 @@ Array [
   },
   Object {
     "default": 2,
-    "message": "Value must greater than or equal:",
+    "message": "Value must be greater than or equal:",
     "name": "min",
     "type": "number",
     "when": [Function],
   },
   Object {
     "default": 5,
-    "message": "Value must less than or equal:",
+    "message": "Value must be less than or equal:",
     "name": "max",
     "type": "number",
     "validate": [Function],
@@ -872,14 +872,14 @@ Object {
   "questions": Array [
     Object {
       "default": 2,
-      "message": "Value must greater than or equal:",
+      "message": "Value must be greater than or equal:",
       "name": "min",
       "type": "number",
       "when": [Function],
     },
     Object {
       "default": 5,
-      "message": "Value must less than or equal:",
+      "message": "Value must be less than or equal:",
       "name": "max",
       "type": "number",
       "validate": [Function],
@@ -908,14 +908,14 @@ Object {
   "questions": Array [
     Object {
       "default": undefined,
-      "message": "Value must greater than or equal:",
+      "message": "Value must be greater than or equal:",
       "name": "min",
       "type": "number",
       "when": [Function],
     },
     Object {
       "default": undefined,
-      "message": "Value must less than or equal:",
+      "message": "Value must be less than or equal:",
       "name": "max",
       "type": "number",
       "validate": [Function],

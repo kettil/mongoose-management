@@ -113,8 +113,18 @@ describe('Check the prompts columnPopulate functions', () => {
 
     const result = await call(prompts, collection1, { name: 'columnName', type }, answersSubType, column);
 
-    expect(result).toEqual({});
-    expect(prompts.call).toHaveBeenCalledTimes(0);
+    switch (type) {
+      case 'uuidv4':
+        expect(result).toEqual({
+          populate: expect.anything(),
+        });
+        expect(result.populate).toBeInstanceOf(CollectionDataset);
+        expect(prompts.call).toHaveBeenCalledTimes(1);
+        break;
+      default:
+        expect(result).toEqual({});
+        expect(prompts.call).toHaveBeenCalledTimes(0);
+    }
   });
 
   test('it should be return the questions array then getQuestions() is called without column', () => {
