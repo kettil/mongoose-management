@@ -24,7 +24,7 @@ type virtualsType = virtualTypeConvert<typeof virtuals>;
 /**
  * Document | Methods
  */
-export interface {{interfaceName}}{{collectionNameUpper}}Document extends {{collectionNameLower}}Types, extendTimestampType, virtualsType, methodsType, Document {}
+export interface {{interfaceName}}{{collectionNameUpper}}Document extends {{collectionNameLower}}Types, extendTimestampType, virtualsType, methodsType, Omit<Document, '_id'> {}
 
 /**
  * DocumentQuery | Statics | Query
