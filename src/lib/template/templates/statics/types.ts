@@ -65,8 +65,8 @@ export type extendTimestampType = {
  *
  */
 export type extendIdType = {
-  _id: string;
-  id: string;
+  _id: any;
+  id: any;
 };
 
 /**
