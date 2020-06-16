@@ -30,6 +30,26 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
     return this.switchers(columns, 'columnToDefinitions');
   }
 
+  columnToImports(columns: dataColumnType[]) {
+    if (columns.length === 0) {
+      return [];
+    }
+
+    return (
+      columns
+        .map((column) => {
+          const switcher = this.switcher(column, 'columnToImports');
+          if (typeof switcher === 'string') {
+            return [switcher];
+          }
+
+          return switcher;
+        })
+        // following is the same as .flat(), but that does not exist in node 10
+        .reduce((acc, val) => acc.concat(val), [])
+    );
+  }
+
   /**
    *
    * @param columns
@@ -44,11 +64,16 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
    * @param funcs
    */
   switchers(columns: dataColumnType[], funcs: keyof AbstractConverter<any>) {
-    const items = columns.map<[string, string, string]>((column) => [
-      column.name,
-      this.switcher(column, funcs).trim(),
-      funcs === 'columnToTypes' && !column.required ? '?' : '',
-    ]);
+    const items = columns.map<[string, string | string[], string]>((column) => {
+      let switchers = this.switcher(column, funcs);
+      if (typeof switchers === 'string') {
+        switchers = switchers.trim();
+      } else {
+        switchers.map((value) => value.trim());
+      }
+
+      return [column.name, switchers, funcs === 'columnToTypes' && !column.required ? '?' : ''];
+    });
 
     return `{ ${items
       .filter((v) => v[1] !== '')
@@ -61,10 +86,13 @@ export default class ConverterObject extends AbstractConverter<dataColumnType[]>
    * @param column
    * @param funcs
    */
-  switcher(column: dataColumnType, funcs: keyof AbstractConverter<any>): string {
+  switcher(column: dataColumnType, funcs: keyof AbstractConverter<any>): string | string[] {
     switch (column.type) {
       case '2dsphere':
         return this.converter.converter2dSphere[funcs]();
+
+      case 'uuidv4':
+        return this.converter.converterUUIDv4[funcs](column);
 
       case 'arrayType':
         return this.converter.converterArrayType[funcs](column);

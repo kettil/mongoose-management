@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "ESNEXT",
-    "module": "ESNext",
+    "module": "commonjs",
     "declaration": true,
     "outDir": "./build",
     "lib": ["dom", "es2017"],

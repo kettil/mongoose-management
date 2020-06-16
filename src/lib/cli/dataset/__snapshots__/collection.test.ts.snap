@@ -20,6 +20,7 @@ Object {
           "type": "object",
         },
       ],
+      "idType": "objectId",
       "indexes": Array [
         Object {
           "columns": Object {
@@ -71,6 +72,7 @@ Object {
           "type": "objectId",
         },
       ],
+      "idType": "uuidv4",
       "indexes": Array [],
       "name": "collect2",
     },

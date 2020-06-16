@@ -112,23 +112,13 @@ describe('Check the prompts columnOptions functions', () => {
       columns: [
         {
           default: "{'a':42}",
-          enum: undefined,
-          lowercase: undefined,
-          match: undefined,
-          max: undefined,
-          maxLength: undefined,
-          min: undefined,
-          minLength: undefined,
           name: 'column1',
-          required: undefined,
-          subColumns: undefined,
-          subTypes: undefined,
           trim: true,
           type: 'string',
-          uppercase: undefined,
         },
       ],
       indexes: [],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });

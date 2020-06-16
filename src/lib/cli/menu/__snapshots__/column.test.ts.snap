@@ -348,6 +348,7 @@ Array [
               "subTypes": Array [],
             },
           ],
+          "idType": "objectId",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -411,6 +412,20 @@ Array [
             "parent": [MockFunction],
             "path": "path/to",
           },
+          "specialColumns": Array [
+            Array [
+              "createdAt",
+              "date",
+            ],
+            Array [
+              "updatedAt",
+              "date",
+            ],
+            Array [
+              "_id",
+              "objectId",
+            ],
+          ],
         },
         "column": Object {
           "name": "column1",
@@ -512,6 +527,7 @@ Array [
               "subTypes": Array [],
             },
           ],
+          "idType": "objectId",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -575,6 +591,20 @@ Array [
             "parent": [MockFunction],
             "path": "path/to",
           },
+          "specialColumns": Array [
+            Array [
+              "createdAt",
+              "date",
+            ],
+            Array [
+              "updatedAt",
+              "date",
+            ],
+            Array [
+              "_id",
+              "objectId",
+            ],
+          ],
         },
         "populate": ColumnDataset {
           "collection": CollectionDataset {
@@ -618,6 +648,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
+            "idType": "objectId",
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -648,6 +679,20 @@ Array [
               "parent": [MockFunction],
               "path": "path/to",
             },
+            "specialColumns": Array [
+              Array [
+                "createdAt",
+                "date",
+              ],
+              Array [
+                "updatedAt",
+                "date",
+              ],
+              Array [
+                "_id",
+                "objectId",
+              ],
+            ],
           },
           "column": Object {
             "name": "column2",
@@ -704,6 +749,7 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
+                "idType": "objectId",
                 "indexes": Array [
                   IndexDataset {
                     "columns": Array [
@@ -734,6 +780,20 @@ Array [
                   "parent": [MockFunction],
                   "path": "path/to",
                 },
+                "specialColumns": Array [
+                  Array [
+                    "createdAt",
+                    "date",
+                  ],
+                  Array [
+                    "updatedAt",
+                    "date",
+                  ],
+                  Array [
+                    "_id",
+                    "objectId",
+                  ],
+                ],
               },
               "column": Object {
                 "name": "column3",
@@ -804,6 +864,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [
                 [Circular],
               ],
@@ -815,6 +876,20 @@ Array [
                 "parent": [MockFunction],
                 "path": "path/to",
               },
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
             "properties": Object {},
             "readonly": true,
@@ -860,6 +935,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
+            "idType": "objectId",
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -890,6 +966,20 @@ Array [
               "parent": [MockFunction],
               "path": "path/to",
             },
+            "specialColumns": Array [
+              Array [
+                "createdAt",
+                "date",
+              ],
+              Array [
+                "updatedAt",
+                "date",
+              ],
+              Array [
+                "_id",
+                "objectId",
+              ],
+            ],
           },
           "readonly": false,
           "subTypes": Array [],
@@ -958,6 +1048,7 @@ Array [
               "subTypes": Array [],
             },
           ],
+          "idType": "objectId",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -988,6 +1079,20 @@ Array [
             "parent": [MockFunction],
             "path": "path/to",
           },
+          "specialColumns": Array [
+            Array [
+              "createdAt",
+              "date",
+            ],
+            Array [
+              "updatedAt",
+              "date",
+            ],
+            Array [
+              "_id",
+              "objectId",
+            ],
+          ],
         },
         "column": Object {
           "name": "column2",
@@ -1057,6 +1162,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [
                 IndexDataset {
                   "columns": Array [
@@ -1087,6 +1193,20 @@ Array [
                 "parent": [MockFunction],
                 "path": "path/to",
               },
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
             "column": Object {
               "name": "column3",
@@ -1170,6 +1290,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
+            "idType": "objectId",
             "indexes": Array [
               [Circular],
             ],
@@ -1181,6 +1302,20 @@ Array [
               "parent": [MockFunction],
               "path": "path/to",
             },
+            "specialColumns": Array [
+              Array [
+                "createdAt",
+                "date",
+              ],
+              Array [
+                "updatedAt",
+                "date",
+              ],
+              Array [
+                "_id",
+                "objectId",
+              ],
+            ],
           },
           "properties": Object {},
           "readonly": true,
@@ -1239,6 +1374,7 @@ Array [
               "subTypes": Array [],
             },
           ],
+          "idType": "objectId",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -1269,6 +1405,20 @@ Array [
             "parent": [MockFunction],
             "path": "path/to",
           },
+          "specialColumns": Array [
+            Array [
+              "createdAt",
+              "date",
+            ],
+            Array [
+              "updatedAt",
+              "date",
+            ],
+            Array [
+              "_id",
+              "objectId",
+            ],
+          ],
         },
         "readonly": false,
         "subTypes": Array [],
@@ -1443,6 +1593,7 @@ Array [
               "subTypes": Array [],
             },
           ],
+          "idType": "objectId",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -1494,6 +1645,20 @@ Array [
             "parent": [MockFunction],
             "path": "path/to",
           },
+          "specialColumns": Array [
+            Array [
+              "createdAt",
+              "date",
+            ],
+            Array [
+              "updatedAt",
+              "date",
+            ],
+            Array [
+              "_id",
+              "objectId",
+            ],
+          ],
         },
         "column": Object {
           "name": "column3",
@@ -1557,6 +1722,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
+            "idType": "objectId",
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -1587,6 +1753,20 @@ Array [
               "parent": [MockFunction],
               "path": "path/to",
             },
+            "specialColumns": Array [
+              Array [
+                "createdAt",
+                "date",
+              ],
+              Array [
+                "updatedAt",
+                "date",
+              ],
+              Array [
+                "_id",
+                "objectId",
+              ],
+            ],
           },
           "column": Object {
             "name": "column2",
@@ -1673,6 +1853,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": "objectId",
               "indexes": Array [
                 [Circular],
               ],
@@ -1684,6 +1865,20 @@ Array [
                 "parent": [MockFunction],
                 "path": "path/to",
               },
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
             },
             "properties": Object {},
             "readonly": true,
@@ -1742,6 +1937,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
+            "idType": "objectId",
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -1772,6 +1968,20 @@ Array [
               "parent": [MockFunction],
               "path": "path/to",
             },
+            "specialColumns": Array [
+              Array [
+                "createdAt",
+                "date",
+              ],
+              Array [
+                "updatedAt",
+                "date",
+              ],
+              Array [
+                "_id",
+                "objectId",
+              ],
+            ],
           },
           "readonly": false,
           "subTypes": Array [],

@@ -7,6 +7,8 @@
     }
   },
 
+  "testEnvironment": "node",
+
   "preset": "ts-jest",
   "testMatch": ["**/*.test.{js,jsx,ts,tsx}"],
   "roots": ["<rootDir>/src/", "<rootDir>/tests/"],

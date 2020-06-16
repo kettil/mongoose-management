@@ -20,6 +20,7 @@ describe('Check the prompts indexColumns functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
+        idType: 'objectId',
         columns: [
           { name: 'column1', type: 'object', subColumns: [{ name: 'column2', type: 'string' }] },
           { name: 'column3', type: 'string' },
@@ -194,17 +195,17 @@ describe('Check the prompts indexColumns functions', () => {
     expect(collection.getObject()).toEqual({
       columns: [
         { name: 'column1', subColumns: [{ name: 'column2', type: 'string' }], type: 'object' },
-        { name: 'column3', subColumns: undefined, type: 'string' },
+        { name: 'column3', type: 'string' },
       ],
       indexes: [
         {
           columns: { 'column1.column2': 1, column3: -1 },
           name: 'index1',
-          properties: { sparse: undefined, unique: true },
-          readonly: undefined,
+          properties: { unique: true },
         },
       ],
       name: 'collectionName',
+      idType: 'objectId',
     });
   });
 

@@ -21,7 +21,7 @@ export default class File {
     repositories: { path: 'repositories', template: 'repository' },
   };
 
-  protected readonly staticFiles = ['helper.ts', 'types.ts'];
+  protected readonly staticFiles = ['helper.ts', 'types.ts', 'uuidHelpers.ts'];
 
   /**
    *

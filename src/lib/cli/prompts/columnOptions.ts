@@ -108,7 +108,9 @@ export const getColumnOptionsTypeAny = (
       {
         type: 'input',
         name: 'default',
-        message: 'Default value for the column (e.g. Date.now or "Hello World"):',
+        message: `Default value for the column (e.g. ${
+          answersMain.type === 'uuidv4' ? 'uuidv4' : 'Date.now'
+        } or "Hello World"):`,
         default: column && column.get('default'),
         when: whenCommon('default'),
       },
@@ -197,14 +199,14 @@ export const getColumnOptionsTypeNumber = (
       {
         type: 'number',
         name: 'min',
-        message: 'Value must greater than or equal:',
+        message: 'Value must be greater than or equal:',
         default: column && column.get('min'),
         when: whenCommon('min'),
       },
       {
         type: 'number',
         name: 'max',
-        message: 'Value must less than or equal:',
+        message: 'Value must be less than or equal:',
         default: column && column.get('max'),
         when: whenCommon('max'),
         validate: validateMax,

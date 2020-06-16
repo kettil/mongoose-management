@@ -35,6 +35,7 @@ describe('Check the prompts columnPopulate functions', () => {
       new CollectionDataset(
         {
           name: 'collectionName2',
+          idType: 'objectId',
           columns: [{ name: 'column3', type: 'object' }],
           indexes: [],
         },
@@ -46,6 +47,7 @@ describe('Check the prompts columnPopulate functions', () => {
       new CollectionDataset(
         {
           name: 'collectionName1',
+          idType: 'objectId',
           columns: [
             { name: 'column1', type: 'objectId', populate: 'collectionName2' },
             { name: 'column2', type: 'objectId', populate: 'collectionName2.column3' },
@@ -70,7 +72,7 @@ describe('Check the prompts columnPopulate functions', () => {
           message: 'Choose a reference collection',
           default: 2,
           choices: [
-            { name: '- Without reference -', short: chalk.red('Without reference'), value: undefined },
+            { name: '- Without reference -', short: chalk.red('Without reference') },
             { name: 'collectionName1', short: 'collectionName1', value: collection1 },
             { name: 'collectionName2', short: 'collectionName2', value: collection2 },
           ],
@@ -111,8 +113,18 @@ describe('Check the prompts columnPopulate functions', () => {
 
     const result = await call(prompts, collection1, { name: 'columnName', type }, answersSubType, column);
 
-    expect(result).toEqual({});
-    expect(prompts.call).toHaveBeenCalledTimes(0);
+    switch (type) {
+      case 'uuidv4':
+        expect(result).toEqual({
+          populate: expect.anything(),
+        });
+        expect(result.populate).toBeInstanceOf(CollectionDataset);
+        expect(prompts.call).toHaveBeenCalledTimes(1);
+        break;
+      default:
+        expect(result).toEqual({});
+        expect(prompts.call).toHaveBeenCalledTimes(0);
+    }
   });
 
   test('it should be return the questions array then getQuestions() is called without column', () => {
@@ -152,7 +164,7 @@ describe('Check the prompts columnPopulate functions', () => {
         message: 'Choose a reference collection',
         default: 2,
         choices: [
-          { name: '- Without reference -', short: chalk.red('Without reference'), value: undefined },
+          { name: '- Without reference -', short: chalk.red('Without reference') },
           { name: 'collectionName1', short: 'collectionName1', value: collection1 },
           { name: 'collectionName2', short: 'collectionName2', value: collection2 },
         ],
@@ -182,7 +194,7 @@ describe('Check the prompts columnPopulate functions', () => {
         message: 'Choose a reference collection',
         default: 2,
         choices: [
-          { name: '- Without reference -', short: chalk.red('Without reference'), value: undefined },
+          { name: '- Without reference -', short: chalk.red('Without reference') },
           { name: 'collectionName1', short: 'collectionName1', value: collection1 },
           { name: 'collectionName2', short: 'collectionName2', value: collection2 },
         ],
@@ -211,16 +223,15 @@ describe('Check the prompts columnPopulate functions', () => {
     expect(result).toBe(column);
     expect(collection1.getObject()).toEqual({
       columns: [
-        { name: 'column1', populate: 'collectionName2', subColumns: undefined, subTypes: undefined, type: 'objectId' },
+        { name: 'column1', populate: 'collectionName2', type: 'objectId' },
         {
           name: 'column2',
           populate: 'collectionName2.column3',
-          subColumns: undefined,
-          subTypes: undefined,
           type: 'objectId',
         },
       ],
       indexes: [],
+      idType: 'objectId',
       name: 'collectionName1',
     });
   });
@@ -242,16 +253,15 @@ describe('Check the prompts columnPopulate functions', () => {
     expect(result).toBe(column);
     expect(collection1.getObject()).toEqual({
       columns: [
-        { name: 'column1', populate: 'collectionName2', subColumns: undefined, subTypes: undefined, type: 'objectId' },
+        { name: 'column1', populate: 'collectionName2', type: 'objectId' },
         {
           name: 'column2',
           populate: 'collectionName2.column3',
-          subColumns: undefined,
-          subTypes: undefined,
           type: 'objectId',
         },
       ],
       indexes: [],
+      idType: 'objectId',
       name: 'collectionName1',
     });
   });
@@ -287,7 +297,7 @@ describe('Check the prompts columnPopulate functions', () => {
   test('it should be return choice list when choicesColumn() is called without nested schemas', () => {
     const result = choicesColumn({ collection: collection1 });
 
-    expect(result).toEqual([{ name: '_id', short: 'collectionName1._id', value: undefined }]);
+    expect(result).toEqual([{ name: '_id', short: 'collectionName1._id' }]);
   });
 
   test('it should be return choice list when choicesColumn() is called with nested schemas', () => {
@@ -298,7 +308,7 @@ describe('Check the prompts columnPopulate functions', () => {
     const result = choicesColumn({ collection: collection2 });
 
     expect(result).toEqual([
-      { name: '_id', short: 'collectionName2._id', value: undefined },
+      { name: '_id', short: 'collectionName2._id' },
       { name: 'column3', short: 'column3', value: column },
     ]);
   });

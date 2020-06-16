@@ -7,7 +7,7 @@ import { sortByName } from '../helper/sort';
 
 import { dataCollectionType, schemaType } from '../../types';
 
-export const specialColumns: Array<[string, schemaType]> = [
+const specialColumns: Array<[string, schemaType]> = [
   ['createdAt', 'date'],
   ['updatedAt', 'date'],
   ['_id', 'objectId'],
@@ -15,13 +15,25 @@ export const specialColumns: Array<[string, schemaType]> = [
 
 export default class CollectionDataset extends AbstractColumnsDataset<GroupDataset, ColumnDataset> {
   protected name: string;
+  protected idType: schemaType;
   protected columns: ColumnDataset[];
   protected indexes: IndexDataset[];
+  private specialColumns: Array<[string, schemaType]>;
 
   constructor(collection: dataCollectionType, parent: GroupDataset) {
     super(parent);
 
-    const specials = specialColumns.map(([name, type]) => new ColumnDataset({ name, type }, this, this, true));
+    this.idType = collection.idType || 'objectId';
+
+    this.specialColumns = specialColumns.map((d) => {
+      if (d[0] === '_id') {
+        d[1] = this.idType;
+      }
+
+      return d;
+    });
+
+    const specials = this.specialColumns.map(([name, type]) => new ColumnDataset({ name, type }, this, this, true));
 
     this.indexes = collection.indexes.map((i) => new IndexDataset(i, this));
     this.columns = collection.columns.map((c) => new ColumnDataset(c, this, this)).concat(specials);
@@ -42,6 +54,25 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   setName(name: string) {
     this.name = name;
     this.parent.sortCollections();
+  }
+
+  getIdType() {
+    return this.idType;
+  }
+
+  setIdType(idType: string) {
+    switch (idType) {
+      case 'uuidv4':
+        this.idType = 'uuidv4';
+        break;
+      case 'objectId':
+      default:
+        this.idType = 'objectId';
+    }
+    const idCol = this.getColumn('_id');
+    if (idCol) {
+      idCol.set('type', this.idType);
+    }
   }
 
   getIndexes() {
@@ -90,10 +121,11 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   }
 
   getObject(): dataCollectionType {
-    const specialNames = specialColumns.map((d) => d[0]);
+    const specialNames = this.specialColumns.map((d) => d[0]);
 
     return {
       name: this.name,
+      idType: this.idType,
       columns: this.columns.filter((c) => specialNames.indexOf(c.getName()) === -1).map((c) => c.getObject()),
       indexes: this.indexes.map((i) => i.getObject()),
     };

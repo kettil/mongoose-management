@@ -23,6 +23,7 @@ describe('Check the prompts columnMain functions', () => {
       { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
       { name: 'Decimal128', short: 'Decimal128', value: 'decimal' },
       { name: 'Buffer', short: 'Buffer', value: 'buffer' },
+      { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
       { name: 'Mixed', short: 'Mixed', value: 'mixed' },
       { name: 'Array<Type>', short: 'Array<Type>', value: 'arrayType' },
       { name: 'Array<Object>', short: 'Array<Object>', value: 'array' },
@@ -34,6 +35,7 @@ describe('Check the prompts columnMain functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
+        idType: 'objectId',
         columns: [{ name: 'column1', type: 'string' }],
         indexes: [],
       },
@@ -157,10 +159,11 @@ describe('Check the prompts columnMain functions', () => {
     expect(result).toBeInstanceOf(ColumnDataset);
     expect(collection.getObject()).toEqual({
       columns: [
-        { name: 'column1', type: 'string', subColumns: undefined, subTypes: undefined },
-        { name: 'newColumn', type: 'array', subColumns: [], subTypes: undefined },
+        { name: 'column1', type: 'string' },
+        { name: 'newColumn', type: 'array', subColumns: [] },
       ],
       indexes: [],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });
@@ -174,8 +177,9 @@ describe('Check the prompts columnMain functions', () => {
 
     expect(result).toBeInstanceOf(ColumnDataset);
     expect(collection.getObject()).toEqual({
-      columns: [{ name: 'newColumn', type: 'array', subColumns: [], subTypes: undefined }],
+      columns: [{ name: 'newColumn', type: 'array', subColumns: [] }],
       indexes: [],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });

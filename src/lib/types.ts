@@ -55,6 +55,7 @@ export type dataGroupType = {
  */
 export type dataCollectionType = {
   name: string;
+  idType: schemaType;
   columns: dataColumnType[];
   indexes: dataIndexType[];
 };
@@ -178,6 +179,8 @@ export type templateCollectionType = {
   schemaDefinitions: string;
   SchemaIndexes: string;
   schemaTypes: string;
+
+  additionalImports: string[];
 } & templateCollectionNamesType;
 
 export type Unpacked<T> = T extends Array<infer U> ? U : T;
