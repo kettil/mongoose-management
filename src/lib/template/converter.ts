@@ -66,9 +66,7 @@ export default class Converter {
    */
   convertIndex(index: dataIndexType): string {
     const fields = Object.entries(index.columns).map(this.convertIndexField);
-    const options = Object.entries(index.properties)
-      .map(this.convertIndexOption)
-      .filter(Boolean);
+    const options = Object.entries(index.properties).map(this.convertIndexOption).filter(Boolean);
 
     return `{ fields: { ${fields.join(', ')} }, options: { name: '${index.name}', ${options.join(', ')} } }`;
   }

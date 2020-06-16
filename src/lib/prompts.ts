@@ -27,7 +27,7 @@ export default class Prompts {
   };
 
   private defaultItem = '🎯';
-  private items: Array<[[number, number], [number, number], string]> = [
+  private items: [[number, number], [number, number], string][] = [
     [[6, 1], [8, 15], '⛺'],
     [[3, 21], [4, 25], '🐰'],
     [[10, 24], [11, 8], '🎃'],
@@ -142,7 +142,7 @@ export default class Prompts {
     return result;
   }
 
-  async menu<T>(message: string, choices: Array<choicesType<T>>): Promise<choiceValueType<T>> {
+  async menu<T>(message: string, choices: choicesType<T>[]): Promise<choiceValueType<T>> {
     const { value } = await prompt([
       {
         ...this.options,

@@ -37,7 +37,7 @@ describe('Check the CollectionMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'edit', data: undefined };

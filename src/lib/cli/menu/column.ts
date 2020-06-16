@@ -51,7 +51,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     return result;
   }
 
-  getChoiceList(columns: ColumnDataset[], selected?: ColumnDataset): Array<choicesType<ColumnDataset>> {
+  getChoiceList(columns: ColumnDataset[], selected?: ColumnDataset): choicesType<ColumnDataset>[] {
     const rows = this.createTable(columns, selected);
     const choices = [];
     const columnChoices = columns.map<choicesType<ColumnDataset>>((d, i) => {

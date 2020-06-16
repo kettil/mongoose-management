@@ -30,7 +30,7 @@ Array [
 exports[`Check the CollectionMenu class it should be return menu selection when exec() is called 1`] = `
 Array [
   Separator {
-    "line": "[2mCollection: [0m[1mc1[2m[0m[22m",
+    "line": "[2mCollection: [0m[1mc1[22m[2m[0m[22m",
     "type": "separator",
   },
   Separator {
@@ -46,11 +46,11 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m [4mName[24m      [2m|[2m [4mType[24m     [2m|[2m [4mRequired[24m [2m|[2m [4mDefault[24m   [2m|[2m [4mReference[24m [2m|[2m [4mIndex[24m     [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m      [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m _id       [2m|[2m objectId [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m _id       [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
@@ -228,11 +228,11 @@ Array [
     },
   },
   Separator {
-    "line": "[2m[2m|[2m createdAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m createdAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m updatedAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m           [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m updatedAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
@@ -256,7 +256,7 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m [4mName[24m   [2m|[2m [4mColumn(s)[24m  [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m   [2m|[22m[2m [4mColumn(s)[24m  [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
@@ -541,11 +541,11 @@ Array [
 exports[`Check the CollectionMenu class it should be return menu selection when getChoiceIndexList() is called with indexes 1`] = `
 Array [
   Separator {
-    "line": "[2m[2m|[2m [4mName[24m     [2m|[2m [4mColumn(s)[24m  [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m     [2m|[22m[2m [4mColumn(s)[24m  [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m column1_ [2m|[2m column1: 1 [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m column1_ [2m|[22m[2m column1: 1 [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {

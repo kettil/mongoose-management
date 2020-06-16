@@ -55,7 +55,7 @@ describe('Check the ColumnMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called with type "string"', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'edit', data: undefined };
@@ -74,7 +74,7 @@ describe('Check the ColumnMenu class', () => {
     ['array', 'Choose a subcolumn or a command for the column "column1[]":'],
     ['object', 'Choose a subcolumn or a command for the column "column1":'],
   ])('it should be return menu selection when exec() is called with type "%s"', async (type, title) => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'edit', data: undefined };
@@ -92,7 +92,7 @@ describe('Check the ColumnMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called and the column is a subcolumn', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'edit', data: undefined };

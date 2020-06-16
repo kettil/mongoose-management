@@ -47,7 +47,7 @@ export default class CollectionMenu extends AbstractMenu<CollectionDataset, Colu
     return result;
   }
 
-  getChoiceIndexList(indexes: IndexDataset[]): Array<choicesType<IndexDataset>> {
+  getChoiceIndexList(indexes: IndexDataset[]): choicesType<IndexDataset>[] {
     const rows = this.createIndexTable(indexes);
     const choices = [];
     const indexChoices = indexes.map<choicesType<IndexDataset>>((d, i) => {

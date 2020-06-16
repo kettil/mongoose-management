@@ -72,7 +72,7 @@ export const getQuestions = (answersMain: main.answersType, column?: ColumnDatas
 
 export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
-    (Object.entries(columnOpts) as Array<[keyof typeof columnOpts, string]>).forEach(([key, type]) => {
+    (Object.entries(columnOpts) as [keyof typeof columnOpts, string][]).forEach(([key, type]) => {
       if (type === 'boolean') {
         column.set(key, answers.options.indexOf(key) >= 0 ? true : undefined);
       } else {

@@ -183,6 +183,6 @@ export type templateCollectionType = {
   additionalImports: string[];
 } & templateCollectionNamesType;
 
-export type Unpacked<T> = T extends Array<infer U> ? U : T;
+export type Unpacked<T> = T extends (infer U)[] ? U : T;
 
 export type OptionalValues<T> = T extends { [K in keyof T]: any } ? { [K in keyof T]?: T[K] } : T;

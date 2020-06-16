@@ -34,7 +34,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
     return result;
   }
 
-  getChoiceList(collections: CollectionDataset[]): Array<choicesType<CollectionDataset>> {
+  getChoiceList(collections: CollectionDataset[]): choicesType<CollectionDataset>[] {
     return collections.map((d) => ({ name: d.getName(), value: { data: d }, short: d.getName() }));
   }
 }

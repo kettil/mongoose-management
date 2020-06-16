@@ -122,7 +122,7 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset.column.default).toBe('Date.now()');
     });
 
-    const dataIsset: Array<[boolean, keyof dataColumnType, any]> = [
+    const dataIsset: [boolean, keyof dataColumnType, any][] = [
       [true, 'required', true],
       [false, 'required', false],
       [false, 'required', undefined],

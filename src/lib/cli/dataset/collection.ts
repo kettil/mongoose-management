@@ -7,7 +7,7 @@ import { sortByName } from '../helper/sort';
 
 import { dataCollectionType, schemaType } from '../../types';
 
-const specialColumns: Array<[string, schemaType]> = [
+const specialColumns: [string, schemaType][] = [
   ['createdAt', 'date'],
   ['updatedAt', 'date'],
   ['_id', 'objectId'],
@@ -18,7 +18,7 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   protected idType: schemaType;
   protected columns: ColumnDataset[];
   protected indexes: IndexDataset[];
-  private specialColumns: Array<[string, schemaType]>;
+  private specialColumns: [string, schemaType][];
 
   constructor(collection: dataCollectionType, parent: GroupDataset) {
     super(parent);

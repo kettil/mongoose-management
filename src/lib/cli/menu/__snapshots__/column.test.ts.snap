@@ -243,11 +243,11 @@ Array [
 exports[`Check the ColumnMenu class it should be return menu selection when getChoiceList() is called with columns 1`] = `
 Array [
   Separator {
-    "line": "[2m[2m|[2m [4mName[24m      [2m|[2m [4mType[24m     [2m|[2m [4mRequired[24m [2m|[2m [4mDefault[24m   [2m|[2m [4mReference[24m  [2m|[2m [4mIndex[24m     [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m      [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m  [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m _id       [2m|[2m objectId [2m|[2m          [2m|[2m           [2m|[2m            [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m _id       [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m            [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
@@ -1426,11 +1426,11 @@ Array [
     },
   },
   Separator {
-    "line": "[2m[2m|[2m createdAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m            [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m createdAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m            [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[2m updatedAt [2m|[2m date     [2m|[2m          [2m|[2m           [2m|[2m            [2m|[2m           [2m|[2m        [2m|[2m        [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m updatedAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m            [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
@@ -1451,7 +1451,7 @@ Array [
 exports[`Check the ColumnMenu class it should be return menu selection when getChoiceList() is called with subcolumns 1`] = `
 Array [
   Separator {
-    "line": "[2m[2m|[2m [4mName[24m    [2m|[2m [4mType[24m   [2m|[2m [4mRequired[24m [2m|[2m [4mDefault[24m   [2m|[2m [4mReference[24m [2m|[2m [4mIndex[24m     [2m|[2m [4mUnique[24m [2m|[2m [4mSparse[24m [2m|[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m    [2m|[22m[2m [4mType[24m   [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
