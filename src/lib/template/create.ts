@@ -84,7 +84,7 @@ export default class Create {
   getCollectionDataset(collection: dataCollectionType): templateCollectionType {
     const columns: dataColumnType[] = collection.columns;
 
-    this.extendColumnsWithId(columns, collection.idType ?? 'objectId');
+    this.extendColumnsWithId(columns, collection.idType || 'objectId');
 
     return {
       ...this.createCollectionNames(collection.name),
