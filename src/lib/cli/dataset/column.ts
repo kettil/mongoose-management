@@ -12,6 +12,8 @@ import {
 
 export type optionsType = Exclude<keyof dataColumnType, keyof dataColumnInternalValuesType | 'name'>;
 
+const specialNames = ['_id'];
+
 export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset | CollectionDataset, ColumnDataset>
   implements InterfaceColumnDataset<ColumnDataset> {
   protected columns: ColumnDataset[];
@@ -30,6 +32,8 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
     this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, collection)) : [];
     this.subTypes = column.subTypes ? column.subTypes : [];
+
+    this.setSpecialColumns();
   }
 
   setReference() {
@@ -54,6 +58,19 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     }
 
     this.columns.forEach((column) => column.setReference());
+  }
+
+  setSpecialColumns() {
+    if (this.column.type === 'array' || this.column.type === 'object') {
+      const names = this.columns.map((c) => c.getName());
+      const specialNamesFiltered = this.collection.specialColumns
+        .filter((c) => specialNames.includes(c[0]))
+        .filter((c) => !names.includes(c[0]))
+        .map(([name, type]) => new ColumnDataset({ name, type }, this, this.collection, true));
+
+      this.columns.unshift(...specialNamesFiltered);
+      this.sortColumns();
+    }
   }
 
   getName(withBrackets = false) {
@@ -87,6 +104,8 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
   set<K extends optionsType>(key: K, value: dataColumnType[K]) {
     this.column[key] = value;
+
+    this.setSpecialColumns();
   }
 
   isset<K extends optionsType>(key: K, withEmptyString = true) {
@@ -246,7 +265,9 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     return {
       ...this.column,
       populate: this.getPopulateName(),
-      subColumns: isSubColumnType ? this.columns.map((c) => c.getObject()) : undefined,
+      subColumns: isSubColumnType
+        ? this.columns.filter((c) => !specialNames.includes(c.getName())).map((c) => c.getObject())
+        : undefined,
       subTypes: this.subTypes.length > 0 ? this.subTypes : undefined,
     };
   }

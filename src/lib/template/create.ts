@@ -8,7 +8,13 @@ import File from './handlers/file';
 import Template from './handlers/template';
 import { exists } from './helper';
 
-import { dataCollectionType, dataColumnType, templateCollectionNamesType, templateCollectionType } from '../types';
+import {
+  dataCollectionType,
+  dataColumnType,
+  schemaType,
+  templateCollectionNamesType,
+  templateCollectionType,
+} from '../types';
 
 /**
  *
@@ -77,22 +83,8 @@ export default class Create {
    */
   getCollectionDataset(collection: dataCollectionType): templateCollectionType {
     const columns: dataColumnType[] = collection.columns;
-    const idColumnValues: dataColumnType = {
-      name: '_id',
-      type: collection.idType,
-      required: true,
-    };
-    switch (collection.idType) {
-      case 'uuidv4':
-        columns.unshift({
-          ...idColumnValues,
-          default: 'uuidv4',
-        });
-        break;
-      case 'objectId':
-      default:
-      // do nothing
-    }
+
+    this.extendColumnsWithId(columns, collection.idType ?? 'objectId');
 
     return {
       ...this.createCollectionNames(collection.name),
@@ -120,5 +112,37 @@ export default class Create {
       collectionNameLower: nameLower.join(''),
       collectionNameUpper: nameUpper.join(''),
     };
+  }
+
+  extendColumnsWithId(columns: dataColumnType[], idType: schemaType) {
+    const idColumnValues = {
+      name: '_id',
+      type: idType,
+      required: true,
+    };
+
+    switch (idType) {
+      case 'uuidv4':
+        columns.unshift({
+          ...idColumnValues,
+          default: 'uuidv4',
+        });
+        break;
+
+      case 'objectId':
+        columns.unshift({
+          ...idColumnValues,
+        });
+        break;
+
+      default:
+      // do nothing
+    }
+
+    columns.forEach((column) => {
+      if (column.subColumns) {
+        this.extendColumnsWithId(column.subColumns, idType);
+      }
+    });
   }
 }

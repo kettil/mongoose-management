@@ -38,6 +38,6 @@ export default class ConverterUUIDv4 extends AbstractConverter<dataColumnType> {
   }
 
   columnToImports() {
-    return ["import { getter as uuidGetter, setter as uuidSetter, bson, uuidv4 } from '../uuidHelpers';"];
+    return ["import { uuidGetter, uuidSetter, bson, uuidv4 } from '../uuidHelpers';"];
   }
 }

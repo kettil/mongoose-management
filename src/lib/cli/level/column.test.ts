@@ -57,13 +57,13 @@ describe('Check the ColumnLevel class', () => {
     ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ options: ['default'], default: "'Moin'" });
     ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ type: 'unique', value: 'hashed' });
 
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
 
     const result = await level.create();
 
     expect(result).toEqual(undefined);
 
-    expect(dataset.getColumns().length).toBe(2);
+    expect(dataset.getColumns().length).toBe(3);
     expect(prompts.call).toHaveBeenCalledTimes(3);
     expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
   });
@@ -73,13 +73,13 @@ describe('Check the ColumnLevel class', () => {
     async (type) => {
       ((prompts.call as any) as jest.Mock).mockResolvedValueOnce({ name: 'columnName', type });
 
-      expect(dataset.getColumns().length).toBe(1);
+      expect(dataset.getColumns().length).toBe(2);
 
       const result = await level.create();
 
       expect(result).toEqual(expect.any(ColumnDataset));
 
-      expect(dataset.getColumns().length).toBe(2);
+      expect(dataset.getColumns().length).toBe(3);
       expect(prompts.call).toHaveBeenCalledTimes(1);
       expect(prompts.call).toHaveBeenCalledWith(expect.any(Array));
     },
@@ -91,12 +91,12 @@ describe('Check the ColumnLevel class', () => {
     const subColumn = dataset.getColumn('subColumnName');
 
     expect(subColumn).toBeInstanceOf(ColumnDataset);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
 
     const result = await level.remove(subColumn);
 
     expect(result).toBe(false);
-    expect(dataset.getColumns().length).toBe(0);
+    expect(dataset.getColumns().length).toBe(1);
   });
 
   test('it should be not remove dataset when remove() is called without confirmation', async () => {
@@ -105,12 +105,12 @@ describe('Check the ColumnLevel class', () => {
     const subColumn = dataset.getColumn('subColumnName');
 
     expect(subColumn).toBeInstanceOf(ColumnDataset);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
 
     const result = await level.remove(subColumn);
 
     expect(result).toBe(true);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
   });
 
   test('it should be throw an error when remove() is called with subcolumns', async () => {
@@ -129,14 +129,14 @@ describe('Check the ColumnLevel class', () => {
     const subColumn = dataset.getColumn('subColumnName')!;
 
     expect(subColumn).toBeInstanceOf(ColumnDataset);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
 
     subColumn.setIndex('text', 'unique');
 
     const result = await level.remove(subColumn);
 
     expect(result).toBe(true);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
   });
 
   test('it should be throw an error when remove() is called with a reference', async () => {
@@ -170,14 +170,14 @@ describe('Check the ColumnLevel class', () => {
 
     expect(column).toBeInstanceOf(ColumnDataset);
     expect(subColumn).toBeInstanceOf(ColumnDataset);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
 
     subColumn.setIndex('text', 'unique');
 
     const result = await level.remove(subColumn);
 
     expect(result).toBe(true);
-    expect(dataset.getColumns().length).toBe(1);
+    expect(dataset.getColumns().length).toBe(2);
   });
 
   test('it should be throw an error when remove() is called with indexes found', async () => {

@@ -79,8 +79,10 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
 
     if (!selected) {
       choices.push(new Separator('Note: Columns "_id", "createdAt" and "updatedAt" are created automatically'));
-      choices.push(new Separator(' '));
+    } else {
+      choices.push(new Separator('Note: Column "_id" is created automatically'));
     }
+    choices.push(new Separator(' '));
 
     return choices;
   }

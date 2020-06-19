@@ -8,13 +8,11 @@
  * ######################################################################
  */
 
-// @ts-ignore
 import { Schema } from 'mongoose';
 
 import { indexType } from '../types';
 
 {{#additionalImports}}
-// @ts-ignore
 {{& .}}
 {{/additionalImports}}
 

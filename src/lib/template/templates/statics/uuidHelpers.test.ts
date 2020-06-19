@@ -1,231 +1,86 @@
-import uuidHelpers from './uuidHelpers';
+import { parse, uuidSetter, unparse, uuidGetter } from './uuidHelpers';
 
-describe('Check the uuidHelpers class', () => {
-  test.each([
-    {
-      output: [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d],
-      input: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
+describe.only('parse()', () => {
+  test('it should work', () => {
+    const expected = [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d];
+    const uuid = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+
+    expect(parse(uuid)).toEqual(Buffer.from(expected));
+  });
+
+  test.each([['11f5e73a'], ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111']])(
+    'it should not work with a wrong uuid format (%p)',
+    (uuid) => {
+      expect(() => parse(uuid)).toThrow(uuid);
     },
-    {
-      output: [0x11, 0xf5, 0xe7, 0x3a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0],
-      input: '11f5e73a',
-    },
-    {
-      output: [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d],
-      input: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111111',
-    },
-  ])('parse should correctly convert uuid strings to their binary value', ({ input, output }) => {
-    expect(uuidHelpers.parse(input)).toEqual(output);
+  );
+});
+
+describe.only('unparse()', () => {
+  test('it should work with string value', () => {
+    const value = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+
+    expect(unparse(value)).toBe(value);
+  });
+
+  test('it should work with buffer value', () => {
+    const expected = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+    const value = [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d];
+
+    expect(unparse(Buffer.from(value))).toBe(expected);
   });
 
   test.each([
-    {
-      output: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-      input: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
-    },
-    {
-      output: Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]),
-      input: '11f5e73a',
-    },
-    {
-      output: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-      input: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111111',
-    },
-    {
-      output: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-      input: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-    },
-  ])('setter should correctly convert uuid strings to their binary value', ({ input, output }) => {
-    expect(uuidHelpers.setter(input)).toEqual(output);
-  });
+    ['too short buffer', [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62]],
 
-  test('setter should throw if you pass invalid values', () => {
-    expect(() => {
-      uuidHelpers.setter(undefined);
-    }).toThrow('Could not convert');
+    [
+      'too long buffer',
+      [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d, 0x0, 0x0],
+    ],
+  ])('it should not work with %s', (_, value) => {
+    expect(() => unparse(Buffer.from(value))).toThrow();
+  });
+});
+
+describe.only('uuidGetter()', () => {
+  test.each([
+    [undefined, undefined],
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d', '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d'],
+    [
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+      '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
+    ],
+  ])('it should work with %p', (value, expected) => {
+    expect(uuidGetter(value)).toBe(expected);
   });
 
   test.each([
-    {
-      input: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-      output: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
-    },
-    {
-      input: Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]),
-      output: '11f5e73a-0000-0000-0000-000000000000',
-    },
-    {
-      input: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-        0x11,
-        0x11,
-        0x11,
-        0x11,
-        0x11,
-      ]),
-      output: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
-    },
-  ])('unparse should correctly convert uuid buffers to their string value', ({ input, output }) => {
-    expect(uuidHelpers.unparse(input)).toEqual(output);
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111'],
+    [Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90])],
+  ])('it should not work with %p', (value) => {
+    expect(() => uuidGetter(value)).toThrow();
+  });
+});
+
+describe.only('uuidSetter()', () => {
+  test.each([
+    [
+      '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+    ],
+    [
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+    ],
+  ])('it should work with %p', (value, expected) => {
+    expect(uuidSetter(value)).toEqual(expected);
   });
 
   test.each([
-    {
-      input: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-      ]),
-      output: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
-    },
-    {
-      input: Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]),
-      output: '11f5e73a-0000-0000-0000-000000000000',
-    },
-    {
-      input: Buffer.from([
-        0x11,
-        0xf5,
-        0xe7,
-        0x3a,
-        0x4c,
-        0x2d,
-        0x4c,
-        0x5c,
-        0xa2,
-        0xd9,
-        0xa0,
-        0xaf,
-        0x62,
-        0xc7,
-        0x90,
-        0x4d,
-        0x11,
-        0x11,
-        0x11,
-        0x11,
-        0x11,
-      ]),
-      output: '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
-    },
-    {
-      input: undefined,
-      output: undefined,
-    },
-  ])('getter should correctly convert uuid buffers to their string value', ({ input, output }) => {
-    expect(uuidHelpers.getter(input)).toEqual(output);
+    [[1, 2, 3] as any],
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111'],
+    [Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90])],
+  ])('it should not work with %p', (value) => {
+    expect(() => uuidSetter(value)).toThrow();
   });
 });

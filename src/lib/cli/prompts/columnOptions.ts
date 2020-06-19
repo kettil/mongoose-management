@@ -80,6 +80,22 @@ export const evaluation = (answers: answersType) => {
       }
     });
 
+    switch (column.get('type')) {
+      case 'arrayType':
+      case 'array':
+        column.set('default', '[]');
+        column.set('required', true);
+        break;
+
+      case 'object':
+        column.set('default', '{}');
+        column.set('required', true);
+        break;
+
+      default:
+      // nothing
+    }
+
     return column;
   };
 };

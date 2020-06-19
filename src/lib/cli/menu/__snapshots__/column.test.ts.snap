@@ -47,7 +47,19 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m- No columns defined -[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[22m[2m _id  [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2mNote: Column \\"_id\\" is created automatically[22m",
     "type": "separator",
   },
   Separator {
@@ -109,7 +121,19 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m- No columns defined -[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[22m[2m _id  [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2mNote: Column \\"_id\\" is created automatically[22m",
     "type": "separator",
   },
   Separator {
@@ -164,7 +188,19 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m- No columns defined -[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[22m[2m _id  [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2mNote: Column \\"_id\\" is created automatically[22m",
     "type": "separator",
   },
   Separator {
@@ -288,11 +324,36 @@ Array [
                 ColumnDataset {
                   "collection": [Circular],
                   "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
                     "name": "column3",
                     "subColumns": Array [],
                     "type": "object",
                   },
-                  "columns": Array [],
+                  "columns": Array [
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "_id",
+                        "type": "objectId",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                  ],
                   "index": undefined,
                   "parent": [Circular],
                   "readonly": false,
@@ -371,11 +432,36 @@ Array [
                       ColumnDataset {
                         "collection": [Circular],
                         "column": Object {
+                          "name": "_id",
+                          "type": "objectId",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
                           "name": "column3",
                           "subColumns": Array [],
                           "type": "object",
                         },
-                        "columns": Array [],
+                        "columns": Array [
+                          ColumnDataset {
+                            "collection": [Circular],
+                            "column": Object {
+                              "name": "_id",
+                              "type": "objectId",
+                            },
+                            "columns": Array [],
+                            "index": undefined,
+                            "parent": [Circular],
+                            "readonly": true,
+                            "subTypes": Array [],
+                          },
+                        ],
                         "index": undefined,
                         "parent": [Circular],
                         "readonly": false,
@@ -467,11 +553,36 @@ Array [
                 ColumnDataset {
                   "collection": [Circular],
                   "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
                     "name": "column3",
                     "subColumns": Array [],
                     "type": "object",
                   },
-                  "columns": Array [],
+                  "columns": Array [
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "_id",
+                        "type": "objectId",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                  ],
                   "index": undefined,
                   "parent": [Circular],
                   "readonly": false,
@@ -550,11 +661,36 @@ Array [
                       ColumnDataset {
                         "collection": [Circular],
                         "column": Object {
+                          "name": "_id",
+                          "type": "objectId",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
                           "name": "column3",
                           "subColumns": Array [],
                           "type": "object",
                         },
-                        "columns": Array [],
+                        "columns": Array [
+                          ColumnDataset {
+                            "collection": [Circular],
+                            "column": Object {
+                              "name": "_id",
+                              "type": "objectId",
+                            },
+                            "columns": Array [],
+                            "index": undefined,
+                            "parent": [Circular],
+                            "readonly": true,
+                            "subTypes": Array [],
+                          },
+                        ],
                         "index": undefined,
                         "parent": [Circular],
                         "readonly": false,
@@ -796,11 +932,208 @@ Array [
                 ],
               },
               "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
+            ColumnDataset {
+              "collection": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "idType": "objectId",
+                "indexes": Array [
+                  IndexDataset {
+                    "columns": Array [
+                      Array [
+                        [Circular],
+                        -1,
+                      ],
+                    ],
+                    "index": Object {
+                      "columns": Object {
+                        "column2": -1,
+                      },
+                      "name": "column2_",
+                      "properties": Object {},
+                      "readonly": true,
+                    },
+                    "name": "column2_",
+                    "parent": [Circular],
+                    "properties": Object {},
+                    "readonly": true,
+                  },
+                ],
+                "name": "c1",
+                "parent": GroupDataset {
+                  "collections": Array [
+                    [Circular],
+                  ],
+                  "parent": [MockFunction],
+                  "path": "path/to",
+                },
+                "specialColumns": Array [
+                  Array [
+                    "createdAt",
+                    "date",
+                  ],
+                  Array [
+                    "updatedAt",
+                    "date",
+                  ],
+                  Array [
+                    "_id",
+                    "objectId",
+                  ],
+                ],
+              },
+              "column": Object {
                 "name": "column3",
                 "subColumns": Array [],
                 "type": "object",
               },
-              "columns": Array [],
+              "columns": Array [
+                ColumnDataset {
+                  "collection": CollectionDataset {
+                    "columns": Array [
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "_id",
+                          "type": "objectId",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                      [Circular],
+                      [Circular],
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "createdAt",
+                          "type": "date",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "updatedAt",
+                          "type": "date",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                    ],
+                    "idType": "objectId",
+                    "indexes": Array [
+                      IndexDataset {
+                        "columns": Array [
+                          Array [
+                            [Circular],
+                            -1,
+                          ],
+                        ],
+                        "index": Object {
+                          "columns": Object {
+                            "column2": -1,
+                          },
+                          "name": "column2_",
+                          "properties": Object {},
+                          "readonly": true,
+                        },
+                        "name": "column2_",
+                        "parent": [Circular],
+                        "properties": Object {},
+                        "readonly": true,
+                      },
+                    ],
+                    "name": "c1",
+                    "parent": GroupDataset {
+                      "collections": Array [
+                        [Circular],
+                      ],
+                      "parent": [MockFunction],
+                      "path": "path/to",
+                    },
+                    "specialColumns": Array [
+                      Array [
+                        "createdAt",
+                        "date",
+                      ],
+                      Array [
+                        "updatedAt",
+                        "date",
+                      ],
+                      Array [
+                        "_id",
+                        "objectId",
+                      ],
+                    ],
+                  },
+                  "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+              ],
               "index": undefined,
               "parent": [Circular],
               "readonly": false,
@@ -1209,11 +1542,234 @@ Array [
               ],
             },
             "column": Object {
+              "name": "_id",
+              "type": "objectId",
+            },
+            "columns": Array [],
+            "index": undefined,
+            "parent": [Circular],
+            "readonly": true,
+            "subTypes": Array [],
+          },
+          ColumnDataset {
+            "collection": CollectionDataset {
+              "columns": Array [
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "column1",
+                    "populate": "c1.column2",
+                    "type": "string",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "populate": [Circular],
+                  "readonly": false,
+                  "subTypes": Array [],
+                },
+                [Circular],
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "createdAt",
+                    "type": "date",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "updatedAt",
+                    "type": "date",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+              ],
+              "idType": "objectId",
+              "indexes": Array [
+                IndexDataset {
+                  "columns": Array [
+                    Array [
+                      [Circular],
+                      -1,
+                    ],
+                  ],
+                  "index": Object {
+                    "columns": Object {
+                      "column2": -1,
+                    },
+                    "name": "column2_",
+                    "properties": Object {},
+                    "readonly": true,
+                  },
+                  "name": "column2_",
+                  "parent": [Circular],
+                  "properties": Object {},
+                  "readonly": true,
+                },
+              ],
+              "name": "c1",
+              "parent": GroupDataset {
+                "collections": Array [
+                  [Circular],
+                ],
+                "parent": [MockFunction],
+                "path": "path/to",
+              },
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
+            },
+            "column": Object {
               "name": "column3",
               "subColumns": Array [],
               "type": "object",
             },
-            "columns": Array [],
+            "columns": Array [
+              ColumnDataset {
+                "collection": CollectionDataset {
+                  "columns": Array [
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "_id",
+                        "type": "objectId",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "column1",
+                        "populate": "c1.column2",
+                        "type": "string",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "populate": [Circular],
+                      "readonly": false,
+                      "subTypes": Array [],
+                    },
+                    [Circular],
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "createdAt",
+                        "type": "date",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "updatedAt",
+                        "type": "date",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                  ],
+                  "idType": "objectId",
+                  "indexes": Array [
+                    IndexDataset {
+                      "columns": Array [
+                        Array [
+                          [Circular],
+                          -1,
+                        ],
+                      ],
+                      "index": Object {
+                        "columns": Object {
+                          "column2": -1,
+                        },
+                        "name": "column2_",
+                        "properties": Object {},
+                        "readonly": true,
+                      },
+                      "name": "column2_",
+                      "parent": [Circular],
+                      "properties": Object {},
+                      "readonly": true,
+                    },
+                  ],
+                  "name": "c1",
+                  "parent": GroupDataset {
+                    "collections": Array [
+                      [Circular],
+                    ],
+                    "parent": [MockFunction],
+                    "path": "path/to",
+                  },
+                  "specialColumns": Array [
+                    Array [
+                      "createdAt",
+                      "date",
+                    ],
+                    Array [
+                      "updatedAt",
+                      "date",
+                    ],
+                    Array [
+                      "_id",
+                      "objectId",
+                    ],
+                  ],
+                },
+                "column": Object {
+                  "name": "_id",
+                  "type": "objectId",
+                },
+                "columns": Array [],
+                "index": undefined,
+                "parent": [Circular],
+                "readonly": true,
+                "subTypes": Array [],
+              },
+            ],
             "index": undefined,
             "parent": [Circular],
             "readonly": false,
@@ -1451,11 +2007,15 @@ Array [
 exports[`Check the ColumnMenu class it should be return menu selection when getChoiceList() is called with subcolumns 1`] = `
 Array [
   Separator {
-    "line": "[2m[2m|[22m[2m [4mName[24m    [2m|[22m[2m [4mType[24m   [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m    [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2m[2m|[22m[2m _id     [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
-    "name": "[2m|[22m column3 [2m|[22m object [2m|[22m          [2m|[22m           [2m|[22m           [2m|[22m           [2m|[22m        [2m|[22m        [2m|[22m",
+    "name": "[2m|[22m column3 [2m|[22m object   [2m|[22m          [2m|[22m           [2m|[22m           [2m|[22m           [2m|[22m        [2m|[22m        [2m|[22m",
     "short": "Column - column3",
     "value": Object {
       "data": ColumnDataset {
@@ -1498,6 +2058,18 @@ Array [
                   "type": "object",
                 },
                 "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
                   [Circular],
                 ],
                 "index": IndexDataset {
@@ -1542,6 +2114,18 @@ Array [
                 "type": "object",
               },
               "columns": Array [
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
                 [Circular],
               ],
               "index": IndexDataset {
@@ -1613,6 +2197,18 @@ Array [
                       "type": "object",
                     },
                     "columns": Array [
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "_id",
+                          "type": "objectId",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
                       [Circular],
                     ],
                     "index": [Circular],
@@ -1665,7 +2261,256 @@ Array [
           "subColumns": Array [],
           "type": "object",
         },
-        "columns": Array [],
+        "columns": Array [
+          ColumnDataset {
+            "collection": CollectionDataset {
+              "columns": Array [
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "_id",
+                    "type": "objectId",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "column1",
+                    "populate": "c1.column2",
+                    "type": "string",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "populate": ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "column2",
+                      "required": true,
+                      "subColumns": Array [
+                        Object {
+                          "name": "column3",
+                          "subColumns": Array [],
+                          "type": "object",
+                        },
+                      ],
+                      "type": "object",
+                    },
+                    "columns": Array [
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "_id",
+                          "type": "objectId",
+                        },
+                        "columns": Array [],
+                        "index": undefined,
+                        "parent": [Circular],
+                        "readonly": true,
+                        "subTypes": Array [],
+                      },
+                      [Circular],
+                    ],
+                    "index": IndexDataset {
+                      "columns": Array [
+                        Array [
+                          [Circular],
+                          -1,
+                        ],
+                      ],
+                      "index": Object {
+                        "columns": Object {
+                          "column2": -1,
+                        },
+                        "name": "column2_",
+                        "properties": Object {},
+                        "readonly": true,
+                      },
+                      "name": "column2_",
+                      "parent": [Circular],
+                      "properties": Object {},
+                      "readonly": true,
+                    },
+                    "parent": [Circular],
+                    "readonly": false,
+                    "subTypes": Array [],
+                  },
+                  "readonly": false,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "column2",
+                    "required": true,
+                    "subColumns": Array [
+                      Object {
+                        "name": "column3",
+                        "subColumns": Array [],
+                        "type": "object",
+                      },
+                    ],
+                    "type": "object",
+                  },
+                  "columns": Array [
+                    ColumnDataset {
+                      "collection": [Circular],
+                      "column": Object {
+                        "name": "_id",
+                        "type": "objectId",
+                      },
+                      "columns": Array [],
+                      "index": undefined,
+                      "parent": [Circular],
+                      "readonly": true,
+                      "subTypes": Array [],
+                    },
+                    [Circular],
+                  ],
+                  "index": IndexDataset {
+                    "columns": Array [
+                      Array [
+                        [Circular],
+                        -1,
+                      ],
+                    ],
+                    "index": Object {
+                      "columns": Object {
+                        "column2": -1,
+                      },
+                      "name": "column2_",
+                      "properties": Object {},
+                      "readonly": true,
+                    },
+                    "name": "column2_",
+                    "parent": [Circular],
+                    "properties": Object {},
+                    "readonly": true,
+                  },
+                  "parent": [Circular],
+                  "readonly": false,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "createdAt",
+                    "type": "date",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+                ColumnDataset {
+                  "collection": [Circular],
+                  "column": Object {
+                    "name": "updatedAt",
+                    "type": "date",
+                  },
+                  "columns": Array [],
+                  "index": undefined,
+                  "parent": [Circular],
+                  "readonly": true,
+                  "subTypes": Array [],
+                },
+              ],
+              "idType": "objectId",
+              "indexes": Array [
+                IndexDataset {
+                  "columns": Array [
+                    Array [
+                      ColumnDataset {
+                        "collection": [Circular],
+                        "column": Object {
+                          "name": "column2",
+                          "required": true,
+                          "subColumns": Array [
+                            Object {
+                              "name": "column3",
+                              "subColumns": Array [],
+                              "type": "object",
+                            },
+                          ],
+                          "type": "object",
+                        },
+                        "columns": Array [
+                          ColumnDataset {
+                            "collection": [Circular],
+                            "column": Object {
+                              "name": "_id",
+                              "type": "objectId",
+                            },
+                            "columns": Array [],
+                            "index": undefined,
+                            "parent": [Circular],
+                            "readonly": true,
+                            "subTypes": Array [],
+                          },
+                          [Circular],
+                        ],
+                        "index": [Circular],
+                        "parent": [Circular],
+                        "readonly": false,
+                        "subTypes": Array [],
+                      },
+                      -1,
+                    ],
+                  ],
+                  "index": Object {
+                    "columns": Object {
+                      "column2": -1,
+                    },
+                    "name": "column2_",
+                    "properties": Object {},
+                    "readonly": true,
+                  },
+                  "name": "column2_",
+                  "parent": [Circular],
+                  "properties": Object {},
+                  "readonly": true,
+                },
+              ],
+              "name": "c1",
+              "parent": GroupDataset {
+                "collections": Array [
+                  [Circular],
+                ],
+                "parent": [MockFunction],
+                "path": "path/to",
+              },
+              "specialColumns": Array [
+                Array [
+                  "createdAt",
+                  "date",
+                ],
+                Array [
+                  "updatedAt",
+                  "date",
+                ],
+                Array [
+                  "_id",
+                  "objectId",
+                ],
+              ],
+            },
+            "column": Object {
+              "name": "_id",
+              "type": "objectId",
+            },
+            "columns": Array [],
+            "index": undefined,
+            "parent": [Circular],
+            "readonly": true,
+            "subTypes": Array [],
+          },
+        ],
         "index": undefined,
         "parent": ColumnDataset {
           "collection": CollectionDataset {
@@ -1781,6 +2626,117 @@ Array [
             "type": "object",
           },
           "columns": Array [
+            ColumnDataset {
+              "collection": CollectionDataset {
+                "columns": Array [
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "_id",
+                      "type": "objectId",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "column1",
+                      "populate": "c1.column2",
+                      "type": "string",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "populate": [Circular],
+                    "readonly": false,
+                    "subTypes": Array [],
+                  },
+                  [Circular],
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "createdAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                  ColumnDataset {
+                    "collection": [Circular],
+                    "column": Object {
+                      "name": "updatedAt",
+                      "type": "date",
+                    },
+                    "columns": Array [],
+                    "index": undefined,
+                    "parent": [Circular],
+                    "readonly": true,
+                    "subTypes": Array [],
+                  },
+                ],
+                "idType": "objectId",
+                "indexes": Array [
+                  IndexDataset {
+                    "columns": Array [
+                      Array [
+                        [Circular],
+                        -1,
+                      ],
+                    ],
+                    "index": Object {
+                      "columns": Object {
+                        "column2": -1,
+                      },
+                      "name": "column2_",
+                      "properties": Object {},
+                      "readonly": true,
+                    },
+                    "name": "column2_",
+                    "parent": [Circular],
+                    "properties": Object {},
+                    "readonly": true,
+                  },
+                ],
+                "name": "c1",
+                "parent": GroupDataset {
+                  "collections": Array [
+                    [Circular],
+                  ],
+                  "parent": [MockFunction],
+                  "path": "path/to",
+                },
+                "specialColumns": Array [
+                  Array [
+                    "createdAt",
+                    "date",
+                  ],
+                  Array [
+                    "updatedAt",
+                    "date",
+                  ],
+                  Array [
+                    "_id",
+                    "objectId",
+                  ],
+                ],
+              },
+              "column": Object {
+                "name": "_id",
+                "type": "objectId",
+              },
+              "columns": Array [],
+              "index": undefined,
+              "parent": [Circular],
+              "readonly": true,
+              "subTypes": Array [],
+            },
             [Circular],
           ],
           "index": IndexDataset {
@@ -1990,6 +2946,14 @@ Array [
         "subTypes": Array [],
       },
     },
+  },
+  Separator {
+    "line": "[2m [22m",
+    "type": "separator",
+  },
+  Separator {
+    "line": "[2mNote: Column \\"_id\\" is created automatically[22m",
+    "type": "separator",
   },
   Separator {
     "line": "[2m [22m",

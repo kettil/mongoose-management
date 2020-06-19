@@ -15,12 +15,13 @@ import { indexType } from '../types';
 /**
  *
  */
-export type usersTypes = { children?: any[]; email: string; pages?: any[]; password: string };
+export type usersTypes = { _id: any; children?: any[]; email: string; pages?: any[]; password: string };
 
 /**
  *
  */
 export const usersDefinitions = {
+  _id: { type: Schema.Types.ObjectId, required: true },
   children: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
   email: { type: Schema.Types.String, required: true },
   pages: [{ type: Schema.Types.ObjectId, ref: 'Pages.content' }],

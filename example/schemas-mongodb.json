@@ -5,6 +5,7 @@
       "collections": [
         {
           "name": "logs",
+          "idType": "objectId",
           "columns": [
             { "name": "data", "type": "object", "subColumns": [] },
             { "name": "message", "type": "string", "required": true },
@@ -15,6 +16,7 @@
         },
         {
           "name": "pages",
+          "idType": "uuidv4",
           "columns": [
             {
               "name": "content",
@@ -44,21 +46,24 @@
         },
         {
           "name": "user_settings",
+          "idType": "objectId",
           "columns": [
             { "name": "key", "type": "string", "required": true },
             { "name": "user", "type": "objectId", "required": true, "populate": "users" },
-            { "name": "value", "type": "object", "subColumns": [] }
+            { "name": "value1", "type": "object", "subColumns": [], "required": true, "default": "{}" },
+            { "name": "value2", "type": "mixed" }
           ],
           "indexes": [
             {
               "name": "unique",
-              "columns": { "key": 1, "user": 1, "value": 1 },
+              "columns": { "key": 1, "user": 1, "value1": 1 },
               "properties": { "unique": true, "sparse": true }
             }
           ]
         },
         {
           "name": "users",
+          "idType": "objectId",
           "columns": [
             { "name": "children", "type": "arrayType", "populate": "users", "subTypes": ["objectId"] },
             { "name": "email", "type": "string", "required": true },

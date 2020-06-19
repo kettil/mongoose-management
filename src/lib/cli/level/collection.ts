@@ -50,6 +50,12 @@ export default class CollectionLevel extends AbstractLevel<
     return dataset;
   }
 
+  async edit(dataset: CollectionDataset): Promise<boolean> {
+    await super.edit(dataset);
+
+    return true;
+  }
+
   async remove(dataset: CollectionDataset): Promise<boolean> {
     const populates = dataset
       .getPopulates(false)

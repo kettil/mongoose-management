@@ -12,17 +12,21 @@ import { Schema } from 'mongoose';
 
 import { indexType } from '../types';
 
+import { uuidGetter, uuidSetter, bson, uuidv4 } from '../uuidHelpers';
+
 /**
  *
  */
 export type pagesTypes = {
+  _id: any;
   content?: Array<{
+    _id: any;
     createdAt: Date;
     deletedAt?: Date;
     locale: string;
     message: string;
     subject: string;
-    updatedAt?: Array<{ date: Date; user: any }>;
+    updatedAt?: Array<{ _id: any; date: Date; user: any }>;
   }>;
   tags?: string[];
   user: any;
@@ -32,8 +36,24 @@ export type pagesTypes = {
  *
  */
 export const pagesDefinitions = {
+  _id: {
+    type: Buffer,
+    get: uuidGetter,
+    set: uuidSetter,
+    subtype: bson.Binary.SUBTYPE_UUID,
+    default: uuidv4,
+    required: true,
+  },
   content: [
     {
+      _id: {
+        type: Buffer,
+        get: uuidGetter,
+        set: uuidSetter,
+        subtype: bson.Binary.SUBTYPE_UUID,
+        default: uuidv4,
+        required: true,
+      },
       createdAt: { type: Schema.Types.Date, required: true },
       deletedAt: { type: Schema.Types.Date },
       locale: { type: Schema.Types.String, required: true },
@@ -41,6 +61,14 @@ export const pagesDefinitions = {
       subject: { type: Schema.Types.String, required: true },
       updatedAt: [
         {
+          _id: {
+            type: Buffer,
+            get: uuidGetter,
+            set: uuidSetter,
+            subtype: bson.Binary.SUBTYPE_UUID,
+            default: uuidv4,
+            required: true,
+          },
           date: { type: Schema.Types.Date, required: true },
           user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
         },

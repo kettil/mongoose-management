@@ -11,6 +11,7 @@ describe('Check the AbstractColumnDataset class', () => {
   beforeEach(() => {
     parent = {
       getIndex: jest.fn(),
+      specialColumns: [],
     };
 
     dataset = new (AbstractColumnDataset as any)(parent);
