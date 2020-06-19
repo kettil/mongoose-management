@@ -80,7 +80,7 @@
   "dependencies": {
     "@types/inquirer": "^6.5.0",
     "@types/mongodb": "^3.5.22",
-    "@types/mongoose": "^5.7.24",
+    "@types/mongoose": "^5.7.27",
     "@types/mustache": "^4.0.0",
     "@types/prettier": "^2.0.0",
     "@types/table": "^5.0.0",
