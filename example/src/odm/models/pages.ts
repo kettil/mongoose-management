@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
+import { Connection, Schema } from 'mongoose';
 
 import { pagesDefinitions, pagesIndexes } from '../documents/pages';
 import { InterfacePagesDocument, InterfacePagesModel } from '../interfaces/pages';
@@ -29,18 +29,12 @@ addVirtualProperties(pagesSchema, virtuals);
 addIndexes(pagesSchema, pagesIndexes);
 
 /**
- * For multiple database connections
+ * For the multiple database connections
  *
- * @param handler
- * @param collection
+ * @param conn
  */
-export const createPagesModel = (handler: Connection) => {
-  return handler.model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
+const connectPagesModel = (conn: Connection) => {
+  return conn.model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
 };
 
-/**
- * Create default model with default connection
- */
-const Model = model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
-
-export default Model;
+export default connectPagesModel;

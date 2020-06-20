@@ -100,7 +100,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -165,21 +165,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "_id",
@@ -270,7 +273,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -335,21 +338,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "readonly": true,
           "subTypes": Array [],
@@ -413,7 +419,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -436,21 +442,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "column1",
@@ -516,7 +525,7 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": undefined,
                 "indexes": Array [
                   IndexDataset {
                     "columns": Array [
@@ -539,21 +548,24 @@ Array [
                   },
                 ],
                 "name": "collectionName",
-                "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
+                "parent": Object {
+                  "getIdType": [MockFunction] {
+                    "calls": Array [
+                      Array [],
+                      Array [],
+                    ],
+                    "results": Array [
+                      Object {
+                        "type": "return",
+                        "value": undefined,
+                      },
+                      Object {
+                        "type": "return",
+                        "value": undefined,
+                      },
+                    ],
+                  },
+                },
               },
               "column": Object {
                 "name": "_id",
@@ -618,7 +630,7 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": undefined,
                 "indexes": Array [
                   IndexDataset {
                     "columns": Array [
@@ -641,21 +653,24 @@ Array [
                   },
                 ],
                 "name": "collectionName",
-                "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
+                "parent": Object {
+                  "getIdType": [MockFunction] {
+                    "calls": Array [
+                      Array [],
+                      Array [],
+                    ],
+                    "results": Array [
+                      Object {
+                        "type": "return",
+                        "value": undefined,
+                      },
+                      Object {
+                        "type": "return",
+                        "value": undefined,
+                      },
+                    ],
+                  },
+                },
               },
               "column": Object {
                 "name": "column2",
@@ -721,7 +736,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -744,21 +759,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "readonly": false,
           "subTypes": Array [],
@@ -853,7 +871,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -907,21 +925,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "_id",
@@ -982,7 +1003,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
-              "idType": "objectId",
+              "idType": undefined,
               "indexes": Array [
                 IndexDataset {
                   "columns": Array [
@@ -1005,21 +1026,24 @@ Array [
                 },
               ],
               "name": "collectionName",
-              "parent": [MockFunction],
-              "specialColumns": Array [
-                Array [
-                  "createdAt",
-                  "date",
-                ],
-                Array [
-                  "updatedAt",
-                  "date",
-                ],
-                Array [
-                  "_id",
-                  "objectId",
-                ],
-              ],
+              "parent": Object {
+                "getIdType": [MockFunction] {
+                  "calls": Array [
+                    Array [],
+                    Array [],
+                  ],
+                  "results": Array [
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                  ],
+                },
+              },
             },
             "column": Object {
               "name": "column1",
@@ -1086,7 +1110,7 @@ Array [
                       "subTypes": Array [],
                     },
                   ],
-                  "idType": "objectId",
+                  "idType": undefined,
                   "indexes": Array [
                     IndexDataset {
                       "columns": Array [
@@ -1109,21 +1133,24 @@ Array [
                     },
                   ],
                   "name": "collectionName",
-                  "parent": [MockFunction],
-                  "specialColumns": Array [
-                    Array [
-                      "createdAt",
-                      "date",
-                    ],
-                    Array [
-                      "updatedAt",
-                      "date",
-                    ],
-                    Array [
-                      "_id",
-                      "objectId",
-                    ],
-                  ],
+                  "parent": Object {
+                    "getIdType": [MockFunction] {
+                      "calls": Array [
+                        Array [],
+                        Array [],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  },
                 },
                 "column": Object {
                   "name": "column2",
@@ -1189,7 +1216,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
-              "idType": "objectId",
+              "idType": undefined,
               "indexes": Array [
                 IndexDataset {
                   "columns": Array [
@@ -1212,21 +1239,24 @@ Array [
                 },
               ],
               "name": "collectionName",
-              "parent": [MockFunction],
-              "specialColumns": Array [
-                Array [
-                  "createdAt",
-                  "date",
-                ],
-                Array [
-                  "updatedAt",
-                  "date",
-                ],
-                Array [
-                  "_id",
-                  "objectId",
-                ],
-              ],
+              "parent": Object {
+                "getIdType": [MockFunction] {
+                  "calls": Array [
+                    Array [],
+                    Array [],
+                  ],
+                  "results": Array [
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                  ],
+                },
+              },
             },
             "readonly": false,
             "subTypes": Array [],
@@ -1324,7 +1354,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -1378,21 +1408,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "column2",
@@ -1453,7 +1486,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
-              "idType": "objectId",
+              "idType": undefined,
               "indexes": Array [
                 IndexDataset {
                   "columns": Array [
@@ -1476,21 +1509,24 @@ Array [
                 },
               ],
               "name": "collectionName",
-              "parent": [MockFunction],
-              "specialColumns": Array [
-                Array [
-                  "createdAt",
-                  "date",
-                ],
-                Array [
-                  "updatedAt",
-                  "date",
-                ],
-                Array [
-                  "_id",
-                  "objectId",
-                ],
-              ],
+              "parent": Object {
+                "getIdType": [MockFunction] {
+                  "calls": Array [
+                    Array [],
+                    Array [],
+                  ],
+                  "results": Array [
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                  ],
+                },
+              },
             },
             "column": Object {
               "name": "column1",
@@ -1556,7 +1592,7 @@ Array [
                       "subTypes": Array [],
                     },
                   ],
-                  "idType": "objectId",
+                  "idType": undefined,
                   "indexes": Array [
                     IndexDataset {
                       "columns": Array [
@@ -1579,21 +1615,24 @@ Array [
                     },
                   ],
                   "name": "collectionName",
-                  "parent": [MockFunction],
-                  "specialColumns": Array [
-                    Array [
-                      "createdAt",
-                      "date",
-                    ],
-                    Array [
-                      "updatedAt",
-                      "date",
-                    ],
-                    Array [
-                      "_id",
-                      "objectId",
-                    ],
-                  ],
+                  "parent": Object {
+                    "getIdType": [MockFunction] {
+                      "calls": Array [
+                        Array [],
+                        Array [],
+                      ],
+                      "results": Array [
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                        Object {
+                          "type": "return",
+                          "value": undefined,
+                        },
+                      ],
+                    },
+                  },
                 },
                 "column": Object {
                   "name": "_id",
@@ -1660,7 +1699,7 @@ Array [
                   "subTypes": Array [],
                 },
               ],
-              "idType": "objectId",
+              "idType": undefined,
               "indexes": Array [
                 IndexDataset {
                   "columns": Array [
@@ -1683,21 +1722,24 @@ Array [
                 },
               ],
               "name": "collectionName",
-              "parent": [MockFunction],
-              "specialColumns": Array [
-                Array [
-                  "createdAt",
-                  "date",
-                ],
-                Array [
-                  "updatedAt",
-                  "date",
-                ],
-                Array [
-                  "_id",
-                  "objectId",
-                ],
-              ],
+              "parent": Object {
+                "getIdType": [MockFunction] {
+                  "calls": Array [
+                    Array [],
+                    Array [],
+                  ],
+                  "results": Array [
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                    Object {
+                      "type": "return",
+                      "value": undefined,
+                    },
+                  ],
+                },
+              },
             },
             "readonly": false,
             "subTypes": Array [],
@@ -1795,7 +1837,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -1860,21 +1902,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "column3",
@@ -1965,7 +2010,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -2030,21 +2075,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "readonly": false,
           "subTypes": Array [],
@@ -2139,7 +2187,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -2204,21 +2252,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "createdAt",
@@ -2309,7 +2360,7 @@ Array [
                 "subTypes": Array [],
               },
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -2374,21 +2425,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "readonly": true,
           "subTypes": Array [],
@@ -2483,7 +2537,7 @@ Array [
               },
               [Circular],
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -2548,21 +2602,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "column": Object {
             "name": "updatedAt",
@@ -2653,7 +2710,7 @@ Array [
               },
               [Circular],
             ],
-            "idType": "objectId",
+            "idType": undefined,
             "indexes": Array [
               IndexDataset {
                 "columns": Array [
@@ -2718,21 +2775,24 @@ Array [
               },
             ],
             "name": "collectionName",
-            "parent": [MockFunction],
-            "specialColumns": Array [
-              Array [
-                "createdAt",
-                "date",
-              ],
-              Array [
-                "updatedAt",
-                "date",
-              ],
-              Array [
-                "_id",
-                "objectId",
-              ],
-            ],
+            "parent": Object {
+              "getIdType": [MockFunction] {
+                "calls": Array [
+                  Array [],
+                  Array [],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            },
           },
           "readonly": true,
           "subTypes": Array [],

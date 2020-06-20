@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
+import { Connection, Schema } from 'mongoose';
 
 import { logsDefinitions, logsIndexes } from '../documents/logs';
 import { InterfaceLogsDocument, InterfaceLogsModel } from '../interfaces/logs';
@@ -29,18 +29,12 @@ addVirtualProperties(logsSchema, virtuals);
 addIndexes(logsSchema, logsIndexes);
 
 /**
- * For multiple database connections
+ * For the multiple database connections
  *
- * @param handler
- * @param collection
+ * @param conn
  */
-export const createLogsModel = (handler: Connection) => {
-  return handler.model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
+const connectLogsModel = (conn: Connection) => {
+  return conn.model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
 };
 
-/**
- * Create default model with default connection
- */
-const Model = model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
-
-export default Model;
+export default connectLogsModel;

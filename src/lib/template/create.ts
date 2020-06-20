@@ -43,7 +43,7 @@ export default class Create {
    * @param source
    * @param collections
    */
-  async exec(destination: string, collections: dataCollectionType[]) {
+  async exec(destination: string, collections: dataCollectionType[], withMultipleConnection: boolean) {
     const spinner = this.prompts.getSpinner();
     const path = join(this.pathProject, destination.replace(/(^\/|\/$|^\\|\\$)/g, ''));
     const file = new File(this.pathTemplates, path);
@@ -54,7 +54,7 @@ export default class Create {
 
     const data = collections
       .filter((collection) => collection.columns.length > 0)
-      .map((collection) => this.getCollectionDataset(collection));
+      .map((collection) => this.getCollectionDataset(collection, withMultipleConnection));
 
     try {
       spinner.start('Folders are created');
@@ -66,7 +66,7 @@ export default class Create {
       spinner.succeed();
 
       spinner.start('Static files are created');
-      await template.createIndex(data);
+      await template.createIndex(data, withMultipleConnection);
       await file.copyStaticFiles();
       spinner.succeed();
     } catch (err) {
@@ -81,7 +81,7 @@ export default class Create {
    *
    * @param collection
    */
-  getCollectionDataset(collection: dataCollectionType): templateCollectionType {
+  getCollectionDataset(collection: dataCollectionType, withMultipleConnection: boolean): templateCollectionType {
     const columns: dataColumnType[] = collection.columns;
 
     this.extendColumnsWithId(columns, collection.idType || 'objectId');
@@ -93,6 +93,7 @@ export default class Create {
       SchemaIndexes: this.converter.getIndexes(collection.indexes),
       schemaTypes: this.converter.getTypes(columns),
       additionalImports: this.converter.getImports(columns),
+      withMultipleConnection,
     };
   }
 

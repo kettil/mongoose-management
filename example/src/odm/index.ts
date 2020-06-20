@@ -13,10 +13,10 @@ import { Connection } from 'mongoose';
 /**
  * Import the Models
  */
-import Logs, { createLogsModel } from './models/logs';
-import Pages, { createPagesModel } from './models/pages';
-import UserSettings, { createUserSettingsModel } from './models/userSettings';
-import Users, { createUsersModel } from './models/users';
+import connectLogsModel from './models/logs';
+import connectPagesModel from './models/pages';
+import connectUserSettingsModel from './models/userSettings';
+import connectUsersModel from './models/users';
 
 /**
  * TypeScript Namespace
@@ -29,33 +29,15 @@ export * from './interfaces/users';
 /**
  * Create a object with models and these has a custom connection handler
  *
- * @param handler
+ * @param conn
  */
-export const getModels = (handler: Connection) => {
+export const connectionFactory = (conn: Connection) => {
   return {
-    Logs: createLogsModel(handler),
-    Pages: createPagesModel(handler),
-    UserSettings: createUserSettingsModel(handler),
-    Users: createUsersModel(handler),
+    Logs: connectLogsModel(conn),
+    Pages: connectPagesModel(conn),
+    UserSettings: connectUserSettingsModel(conn),
+    Users: connectUsersModel(conn),
   };
 };
 
-/**
- * Models with default connection handler
- */
-export const LogsModel = Logs;
-export const PagesModel = Pages;
-export const UserSettingsModel = UserSettings;
-export const UsersModel = Users;
-
-/**
- * Object with all models
- */
-export const models = {
-  Logs,
-  Pages,
-  UserSettings,
-  Users,
-};
-
-export default models;
+export default connectionFactory;

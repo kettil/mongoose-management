@@ -4,10 +4,19 @@ import GroupsDataset from './groups';
 
 import { sortByName } from '../helper/sort';
 
-import { dataGroupType } from '../../types';
+import { dataGroupType, schemaType } from '../../types';
+
+export const idType = 'objectId';
+export const idTypes = [
+  [undefined, 'Global'],
+  ['objectId', 'ObjectId'],
+  ['uuidv4', 'UUIDv4'],
+] as const;
 
 export default class GroupDataset extends AbstractDataset<GroupsDataset> {
-  protected path: string;
+  protected path: dataGroupType['path'];
+  protected idType: dataGroupType['idType'];
+  protected multipleConnection: dataGroupType['multipleConnection'];
 
   protected collections: CollectionDataset[];
 
@@ -16,6 +25,9 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
 
     this.path = group.path;
     this.collections = group.collections.map((c) => new CollectionDataset(c, this));
+
+    this.idType = group.idType || idType;
+    this.multipleConnection = group.multipleConnection === true;
   }
 
   setReference() {
@@ -57,6 +69,22 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
     this.collections.sort(sortByName);
   }
 
+  getIdType() {
+    return this.idType;
+  }
+
+  setIdType(type: schemaType) {
+    this.idType = type;
+  }
+
+  withMultipleConnection() {
+    return this.multipleConnection;
+  }
+
+  setMultipleConnection(active: boolean) {
+    this.multipleConnection = active;
+  }
+
   getName() {
     return this.getPath();
   }
@@ -69,6 +97,8 @@ export default class GroupDataset extends AbstractDataset<GroupsDataset> {
     return {
       path: this.path,
       collections: this.collections.map((c) => c.getObject()),
+      idType: this.idType,
+      multipleConnection: !!this.multipleConnection,
     };
   }
 }

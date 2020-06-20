@@ -31,7 +31,7 @@ export const getQuestions = (parent: CollectionDataset | ColumnDataset, column?:
 
   const nameValue = column ? column.getName() : undefined;
 
-  const typeValue = column ? Object.keys(schemaTypes).indexOf(column.get('type')) : undefined;
+  const typeValue = column ? Object.keys(schemaTypes).indexOf(column.getType()) : undefined;
   const typeValues = Object.entries(schemaTypes).map<choiceListType<string>>(([key, value]) => ({
     name: value.name,
     value: key,

@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
+import { Connection, Schema } from 'mongoose';
 
 import { userSettingsDefinitions, userSettingsIndexes } from '../documents/userSettings';
 import { InterfaceUserSettingsDocument, InterfaceUserSettingsModel } from '../interfaces/userSettings';
@@ -29,18 +29,12 @@ addVirtualProperties(userSettingsSchema, virtuals);
 addIndexes(userSettingsSchema, userSettingsIndexes);
 
 /**
- * For multiple database connections
+ * For the multiple database connections
  *
- * @param handler
- * @param collection
+ * @param conn
  */
-export const createUserSettingsModel = (handler: Connection) => {
-  return handler.model<InterfaceUserSettingsDocument, InterfaceUserSettingsModel>('UserSettings', userSettingsSchema);
+const connectUserSettingsModel = (conn: Connection) => {
+  return conn.model<InterfaceUserSettingsDocument, InterfaceUserSettingsModel>('UserSettings', userSettingsSchema);
 };
 
-/**
- * Create default model with default connection
- */
-const Model = model<InterfaceUserSettingsDocument, InterfaceUserSettingsModel>('UserSettings', userSettingsSchema);
-
-export default Model;
+export default connectUserSettingsModel;

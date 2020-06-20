@@ -38,7 +38,7 @@ export default class CollectionLevel extends AbstractLevel<
       case 'createColumn':
         dataset = await promptsColumn(this.prompts, this.dataset);
 
-        if (dataset.get('type') !== 'array' && dataset.get('type') !== 'object') {
+        if (dataset.getType() !== 'array' && dataset.getType() !== 'object') {
           dataset = undefined;
         }
         break;

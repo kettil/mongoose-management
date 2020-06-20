@@ -46,15 +46,15 @@ Array [
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[22m[2m [4mName[24m      [2m|[22m[2m [4mType[24m     [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
+    "line": "[2m[2m|[22m[2m [4mName[24m      [2m|[22m[2m [4mType[24m   [2m|[22m[2m [4mRequired[24m [2m|[22m[2m [4mDefault[24m   [2m|[22m[2m [4mReference[24m [2m|[22m[2m [4mIndex[24m     [2m|[22m[2m [4mUnique[24m [2m|[22m[2m [4mSparse[24m [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[22m[2m _id       [2m|[22m[2m objectId [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "line": "[2m[2m|[22m[2m _id       [2m|[22m[2m uuidv4 [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Object {
-    "name": "[2m|[22m column1   [2m|[22m string   [2m|[22m          [2m|[22m           [2m|[22m           [2m|[22m           [2m|[22m        [2m|[22m        [2m|[22m",
+    "name": "[2m|[22m column1   [2m|[22m string [2m|[22m          [2m|[22m           [2m|[22m           [2m|[22m           [2m|[22m        [2m|[22m        [2m|[22m",
     "short": "Column - column1",
     "value": Object {
       "data": ColumnDataset {
@@ -98,7 +98,7 @@ Array [
               "subTypes": Array [],
             },
           ],
-          "idType": "objectId",
+          "idType": "uuidv4",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -122,20 +122,6 @@ Array [
           ],
           "name": "c1",
           "parent": [MockFunction],
-          "specialColumns": Array [
-            Array [
-              "createdAt",
-              "date",
-            ],
-            Array [
-              "updatedAt",
-              "date",
-            ],
-            Array [
-              "_id",
-              "objectId",
-            ],
-          ],
         },
         "column": Object {
           "name": "column1",
@@ -183,7 +169,7 @@ Array [
               "subTypes": Array [],
             },
           ],
-          "idType": "objectId",
+          "idType": "uuidv4",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -207,20 +193,6 @@ Array [
           ],
           "name": "c1",
           "parent": [MockFunction],
-          "specialColumns": Array [
-            Array [
-              "createdAt",
-              "date",
-            ],
-            Array [
-              "updatedAt",
-              "date",
-            ],
-            Array [
-              "_id",
-              "objectId",
-            ],
-          ],
         },
         "readonly": false,
         "subTypes": Array [],
@@ -228,11 +200,11 @@ Array [
     },
   },
   Separator {
-    "line": "[2m[2m|[22m[2m createdAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "line": "[2m[2m|[22m[2m createdAt [2m|[22m[2m date   [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
-    "line": "[2m[2m|[22m[2m updatedAt [2m|[22m[2m date     [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
+    "line": "[2m[2m|[22m[2m updatedAt [2m|[22m[2m date   [2m|[22m[2m          [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m           [2m|[22m[2m        [2m|[22m[2m        [2m|[22m[2m[22m",
     "type": "separator",
   },
   Separator {
@@ -307,26 +279,12 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": "uuidv4",
                 "indexes": Array [
                   [Circular],
                 ],
                 "name": "c1",
                 "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
               },
               "column": Object {
                 "name": "column1",
@@ -374,26 +332,12 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": "uuidv4",
                 "indexes": Array [
                   [Circular],
                 ],
                 "name": "c1",
                 "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
               },
               "readonly": false,
               "subTypes": Array [],
@@ -460,26 +404,12 @@ Array [
               "subTypes": Array [],
             },
           ],
-          "idType": "objectId",
+          "idType": "uuidv4",
           "indexes": Array [
             [Circular],
           ],
           "name": "c1",
           "parent": [MockFunction],
-          "specialColumns": Array [
-            Array [
-              "createdAt",
-              "date",
-            ],
-            Array [
-              "updatedAt",
-              "date",
-            ],
-            Array [
-              "_id",
-              "objectId",
-            ],
-          ],
         },
         "properties": Object {},
         "readonly": false,
@@ -596,7 +526,7 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": "uuidv4",
                 "indexes": Array [
                   IndexDataset {
                     "columns": Array [
@@ -628,20 +558,6 @@ Array [
                 ],
                 "name": "c1",
                 "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
               },
               "column": Object {
                 "name": "column1",
@@ -707,27 +623,13 @@ Array [
                       "subTypes": Array [],
                     },
                   ],
-                  "idType": "objectId",
+                  "idType": "uuidv4",
                   "indexes": Array [
                     [Circular],
                     [Circular],
                   ],
                   "name": "c1",
                   "parent": [MockFunction],
-                  "specialColumns": Array [
-                    Array [
-                      "createdAt",
-                      "date",
-                    ],
-                    Array [
-                      "updatedAt",
-                      "date",
-                    ],
-                    Array [
-                      "_id",
-                      "objectId",
-                    ],
-                  ],
                 },
                 "properties": Object {
                   "sparse": false,
@@ -775,7 +677,7 @@ Array [
                     "subTypes": Array [],
                   },
                 ],
-                "idType": "objectId",
+                "idType": "uuidv4",
                 "indexes": Array [
                   IndexDataset {
                     "columns": Array [
@@ -807,20 +709,6 @@ Array [
                 ],
                 "name": "c1",
                 "parent": [MockFunction],
-                "specialColumns": Array [
-                  Array [
-                    "createdAt",
-                    "date",
-                  ],
-                  Array [
-                    "updatedAt",
-                    "date",
-                  ],
-                  Array [
-                    "_id",
-                    "objectId",
-                  ],
-                ],
               },
               "readonly": false,
               "subTypes": Array [],
@@ -912,7 +800,7 @@ Array [
               "subTypes": Array [],
             },
           ],
-          "idType": "objectId",
+          "idType": "uuidv4",
           "indexes": Array [
             IndexDataset {
               "columns": Array [
@@ -955,20 +843,6 @@ Array [
           ],
           "name": "c1",
           "parent": [MockFunction],
-          "specialColumns": Array [
-            Array [
-              "createdAt",
-              "date",
-            ],
-            Array [
-              "updatedAt",
-              "date",
-            ],
-            Array [
-              "_id",
-              "objectId",
-            ],
-          ],
         },
         "properties": Object {},
         "readonly": false,

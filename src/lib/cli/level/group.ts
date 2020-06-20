@@ -20,6 +20,12 @@ export default class GroupLevel extends AbstractLevel<GroupDataset, CollectionDa
     super(dataset, new GroupMenu(options.prompts), options);
   }
 
+  async edit(dataset: GroupDataset): Promise<boolean> {
+    await super.edit(dataset);
+
+    return true;
+  }
+
   async show(dataset: CollectionDataset) {
     const level = new CollectionLevel(dataset, this.options);
 

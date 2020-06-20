@@ -69,7 +69,7 @@ export const evaluation = (answers: answersType) => {
 };
 
 export const getCollectionWithNestedSchemas = (collection: CollectionDataset) =>
-  collection.flatColumns().filter((c) => ['object', 'array'].indexOf(c.get('type')) >= 0);
+  collection.flatColumns().filter((c) => ['object', 'array'].indexOf(c.getType()) >= 0);
 
 export const whenColumn = ({ collection }: answersType) =>
   collection !== undefined && getCollectionWithNestedSchemas(collection).length > 0;

@@ -14,7 +14,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     const choices = this.getChoiceList(column.flatColumns(), column);
     let result: choiceValueType<ColumnDataset>;
 
-    if (column.get('type') === 'array' || column.get('type') === 'object') {
+    if (column.getType() === 'array' || column.getType() === 'object') {
       const menuChoices = [
         this.getMenuChoiceCreate('subcolumn'),
         this.getMenuChoiceEdit('column'),

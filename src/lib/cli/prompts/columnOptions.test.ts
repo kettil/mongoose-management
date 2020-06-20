@@ -118,7 +118,6 @@ describe('Check the prompts columnOptions functions', () => {
         },
       ],
       indexes: [],
-      idType: 'objectId',
       name: 'collectionName',
     });
   });

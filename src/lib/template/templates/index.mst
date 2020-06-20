@@ -8,14 +8,23 @@
  * ######################################################################
  */
 
+{{#withMultipleConnection}}
 import { Connection } from 'mongoose';
+{{/withMultipleConnection}}
 
 /**
  * Import the Models
  */
+{{#withMultipleConnection}}
 {{#collections}}
-import {{collectionNameUpper}}, { create{{collectionNameUpper}}Model } from './models/{{collectionNameLower}}';
+import connect{{collectionNameUpper}}Model from './models/{{collectionNameLower}}';
 {{/collections}}
+{{/withMultipleConnection}}
+{{^withMultipleConnection}}
+{{#collections}}
+import {{collectionNameUpper}} from './models/{{collectionNameLower}}';
+{{/collections}}
+{{/withMultipleConnection}}
 
 /**
  * TypeScript Namespace
@@ -24,33 +33,27 @@ import {{collectionNameUpper}}, { create{{collectionNameUpper}}Model } from './m
 export * from './interfaces/{{collectionNameLower}}';
 {{/collections}}
 
+{{#withMultipleConnection}}
 /**
  * Create a object with models and these has a custom connection handler
  *
- * @param handler
+ * @param conn
  */
-export const getModels = (handler: Connection) => {
+export const connectionFactory = (conn: Connection) => {
   return {
 {{#collections}}
-    {{collectionNameUpper}}: create{{collectionNameUpper}}Model(handler),
+    {{collectionNameUpper}}: connect{{collectionNameUpper}}Model(conn),
 {{/collections}}
-  };
+  }
 };
 
+export default connectionFactory
+{{/withMultipleConnection}}
+{{^withMultipleConnection}}
 /**
- * Models with default connection handler
+ * Create the models for the default connection
  */
 {{#collections}}
 export const {{collectionNameUpper}}Model = {{collectionNameUpper}};
 {{/collections}}
-
-/**
- * Object with all models
- */
-export const models = {
-{{#collections}}
-  {{collectionNameUpper}},
-{{/collections}}
-};
-
-export default models;
+{{/withMultipleConnection}}

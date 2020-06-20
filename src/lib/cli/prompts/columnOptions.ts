@@ -80,7 +80,7 @@ export const evaluation = (answers: answersType) => {
       }
     });
 
-    switch (column.get('type')) {
+    switch (column.getType()) {
       case 'arrayType':
       case 'array':
         column.set('default', '[]');

@@ -78,7 +78,7 @@ describe('Check the AbstractColumnDataset class', () => {
   test('it should be return all columns when flatColumns() is called without subcolumns', () => {
     const columns = dataset.flatColumns();
 
-    expect(columns).toEqual([column1, column8, expect.any(ColumnDataset)]);
+    expect(columns).toEqual([column1, column8, expect.any(ColumnDataset), expect.any(ColumnDataset)]);
   });
 
   test('it should be return all columns (with subcolumns) when flatColumns() is called with subcolumns', () => {
@@ -92,7 +92,15 @@ describe('Check the AbstractColumnDataset class', () => {
 
     const columns = dataset.flatColumns();
 
-    expect(columns).toEqual([column1, column6, expect.any(ColumnDataset), column8, expect.any(ColumnDataset)]);
+    expect(columns).toEqual([
+      column1,
+      column6,
+      expect.any(ColumnDataset),
+      expect.any(ColumnDataset),
+      column8,
+      expect.any(ColumnDataset),
+      expect.any(ColumnDataset),
+    ]);
   });
 
   test('it should be remove the column from the column list when removeColumn() is called', () => {

@@ -67,7 +67,7 @@ export const evaluation = (answers: answersType, collection: CollectionDataset) 
 
 export const getChoiceItem = (column: ColumnDataset, columns: string[]) => {
   const name = column.getFullname(false, false);
-  const disabled = Object.keys(schemaTypesSpecial).indexOf(column.get('type')) >= 0;
+  const disabled = Object.keys(schemaTypesSpecial).indexOf(column.getType()) >= 0;
   const checked = !disabled && columns.length > 0 && columns.indexOf(name) >= 0;
 
   return {

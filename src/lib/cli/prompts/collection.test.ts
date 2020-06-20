@@ -25,6 +25,8 @@ describe('Check the prompts collection function', () => {
             indexes: [],
           },
         ],
+        multipleConnection: true,
+        idType: 'uuidv4',
       },
       jest.fn() as any,
     );
@@ -51,16 +53,9 @@ describe('Check the prompts collection function', () => {
           type: 'list',
           default: 'objectId',
           choices: [
-            {
-              name: 'ObjectId',
-              short: 'ObjectId',
-              value: 'objectId',
-            },
-            {
-              name: 'UUIDv4',
-              short: 'UUIDv4',
-              value: 'uuidv4',
-            },
+            { name: 'Global (UUIDv4)', short: 'Global', value: undefined },
+            { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+            { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
           ],
         },
       ]);
@@ -75,7 +70,6 @@ describe('Check the prompts collection function', () => {
     expect(result).toBe(collection);
     expect(result.getObject()).toEqual({
       name: 'newCollectionName',
-      idType: 'objectId',
       columns: [],
       indexes: [],
     });

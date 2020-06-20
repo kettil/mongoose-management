@@ -77,6 +77,8 @@ Object {
       "name": "collect2",
     },
   ],
+  "idType": "objectId",
+  "multipleConnection": true,
   "path": "path",
 }
 `;

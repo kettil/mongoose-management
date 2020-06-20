@@ -22,12 +22,12 @@ export default class Template {
    *
    * @param data
    */
-  async createIndex(data: templateCollectionType[]) {
+  async createIndex(data: templateCollectionType[], withMultipleConnection: boolean) {
     data.sort((a, b) => (a.collectionNameLower < b.collectionNameLower ? -1 : 1));
 
     let content = await this.fileHandler.read('index');
 
-    content = render(content, { collections: data });
+    content = render(content, { collections: data, withMultipleConnection });
     content = format(content, { ...this.prettier, parser: 'typescript' });
 
     await this.fileHandler.write('index', 'index', content);

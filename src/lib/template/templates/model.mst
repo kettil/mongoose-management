@@ -8,7 +8,12 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
+{{#withMultipleConnection}}
+import { Connection, Schema } from 'mongoose';
+{{/withMultipleConnection}}
+{{^withMultipleConnection}}
+import { model, Schema } from 'mongoose';
+{{/withMultipleConnection}}
 
 import { {{collectionNameLower}}Definitions, {{collectionNameLower}}Indexes } from '../documents/{{collectionNameLower}}';
 import { {{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
@@ -28,25 +33,29 @@ export const {{collectionNameLower}}Schema = new Schema({{collectionNameLower}}D
 addVirtualProperties({{collectionNameLower}}Schema, virtuals);
 addIndexes({{collectionNameLower}}Schema, {{collectionNameLower}}Indexes);
 
+{{#withMultipleConnection}}
 /**
- * For multiple database connections
+ * For the multiple database connections
  *
- * @param handler
- * @param collection
+ * @param conn
  */
-export const create{{collectionNameUpper}}Model = (handler: Connection) => {
-  return handler.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
+ const connect{{collectionNameUpper}}Model = (conn: Connection) => {
+  return conn.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
     '{{collectionNameUpper}}',
     {{collectionNameLower}}Schema
   );
 };
 
+export default connect{{collectionNameUpper}}Model;
+{{/withMultipleConnection}}
+{{^withMultipleConnection}}
 /**
- * Create default model with default connection
+ * Create the model for the default connection
  */
-const Model = model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
+const {{collectionNameUpper}}Model = model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
   '{{collectionNameUpper}}',
   {{collectionNameLower}}Schema,
 );
 
-export default Model;
+export default {{collectionNameUpper}}Model;
+{{/withMultipleConnection}}

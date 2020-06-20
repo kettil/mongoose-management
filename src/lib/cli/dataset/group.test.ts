@@ -19,6 +19,8 @@ describe('Check the GroupDataset class', () => {
               { name: 'c1', columns: [], indexes: [], idType: 'objectId' },
               { name: 'c6', columns: [], indexes: [], idType: 'objectId' },
             ],
+            idType: 'objectId',
+            multipleConnection: true,
           },
         ],
       },
@@ -131,6 +133,8 @@ describe('Check the GroupDataset class', () => {
         { name: 'c1', columns: [], indexes: [], idType: 'objectId' },
         { name: 'c6', columns: [], indexes: [], idType: 'objectId' },
       ],
+      idType: 'objectId',
+      multipleConnection: true,
     });
   });
 });

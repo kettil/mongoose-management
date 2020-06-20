@@ -19,6 +19,7 @@ describe('Check the CollectionMenu class', () => {
         name: 'c1',
         columns: [{ name: 'column1', type: 'string' }],
         indexes: [{ name: 'index1', columns: { column1: 1 }, properties: {} }],
+        idType: 'uuidv4',
       },
       jest.fn() as any,
     );

@@ -24,7 +24,7 @@ export default class ColumnLevel extends AbstractLevel<
   async create(action: choiceValueType<undefined>['action']) {
     const dataset = await super.create(action);
 
-    if (dataset && dataset.get('type') !== 'array' && dataset.get('type') !== 'object') {
+    if (dataset && dataset.getType() !== 'array' && dataset.getType() !== 'object') {
       return undefined;
     }
 

@@ -24,6 +24,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
       new Separator(' '),
       new Separator(),
       this.getMenuChoiceCreate('collection'),
+      this.getMenuChoiceEdit('group'),
       this.getMenuChoiceRemove('group'),
       this.getMenuChoiceSave(),
       this.getMenuChoiceWrite(),

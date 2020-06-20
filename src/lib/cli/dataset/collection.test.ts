@@ -44,6 +44,8 @@ describe('Check the CollectionDataset class', () => {
             indexes: [],
           },
         ],
+        idType: 'objectId',
+        multipleConnection: true,
       },
       jest.fn() as any,
     );
@@ -143,7 +145,6 @@ describe('Check the CollectionDataset class', () => {
   test.each([
     ['objectId', 'objectId'],
     ['uuidv4', 'uuidv4'],
-    ['randomValueThatDoesNotExist', 'objectId'],
   ])('setIdType("%s") should set the idType to "%s"', (input, output) => {
     dataset.setIdType(input);
     expect(dataset.getIdType()).toBe(output);

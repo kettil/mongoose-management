@@ -26,6 +26,8 @@ describe('Check the prompts collectionMain functions', () => {
             indexes: [],
           },
         ],
+        idType: 'uuidv4',
+        multipleConnection: true,
       },
       jest.fn() as any,
     );
@@ -44,8 +46,12 @@ describe('Check the prompts collectionMain functions', () => {
           name: 'idType',
           message: "Type of '_id' column:",
           type: 'list',
-          default: 'objectId',
           choices: [
+            {
+              name: 'Global (UUIDv4)',
+              short: 'Global',
+              value: undefined,
+            },
             {
               name: 'ObjectId',
               short: 'ObjectId',
@@ -79,8 +85,11 @@ describe('Check the prompts collectionMain functions', () => {
           name: 'idType',
           message: "Type of '_id' column:",
           type: 'list',
-          default: 'objectId',
           choices: [
+            {
+              name: 'Global (UUIDv4)',
+              short: 'Global',
+            },
             {
               name: 'ObjectId',
               short: 'ObjectId',
@@ -117,8 +126,12 @@ describe('Check the prompts collectionMain functions', () => {
         name: 'idType',
         message: "Type of '_id' column:",
         type: 'list',
-        default: 'objectId',
         choices: [
+          {
+            name: 'Global (UUIDv4)',
+            short: 'Global',
+            value: undefined,
+          },
           {
             name: 'ObjectId',
             short: 'ObjectId',
@@ -153,6 +166,11 @@ describe('Check the prompts collectionMain functions', () => {
         message: "Type of '_id' column:",
         choices: [
           {
+            name: 'Global (UUIDv4)',
+            short: 'Global',
+            value: undefined,
+          },
+          {
             name: 'ObjectId',
             value: 'objectId',
             short: 'ObjectId',
@@ -182,6 +200,8 @@ describe('Check the prompts collectionMain functions', () => {
         { columns: [], indexes: [], name: 'newCollection', idType: 'objectId' },
       ],
       path: 'path',
+      idType: 'uuidv4',
+      multipleConnection: true,
     });
   });
 
@@ -198,6 +218,8 @@ describe('Check the prompts collectionMain functions', () => {
     expect(group.getObject()).toEqual({
       collections: [{ columns: [], indexes: [], name: 'newCollection', idType: 'objectId' }],
       path: 'path',
+      idType: 'uuidv4',
+      multipleConnection: true,
     });
   });
 

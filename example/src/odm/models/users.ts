@@ -8,7 +8,7 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
+import { Connection, Schema } from 'mongoose';
 
 import { usersDefinitions, usersIndexes } from '../documents/users';
 import { InterfaceUsersDocument, InterfaceUsersModel } from '../interfaces/users';
@@ -29,18 +29,12 @@ addVirtualProperties(usersSchema, virtuals);
 addIndexes(usersSchema, usersIndexes);
 
 /**
- * For multiple database connections
+ * For the multiple database connections
  *
- * @param handler
- * @param collection
+ * @param conn
  */
-export const createUsersModel = (handler: Connection) => {
-  return handler.model<InterfaceUsersDocument, InterfaceUsersModel>('Users', usersSchema);
+const connectUsersModel = (conn: Connection) => {
+  return conn.model<InterfaceUsersDocument, InterfaceUsersModel>('Users', usersSchema);
 };
 
-/**
- * Create default model with default connection
- */
-const Model = model<InterfaceUsersDocument, InterfaceUsersModel>('Users', usersSchema);
-
-export default Model;
+export default connectUsersModel;

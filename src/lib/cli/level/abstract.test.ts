@@ -62,7 +62,7 @@ describe('Check the AbstractLevel class', () => {
       (prompts.menu as jest.Mock).mockImplementation(async (message: any, choices: any) => {
         expect(typeof message).toBe('string');
         expect(Array.isArray(choices)).toBe(true);
-        expect(choices.length).toBe(13);
+        expect(choices.length).toBe(14);
 
         return { action: 'create' };
       });
@@ -237,9 +237,11 @@ describe('Check the AbstractLevel class', () => {
 
       expect(prompts.menu).toHaveBeenCalledTimes(1);
       expect(creater.exec).toHaveBeenCalledTimes(1);
-      expect(creater.exec).toHaveBeenCalledWith('path/to/group', [
-        { columns: [], indexes: [], name: 'collectionName', idType: 'objectId' },
-      ]);
+      expect(creater.exec).toHaveBeenCalledWith(
+        'path/to/group',
+        [{ columns: [], indexes: [], name: 'collectionName' }],
+        false,
+      );
       expect(storage.write).toHaveBeenCalledTimes(1);
       expect(storage.write).toHaveBeenCalledWith(false);
     });
