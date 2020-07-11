@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,32 +10,30 @@
  */
 
 import { Connection, Schema } from 'mongoose';
-
 import { logsDefinitions, logsIndexes } from '../documents/logs';
-import { InterfaceLogsDocument, InterfaceLogsModel } from '../interfaces/logs';
-import { methods, options, queries, statics, virtuals } from '../repositories/logs';
-
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { LogsDocument, LogsModel } from '../types/logs';
+import middlewareLogs from '../middlewares/logs';
+import { methods, options, queries, statics, virtuals } from '../repositories/logs';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('logs', [Schema.prototype, logsDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-export const logsSchema = new Schema(logsDefinitions, options);
+const schema = new Schema(logsDefinitions, options);
 
-logsSchema.methods = { ...methods, ...logsSchema.methods };
-logsSchema.statics = { ...statics, ...logsSchema.statics };
-logsSchema.query = { ...queries, ...logsSchema.query };
-addVirtualProperties(logsSchema, virtuals);
-addIndexes(logsSchema, logsIndexes);
+schema.methods = { ...methods, ...schema.methods };
+schema.statics = { ...statics, ...schema.statics };
+schema.query = { ...queries, ...schema.query };
+
+middlewareLogs(schema.pre.bind(schema), schema.post.bind(schema));
+
+addVirtualProperties(schema, virtuals);
+addIndexes(schema, logsIndexes);
 
 /**
  * For the multiple database connections
- *
- * @param conn
  */
-const connectLogsModel = (conn: Connection) => {
-  return conn.model<InterfaceLogsDocument, InterfaceLogsModel>('Logs', logsSchema);
-};
+const connectLogs = (conn: Connection): LogsModel => conn.model<LogsDocument, LogsModel>('Logs', schema);
 
-export default connectLogsModel;
+export default connectLogs;

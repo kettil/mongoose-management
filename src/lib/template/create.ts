@@ -20,8 +20,6 @@ import {
  *
  */
 export default class Create {
-  protected interfaceName = 'Interface';
-
   /**
    *
    * @param prompts
@@ -88,10 +86,9 @@ export default class Create {
 
     return {
       ...this.createCollectionNames(collection.name),
-      interfaceName: this.interfaceName,
       schemaDefinitions: this.converter.getDefinitions(columns),
       SchemaIndexes: this.converter.getIndexes(collection.indexes),
-      schemaTypes: this.converter.getTypes(columns),
+      schemaTypes: this.converter.getTypes(columns.filter((column) => column.name !== '_id')),
       additionalImports: this.converter.getImports(columns),
       withMultipleConnection,
     };

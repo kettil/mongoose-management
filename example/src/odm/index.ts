@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention, import/no-unused-modules */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,35 +10,25 @@
  */
 
 import { Connection } from 'mongoose';
+import connectLogs from './models/logs';
+import connectPages from './models/pages';
+import connectUserSettings from './models/userSettings';
+import connectUsers from './models/users';
+
+export * from './types/logs';
+export * from './types/pages';
+export * from './types/userSettings';
+export * from './types/users';
 
 /**
- * Import the Models
+ * For the multiple database connections
  */
-import connectLogsModel from './models/logs';
-import connectPagesModel from './models/pages';
-import connectUserSettingsModel from './models/userSettings';
-import connectUsersModel from './models/users';
-
-/**
- * TypeScript Namespace
- */
-export * from './interfaces/logs';
-export * from './interfaces/pages';
-export * from './interfaces/userSettings';
-export * from './interfaces/users';
-
-/**
- * Create a object with models and these has a custom connection handler
- *
- * @param conn
- */
-export const connectionFactory = (conn: Connection) => {
-  return {
-    Logs: connectLogsModel(conn),
-    Pages: connectPagesModel(conn),
-    UserSettings: connectUserSettingsModel(conn),
-    Users: connectUsersModel(conn),
-  };
-};
+const connectionFactory = (conn: Connection) =>
+  ({
+    Logs: connectLogs(conn),
+    Pages: connectPages(conn),
+    UserSettings: connectUserSettings(conn),
+    Users: connectUsers(conn),
+  } as const);
 
 export default connectionFactory;

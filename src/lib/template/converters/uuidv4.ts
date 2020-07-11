@@ -9,7 +9,7 @@ export default class ConverterUUIDv4 extends AbstractConverter<dataColumnType> {
    *
    */
   columnToTypes() {
-    return 'any';
+    return 'string | Buffer';
   }
 
   /**

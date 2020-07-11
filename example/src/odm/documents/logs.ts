@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,17 +10,10 @@
  */
 
 import { Schema } from 'mongoose';
+import { IndexType } from '../types';
 
-import { indexType } from '../types';
+export type LogsTypes = { data?: { _id: any }; message: string; tags?: string[]; user: any };
 
-/**
- *
- */
-export type logsTypes = { _id: any; data?: { _id: any }; message: string; tags?: string[]; user: any };
-
-/**
- *
- */
 export const logsDefinitions = {
   _id: { type: Schema.Types.ObjectId, required: true },
   data: { _id: { type: Schema.Types.ObjectId, required: true } },
@@ -28,7 +22,4 @@ export const logsDefinitions = {
   user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
 };
 
-/**
- *
- */
-export const logsIndexes: indexType[] = [];
+export const logsIndexes: IndexType[] = [];

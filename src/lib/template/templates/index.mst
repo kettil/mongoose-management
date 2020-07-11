@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention, import/no-unused-modules */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -10,50 +11,33 @@
 
 {{#withMultipleConnection}}
 import { Connection } from 'mongoose';
-{{/withMultipleConnection}}
-
-/**
- * Import the Models
- */
-{{#withMultipleConnection}}
 {{#collections}}
-import connect{{collectionNameUpper}}Model from './models/{{collectionNameLower}}';
-{{/collections}}
-{{/withMultipleConnection}}
-{{^withMultipleConnection}}
-{{#collections}}
-import {{collectionNameUpper}} from './models/{{collectionNameLower}}';
+import connect{{collectionNameUpper}} from './models/{{collectionNameLower}}';
 {{/collections}}
 {{/withMultipleConnection}}
 
-/**
- * TypeScript Namespace
- */
 {{#collections}}
-export * from './interfaces/{{collectionNameLower}}';
+export * from './types/{{collectionNameLower}}';
 {{/collections}}
 
 {{#withMultipleConnection}}
 /**
- * Create a object with models and these has a custom connection handler
- *
- * @param conn
+ * For the multiple database connections
  */
-export const connectionFactory = (conn: Connection) => {
-  return {
+const connectionFactory = (conn: Connection) =>
+  ({
 {{#collections}}
-    {{collectionNameUpper}}: connect{{collectionNameUpper}}Model(conn),
+    {{collectionNameUpper}}: connect{{collectionNameUpper}}(conn),
 {{/collections}}
-  }
-};
+  }) as const;
 
 export default connectionFactory
 {{/withMultipleConnection}}
 {{^withMultipleConnection}}
 /**
- * Create the models for the default connection
+ * Create the model for the default connection
  */
 {{#collections}}
-export const {{collectionNameUpper}}Model = {{collectionNameUpper}};
+export { default as {{collectionNameUpper}} } from './models/{{collectionNameLower}}';
 {{/collections}}
 {{/withMultipleConnection}}

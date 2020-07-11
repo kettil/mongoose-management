@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,32 +10,30 @@
  */
 
 import { Connection, Schema } from 'mongoose';
-
 import { pagesDefinitions, pagesIndexes } from '../documents/pages';
-import { InterfacePagesDocument, InterfacePagesModel } from '../interfaces/pages';
-import { methods, options, queries, statics, virtuals } from '../repositories/pages';
-
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { PagesDocument, PagesModel } from '../types/pages';
+import middlewarePages from '../middlewares/pages';
+import { methods, options, queries, statics, virtuals } from '../repositories/pages';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('pages', [Schema.prototype, pagesDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-export const pagesSchema = new Schema(pagesDefinitions, options);
+const schema = new Schema(pagesDefinitions, options);
 
-pagesSchema.methods = { ...methods, ...pagesSchema.methods };
-pagesSchema.statics = { ...statics, ...pagesSchema.statics };
-pagesSchema.query = { ...queries, ...pagesSchema.query };
-addVirtualProperties(pagesSchema, virtuals);
-addIndexes(pagesSchema, pagesIndexes);
+schema.methods = { ...methods, ...schema.methods };
+schema.statics = { ...statics, ...schema.statics };
+schema.query = { ...queries, ...schema.query };
+
+middlewarePages(schema.pre.bind(schema), schema.post.bind(schema));
+
+addVirtualProperties(schema, virtuals);
+addIndexes(schema, pagesIndexes);
 
 /**
  * For the multiple database connections
- *
- * @param conn
  */
-const connectPagesModel = (conn: Connection) => {
-  return conn.model<InterfacePagesDocument, InterfacePagesModel>('Pages', pagesSchema);
-};
+const connectPages = (conn: Connection): PagesModel => conn.model<PagesDocument, PagesModel>('Pages', schema);
 
-export default connectPagesModel;
+export default connectPages;
