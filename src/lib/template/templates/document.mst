@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,24 +10,13 @@
  */
 
 import { Schema } from 'mongoose';
-
-import { indexType } from '../types';
-
+import { IndexType } from '../types';
 {{#additionalImports}}
 {{& .}}
 {{/additionalImports}}
 
-/**
- *
- */
-export type {{collectionNameLower}}Types = {{& schemaTypes}};
+export type {{collectionNameUpper}}Types = {{& schemaTypes}};
 
-/**
- *
- */
 export const {{collectionNameLower}}Definitions = {{& schemaDefinitions}};
 
-/**
- *
- */
-export const {{collectionNameLower}}Indexes: indexType[] = {{& SchemaIndexes}};
+export const {{collectionNameLower}}Indexes: IndexType[] = {{& SchemaIndexes}};

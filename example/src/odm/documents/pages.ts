@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,32 +10,23 @@
  */
 
 import { Schema } from 'mongoose';
-
-import { indexType } from '../types';
-
+import { IndexType } from '../types';
 import { uuidGetter, uuidSetter, bson, uuidv4 } from '../uuidHelpers';
 
-/**
- *
- */
-export type pagesTypes = {
-  _id: any;
+export type PagesTypes = {
   content?: Array<{
-    _id: any;
+    _id: string | Buffer;
     createdAt: Date;
     deletedAt?: Date;
     locale: string;
     message: string;
     subject: string;
-    updatedAt?: Array<{ _id: any; date: Date; user: any }>;
+    updatedAt?: Array<{ _id: string | Buffer; date: Date; user: any }>;
   }>;
   tags?: string[];
   user: any;
 };
 
-/**
- *
- */
 export const pagesDefinitions = {
   _id: {
     type: Buffer,
@@ -79,7 +71,4 @@ export const pagesDefinitions = {
   user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
 };
 
-/**
- *
- */
-export const pagesIndexes: indexType[] = [{ fields: { 'content.locale': 1 }, options: { name: 'content.locale_' } }];
+export const pagesIndexes: IndexType[] = [{ fields: { 'content.locale': 1 }, options: { name: 'content.locale_' } }];

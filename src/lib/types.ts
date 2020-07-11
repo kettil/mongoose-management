@@ -111,7 +111,7 @@ export type choiceValueType<T> = {
   data?: T;
 };
 
-export type templateTypesType = 'index' | 'documents' | 'interfaces' | 'models' | 'repositories';
+export type templateTypesType = 'index' | 'documents' | 'middlewares' | 'models' | 'repositories' | 'types';
 
 export type templateCollectionNamesType = {
   collectionNameLower: string;
@@ -120,8 +120,6 @@ export type templateCollectionNamesType = {
 };
 
 export type templateCollectionType = {
-  interfaceName: string;
-
   schemaDefinitions: string;
   SchemaIndexes: string;
   schemaTypes: string;

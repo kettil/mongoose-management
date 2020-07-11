@@ -1,4 +1,6 @@
-/**
+
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -14,48 +16,47 @@ import { Connection, Schema } from 'mongoose';
 {{^withMultipleConnection}}
 import { model, Schema } from 'mongoose';
 {{/withMultipleConnection}}
-
 import { {{collectionNameLower}}Definitions, {{collectionNameLower}}Indexes } from '../documents/{{collectionNameLower}}';
-import { {{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model } from '../interfaces/{{collectionNameLower}}';
-import { methods, options, queries, statics, virtuals } from '../repositories/{{collectionNameLower}}';
-
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { {{collectionNameUpper}}Document, {{collectionNameUpper}}Model } from '../types/{{collectionNameLower}}';
+import middleware{{collectionNameUpper}} from '../middlewares/{{collectionNameLower}}';
+import { methods, options, queries, statics, virtuals } from '../repositories/{{collectionNameLower}}';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('{{collectionNameLower}}', [Schema.prototype, {{collectionNameLower}}Definitions, methods, statics, queries, virtuals])
 
 // Create model schema
-export const {{collectionNameLower}}Schema = new Schema({{collectionNameLower}}Definitions, options);
+const schema = new Schema({{collectionNameLower}}Definitions, options);
 
-{{collectionNameLower}}Schema.methods = { ...methods, ...{{collectionNameLower}}Schema.methods };
-{{collectionNameLower}}Schema.statics = { ...statics, ...{{collectionNameLower}}Schema.statics };
-{{collectionNameLower}}Schema.query = { ...queries, ...{{collectionNameLower}}Schema.query };
-addVirtualProperties({{collectionNameLower}}Schema, virtuals);
-addIndexes({{collectionNameLower}}Schema, {{collectionNameLower}}Indexes);
+schema.methods = { ...methods, ...schema.methods };
+schema.statics = { ...statics, ...schema.statics };
+schema.query = { ...queries, ...schema.query };
+
+middleware{{collectionNameUpper}}(schema.pre.bind(schema), schema.post.bind(schema));
+
+addVirtualProperties(schema, virtuals);
+addIndexes(schema, {{collectionNameLower}}Indexes);
 
 {{#withMultipleConnection}}
 /**
  * For the multiple database connections
- *
- * @param conn
  */
- const connect{{collectionNameUpper}}Model = (conn: Connection) => {
-  return conn.model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
+ const connect{{collectionNameUpper}} = (conn: Connection): {{collectionNameUpper}}Model =>
+  conn.model<{{collectionNameUpper}}Document, {{collectionNameUpper}}Model>(
     '{{collectionNameUpper}}',
-    {{collectionNameLower}}Schema
+    schema
   );
-};
 
-export default connect{{collectionNameUpper}}Model;
+export default connect{{collectionNameUpper}};
 {{/withMultipleConnection}}
 {{^withMultipleConnection}}
 /**
  * Create the model for the default connection
  */
-const {{collectionNameUpper}}Model = model<{{interfaceName}}{{collectionNameUpper}}Document, {{interfaceName}}{{collectionNameUpper}}Model>(
+const {{collectionNameUpper}} = model<{{collectionNameUpper}}Document, {{collectionNameUpper}}Model>(
   '{{collectionNameUpper}}',
-  {{collectionNameLower}}Schema,
+  schema,
 );
 
-export default {{collectionNameUpper}}Model;
+export default {{collectionNameUpper}};
 {{/withMultipleConnection}}
