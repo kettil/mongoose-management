@@ -15,7 +15,6 @@
         },
         {
           "name": "pages",
-          "idType": "uuidv4",
           "columns": [
             {
               "name": "content",

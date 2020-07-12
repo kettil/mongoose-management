@@ -237,11 +237,12 @@ describe('Check the AbstractLevel class', () => {
 
       expect(prompts.menu).toHaveBeenCalledTimes(1);
       expect(creater.exec).toHaveBeenCalledTimes(1);
-      expect(creater.exec).toHaveBeenCalledWith(
-        'path/to/group',
-        [{ columns: [], indexes: [], name: 'collectionName' }],
-        false,
-      );
+      expect(creater.exec).toHaveBeenCalledWith({
+        collections: [{ columns: [], idType: undefined, indexes: [], name: 'collectionName' }],
+        idType: 'objectId',
+        multipleConnection: false,
+        path: 'path/to/group',
+      });
       expect(storage.write).toHaveBeenCalledTimes(1);
       expect(storage.write).toHaveBeenCalledWith(false);
     });

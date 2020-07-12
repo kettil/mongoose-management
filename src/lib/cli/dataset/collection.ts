@@ -47,7 +47,7 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   }
 
   getIdType() {
-    return this.idType || this.getParent().getIdType();
+    return this.idType;
   }
 
   setIdType(type?: schemaType) {
