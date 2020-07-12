@@ -89,7 +89,7 @@ export default abstract class AbstractLevel<
           const d = this.dataset;
           if (d instanceof GroupDataset) {
             await this.options.storage.write(false);
-            await this.options.creater.exec(d.getPath(), d.getObject());
+            await this.options.creater.exec(d.getObject());
           }
           break;
 

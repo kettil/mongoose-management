@@ -42,9 +42,9 @@ export default class Create {
    * @param source
    * @param collections
    */
-  async exec(destination: string, group: dataGroupType) {
+  async exec(group: dataGroupType) {
     const spinner = this.prompts.getSpinner();
-    const path = join(this.pathProject, destination.replace(/(^\/|\/$|^\\|\\$)/g, ''));
+    const path = join(this.pathProject, group.path.replace(/(^\/|\/$|^\\|\\$)/g, ''));
     const file = new File(this.pathTemplates, path);
     const template = new Template(file, this.prettier);
 
