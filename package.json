@@ -62,39 +62,39 @@
     "url": "https://github.com/kettil/mongoose-management/issues/new"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.0",
-    "@types/node": "^14.0.0",
+    "@types/jest": "^26.0.4",
+    "@types/node": "^14.0.22",
     "bson": "^4.0.4",
     "copyfiles": "^2.3.0",
     "husky": "^4.0.0",
-    "jest": "^26.0.0",
-    "ts-jest": "^26.0.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
     "ts-node": "^8.10.2",
     "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-immutable": "^6.0.0",
     "tslint-react": "^5.0.0",
-    "typescript": "^3.9.5",
-    "uuid": "^8.0.0"
+    "typescript": "^3.9.6",
+    "uuid": "^8.2.0"
   },
   "dependencies": {
     "@types/inquirer": "^6.5.0",
-    "@types/mongodb": "^3.5.22",
-    "@types/mongoose": "^5.7.27",
+    "@types/mongodb": "^3.5.25",
+    "@types/mongoose": "^5.7.31",
     "@types/mustache": "^4.0.0",
-    "@types/prettier": "^2.0.0",
+    "@types/prettier": "^2.0.2",
     "@types/table": "^5.0.0",
     "@types/uuid": "^8.0.0",
     "@types/yargs": "^15.0.0",
     "chalk": "^4.0.0",
-    "inquirer": "^7.2.0",
+    "inquirer": "^7.3.1",
     "inquirer-fuzzy-path": "^2.3.0",
     "mongodb": "^3.5.9",
-    "mongoose": "^5.9.19",
+    "mongoose": "^5.9.23",
     "mustache": "^4.0.0",
     "ora": "^4.0.4",
     "prettier": "^2.0.0",
     "table": "^5.4.6",
-    "yargs": "^15.0.0"
+    "yargs": "^15.4.1"
   }
 }
