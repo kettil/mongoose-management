@@ -101,7 +101,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
   getType(): schemaType {
     if (this.getName() === '_id') {
-      return this.collection.getIdType();
+      return this.collection.getIdType() ?? this.collection.getParent().getIdType();
     }
 
     return this.column.type;
