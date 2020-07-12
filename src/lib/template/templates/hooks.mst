@@ -7,6 +7,8 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
+ *
+ * @see https://mongoosejs.com/docs/middleware.html
  */
 
 import { {{collectionNameUpper}}Hooks } from '../types/{{collectionNameLower}}';
