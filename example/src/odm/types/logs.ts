@@ -11,7 +11,7 @@
 import { Document, DocumentQuery, Model, Aggregate } from 'mongoose';
 import { LogsTypes } from '../documents/logs';
 import { methods, queries, statics, virtuals } from '../repositories/logs';
-import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, MiddlewareHandler } from '../types';
+import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, HooksHandler } from '../types';
 
 type MethodsType = typeof methods;
 type StaticsType = typeof statics;
@@ -26,7 +26,7 @@ export type LogsModel = StaticsType & Model<LogsDocument, QueriesType>;
 
 export type LogsVirtual = LogsTypes & ExtendTimestampType & ExtendIdType;
 
-export type MiddlewareLogsHandler<ExtendQuery extends Record<string, unknown>> = MiddlewareHandler<
+export type LogsHooks<ExtendQuery extends Record<string, unknown>> = HooksHandler<
   LogsDocument,
   LogsDocumentQuery,
   Aggregate<LogsDocument>,

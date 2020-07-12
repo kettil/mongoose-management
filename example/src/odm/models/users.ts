@@ -13,20 +13,20 @@ import { Connection, Schema } from 'mongoose';
 import { usersDefinitions, usersIndexes } from '../documents/users';
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
 import { UsersDocument, UsersModel } from '../types/users';
-import middlewareUsers from '../middlewares/users';
+import addUsersHooks from '../hooks/users';
 import { methods, options, queries, statics, virtuals } from '../repositories/users';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('users', [Schema.prototype, usersDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-const schema = new Schema(usersDefinitions, options);
+const schema = new Schema<typeof methods>(usersDefinitions, options);
 
 schema.methods = { ...methods, ...schema.methods };
 schema.statics = { ...statics, ...schema.statics };
 schema.query = { ...queries, ...schema.query };
 
-middlewareUsers(schema.pre.bind(schema), schema.post.bind(schema));
+addUsersHooks(schema.pre.bind(schema), schema.post.bind(schema));
 
 addVirtualProperties(schema, virtuals);
 addIndexes(schema, usersIndexes);

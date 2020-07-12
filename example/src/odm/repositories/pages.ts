@@ -6,6 +6,8 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
+ *
+ * @see https://mongoosejs.com/docs/guide.html#options
  */
 
 import { SchemaOptions } from 'mongoose';
@@ -14,11 +16,6 @@ import { ExportType } from '../types';
 // import * as nsPages from '../types/pages';
 
 /* eslint-disable no-param-reassign, no-underscore-dangle */
-/**
- * Schema Optionen
- *
- * @see https://mongoosejs.com/docs/guide.html#options
- */
 export const options: SchemaOptions = {
   collection: 'pages',
 

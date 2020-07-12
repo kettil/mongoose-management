@@ -111,7 +111,7 @@ export type choiceValueType<T> = {
   data?: T;
 };
 
-export type templateTypesType = 'index' | 'documents' | 'middlewares' | 'models' | 'repositories' | 'types';
+export type templateTypesType = 'index' | 'documents' | 'hooks' | 'models' | 'repositories' | 'types';
 
 export type templateCollectionNamesType = {
   collectionNameLower: string;

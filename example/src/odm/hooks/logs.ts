@@ -7,15 +7,17 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
+ *
+ * @see https://mongoosejs.com/docs/middleware.html
  */
 
-import { MiddlewareUsersHandler } from '../types/users';
+import { LogsHooks } from '../types/logs';
 
 /* eslint-disable-next-line @typescript-eslint/ban-types */
 type ExtendQuery = {};
 
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-const middlewareUsers: MiddlewareUsersHandler<ExtendQuery> = (pre, post) => {
+const addLogsHooks: LogsHooks<ExtendQuery> = (pre, post) => {
   /*
   pre('save', function() {
     if (this.isModified('password')) {
@@ -24,7 +26,7 @@ const middlewareUsers: MiddlewareUsersHandler<ExtendQuery> = (pre, post) => {
   });
 
   pre('find', async function() {
-    console.log('users:find:query', this.getQuery());
+    console.log('logs:find:query', this.getQuery());
 
     // type ExtendQuery = { start: number };
     this.start = Date.now();
@@ -33,10 +35,10 @@ const middlewareUsers: MiddlewareUsersHandler<ExtendQuery> = (pre, post) => {
   post('find', async function(docs) {
     const start = this.start;
     if (start) {
-      console.log('users:find:run', (Date.now() - start) + 'ms');
+      console.log('logs:find:run', (Date.now() - start) + 'ms');
     }
   });
   // */
 };
 
-export default middlewareUsers;
+export default addLogsHooks;

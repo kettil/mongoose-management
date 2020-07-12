@@ -13,20 +13,20 @@ import { Connection, Schema } from 'mongoose';
 import { pagesDefinitions, pagesIndexes } from '../documents/pages';
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
 import { PagesDocument, PagesModel } from '../types/pages';
-import middlewarePages from '../middlewares/pages';
+import addPagesHooks from '../hooks/pages';
 import { methods, options, queries, statics, virtuals } from '../repositories/pages';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('pages', [Schema.prototype, pagesDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-const schema = new Schema(pagesDefinitions, options);
+const schema = new Schema<typeof methods>(pagesDefinitions, options);
 
 schema.methods = { ...methods, ...schema.methods };
 schema.statics = { ...statics, ...schema.statics };
 schema.query = { ...queries, ...schema.query };
 
-middlewarePages(schema.pre.bind(schema), schema.post.bind(schema));
+addPagesHooks(schema.pre.bind(schema), schema.post.bind(schema));
 
 addVirtualProperties(schema, virtuals);
 addIndexes(schema, pagesIndexes);

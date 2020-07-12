@@ -58,19 +58,19 @@ type VirtualOnlyGet<T> = {
 
 export type VirtualType<T> = VirtualOnlyGet<T> & VirtualGet<T> & VirtualSet<T>;
 
-// ##### Middleware #####
+// ##### Hooks #####
 
-type MiddlewareMethodDocument = 'validate' | 'save' | 'remove';
-type MiddlewareMethodQueryWithout = 'update' | 'updateOne' | 'updateMany' | 'deleteOne' | 'deleteMany';
-type MiddlewareMethodQueryCount = 'countDocuments';
-type MiddlewareMethodQuerySingle = 'findOne' | 'findOneAndDelete' | 'findOneAndRemove' | 'findOneAndUpdate';
-type MiddlewareMethodQueryMultiple = 'find';
-type MiddlewareMethodAggreagate = 'aggregate';
-type MiddlewareMethodInsert = 'insertMany';
+type HooksMethodDocument = 'validate' | 'save' | 'remove';
+type HooksMethodQueryWithout = 'update' | 'updateOne' | 'updateMany' | 'deleteOne' | 'deleteMany';
+type HooksMethodQueryCount = 'countDocuments';
+type HooksMethodQuerySingle = 'findOne' | 'findOneAndDelete' | 'findOneAndRemove' | 'findOneAndUpdate';
+type HooksMethodQueryMultiple = 'find';
+type HooksMethodAggreagate = 'aggregate';
+type HooksMethodInsert = 'insertMany';
 
-type MiddlewareReturn = Promise<void> | void;
+type HooksReturn = Promise<void> | void;
 
-type MiddlewarePre<
+type HooksPre<
   D extends Document,
   Q extends DocumentQuery<D | D[], D>,
   A extends Aggregate<D>,
@@ -78,16 +78,16 @@ type MiddlewarePre<
   E extends Record<string, unknown>
 > = {
   (method: 'init', cb: (this: D) => void): void;
-  (method: MiddlewareMethodDocument, cb: (this: D) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryCount, cb: (this: Q & E) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryMultiple, cb: (this: Q & E) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQuerySingle, cb: (this: Q & E) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryWithout, cb: (this: Q & E) => MiddlewareReturn): void;
-  (method: MiddlewareMethodAggreagate, cb: (this: A) => MiddlewareReturn): void;
-  (method: MiddlewareMethodInsert, cb: (this: M) => MiddlewareReturn): void;
+  (method: HooksMethodDocument, cb: (this: D) => HooksReturn): void;
+  (method: HooksMethodQueryCount, cb: (this: Q & E) => HooksReturn): void;
+  (method: HooksMethodQueryMultiple, cb: (this: Q & E) => HooksReturn): void;
+  (method: HooksMethodQuerySingle, cb: (this: Q & E) => HooksReturn): void;
+  (method: HooksMethodQueryWithout, cb: (this: Q & E) => HooksReturn): void;
+  (method: HooksMethodAggreagate, cb: (this: A) => HooksReturn): void;
+  (method: HooksMethodInsert, cb: (this: M) => HooksReturn): void;
 };
 
-type MiddlewarePost<
+type HooksPost<
   D extends Document,
   Q extends DocumentQuery<D | D[], D>,
   A extends Aggregate<D>,
@@ -95,13 +95,13 @@ type MiddlewarePost<
   E extends Record<string, unknown>
 > = {
   (method: 'init', cb: (this: D, doc: D) => void): void;
-  (method: MiddlewareMethodDocument, cb: (this: D, doc: D) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryCount, cb: (this: Q & E, count: number) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryMultiple, cb: (this: Q & E, docs: D[]) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQuerySingle, cb: (this: Q & E, doc: D) => MiddlewareReturn): void;
-  (method: MiddlewareMethodQueryWithout, cb: (this: Q & E) => MiddlewareReturn): void;
-  (method: MiddlewareMethodAggreagate, cb: (this: A, docs: D[]) => MiddlewareReturn): void;
-  (method: MiddlewareMethodInsert, cb: (this: M, docs: D[]) => MiddlewareReturn): void;
+  (method: HooksMethodDocument, cb: (this: D, doc: D) => HooksReturn): void;
+  (method: HooksMethodQueryCount, cb: (this: Q & E, count: number) => HooksReturn): void;
+  (method: HooksMethodQueryMultiple, cb: (this: Q & E, docs: D[]) => HooksReturn): void;
+  (method: HooksMethodQuerySingle, cb: (this: Q & E, doc: D) => HooksReturn): void;
+  (method: HooksMethodQueryWithout, cb: (this: Q & E) => HooksReturn): void;
+  (method: HooksMethodAggreagate, cb: (this: A, docs: D[]) => HooksReturn): void;
+  (method: HooksMethodInsert, cb: (this: M, docs: D[]) => HooksReturn): void;
 };
 
 type ClearExtendQuery<
@@ -110,15 +110,15 @@ type ClearExtendQuery<
   E extends Record<string, unknown>
 > = Partial<Omit<E, keyof Q>>;
 
-export type MiddlewareHandler<
+export type HooksHandler<
   D extends Document,
   Q extends DocumentQuery<D | D[], D>,
   A extends Aggregate<D>,
   M extends Model<D>,
   ExtendQuery extends Record<string, unknown>
 > = (
-  pre: MiddlewarePre<D, Q, A, M, ClearExtendQuery<D, Q, ExtendQuery>>,
-  post: MiddlewarePost<D, Q, A, M, ClearExtendQuery<D, Q, ExtendQuery>>,
+  pre: HooksPre<D, Q, A, M, ClearExtendQuery<D, Q, ExtendQuery>>,
+  post: HooksPost<D, Q, A, M, ClearExtendQuery<D, Q, ExtendQuery>>,
 ) => void;
 
 // ##### Others #####

@@ -16,7 +16,7 @@ export default class File {
   protected readonly types: { [k in templateTypesType]: { path: string; template: string } } = {
     index: { path: '', template: 'index' },
     documents: { path: 'documents', template: 'document' },
-    middlewares: { path: 'middlewares', template: 'middleware' },
+    hooks: { path: 'hooks', template: 'hooks' },
     models: { path: 'models', template: 'model' },
     repositories: { path: 'repositories', template: 'repository' },
     types: { path: 'types', template: 'type' },

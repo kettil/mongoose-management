@@ -13,20 +13,20 @@ import { Connection, Schema } from 'mongoose';
 import { logsDefinitions, logsIndexes } from '../documents/logs';
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
 import { LogsDocument, LogsModel } from '../types/logs';
-import middlewareLogs from '../middlewares/logs';
+import addLogsHooks from '../hooks/logs';
 import { methods, options, queries, statics, virtuals } from '../repositories/logs';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('logs', [Schema.prototype, logsDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-const schema = new Schema(logsDefinitions, options);
+const schema = new Schema<typeof methods>(logsDefinitions, options);
 
 schema.methods = { ...methods, ...schema.methods };
 schema.statics = { ...statics, ...schema.statics };
 schema.query = { ...queries, ...schema.query };
 
-middlewareLogs(schema.pre.bind(schema), schema.post.bind(schema));
+addLogsHooks(schema.pre.bind(schema), schema.post.bind(schema));
 
 addVirtualProperties(schema, virtuals);
 addIndexes(schema, logsIndexes);
