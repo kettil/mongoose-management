@@ -19,20 +19,20 @@ import { model, Schema } from 'mongoose';
 import { {{collectionNameLower}}Definitions, {{collectionNameLower}}Indexes } from '../documents/{{collectionNameLower}}';
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
 import { {{collectionNameUpper}}Document, {{collectionNameUpper}}Model } from '../types/{{collectionNameLower}}';
-import middleware{{collectionNameUpper}} from '../middlewares/{{collectionNameLower}}';
+import add{{collectionNameUpper}}Hooks from '../hooks/{{collectionNameLower}}';
 import { methods, options, queries, statics, virtuals } from '../repositories/{{collectionNameLower}}';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('{{collectionNameLower}}', [Schema.prototype, {{collectionNameLower}}Definitions, methods, statics, queries, virtuals])
 
 // Create model schema
-const schema = new Schema({{collectionNameLower}}Definitions, options);
+const schema = new Schema<typeof methods>({{collectionNameLower}}Definitions, options);
 
 schema.methods = { ...methods, ...schema.methods };
 schema.statics = { ...statics, ...schema.statics };
 schema.query = { ...queries, ...schema.query };
 
-middleware{{collectionNameUpper}}(schema.pre.bind(schema), schema.post.bind(schema));
+add{{collectionNameUpper}}Hooks(schema.pre.bind(schema), schema.post.bind(schema));
 
 addVirtualProperties(schema, virtuals);
 addIndexes(schema, {{collectionNameLower}}Indexes);

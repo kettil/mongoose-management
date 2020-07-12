@@ -11,7 +11,7 @@
 import { Document, DocumentQuery, Model, Aggregate } from 'mongoose';
 import { UserSettingsTypes } from '../documents/userSettings';
 import { methods, queries, statics, virtuals } from '../repositories/userSettings';
-import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, MiddlewareHandler } from '../types';
+import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, HooksHandler } from '../types';
 
 type MethodsType = typeof methods;
 type StaticsType = typeof statics;
@@ -29,7 +29,7 @@ export type UserSettingsModel = StaticsType & Model<UserSettingsDocument, Querie
 
 export type UserSettingsVirtual = UserSettingsTypes & ExtendTimestampType & ExtendIdType;
 
-export type MiddlewareUserSettingsHandler<ExtendQuery extends Record<string, unknown>> = MiddlewareHandler<
+export type UserSettingsHooks<ExtendQuery extends Record<string, unknown>> = HooksHandler<
   UserSettingsDocument,
   UserSettingsDocumentQuery,
   Aggregate<UserSettingsDocument>,

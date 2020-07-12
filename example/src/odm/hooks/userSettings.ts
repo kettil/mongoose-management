@@ -7,15 +7,17 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
+ *
+ * @see https://mongoosejs.com/docs/middleware.html
  */
 
-import { Middleware{{collectionNameUpper}}Handler } from '../types/{{collectionNameLower}}';
+import { UserSettingsHooks } from '../types/userSettings';
 
 /* eslint-disable-next-line @typescript-eslint/ban-types */
-type ExtendQuery = {}
+type ExtendQuery = {};
 
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-const middleware{{collectionNameUpper}}: Middleware{{collectionNameUpper}}Handler<ExtendQuery> = (pre, post) => {
+const addUserSettingsHooks: UserSettingsHooks<ExtendQuery> = (pre, post) => {
   /*
   pre('save', function() {
     if (this.isModified('password')) {
@@ -24,7 +26,7 @@ const middleware{{collectionNameUpper}}: Middleware{{collectionNameUpper}}Handle
   });
 
   pre('find', async function() {
-    console.log('{{collectionNameLower}}:find:query', this.getQuery());
+    console.log('userSettings:find:query', this.getQuery());
 
     // type ExtendQuery = { start: number };
     this.start = Date.now();
@@ -33,10 +35,10 @@ const middleware{{collectionNameUpper}}: Middleware{{collectionNameUpper}}Handle
   post('find', async function(docs) {
     const start = this.start;
     if (start) {
-      console.log('{{collectionNameLower}}:find:run', (Date.now() - start) + 'ms');
+      console.log('userSettings:find:run', (Date.now() - start) + 'ms');
     }
   });
   // */
 };
 
-export default middleware{{collectionNameUpper}};
+export default addUserSettingsHooks;

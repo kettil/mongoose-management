@@ -10,7 +10,7 @@ import { templateCollectionType, templateTypesType } from '../../types';
  */
 export default class Template {
   protected readonly overwrite: templateTypesType[] = ['documents', 'models', 'types'];
-  protected readonly uniquely: templateTypesType[] = ['repositories', 'middlewares'];
+  protected readonly uniquely: templateTypesType[] = ['repositories', 'hooks'];
 
   /**
    *

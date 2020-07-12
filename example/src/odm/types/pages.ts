@@ -11,7 +11,7 @@
 import { Document, DocumentQuery, Model, Aggregate } from 'mongoose';
 import { PagesTypes } from '../documents/pages';
 import { methods, queries, statics, virtuals } from '../repositories/pages';
-import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, MiddlewareHandler } from '../types';
+import { ExtendIdType, ExtendTimestampType, VirtualType as VirtualTypeConvert, HooksHandler } from '../types';
 
 type MethodsType = typeof methods;
 type StaticsType = typeof statics;
@@ -26,7 +26,7 @@ export type PagesModel = StaticsType & Model<PagesDocument, QueriesType>;
 
 export type PagesVirtual = PagesTypes & ExtendTimestampType & ExtendIdType;
 
-export type MiddlewarePagesHandler<ExtendQuery extends Record<string, unknown>> = MiddlewareHandler<
+export type PagesHooks<ExtendQuery extends Record<string, unknown>> = HooksHandler<
   PagesDocument,
   PagesDocumentQuery,
   Aggregate<PagesDocument>,
