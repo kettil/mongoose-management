@@ -38,7 +38,7 @@ export default class CollectionLevel extends AbstractLevel<
       case 'createColumn':
         dataset = await promptsColumn(this.prompts, this.dataset);
 
-        if (dataset.get('type') !== 'array' && dataset.get('type') !== 'object') {
+        if (dataset.getType() !== 'array' && dataset.getType() !== 'object') {
           dataset = undefined;
         }
         break;
@@ -48,6 +48,12 @@ export default class CollectionLevel extends AbstractLevel<
     }
 
     return dataset;
+  }
+
+  async edit(dataset: CollectionDataset): Promise<boolean> {
+    await super.edit(dataset);
+
+    return true;
   }
 
   async remove(dataset: CollectionDataset): Promise<boolean> {

@@ -66,7 +66,10 @@ describe('Check the GroupsDataset class', () => {
   });
 
   test('it should be added a group and the list will be re-sorted when addGroup() is called', () => {
-    const g2 = new GroupDataset({ path: 'path/to/a', collections: [] }, dataset);
+    const g2 = new GroupDataset(
+      { path: 'path/to/a', collections: [], idType: 'uuidv4', multipleConnection: true },
+      dataset,
+    );
 
     dataset.addGroup(g2);
 
@@ -117,8 +120,8 @@ describe('Check the GroupsDataset class', () => {
 
     expect(data).toEqual({
       groups: [
-        { path: 'path/to/one', collections: [] },
-        { path: 'path/to/three', collections: [] },
+        { path: 'path/to/one', collections: [], idType: 'objectId', multipleConnection: false },
+        { path: 'path/to/three', collections: [], idType: 'objectId', multipleConnection: false },
       ],
     });
   });

@@ -24,6 +24,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
       new Separator(' '),
       new Separator(),
       this.getMenuChoiceCreate('collection'),
+      this.getMenuChoiceEdit('group'),
       this.getMenuChoiceRemove('group'),
       this.getMenuChoiceSave(),
       this.getMenuChoiceWrite(),
@@ -34,7 +35,7 @@ export default class GroupMenu extends AbstractMenu<GroupDataset, CollectionData
     return result;
   }
 
-  getChoiceList(collections: CollectionDataset[]): Array<choicesType<CollectionDataset>> {
+  getChoiceList(collections: CollectionDataset[]): choicesType<CollectionDataset>[] {
     return collections.map((d) => ({ name: d.getName(), value: { data: d }, short: d.getName() }));
   }
 }

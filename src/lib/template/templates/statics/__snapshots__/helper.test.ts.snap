@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check the CollectionDataset class addIndexes should add the passed index to the schema 1`] = `
+Array [
+  Array [
+    Object {
+      "foo": 1,
+    },
+    Object {
+      "background": true,
+      "unique": true,
+    },
+  ],
+]
+`;
+
+exports[`Check the CollectionDataset class addVirtualProperties should add the passed virtual to the schema 1`] = `Array []`;
+
+exports[`Check the CollectionDataset class addVirtualProperties should add the passed virtual to the schema 2`] = `Array []`;

@@ -47,12 +47,13 @@
           "columns": [
             { "name": "key", "type": "string", "required": true },
             { "name": "user", "type": "objectId", "required": true, "populate": "users" },
-            { "name": "value", "type": "object", "subColumns": [] }
+            { "name": "value1", "type": "object", "subColumns": [], "required": true, "default": "{}" },
+            { "name": "value2", "type": "mixed" }
           ],
           "indexes": [
             {
               "name": "unique",
-              "columns": { "key": 1, "user": 1, "value": 1 },
+              "columns": { "key": 1, "user": 1, "value1": 1 },
               "properties": { "unique": true, "sparse": true }
             }
           ]
@@ -69,7 +70,9 @@
             { "name": "email_", "columns": { "email": -1 }, "properties": { "unique": true }, "readonly": true }
           ]
         }
-      ]
+      ],
+      "idType": "uuidv4",
+      "multipleConnection": true
     }
   ]
 }

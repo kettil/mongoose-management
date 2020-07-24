@@ -1,4 +1,4 @@
-/**
+/*
  * ######################################################################
  * #                                                                    #
  * #                      This file can be edited.                      #
@@ -6,35 +6,38 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
- */
-
-import { SchemaOptions } from 'mongoose';
-
-// import * as nsUserSettings from '../interfaces/userSettings';
-
-/**
- * Schema Optionen
  *
  * @see https://mongoosejs.com/docs/guide.html#options
  */
+
+import { SchemaOptions } from 'mongoose';
+import { UserSettingsTypes } from '../documents/userSettings';
+import { ExportType } from '../types';
+// import * as nsUserSettings from '../types/userSettings';
+
+/* eslint-disable no-param-reassign, no-underscore-dangle */
 export const options: SchemaOptions = {
   collection: 'user_settings',
 
   toObject: {
     getters: true,
     virtuals: true,
-    transform: (doc, ret) => {
-      delete ret._id;
-      return ret;
+    transform: (_: unknown, returnValue: ExportType<UserSettingsTypes>): Record<string, unknown> => {
+      delete returnValue._id;
+      delete returnValue.__v;
+
+      return returnValue;
     },
   },
 
   toJSON: {
     getters: true,
     virtuals: true,
-    transform: (doc, ret) => {
-      delete ret._id;
-      return ret;
+    transform: (_: unknown, returnValue: ExportType<UserSettingsTypes>): Record<string, unknown> => {
+      delete returnValue._id;
+      delete returnValue.__v;
+
+      return returnValue;
     },
   },
 
@@ -42,6 +45,7 @@ export const options: SchemaOptions = {
   timestamps: true,
   useNestedStrict: false,
 };
+/* eslint-enable no-param-reassign, no-underscore-dangle */
 
 /**
  * Add you own custom functions to the document instance
@@ -49,7 +53,7 @@ export const options: SchemaOptions = {
  * Example:
  * ```typescript
  * export const methods = {
- *   getStringId: function(this: nsUserSettings.InterfaceUserSettingsDocument): string {
+ *   getStringId: function(this: nsUserSettings.UserSettingsDocument): string {
  *     return this._id.toHexString();
  *   },
  * };
@@ -65,7 +69,7 @@ export const methods = {};
  * Example:
  * ```typescript
  * export const statics = {
- *   findByX: async function(this: nsUserSettings.InterfaceUserSettingsDocumentQuery, x: string) {
+ *   findByX: async function(this: nsUserSettings.UserSettingsDocumentQuery, x: string) {
  *     return this.find({ x }).exec();
  *   },
  * };
@@ -81,7 +85,7 @@ export const statics = {};
  * Example:
  * ```typescript
  * export const query = {
- *   byName: function(this: nsUserSettings.InterfaceUserSettingsDocumentQuery, name: string) {
+ *   byName: function(this: nsUserSettings.UserSettingsDocumentQuery, name: string) {
  *     return this.find({ name });
  *   },
  * };
@@ -103,10 +107,10 @@ export const queries = {};
  * ```typescript
  * export const virtual = {
  *   name: {
- *     get: function(this: nsUserSettings.InterfaceUserSettingsVirtual): string {
+ *     get: function(this: nsUserSettings.UserSettingsVirtual): string {
  *       return this.firstname + ' ' + this.lastname;
  *     },
- *     set: function(this: nsUserSettings.InterfaceUserSettingsVirtual, value: string) {
+ *     set: function(this: nsUserSettings.UserSettingsVirtual, value: string) {
  *       this.firstname = value.substr(0, value.indexOf(' '));
  *       this.lastname = value.substr(value.indexOf(' ') + 1);
  *     },

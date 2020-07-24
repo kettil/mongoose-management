@@ -16,8 +16,8 @@ export const call = async (
   column?: ColumnDataset,
 ): Promise<answersType> => {
   if (
-    answersMain.type !== 'objectId' &&
-    (answersMain.type !== 'arrayType' || answersSubType[answersSubType.length - 1] !== 'objectId')
+    !['objectId', 'uuidv4'].includes(answersMain.type) &&
+    (answersMain.type !== 'arrayType' || !['objectId', 'uuidv4'].includes(answersSubType[answersSubType.length - 1]))
   ) {
     return {};
   }
@@ -69,7 +69,7 @@ export const evaluation = (answers: answersType) => {
 };
 
 export const getCollectionWithNestedSchemas = (collection: CollectionDataset) =>
-  collection.flatColumns().filter((c) => ['object', 'array'].indexOf(c.get('type')) >= 0);
+  collection.flatColumns().filter((c) => ['object', 'array'].indexOf(c.getType()) >= 0);
 
 export const whenColumn = ({ collection }: answersType) =>
   collection !== undefined && getCollectionWithNestedSchemas(collection).length > 0;

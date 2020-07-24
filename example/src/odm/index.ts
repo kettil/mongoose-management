@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention, import/no-unused-modules */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,53 +10,25 @@
  */
 
 import { Connection } from 'mongoose';
+import connectLogs from './models/logs';
+import connectPages from './models/pages';
+import connectUserSettings from './models/userSettings';
+import connectUsers from './models/users';
+
+export * from './types/logs';
+export * from './types/pages';
+export * from './types/userSettings';
+export * from './types/users';
 
 /**
- * Import the Models
+ * For the multiple database connections
  */
-import Logs, { createLogsModel } from './models/logs';
-import Pages, { createPagesModel } from './models/pages';
-import UserSettings, { createUserSettingsModel } from './models/userSettings';
-import Users, { createUsersModel } from './models/users';
+const connectionFactory = (conn: Connection) =>
+  ({
+    Logs: connectLogs(conn),
+    Pages: connectPages(conn),
+    UserSettings: connectUserSettings(conn),
+    Users: connectUsers(conn),
+  } as const);
 
-/**
- * TypeScript Namespace
- */
-export * from './interfaces/logs';
-export * from './interfaces/pages';
-export * from './interfaces/userSettings';
-export * from './interfaces/users';
-
-/**
- * Create a object with models and these has a custom connection handler
- *
- * @param handler
- */
-export const getModels = (handler: Connection) => {
-  return {
-    Logs: createLogsModel(handler),
-    Pages: createPagesModel(handler),
-    UserSettings: createUserSettingsModel(handler),
-    Users: createUsersModel(handler),
-  };
-};
-
-/**
- * Models with default connection handler
- */
-export const LogsModel = Logs;
-export const PagesModel = Pages;
-export const UserSettingsModel = UserSettings;
-export const UsersModel = Users;
-
-/**
- * Object with all models
- */
-export const models = {
-  Logs,
-  Pages,
-  UserSettings,
-  Users,
-};
-
-export default models;
+export default connectionFactory;

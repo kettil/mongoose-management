@@ -1,4 +1,4 @@
-/**
+/*
  * ######################################################################
  * #                                                                    #
  * #                      This file can be edited.                      #
@@ -6,35 +6,38 @@
  * #              The file is only created if none exists.              #
  * #                                                                    #
  * ######################################################################
- */
-
-import { SchemaOptions } from 'mongoose';
-
-// import * as nsLogs from '../interfaces/logs';
-
-/**
- * Schema Optionen
  *
  * @see https://mongoosejs.com/docs/guide.html#options
  */
+
+import { SchemaOptions } from 'mongoose';
+import { LogsTypes } from '../documents/logs';
+import { ExportType } from '../types';
+// import * as nsLogs from '../types/logs';
+
+/* eslint-disable no-param-reassign, no-underscore-dangle */
 export const options: SchemaOptions = {
   collection: 'logs',
 
   toObject: {
     getters: true,
     virtuals: true,
-    transform: (doc, ret) => {
-      delete ret._id;
-      return ret;
+    transform: (_: unknown, returnValue: ExportType<LogsTypes>): Record<string, unknown> => {
+      delete returnValue._id;
+      delete returnValue.__v;
+
+      return returnValue;
     },
   },
 
   toJSON: {
     getters: true,
     virtuals: true,
-    transform: (doc, ret) => {
-      delete ret._id;
-      return ret;
+    transform: (_: unknown, returnValue: ExportType<LogsTypes>): Record<string, unknown> => {
+      delete returnValue._id;
+      delete returnValue.__v;
+
+      return returnValue;
     },
   },
 
@@ -42,6 +45,7 @@ export const options: SchemaOptions = {
   timestamps: true,
   useNestedStrict: false,
 };
+/* eslint-enable no-param-reassign, no-underscore-dangle */
 
 /**
  * Add you own custom functions to the document instance
@@ -49,7 +53,7 @@ export const options: SchemaOptions = {
  * Example:
  * ```typescript
  * export const methods = {
- *   getStringId: function(this: nsLogs.InterfaceLogsDocument): string {
+ *   getStringId: function(this: nsLogs.LogsDocument): string {
  *     return this._id.toHexString();
  *   },
  * };
@@ -65,7 +69,7 @@ export const methods = {};
  * Example:
  * ```typescript
  * export const statics = {
- *   findByX: async function(this: nsLogs.InterfaceLogsDocumentQuery, x: string) {
+ *   findByX: async function(this: nsLogs.LogsDocumentQuery, x: string) {
  *     return this.find({ x }).exec();
  *   },
  * };
@@ -81,7 +85,7 @@ export const statics = {};
  * Example:
  * ```typescript
  * export const query = {
- *   byName: function(this: nsLogs.InterfaceLogsDocumentQuery, name: string) {
+ *   byName: function(this: nsLogs.LogsDocumentQuery, name: string) {
  *     return this.find({ name });
  *   },
  * };
@@ -103,10 +107,10 @@ export const queries = {};
  * ```typescript
  * export const virtual = {
  *   name: {
- *     get: function(this: nsLogs.InterfaceLogsVirtual): string {
+ *     get: function(this: nsLogs.LogsVirtual): string {
  *       return this.firstname + ' ' + this.lastname;
  *     },
- *     set: function(this: nsLogs.InterfaceLogsVirtual, value: string) {
+ *     set: function(this: nsLogs.LogsVirtual, value: string) {
  *       this.firstname = value.substr(0, value.indexOf(' '));
  *       this.lastname = value.substr(value.indexOf(' ') + 1);
  *     },

@@ -19,6 +19,7 @@ describe('Check the CollectionMenu class', () => {
         name: 'c1',
         columns: [{ name: 'column1', type: 'string' }],
         indexes: [{ name: 'index1', columns: { column1: 1 }, properties: {} }],
+        idType: 'uuidv4',
       },
       jest.fn() as any,
     );
@@ -37,7 +38,7 @@ describe('Check the CollectionMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'edit', data: undefined };

@@ -21,10 +21,13 @@ describe('Check the prompts collectionMain functions', () => {
         collections: [
           {
             name: 'collect1',
+            idType: 'objectId',
             columns: [],
             indexes: [],
           },
         ],
+        idType: 'uuidv4',
+        multipleConnection: true,
       },
       jest.fn() as any,
     );
@@ -39,6 +42,28 @@ describe('Check the prompts collectionMain functions', () => {
     mockCall.mockImplementation((questions) => {
       expect(questions).toEqual([
         { message: 'Collection name:', name: 'name', type: 'input', validate: expect.any(Function) },
+        {
+          name: 'idType',
+          message: "Type of '_id' column:",
+          type: 'list',
+          choices: [
+            {
+              name: 'Global (UUIDv4)',
+              short: 'Global',
+              value: undefined,
+            },
+            {
+              name: 'ObjectId',
+              short: 'ObjectId',
+              value: 'objectId',
+            },
+            {
+              name: 'UUIDv4',
+              short: 'UUIDv4',
+              value: 'uuidv4',
+            },
+          ],
+        },
       ]);
 
       return { name: 'newCollection' };
@@ -56,6 +81,27 @@ describe('Check the prompts collectionMain functions', () => {
     mockCall.mockImplementation((questions) => {
       expect(questions).toEqual([
         { message: 'Collection name:', name: 'name', type: 'input', validate: expect.any(Function) },
+        {
+          name: 'idType',
+          message: "Type of '_id' column:",
+          type: 'list',
+          choices: [
+            {
+              name: 'Global (UUIDv4)',
+              short: 'Global',
+            },
+            {
+              name: 'ObjectId',
+              short: 'ObjectId',
+              value: 'objectId',
+            },
+            {
+              name: 'UUIDv4',
+              short: 'UUIDv4',
+              value: 'uuidv4',
+            },
+          ],
+        },
       ]);
 
       return { name: '' };
@@ -76,6 +122,28 @@ describe('Check the prompts collectionMain functions', () => {
 
     expect(result).toEqual([
       { message: 'Collection name:', name: 'name', type: 'input', validate: expect.any(Function) },
+      {
+        name: 'idType',
+        message: "Type of '_id' column:",
+        type: 'list',
+        choices: [
+          {
+            name: 'Global (UUIDv4)',
+            short: 'Global',
+            value: undefined,
+          },
+          {
+            name: 'ObjectId',
+            short: 'ObjectId',
+            value: 'objectId',
+          },
+          {
+            name: 'UUIDv4',
+            short: 'UUIDv4',
+            value: 'uuidv4',
+          },
+        ],
+      },
     ]);
   });
 
@@ -85,12 +153,41 @@ describe('Check the prompts collectionMain functions', () => {
     const result = await getQuestions(group, collection);
 
     expect(result).toEqual([
-      { default: 'collect1', message: 'Collection name:', name: 'name', type: 'input', validate: expect.any(Function) },
+      {
+        default: 'collect1',
+        message: 'Collection name:',
+        name: 'name',
+        type: 'input',
+        validate: expect.any(Function),
+      },
+      {
+        type: 'list',
+        name: 'idType',
+        message: "Type of '_id' column:",
+        choices: [
+          {
+            name: 'Global (UUIDv4)',
+            short: 'Global',
+            value: undefined,
+          },
+          {
+            name: 'ObjectId',
+            value: 'objectId',
+            short: 'ObjectId',
+          },
+          {
+            name: 'UUIDv4',
+            value: 'uuidv4',
+            short: 'UUIDv4',
+          },
+        ],
+        default: 'objectId',
+      },
     ]);
   });
 
   test('it should be return the collection when evaluation() is called', async () => {
-    const callback = await evaluation({ name: 'newCollection' }, group);
+    const callback = await evaluation({ name: 'newCollection', idType: 'objectId' }, group);
 
     expect(callback).toEqual(expect.any(Function));
 
@@ -99,17 +196,19 @@ describe('Check the prompts collectionMain functions', () => {
     expect(result).toBeInstanceOf(CollectionDataset);
     expect(group.getObject()).toEqual({
       collections: [
-        { columns: [], indexes: [], name: 'collect1' },
-        { columns: [], indexes: [], name: 'newCollection' },
+        { columns: [], indexes: [], name: 'collect1', idType: 'objectId' },
+        { columns: [], indexes: [], name: 'newCollection', idType: 'objectId' },
       ],
       path: 'path',
+      idType: 'uuidv4',
+      multipleConnection: true,
     });
   });
 
   test('it should be return the collection when evaluation() is called with collection', async () => {
     expect(collection).toBeInstanceOf(CollectionDataset);
 
-    const callback = await evaluation({ name: 'newCollection' }, group);
+    const callback = await evaluation({ name: 'newCollection', idType: 'objectId' }, group);
 
     expect(callback).toEqual(expect.any(Function));
 
@@ -117,8 +216,10 @@ describe('Check the prompts collectionMain functions', () => {
 
     expect(result).toBe(collection);
     expect(group.getObject()).toEqual({
-      collections: [{ columns: [], indexes: [], name: 'newCollection' }],
+      collections: [{ columns: [], indexes: [], name: 'newCollection', idType: 'objectId' }],
       path: 'path',
+      idType: 'uuidv4',
+      multipleConnection: true,
     });
   });
 

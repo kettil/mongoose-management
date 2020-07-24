@@ -20,10 +20,13 @@ describe('Check the prompts collection function', () => {
         collections: [
           {
             name: 'collection',
+            idType: 'objectId',
             columns: [],
             indexes: [],
           },
         ],
+        multipleConnection: true,
+        idType: 'uuidv4',
       },
       jest.fn() as any,
     );
@@ -43,6 +46,17 @@ describe('Check the prompts collection function', () => {
           name: 'name',
           type: 'input',
           validate: expect.any(Function),
+        },
+        {
+          name: 'idType',
+          message: "Type of '_id' column:",
+          type: 'list',
+          default: 'objectId',
+          choices: [
+            { name: 'Global (UUIDv4)', short: 'Global', value: undefined },
+            { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+            { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
+          ],
         },
       ]);
 

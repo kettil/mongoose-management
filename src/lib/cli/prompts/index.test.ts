@@ -25,7 +25,7 @@ describe('Check the prompts index function', () => {
         ],
         indexes: [{ name: 'index1', columns: { column1: 1 }, properties: {} }],
       },
-      jest.fn() as any,
+      { getIdType: jest.fn() } as any,
     );
     collection.setReference();
 

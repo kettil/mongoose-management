@@ -14,7 +14,10 @@ describe('Check the prompts group function', () => {
   beforeEach(() => {
     prompts = { call: mockCall } as any;
 
-    groups = new GroupsDataset({ groups: [{ path: 'path/to', collections: [] }] }, '/project/path');
+    groups = new GroupsDataset(
+      { groups: [{ path: 'path/to', collections: [], idType: 'objectId', multipleConnection: false }] },
+      '/project/path',
+    );
     groups.setReference();
   });
 
@@ -31,6 +34,7 @@ describe('Check the prompts group function', () => {
           rootPath: '/project/path',
           suggestOnly: false,
           type: 'fuzzypath',
+          when: true,
         },
         {
           default: 'odm',
@@ -38,6 +42,23 @@ describe('Check the prompts group function', () => {
           name: 'name',
           type: 'input',
           validate: expect.any(Function),
+          when: true,
+        },
+        {
+          choices: [
+            { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+            { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
+          ],
+          default: 'objectId',
+          message: "Type of '_id' column:",
+          name: 'idType',
+          type: 'list',
+        },
+        {
+          default: false,
+          message: 'Preparation for multiple connections (connection via "createConnection")',
+          name: 'multipleConnection',
+          type: 'confirm',
         },
       ]);
 
@@ -50,6 +71,11 @@ describe('Check the prompts group function', () => {
     const result = await execute(prompts, groups);
 
     expect(result).toBeInstanceOf(GroupDataset);
-    expect(result.getObject()).toEqual({ collections: [], path: 'src/odm' });
+    expect(result.getObject()).toEqual({
+      collections: [],
+      path: 'src/odm',
+      idType: 'objectId',
+      multipleConnection: false,
+    });
   });
 });

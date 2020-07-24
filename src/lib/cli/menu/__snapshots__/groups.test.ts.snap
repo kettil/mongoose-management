@@ -8,6 +8,8 @@ Array [
     "value": Object {
       "data": GroupDataset {
         "collections": Array [],
+        "idType": "objectId",
+        "multipleConnection": false,
         "parent": GroupsDataset {
           "groups": Array [
             [Circular],
@@ -38,6 +40,8 @@ Array [
     "value": Object {
       "data": GroupDataset {
         "collections": Array [],
+        "idType": "objectId",
+        "multipleConnection": false,
         "parent": GroupsDataset {
           "groups": Array [
             [Circular],

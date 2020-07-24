@@ -15,7 +15,10 @@ describe('Check the prompts groupMain functions', () => {
   beforeEach(() => {
     prompts = { call: mockCall } as any;
 
-    groups = new GroupsDataset({ groups: [{ path: 'path/to', collections: [] }] }, '/project/path');
+    groups = new GroupsDataset(
+      { groups: [{ path: 'path/to', collections: [], multipleConnection: true, idType: 'uuidv4' }] },
+      '/project/path',
+    );
     groups.setReference();
 
     group = groups.getGroup('path/to')!;
@@ -34,6 +37,7 @@ describe('Check the prompts groupMain functions', () => {
           rootPath: '/project/path',
           suggestOnly: false,
           type: 'fuzzypath',
+          when: true,
         },
         {
           default: 'odm',
@@ -41,6 +45,23 @@ describe('Check the prompts groupMain functions', () => {
           name: 'name',
           type: 'input',
           validate: expect.any(Function),
+          when: true,
+        },
+        {
+          choices: [
+            { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+            { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
+          ],
+          default: 'objectId',
+          message: "Type of '_id' column:",
+          name: 'idType',
+          type: 'list',
+        },
+        {
+          default: false,
+          message: 'Preparation for multiple connections (connection via "createConnection")',
+          name: 'multipleConnection',
+          type: 'confirm',
         },
       ]);
 
@@ -69,6 +90,7 @@ describe('Check the prompts groupMain functions', () => {
           rootPath: '/project/path',
           suggestOnly: false,
           type: 'fuzzypath',
+          when: true,
         },
         {
           default: 'odm',
@@ -76,6 +98,23 @@ describe('Check the prompts groupMain functions', () => {
           name: 'name',
           type: 'input',
           validate: expect.any(Function),
+          when: true,
+        },
+        {
+          choices: [
+            { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+            { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
+          ],
+          default: 'objectId',
+          message: "Type of '_id' column:",
+          name: 'idType',
+          type: 'list',
+        },
+        {
+          default: false,
+          message: 'Preparation for multiple connections (connection via "createConnection")',
+          name: 'multipleConnection',
+          type: 'confirm',
         },
       ]);
 
@@ -107,6 +146,7 @@ describe('Check the prompts groupMain functions', () => {
         rootPath: '/project/path',
         suggestOnly: false,
         type: 'fuzzypath',
+        when: true,
       },
       {
         default: 'odm',
@@ -114,6 +154,23 @@ describe('Check the prompts groupMain functions', () => {
         name: 'name',
         type: 'input',
         validate: expect.any(Function),
+        when: true,
+      },
+      {
+        choices: [
+          { name: 'ObjectId', short: 'ObjectId', value: 'objectId' },
+          { name: 'UUIDv4', short: 'UUIDv4', value: 'uuidv4' },
+        ],
+        default: 'objectId',
+        message: "Type of '_id' column:",
+        name: 'idType',
+        type: 'list',
+      },
+      {
+        default: false,
+        message: 'Preparation for multiple connections (connection via "createConnection")',
+        name: 'multipleConnection',
+        type: 'confirm',
       },
     ]);
   });
@@ -123,6 +180,8 @@ describe('Check the prompts groupMain functions', () => {
       {
         path: '/project/path',
         name: 'odm',
+        multipleConnection: true,
+        idType: 'uuidv4',
       },
       groups,
     );
@@ -133,7 +192,7 @@ describe('Check the prompts groupMain functions', () => {
     const result = closure();
 
     expect(result).toBeInstanceOf(GroupDataset);
-    expect(result.getObject()).toEqual({ collections: [], path: 'odm' });
+    expect(result.getObject()).toEqual({ collections: [], path: 'odm', multipleConnection: true, idType: 'uuidv4' });
     expect(groups.getGroups().length).toBe(2);
   });
 
@@ -142,6 +201,8 @@ describe('Check the prompts groupMain functions', () => {
       {
         path: '/project/path/src',
         name: 'odm',
+        multipleConnection: true,
+        idType: 'uuidv4',
       },
       groups,
     );
@@ -153,7 +214,12 @@ describe('Check the prompts groupMain functions', () => {
 
     expect(result).toBeInstanceOf(GroupDataset);
     expect(result).toBe(group);
-    expect(result.getObject()).toEqual({ collections: [], path: 'src/odm' });
+    expect(result.getObject()).toEqual({
+      collections: [],
+      path: 'path/to',
+      multipleConnection: true,
+      idType: 'uuidv4',
+    });
     expect(groups.getGroups().length).toBe(1);
   });
 

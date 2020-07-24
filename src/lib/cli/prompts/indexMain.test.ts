@@ -22,6 +22,7 @@ describe('Check the prompts indexMain functions', () => {
     collection = new CollectionDataset(
       {
         name: 'collectionName',
+        idType: 'objectId',
         columns: [
           { name: 'column1', type: 'string' },
           { name: 'column2', type: 'string' },
@@ -149,6 +150,7 @@ describe('Check the prompts indexMain functions', () => {
         { columns: { column1: 1 }, name: 'index1', properties: {} },
         { columns: {}, name: 'newIndexName', properties: {} },
       ],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });
@@ -172,6 +174,7 @@ describe('Check the prompts indexMain functions', () => {
         { name: 'column2', subColumns: undefined, subTypes: undefined, type: 'string' },
       ],
       indexes: [{ columns: { column1: 1 }, name: 'newIndexName', properties: {} }],
+      idType: 'objectId',
       name: 'collectionName',
     });
   });

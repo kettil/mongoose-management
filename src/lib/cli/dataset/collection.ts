@@ -1,20 +1,21 @@
 import AbstractColumnsDataset from './abstractColumn';
 import ColumnDataset from './column';
-import GroupDataset from './group';
+import GroupDataset, { idType } from './group';
 import IndexDataset from './index';
 
 import { sortByName } from '../helper/sort';
 
 import { dataCollectionType, schemaType } from '../../types';
 
-export const specialColumns: Array<[string, schemaType]> = [
+export const specialColumns: [string, schemaType][] = [
   ['createdAt', 'date'],
   ['updatedAt', 'date'],
-  ['_id', 'objectId'],
+  ['_id', idType],
 ];
 
 export default class CollectionDataset extends AbstractColumnsDataset<GroupDataset, ColumnDataset> {
   protected name: string;
+  protected idType: schemaType | undefined;
   protected columns: ColumnDataset[];
   protected indexes: IndexDataset[];
 
@@ -26,6 +27,7 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
     this.indexes = collection.indexes.map((i) => new IndexDataset(i, this));
     this.columns = collection.columns.map((c) => new ColumnDataset(c, this, this)).concat(specials);
     this.name = collection.name;
+    this.idType = collection.idType;
 
     this.sortColumns();
   }
@@ -42,6 +44,14 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
   setName(name: string) {
     this.name = name;
     this.parent.sortCollections();
+  }
+
+  getIdType() {
+    return this.idType;
+  }
+
+  setIdType(type?: schemaType) {
+    this.idType = type;
   }
 
   getIndexes() {
@@ -94,6 +104,7 @@ export default class CollectionDataset extends AbstractColumnsDataset<GroupDatas
 
     return {
       name: this.name,
+      idType: this.idType,
       columns: this.columns.filter((c) => specialNames.indexOf(c.getName()) === -1).map((c) => c.getObject()),
       indexes: this.indexes.map((i) => i.getObject()),
     };

@@ -72,13 +72,29 @@ export const getQuestions = (answersMain: main.answersType, column?: ColumnDatas
 
 export const evaluation = (answers: answersType) => {
   return (column: ColumnDataset): ColumnDataset => {
-    (Object.entries(columnOpts) as Array<[keyof typeof columnOpts, string]>).forEach(([key, type]) => {
+    (Object.entries(columnOpts) as [keyof typeof columnOpts, string][]).forEach(([key, type]) => {
       if (type === 'boolean') {
         column.set(key, answers.options.indexOf(key) >= 0 ? true : undefined);
       } else {
         column.set(key, answers[key]);
       }
     });
+
+    switch (column.getType()) {
+      case 'arrayType':
+      case 'array':
+        column.set('default', '[]');
+        column.set('required', true);
+        break;
+
+      case 'object':
+        column.set('default', '{}');
+        column.set('required', true);
+        break;
+
+      default:
+      // nothing
+    }
 
     return column;
   };
@@ -108,7 +124,9 @@ export const getColumnOptionsTypeAny = (
       {
         type: 'input',
         name: 'default',
-        message: 'Default value for the column (e.g. Date.now or "Hello World"):',
+        message: `Default value for the column (e.g. ${
+          answersMain.type === 'uuidv4' ? 'uuidv4' : 'Date.now'
+        } or "Hello World"):`,
         default: column && column.get('default'),
         when: whenCommon('default'),
       },
@@ -197,14 +215,14 @@ export const getColumnOptionsTypeNumber = (
       {
         type: 'number',
         name: 'min',
-        message: 'Value must greater than or equal:',
+        message: 'Value must be greater than or equal:',
         default: column && column.get('min'),
         when: whenCommon('min'),
       },
       {
         type: 'number',
         name: 'max',
-        message: 'Value must less than or equal:',
+        message: 'Value must be less than or equal:',
         default: column && column.get('max'),
         when: whenCommon('max'),
         validate: validateMax,

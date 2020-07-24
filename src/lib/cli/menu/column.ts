@@ -14,7 +14,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     const choices = this.getChoiceList(column.flatColumns(), column);
     let result: choiceValueType<ColumnDataset>;
 
-    if (column.get('type') === 'array' || column.get('type') === 'object') {
+    if (column.getType() === 'array' || column.getType() === 'object') {
       const menuChoices = [
         this.getMenuChoiceCreate('subcolumn'),
         this.getMenuChoiceEdit('column'),
@@ -51,7 +51,7 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
     return result;
   }
 
-  getChoiceList(columns: ColumnDataset[], selected?: ColumnDataset): Array<choicesType<ColumnDataset>> {
+  getChoiceList(columns: ColumnDataset[], selected?: ColumnDataset): choicesType<ColumnDataset>[] {
     const rows = this.createTable(columns, selected);
     const choices = [];
     const columnChoices = columns.map<choicesType<ColumnDataset>>((d, i) => {
@@ -79,8 +79,10 @@ export default class ColumnMenu extends AbstractMenu<ColumnDataset, ColumnDatase
 
     if (!selected) {
       choices.push(new Separator('Note: Columns "_id", "createdAt" and "updatedAt" are created automatically'));
-      choices.push(new Separator(' '));
+    } else {
+      choices.push(new Separator('Note: Column "_id" is created automatically'));
     }
+    choices.push(new Separator(' '));
 
     return choices;
   }

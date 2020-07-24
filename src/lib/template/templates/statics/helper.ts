@@ -1,4 +1,5 @@
-/**
+/* eslint-disable import/no-unused-modules, @typescript-eslint/no-explicit-any */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,60 +10,32 @@
  */
 
 import { Schema } from 'mongoose';
+import { IndexType } from './types';
 
-import { indexType } from './types';
-
-/**
- *
- * @param schema
- * @param indexes
- */
-export const addIndexes = (schema: Schema, indexes: indexType[]) => {
+export const addIndexes = (schema: Schema, indexes: IndexType[]): void => {
   indexes.forEach(({ fields, options }) => {
     schema.index(fields, options);
   });
 };
 
-/**
- *
- * @param schema
- * @param virtual
- */
 export const addVirtualProperties = (
   schema: Schema,
-  virtual: { [k: string]: { get?: () => void; set?: () => void } },
-) => {
+  virtual: { [k: string]: { get?: () => any; set?: (val: any) => void } },
+): void => {
   Object.entries(virtual).forEach(([name, { get, set }]) => {
     const space = schema.virtual(name);
 
     if (typeof get === 'function') {
       space.get(get);
     }
+
     if (typeof set === 'function') {
       space.set(set);
     }
   });
 };
 
-/**
- *
- * @param name
- * @param items
- */
-export const checkDuplicateKeys = (name: string, items: Array<{}>) => {
-  const keys = extractKeys(items);
-  const duplicates = getDuplicates(keys);
-
-  if (duplicates.length > 0) {
-    throw new Error(`Double keys were assigned in the scheme "${name}": ` + duplicates.join(', '));
-  }
-};
-
-/**
- *
- * @param items
- */
-export const getDuplicates = (items: string[]) => {
+export const getDuplicates = (items: string[]): string[] => {
   const counter: { [k: string]: number } = {};
   const duplicates: string[] = [];
 
@@ -83,10 +56,14 @@ export const getDuplicates = (items: string[]) => {
   return duplicates;
 };
 
-/**
- *
- * @param items
- */
-export const extractKeys = (items: Array<{}>) => {
-  return items.map((o) => Object.keys(o)).reduce((keys, oKeys) => keys.concat(oKeys), []);
+export const extractKeys = (items: Array<Record<string, unknown>>): string[] =>
+  items.map((o) => Object.keys(o)).reduce((keys, oKeys) => keys.concat(oKeys), []);
+
+export const checkDuplicateKeys = (name: string, items: Array<Record<string, unknown>>): void => {
+  const keys = extractKeys(items);
+  const duplicates = getDuplicates(keys);
+
+  if (duplicates.length > 0) {
+    throw new Error(`Double keys were assigned in the scheme "${name}": ${duplicates.join(', ')}`);
+  }
 };

@@ -24,6 +24,7 @@ describe('Check the ColumnDataset class', () => {
       collection = new CollectionDataset(
         {
           name: 'collect',
+          idType: 'objectId',
           columns: [{ name: 'cName', type: 'string', required: true, enum: 'hello; morning' }],
           indexes: [{ name: 'cName_', properties: { unique: true }, columns: { cName: 1 }, readonly: true }],
         },
@@ -122,7 +123,7 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset.column.default).toBe('Date.now()');
     });
 
-    const dataIsset: Array<[boolean, keyof dataColumnType, any]> = [
+    const dataIsset: [boolean, keyof dataColumnType, any][] = [
       [true, 'required', true],
       [false, 'required', false],
       [false, 'required', undefined],
@@ -368,6 +369,7 @@ describe('Check the ColumnDataset class', () => {
       collection = new CollectionDataset(
         {
           name: 'collect',
+          idType: 'uuidv4',
           columns: [{ name: 'ref', type: 'objectId', populate: 'collect' }],
           indexes: [],
         },
@@ -477,6 +479,7 @@ describe('Check the ColumnDataset class', () => {
       collection = new CollectionDataset(
         {
           name: 'collect',
+          idType: 'objectId',
           columns: [{ name: 'ref', type: 'objectId' }],
           indexes: [],
         },
@@ -557,7 +560,11 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset).toBeInstanceOf(ColumnDataset);
 
       expect(dataset.parent).toBeInstanceOf(CollectionDataset);
-      expect(dataset.columns).toEqual([expect.any(ColumnDataset), expect.any(ColumnDataset)]);
+      expect(dataset.columns).toEqual([
+        expect.any(ColumnDataset),
+        expect.any(ColumnDataset),
+        expect.any(ColumnDataset),
+      ]);
       expect(dataset.subTypes).toEqual([]);
       expect(dataset.index).toBe(undefined);
       expect(dataset.column).toEqual({
@@ -587,7 +594,7 @@ describe('Check the ColumnDataset class', () => {
 
       expect(mock0).toHaveBeenCalledTimes(1);
       expect(mock0).toHaveBeenCalledWith('cName_');
-      expect(mock1).toHaveBeenCalledTimes(2);
+      expect(mock1).toHaveBeenCalledTimes(3);
     });
 
     test('it should be return the full table name when getTableName() is called', () => {
@@ -609,10 +616,9 @@ describe('Check the ColumnDataset class', () => {
         name: 'cName',
         required: true,
         subColumns: [
-          { name: 'cSubName2', required: true, type: 'string' },
           { name: 'cSubName1', type: 'number' },
+          { name: 'cSubName2', required: true, type: 'string' },
         ],
-        subTypes: undefined,
         type: 'object',
       });
     });
@@ -623,6 +629,7 @@ describe('Check the ColumnDataset class', () => {
       collection = new CollectionDataset(
         {
           name: 'collect',
+          idType: 'objectId',
           columns: [
             {
               name: 'cName',
@@ -643,7 +650,7 @@ describe('Check the ColumnDataset class', () => {
       expect(dataset).toBeInstanceOf(ColumnDataset);
 
       expect(dataset.parent).toBeInstanceOf(CollectionDataset);
-      expect(dataset.columns).toEqual([expect.any(ColumnDataset)]);
+      expect(dataset.columns).toEqual([expect.any(ColumnDataset), expect.any(ColumnDataset)]);
       expect(dataset.subTypes).toEqual([]);
       expect(dataset.index).toBe(undefined);
       expect(dataset.column).toEqual({
@@ -669,7 +676,7 @@ describe('Check the ColumnDataset class', () => {
 
       expect(mock0).toHaveBeenCalledTimes(1);
       expect(mock0).toHaveBeenCalledWith('cName_');
-      expect(mock1).toHaveBeenCalledTimes(1);
+      expect(mock1).toHaveBeenCalledTimes(2);
     });
 
     test('it should be return the name when getName() is called', () => {
@@ -713,6 +720,7 @@ describe('Check the ColumnDataset class', () => {
       collection = new CollectionDataset(
         {
           name: 'collect',
+          idType: 'objectId',
           columns: [
             {
               name: 'cName',

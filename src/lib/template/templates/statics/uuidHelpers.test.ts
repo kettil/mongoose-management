@@ -1,0 +1,86 @@
+import { parse, uuidSetter, unparse, uuidGetter } from './uuidHelpers';
+
+describe.only('parse()', () => {
+  test('it should work', () => {
+    const expected = [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d];
+    const uuid = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+
+    expect(parse(uuid)).toEqual(Buffer.from(expected));
+  });
+
+  test.each([['11f5e73a'], ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111']])(
+    'it should not work with a wrong uuid format (%p)',
+    (uuid) => {
+      expect(() => parse(uuid)).toThrow(uuid);
+    },
+  );
+});
+
+describe.only('unparse()', () => {
+  test('it should work with string value', () => {
+    const value = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+
+    expect(unparse(value)).toBe(value);
+  });
+
+  test('it should work with buffer value', () => {
+    const expected = '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d';
+    const value = [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d];
+
+    expect(unparse(Buffer.from(value))).toBe(expected);
+  });
+
+  test.each([
+    ['too short buffer', [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62]],
+
+    [
+      'too long buffer',
+      [0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d, 0x0, 0x0],
+    ],
+  ])('it should not work with %s', (_, value) => {
+    expect(() => unparse(Buffer.from(value))).toThrow();
+  });
+});
+
+describe.only('uuidGetter()', () => {
+  test.each([
+    [undefined, undefined],
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d', '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d'],
+    [
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+      '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
+    ],
+  ])('it should work with %p', (value, expected) => {
+    expect(uuidGetter(value)).toBe(expected);
+  });
+
+  test.each([
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111'],
+    [Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90])],
+  ])('it should not work with %p', (value) => {
+    expect(() => uuidGetter(value)).toThrow();
+  });
+});
+
+describe.only('uuidSetter()', () => {
+  test.each([
+    [
+      '11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d',
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+    ],
+    [
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+      Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90, 0x4d]),
+    ],
+  ])('it should work with %p', (value, expected) => {
+    expect(uuidSetter(value)).toEqual(expected);
+  });
+
+  test.each([
+    [[1, 2, 3] as any],
+    ['11f5e73a-4c2d-4c5c-a2d9-a0af62c7904d-111'],
+    [Buffer.from([0x11, 0xf5, 0xe7, 0x3a, 0x4c, 0x2d, 0x4c, 0x5c, 0xa2, 0xd9, 0xa0, 0xaf, 0x62, 0xc7, 0x90])],
+  ])('it should not work with %p', (value) => {
+    expect(() => uuidSetter(value)).toThrow();
+  });
+});

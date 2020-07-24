@@ -8,14 +8,19 @@ import File from './handlers/file';
 import Template from './handlers/template';
 import { exists } from './helper';
 
-import { dataCollectionType, templateCollectionNamesType, templateCollectionType } from '../types';
+import {
+  dataCollectionType,
+  dataColumnType,
+  dataGroupType,
+  schemaType,
+  templateCollectionNamesType,
+  templateCollectionType,
+} from '../types';
 
 /**
  *
  */
 export default class Create {
-  protected interfaceName = 'Interface';
-
   /**
    *
    * @param prompts
@@ -37,18 +42,18 @@ export default class Create {
    * @param source
    * @param collections
    */
-  async exec(destination: string, collections: dataCollectionType[]) {
+  async exec(group: dataGroupType) {
     const spinner = this.prompts.getSpinner();
-    const path = join(this.pathProject, destination.replace(/(^\/|\/$|^\\|\\$)/g, ''));
+    const path = join(this.pathProject, group.path.replace(/(^\/|\/$|^\\|\\$)/g, ''));
     const file = new File(this.pathTemplates, path);
     const template = new Template(file, this.prettier);
 
     // Checks whether the collection group folder exists (without group name).
     await exists(dirname(path));
 
-    const data = collections
+    const data = group.collections
       .filter((collection) => collection.columns.length > 0)
-      .map((collection) => this.getCollectionDataset(collection));
+      .map((collection) => this.getCollectionDataset(collection, group));
 
     try {
       spinner.start('Folders are created');
@@ -60,7 +65,7 @@ export default class Create {
       spinner.succeed();
 
       spinner.start('Static files are created');
-      await template.createIndex(data);
+      await template.createIndex(data, group.multipleConnection);
       await file.copyStaticFiles();
       spinner.succeed();
     } catch (err) {
@@ -75,13 +80,21 @@ export default class Create {
    *
    * @param collection
    */
-  getCollectionDataset(collection: dataCollectionType): templateCollectionType {
+  getCollectionDataset(
+    collection: dataCollectionType,
+    { multipleConnection, idType }: dataGroupType,
+  ): templateCollectionType {
+    const columns: dataColumnType[] = collection.columns;
+
+    this.extendColumnsWithId(columns, collection.idType ?? idType);
+
     return {
       ...this.createCollectionNames(collection.name),
-      interfaceName: this.interfaceName,
-      schemaDefinitions: this.converter.getDefinitions(collection.columns),
+      schemaDefinitions: this.converter.getDefinitions(columns),
       SchemaIndexes: this.converter.getIndexes(collection.indexes),
-      schemaTypes: this.converter.getTypes(collection.columns),
+      schemaTypes: this.converter.getTypes(columns.filter((column) => column.name !== '_id')),
+      additionalImports: this.converter.getImports(columns),
+      withMultipleConnection: multipleConnection,
     };
   }
 
@@ -101,5 +114,37 @@ export default class Create {
       collectionNameLower: nameLower.join(''),
       collectionNameUpper: nameUpper.join(''),
     };
+  }
+
+  extendColumnsWithId(columns: dataColumnType[], idType: schemaType) {
+    const idColumnValues = {
+      name: '_id',
+      type: idType,
+      required: true,
+    };
+
+    switch (idType) {
+      case 'uuidv4':
+        columns.unshift({
+          ...idColumnValues,
+          default: 'uuidv4',
+        });
+        break;
+
+      case 'objectId':
+        columns.unshift({
+          ...idColumnValues,
+        });
+        break;
+
+      default:
+      // do nothing
+    }
+
+    columns.forEach((column) => {
+      if (column.subColumns) {
+        this.extendColumnsWithId(column.subColumns, idType);
+      }
+    });
   }
 }

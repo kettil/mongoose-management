@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -8,39 +9,31 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
-
+import { Connection, Schema } from 'mongoose';
 import { usersDefinitions, usersIndexes } from '../documents/users';
-import { InterfaceUsersDocument, InterfaceUsersModel } from '../interfaces/users';
-import { methods, options, queries, statics, virtuals } from '../repositories/users';
-
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { UsersDocument, UsersModel } from '../types/users';
+import addUsersHooks from '../hooks/users';
+import { methods, options, queries, statics, virtuals } from '../repositories/users';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('users', [Schema.prototype, usersDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-export const usersSchema = new Schema(usersDefinitions, options);
+const schema = new Schema<typeof methods>(usersDefinitions, options);
 
-usersSchema.methods = { ...methods, ...usersSchema.methods };
-usersSchema.statics = { ...statics, ...usersSchema.statics };
-usersSchema.query = { ...queries, ...usersSchema.query };
-addVirtualProperties(usersSchema, virtuals);
-addIndexes(usersSchema, usersIndexes);
+schema.methods = { ...methods, ...schema.methods };
+schema.statics = { ...statics, ...schema.statics };
+schema.query = { ...queries, ...schema.query };
 
-/**
- * For multiple database connections
- *
- * @param handler
- * @param collection
- */
-export const createUsersModel = (handler: Connection) => {
-  return handler.model<InterfaceUsersDocument, InterfaceUsersModel>('Users', usersSchema);
-};
+addUsersHooks(schema.pre.bind(schema), schema.post.bind(schema));
+
+addVirtualProperties(schema, virtuals);
+addIndexes(schema, usersIndexes);
 
 /**
- * Create default model with default connection
+ * For the multiple database connections
  */
-const Model = model<InterfaceUsersDocument, InterfaceUsersModel>('Users', usersSchema);
+const connectUsers = (conn: Connection): UsersModel => conn.model<UsersDocument, UsersModel>('Users', schema);
 
-export default Model;
+export default connectUsers;

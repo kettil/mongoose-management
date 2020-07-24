@@ -99,4 +99,8 @@ export default class ConverterCommon extends AbstractConverter<dataColumnType> {
 
     return '';
   }
+
+  columnToImports(value: dataColumnType) {
+    return [];
+  }
 }

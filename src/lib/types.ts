@@ -6,62 +6,42 @@ import Create from './template/create';
 
 import * as mongoTypes from './mongo';
 
-/**
- *
- */
 export type objType<K extends string | number | symbol = string, T = any> = Record<K, T>;
 
-/**
- *
- */
 export type levelOptionsType = {
   prompts: Prompts;
   storage: Storage;
   creater: Create;
 };
 
-/**
- *
- */
 export type schemaType = keyof typeof mongoTypes.schemaTypes;
 
-/**
- *
- */
 export type schemaNormalType = keyof typeof mongoTypes.schemaTypesNormal;
 
-/**
- *
- */
 export type schemaIndexType = keyof typeof mongoTypes.schemaIndexTypes;
 
-/**
- *
- */
 export type dataType = {
   groups: dataGroupType[];
 };
 
-/**
- *
- */
 export type dataGroupType = {
   path: string;
+
   collections: dataCollectionType[];
+
+  idType: schemaType;
+  multipleConnection: boolean;
 };
 
-/**
- *
- */
 export type dataCollectionType = {
   name: string;
+
   columns: dataColumnType[];
   indexes: dataIndexType[];
+
+  idType?: schemaType;
 };
 
-/**
- *
- */
 export type dataColumnType = {
   name: string;
   type: schemaType;
@@ -83,9 +63,6 @@ export type dataColumnType = {
   max?: number;
 } & dataColumnInternalValuesType;
 
-/**
- *
- */
 export type dataColumnInternalValuesType = {
   // objectId
   populate?: string;
@@ -94,9 +71,6 @@ export type dataColumnInternalValuesType = {
   subColumns?: dataColumnType[];
 };
 
-/**
- *
- */
 export type dataIndexType = {
   name: string;
   columns: { [k: string]: dataIndexColumnValueType };
@@ -106,40 +80,22 @@ export type dataIndexType = {
   };
 } & dataIndexInternalValuesType;
 
-/**
- *
- */
 export type dataIndexInternalValuesType = {
   readonly?: boolean;
 };
 
-/**
- *
- */
 export type dataIndexColumnValueType = 1 | -1 | 'text' | 'hashed' | '2dsphere';
 
-/**
- *
- */
 export type choicesType<T> = choiceType<T> | InstanceType<typeof Separator>;
 
-/**
- *
- */
 export type choiceType<T> = choiceListType<choiceValueType<T>>;
 
-/**
- *
- */
 export type choiceListType<T> = {
   name: string;
   value: T;
   short: string;
 };
 
-/**
- *
- */
 export type choiceValueType<T> = {
   action?:
     | 'create'
@@ -155,31 +111,23 @@ export type choiceValueType<T> = {
   data?: T;
 };
 
-/**
- *
- */
-export type templateTypesType = 'index' | 'documents' | 'interfaces' | 'models' | 'repositories';
+export type templateTypesType = 'index' | 'documents' | 'hooks' | 'models' | 'repositories' | 'types';
 
-/**
- *
- */
 export type templateCollectionNamesType = {
   collectionNameLower: string;
   collectionNameUpper: string;
   collectionNameRaw: string;
 };
 
-/**
- *
- */
 export type templateCollectionType = {
-  interfaceName: string;
-
   schemaDefinitions: string;
   SchemaIndexes: string;
   schemaTypes: string;
+
+  additionalImports: string[];
+  withMultipleConnection: boolean;
 } & templateCollectionNamesType;
 
-export type Unpacked<T> = T extends Array<infer U> ? U : T;
+export type Unpacked<T> = T extends (infer U)[] ? U : T;
 
 export type OptionalValues<T> = T extends { [K in keyof T]: any } ? { [K in keyof T]?: T[K] } : T;

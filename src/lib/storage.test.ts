@@ -71,7 +71,9 @@ describe('Check the Storage class', () => {
     const data = await storage.load();
 
     expect(data).toBeInstanceOf(GroupsDataset);
-    expect(data.getObject()).toEqual({ groups: [{ collections: [], path: 'path/to/group' }] });
+    expect(data.getObject()).toEqual({
+      groups: [{ collections: [], path: 'path/to/group', idType: 'objectId', multipleConnection: false }],
+    });
 
     expect(readFile).toHaveBeenCalledTimes(1);
     expect(readFile).toHaveBeenCalledWith(

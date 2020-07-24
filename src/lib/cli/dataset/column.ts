@@ -1,5 +1,5 @@
 import AbstractColumnsDataset, { InterfaceColumnDataset } from './abstractColumn';
-import CollectionDataset from './collection';
+import CollectionDataset, { specialColumns } from './collection';
 import IndexDataset from './index';
 
 import {
@@ -8,9 +8,12 @@ import {
   dataIndexColumnValueType,
   schemaIndexType,
   schemaNormalType,
+  schemaType,
 } from '../../types';
 
 export type optionsType = Exclude<keyof dataColumnType, keyof dataColumnInternalValuesType | 'name'>;
+
+const specialNames = ['_id'];
 
 export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset | CollectionDataset, ColumnDataset>
   implements InterfaceColumnDataset<ColumnDataset> {
@@ -30,6 +33,8 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
 
     this.columns = column.subColumns ? column.subColumns.map((c) => new ColumnDataset(c, this, collection)) : [];
     this.subTypes = column.subTypes ? column.subTypes : [];
+
+    this.setSpecialColumns();
   }
 
   setReference() {
@@ -56,8 +61,21 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     this.columns.forEach((column) => column.setReference());
   }
 
+  setSpecialColumns() {
+    if (this.column.type === 'array' || this.column.type === 'object') {
+      const names = this.columns.map((c) => c.getName());
+      const specialNamesFiltered = specialColumns
+        .filter((c) => specialNames.includes(c[0]))
+        .filter((c) => !names.includes(c[0]))
+        .map(([name, type]) => new ColumnDataset({ name, type }, this, this.collection, true));
+
+      this.columns.unshift(...specialNamesFiltered);
+      this.sortColumns();
+    }
+  }
+
   getName(withBrackets = false) {
-    return withBrackets && this.get('type') === 'array' ? `${this.column.name}[]` : this.column.name;
+    return withBrackets && this.getType() === 'array' ? `${this.column.name}[]` : this.column.name;
   }
 
   setName(name: string) {
@@ -81,15 +99,25 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
     return name.join('.');
   }
 
-  get<K extends optionsType>(key: K): dataColumnType[K] {
+  getType(): schemaType {
+    if (this.getName() === '_id') {
+      return this.collection.getIdType() ?? this.collection.getParent().getIdType();
+    }
+
+    return this.column.type;
+  }
+
+  get<K extends Exclude<optionsType, 'type'>>(key: K): dataColumnType[K] {
     return this.column[key];
   }
 
   set<K extends optionsType>(key: K, value: dataColumnType[K]) {
     this.column[key] = value;
+
+    this.setSpecialColumns();
   }
 
-  isset<K extends optionsType>(key: K, withEmptyString = true) {
+  isset<K extends Exclude<optionsType, 'type'>>(key: K, withEmptyString = true) {
     const value = this.get(key);
 
     switch (typeof value) {
@@ -118,7 +146,7 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   }
 
   getTableType() {
-    const type = this.get('type');
+    const type = this.getType();
     if (type === 'array') {
       return '[object]';
     }
@@ -241,12 +269,15 @@ export default class ColumnDataset extends AbstractColumnsDataset<ColumnDataset 
   }
 
   getObject(): dataColumnType {
-    const isSubColumnType = ['object', 'array'].indexOf(this.get('type')) >= 0;
+    const isSubColumnType = ['object', 'array'].indexOf(this.getType()) >= 0;
 
     return {
       ...this.column,
+      type: this.getType(),
       populate: this.getPopulateName(),
-      subColumns: isSubColumnType ? this.columns.map((c) => c.getObject()) : undefined,
+      subColumns: isSubColumnType
+        ? this.columns.filter((c) => !specialNames.includes(c.getName())).map((c) => c.getObject())
+        : undefined,
       subTypes: this.subTypes.length > 0 ? this.subTypes : undefined,
     };
   }

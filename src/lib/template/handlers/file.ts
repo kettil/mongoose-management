@@ -16,12 +16,13 @@ export default class File {
   protected readonly types: { [k in templateTypesType]: { path: string; template: string } } = {
     index: { path: '', template: 'index' },
     documents: { path: 'documents', template: 'document' },
-    interfaces: { path: 'interfaces', template: 'interface' },
+    hooks: { path: 'hooks', template: 'hooks' },
     models: { path: 'models', template: 'model' },
     repositories: { path: 'repositories', template: 'repository' },
+    types: { path: 'types', template: 'type' },
   };
 
-  protected readonly staticFiles = ['helper.ts', 'types.ts'];
+  protected readonly staticFiles = ['helper.ts', 'types.ts', 'uuidHelpers.ts'];
 
   /**
    *

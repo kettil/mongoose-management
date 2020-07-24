@@ -12,7 +12,7 @@ Array [
             "collection": [Circular],
             "column": Object {
               "name": "_id",
-              "type": "objectId",
+              "type": undefined,
             },
             "columns": Array [],
             "index": undefined,
@@ -45,6 +45,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": undefined,
         "indexes": Array [],
         "name": "collection2",
         "parent": GroupDataset {
@@ -56,7 +57,7 @@ Array [
                   "collection": [Circular],
                   "column": Object {
                     "name": "_id",
-                    "type": "objectId",
+                    "type": undefined,
                   },
                   "columns": Array [],
                   "index": undefined,
@@ -89,11 +90,14 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": undefined,
               "indexes": Array [],
               "name": "collection1",
               "parent": [Circular],
             },
           ],
+          "idType": "objectId",
+          "multipleConnection": false,
           "parent": [MockFunction],
           "path": "path",
         },
@@ -110,7 +114,7 @@ Array [
             "collection": [Circular],
             "column": Object {
               "name": "_id",
-              "type": "objectId",
+              "type": undefined,
             },
             "columns": Array [],
             "index": undefined,
@@ -143,6 +147,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": undefined,
         "indexes": Array [],
         "name": "collection1",
         "parent": GroupDataset {
@@ -153,7 +158,7 @@ Array [
                   "collection": [Circular],
                   "column": Object {
                     "name": "_id",
-                    "type": "objectId",
+                    "type": undefined,
                   },
                   "columns": Array [],
                   "index": undefined,
@@ -186,12 +191,15 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": undefined,
               "indexes": Array [],
               "name": "collection2",
               "parent": [Circular],
             },
             [Circular],
           ],
+          "idType": "objectId",
+          "multipleConnection": false,
           "parent": [MockFunction],
           "path": "path",
         },
@@ -204,7 +212,7 @@ Array [
 exports[`Check the GroupMenu class it should be return menu selection when exec() is called with collections 1`] = `
 Array [
   Separator {
-    "line": "[2mGroup: [0m[1mpath[2m[0m[22m",
+    "line": "[2mGroup: [0m[1mpath[22m[2m[0m[22m",
     "type": "separator",
   },
   Separator {
@@ -229,7 +237,7 @@ Array [
             "collection": [Circular],
             "column": Object {
               "name": "_id",
-              "type": "objectId",
+              "type": undefined,
             },
             "columns": Array [],
             "index": undefined,
@@ -262,6 +270,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": undefined,
         "indexes": Array [],
         "name": "collection2",
         "parent": GroupDataset {
@@ -273,7 +282,7 @@ Array [
                   "collection": [Circular],
                   "column": Object {
                     "name": "_id",
-                    "type": "objectId",
+                    "type": undefined,
                   },
                   "columns": Array [],
                   "index": undefined,
@@ -306,11 +315,14 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": undefined,
               "indexes": Array [],
               "name": "collection1",
               "parent": [Circular],
             },
           ],
+          "idType": "objectId",
+          "multipleConnection": false,
           "parent": [MockFunction],
           "path": "path",
         },
@@ -327,7 +339,7 @@ Array [
             "collection": [Circular],
             "column": Object {
               "name": "_id",
-              "type": "objectId",
+              "type": undefined,
             },
             "columns": Array [],
             "index": undefined,
@@ -360,6 +372,7 @@ Array [
             "subTypes": Array [],
           },
         ],
+        "idType": undefined,
         "indexes": Array [],
         "name": "collection1",
         "parent": GroupDataset {
@@ -370,7 +383,7 @@ Array [
                   "collection": [Circular],
                   "column": Object {
                     "name": "_id",
-                    "type": "objectId",
+                    "type": undefined,
                   },
                   "columns": Array [],
                   "index": undefined,
@@ -403,12 +416,15 @@ Array [
                   "subTypes": Array [],
                 },
               ],
+              "idType": undefined,
               "indexes": Array [],
               "name": "collection2",
               "parent": [Circular],
             },
             [Circular],
           ],
+          "idType": "objectId",
+          "multipleConnection": false,
           "parent": [MockFunction],
           "path": "path",
         },
@@ -428,6 +444,14 @@ Array [
     "short": "[31mCommand - Create collection[39m",
     "value": Object {
       "action": "create",
+    },
+  },
+  Object {
+    "name": "Edit group",
+    "short": "[31mCommand - Edit group[39m",
+    "value": Object {
+      "action": "edit",
+      "data": undefined,
     },
   },
   Object {
@@ -469,7 +493,7 @@ Array [
 exports[`Check the GroupMenu class it should be return menu selection when exec() is called without collections 1`] = `
 Array [
   Separator {
-    "line": "[2mGroup: [0m[1mpath[2m[0m[22m",
+    "line": "[2mGroup: [0m[1mpath[22m[2m[0m[22m",
     "type": "separator",
   },
   Separator {
@@ -501,6 +525,14 @@ Array [
     "short": "[31mCommand - Create collection[39m",
     "value": Object {
       "action": "create",
+    },
+  },
+  Object {
+    "name": "Edit group",
+    "short": "[31mCommand - Edit group[39m",
+    "value": Object {
+      "action": "edit",
+      "data": undefined,
     },
   },
   Object {

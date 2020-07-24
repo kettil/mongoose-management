@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention, import/no-unused-modules */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -8,49 +9,35 @@
  * ######################################################################
  */
 
+{{#withMultipleConnection}}
 import { Connection } from 'mongoose';
-
-/**
- * Import the Models
- */
 {{#collections}}
-import {{collectionNameUpper}}, { create{{collectionNameUpper}}Model } from './models/{{collectionNameLower}}';
+import connect{{collectionNameUpper}} from './models/{{collectionNameLower}}';
+{{/collections}}
+{{/withMultipleConnection}}
+
+{{#collections}}
+export * from './types/{{collectionNameLower}}';
 {{/collections}}
 
+{{#withMultipleConnection}}
 /**
- * TypeScript Namespace
+ * For the multiple database connections
+ */
+const connectionFactory = (conn: Connection) =>
+  ({
+{{#collections}}
+    {{collectionNameUpper}}: connect{{collectionNameUpper}}(conn),
+{{/collections}}
+  }) as const;
+
+export default connectionFactory
+{{/withMultipleConnection}}
+{{^withMultipleConnection}}
+/**
+ * Create the model for the default connection
  */
 {{#collections}}
-export * from './interfaces/{{collectionNameLower}}';
+export { default as {{collectionNameUpper}} } from './models/{{collectionNameLower}}';
 {{/collections}}
-
-/**
- * Create a object with models and these has a custom connection handler
- *
- * @param handler
- */
-export const getModels = (handler: Connection) => {
-  return {
-{{#collections}}
-    {{collectionNameUpper}}: create{{collectionNameUpper}}Model(handler),
-{{/collections}}
-  };
-};
-
-/**
- * Models with default connection handler
- */
-{{#collections}}
-export const {{collectionNameUpper}}Model = {{collectionNameUpper}};
-{{/collections}}
-
-/**
- * Object with all models
- */
-export const models = {
-{{#collections}}
-  {{collectionNameUpper}},
-{{/collections}}
-};
-
-export default models;
+{{/withMultipleConnection}}

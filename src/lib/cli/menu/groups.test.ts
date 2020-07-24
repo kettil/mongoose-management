@@ -38,7 +38,7 @@ describe('Check the GroupsMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called with groups', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'create', data: undefined };
@@ -52,7 +52,7 @@ describe('Check the GroupsMenu class', () => {
   });
 
   test('it should be return menu selection when exec() is called without groups', async () => {
-    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: Array<choicesType<any>>) => {
+    ((prompts.menu as any) as jest.Mock).mockImplementation((_: string, choices: choicesType<any>[]) => {
       expect(choices).toMatchSnapshot();
 
       return { action: 'create', data: undefined };

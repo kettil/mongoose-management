@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -9,25 +10,33 @@
  */
 
 import { Schema } from 'mongoose';
+import { IndexType } from '../types';
+import { uuidGetter, uuidSetter, bson, uuidv4 } from '../uuidHelpers';
 
-import { indexType } from '../types';
+export type LogsTypes = { data?: { _id: string | Buffer }; message: string; tags?: string[]; user: any };
 
-/**
- *
- */
-export type logsTypes = { data?: Record<string, any>; message: string; tags?: string[]; user: any };
-
-/**
- *
- */
 export const logsDefinitions = {
-  data: { type: Schema.Types.Mixed },
+  _id: {
+    type: Buffer,
+    get: uuidGetter,
+    set: uuidSetter,
+    subtype: bson.Binary.SUBTYPE_UUID,
+    default: uuidv4,
+    required: true,
+  },
+  data: {
+    _id: {
+      type: Buffer,
+      get: uuidGetter,
+      set: uuidSetter,
+      subtype: bson.Binary.SUBTYPE_UUID,
+      default: uuidv4,
+      required: true,
+    },
+  },
   message: { type: Schema.Types.String, required: true },
   tags: [{ type: Schema.Types.String }],
   user: { type: Schema.Types.ObjectId, required: true, ref: 'Users' },
 };
 
-/**
- *
- */
-export const logsIndexes: indexType[] = [];
+export const logsIndexes: IndexType[] = [];

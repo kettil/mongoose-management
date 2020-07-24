@@ -93,6 +93,11 @@ Array [
         "value": "buffer",
       },
       Object {
+        "name": "UUIDv4",
+        "short": "UUIDv4",
+        "value": "uuidv4",
+      },
+      Object {
         "name": "Mixed",
         "short": "Mixed",
         "value": "mixed",
@@ -329,6 +334,11 @@ Array [
         "value": "buffer",
       },
       Object {
+        "name": "UUIDv4",
+        "short": "UUIDv4",
+        "value": "uuidv4",
+      },
+      Object {
         "name": "Mixed",
         "short": "Mixed",
         "value": "mixed",
@@ -563,6 +573,11 @@ Array [
         "name": "Buffer",
         "short": "Buffer",
         "value": "buffer",
+      },
+      Object {
+        "name": "UUIDv4",
+        "short": "UUIDv4",
+        "value": "uuidv4",
       },
       Object {
         "name": "Mixed",

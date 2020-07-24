@@ -16,9 +16,11 @@ describe('Check the GroupDataset class', () => {
           {
             path: 'path/to',
             collections: [
-              { name: 'c1', columns: [], indexes: [] },
-              { name: 'c6', columns: [], indexes: [] },
+              { name: 'c1', columns: [], indexes: [], idType: 'objectId' },
+              { name: 'c6', columns: [], indexes: [], idType: 'objectId' },
             ],
+            idType: 'objectId',
+            multipleConnection: true,
           },
         ],
       },
@@ -87,7 +89,7 @@ describe('Check the GroupDataset class', () => {
   });
 
   test('it should be added a collection and the list will be re-sorted when addCollection() is called', () => {
-    const collection = new CollectionDataset({ name: 'c3', columns: [], indexes: [] }, dataset);
+    const collection = new CollectionDataset({ name: 'c3', columns: [], indexes: [], idType: 'objectId' }, dataset);
 
     dataset.addCollection(collection);
 
@@ -128,9 +130,11 @@ describe('Check the GroupDataset class', () => {
     expect(data).toEqual({
       path: 'path/to',
       collections: [
-        { name: 'c1', columns: [], indexes: [] },
-        { name: 'c6', columns: [], indexes: [] },
+        { name: 'c1', columns: [], indexes: [], idType: 'objectId' },
+        { name: 'c6', columns: [], indexes: [], idType: 'objectId' },
       ],
+      idType: 'objectId',
+      multipleConnection: true,
     });
   });
 });

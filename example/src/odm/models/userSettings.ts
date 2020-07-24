@@ -1,4 +1,5 @@
-/**
+/* eslint-disable @typescript-eslint/naming-convention */
+/*
  * ######################################################################
  * #                                                                    #
  * #                       Do not change the file!                      #
@@ -8,39 +9,32 @@
  * ######################################################################
  */
 
-import { Connection, model, Schema } from 'mongoose';
-
+import { Connection, Schema } from 'mongoose';
 import { userSettingsDefinitions, userSettingsIndexes } from '../documents/userSettings';
-import { InterfaceUserSettingsDocument, InterfaceUserSettingsModel } from '../interfaces/userSettings';
-import { methods, options, queries, statics, virtuals } from '../repositories/userSettings';
-
 import { addIndexes, addVirtualProperties, checkDuplicateKeys } from '../helper';
+import { UserSettingsDocument, UserSettingsModel } from '../types/userSettings';
+import addUserSettingsHooks from '../hooks/userSettings';
+import { methods, options, queries, statics, virtuals } from '../repositories/userSettings';
 
 // If a key was found several times, then an error is thrown.
 checkDuplicateKeys('userSettings', [Schema.prototype, userSettingsDefinitions, methods, statics, queries, virtuals]);
 
 // Create model schema
-export const userSettingsSchema = new Schema(userSettingsDefinitions, options);
+const schema = new Schema<typeof methods>(userSettingsDefinitions, options);
 
-userSettingsSchema.methods = { ...methods, ...userSettingsSchema.methods };
-userSettingsSchema.statics = { ...statics, ...userSettingsSchema.statics };
-userSettingsSchema.query = { ...queries, ...userSettingsSchema.query };
-addVirtualProperties(userSettingsSchema, virtuals);
-addIndexes(userSettingsSchema, userSettingsIndexes);
+schema.methods = { ...methods, ...schema.methods };
+schema.statics = { ...statics, ...schema.statics };
+schema.query = { ...queries, ...schema.query };
 
-/**
- * For multiple database connections
- *
- * @param handler
- * @param collection
- */
-export const createUserSettingsModel = (handler: Connection) => {
-  return handler.model<InterfaceUserSettingsDocument, InterfaceUserSettingsModel>('UserSettings', userSettingsSchema);
-};
+addUserSettingsHooks(schema.pre.bind(schema), schema.post.bind(schema));
+
+addVirtualProperties(schema, virtuals);
+addIndexes(schema, userSettingsIndexes);
 
 /**
- * Create default model with default connection
+ * For the multiple database connections
  */
-const Model = model<InterfaceUserSettingsDocument, InterfaceUserSettingsModel>('UserSettings', userSettingsSchema);
+const connectUserSettings = (conn: Connection): UserSettingsModel =>
+  conn.model<UserSettingsDocument, UserSettingsModel>('UserSettings', schema);
 
-export default Model;
+export default connectUserSettings;
